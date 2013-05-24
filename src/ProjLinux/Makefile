@@ -8,7 +8,7 @@ SOURCES = Main.cpp \
         ../Classes/GameOverScene.cpp \
         ../Classes/Joystick.cpp
 
-COCOS_ROOT = ../Lib/cocos2d-2.1rc0-x-2.1.3
+COCOS_ROOT = ../../lib/cocos2d-2.1rc0-x-2.1.3
 include $(COCOS_ROOT)/cocos2dx/proj.linux/cocos2dx.mk
 
 SHAREDLIBS += -lcocos2d -lcocosdenshion
