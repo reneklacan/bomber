@@ -27,6 +27,7 @@ GameplayScene::GameplayScene()
 :_targets(NULL)
 ,_projectiles(NULL)
 ,_projectilesDestroyed(0)
+,_sensitivity(5)
 {
 }
 
@@ -70,6 +71,7 @@ bool GameplayScene::init()
 
         Joystick *joystick =  Joystick::create();
         this->addChild(joystick,2);
+        this->setJoystick(joystick);
 
 		// 1. Add a menu item with "X" image, which is clicked to quit the program.
 
@@ -103,15 +105,15 @@ bool GameplayScene::init()
 
 		/////////////////////////////
 		// 2. add your codes below...
-		CCSprite *player = CCSprite::create("Player.png", CCRectMake(0, 0, 27, 40) );
+		_player = CCSprite::create("Player.png", CCRectMake(0, 0, 27, 40) );
         
-		player->setPosition(
+		_player->setPosition(
                 ccp(
-                    origin.x + player->getContentSize().width/2,
+                    origin.x + _player->getContentSize().width/2,
                     origin.y + visibleSize.height/2
                 )
         );
-		this->addChild(player);
+		this->addChild(_player);
 
 		this->schedule( schedule_selector(GameplayScene::gameLogic), 1.0 );
 
@@ -162,8 +164,8 @@ void GameplayScene::addTarget()
 	this->addChild(target);
 
 	// Determine speed of the target
-	int minDuration = (int)5.0;
-	int maxDuration = (int)7.0;
+	int minDuration = (int)15.0;
+	int maxDuration = (int)17.0;
 	int rangeDuration = maxDuration - minDuration;
 	// srand( TimGetTicks() );
 	int actualDuration = ( rand() % rangeDuration ) + minDuration;
@@ -220,25 +222,31 @@ void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
 
 	// Set up initial location of projectile
 	CCSize winSize = CCDirector::sharedDirector()->getVisibleSize();
-    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    //CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    CCPoint origin = _player->getPosition();
 	CCSprite *projectile = CCSprite::create("Projectile.png", CCRectMake(0, 0, 20, 20));
-	projectile->setPosition( ccp(origin.x+20, origin.y+winSize.height/2) );
+	projectile->setPosition(origin);
 
 	// Determinie offset of location to projectile
 	float offX = location.x - projectile->getPosition().x;
 	float offY = location.y - projectile->getPosition().y;
 
-	// Bail out if we are shooting down or backwards
-	if (offX <= 0) return;
-
 	// Ok to add now - we've double checked position
 	this->addChild(projectile);
 
 	// Determine where we wish to shoot the projectile to
-	float realX = origin.x+winSize.width + (projectile->getContentSize().width/2);
-	float ratio = offY / offX;
-	float realY = (realX * ratio) + projectile->getPosition().y;
-	CCPoint realDest = ccp(realX, realY);
+    float realX = origin.x;
+    float realY = origin.y;
+
+    while (realX > 0 && realX < winSize.width && realY > 0 && realY < winSize.height)
+    {
+        realX += offX;
+        realY += offY;
+    }
+
+    CCPoint realDest;
+
+    realDest = ccp(realX, realY);
 
 	// Determine the length of how far we're shooting
 	float offRealX = realX - projectile->getPosition().x;
@@ -272,6 +280,14 @@ void GameplayScene::updateGame(float dt)
     CCObject* it = NULL;
     CCObject* jt = NULL;
 
+    CCPoint pos = _player->getPosition();
+    _player->setPosition(
+            ccp(
+                pos.x + _joystick->getVelocity().x*_sensitivity,
+                pos.y + _joystick->getVelocity().y*_sensitivity
+            )
+    );
+
 	// for (it = _projectiles->begin(); it != _projectiles->end(); it++)
     CCARRAY_FOREACH(_projectiles, it)
 	{
@@ -283,7 +299,7 @@ void GameplayScene::updateGame(float dt)
                 projectile->getContentSize().height
         );
 
-		CCArray* targetsToDelete =new CCArray;
+		CCArray* targetsToDelete = new CCArray;
 
 		// for (jt = _targets->begin(); jt != _targets->end(); jt++)
         CCARRAY_FOREACH(_targets, jt)
@@ -311,7 +327,7 @@ void GameplayScene::updateGame(float dt)
 			this->removeChild(target, true);
 
 			_projectilesDestroyed++;
-			if (_projectilesDestroyed >= 5)
+			if (_projectilesDestroyed >= 15)
 			{
 				GameOverScene *gameOverScene = GameOverScene::create();
 				gameOverScene->getLayer()->getLabel()->setString("You Win!");
@@ -340,4 +356,9 @@ void GameplayScene::registerWithTouchDispatcher()
 {
 	// CCTouchDispatcher::sharedDispatcher()->addTargetedDelegate(this,0,true);
     CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);
+}
+
+void GameplayScene::setJoystick(Joystick *joystick)
+{
+    _joystick = joystick;
 }

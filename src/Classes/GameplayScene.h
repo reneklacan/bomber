@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 
 #include "SimpleAudioEngine.h"
+#include "Joystick.h"
 
 class GameplayScene : public cocos2d::CCLayerColor
 {
@@ -32,12 +33,17 @@ public:
 
 	void registerWithTouchDispatcher();
 	void ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
+
+    void setJoystick(Joystick *joystick);
     
     
 protected:
 	cocos2d::CCArray *_targets;
 	cocos2d::CCArray *_projectiles;
 	int _projectilesDestroyed;
+    Joystick *_joystick;
+    CCSprite *_player;
+    int _sensitivity;
 
 	void addTarget();
 
