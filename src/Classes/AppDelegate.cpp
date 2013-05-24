@@ -1,13 +1,8 @@
 #include "AppDelegate.h"
-
-#include <vector>
-#include <string>
-
-#include "HelloWorldScene.h"
-#include "AppMacros.h"
+#include "GameplayScene.h"
 
 USING_NS_CC;
-using namespace std;
+
 
 AppDelegate::AppDelegate() {
 
@@ -19,48 +14,30 @@ AppDelegate::~AppDelegate()
 
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
-    CCDirector* pDirector = CCDirector::sharedDirector();
-    CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
-
-    pDirector->setOpenGLView(pEGLView);
-
-    // Set the design resolution
-    pEGLView->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, kResolutionNoBorder);
-
-	CCSize frameSize = pEGLView->getFrameSize();
+    CCDirector *pDirector = CCDirector::sharedDirector();
     
-    vector<string> searchPath;
-
-    // In this demo, we select resource according to the frame's height.
-    // If the resource size is different from design resolution size, you need to set contentScaleFactor.
-    // We use the ratio of resource's height to the height of design resolution,
-    // this can make sure that the resource's height could fit for the height of design resolution.
-
-    // if the frame's height is larger than the height of medium resource size, select large resource.
-	if (frameSize.height > mediumResource.size.height)
-	{
-        searchPath.push_back(largeResource.directory);
-
-        pDirector->setContentScaleFactor(MIN(largeResource.size.height/designResolutionSize.height, largeResource.size.width/designResolutionSize.width));
-	}
-    // if the frame's height is larger than the height of small resource size, select medium resource.
-    else if (frameSize.height > smallResource.size.height)
+    pDirector->setOpenGLView(CCEGLView::sharedOpenGLView());
+    
+    CCSize screenSize = CCEGLView::sharedOpenGLView()->getFrameSize();
+    CCSize designSize = CCSizeMake(480, 320);
+    std::vector<std::string> searchPaths;
+    
+    if (screenSize.height > 320)
     {
-        searchPath.push_back(mediumResource.directory);
-        
-        pDirector->setContentScaleFactor(MIN(mediumResource.size.height/designResolutionSize.height, mediumResource.size.width/designResolutionSize.width));
+        searchPaths.push_back("hd");
+        searchPaths.push_back("sd");
+        pDirector->setContentScaleFactor(640.0f/designSize.height);
     }
-    // if the frame's height is smaller than the height of medium resource size, select small resource.
-	else
+    else
     {
-        searchPath.push_back(smallResource.directory);
-
-        pDirector->setContentScaleFactor(MIN(smallResource.size.height/designResolutionSize.height, smallResource.size.width/designResolutionSize.width));
+        searchPaths.push_back("sd");
+        pDirector->setContentScaleFactor(320.0f/designSize.height);
     }
     
-    // set searching path
-    CCFileUtils::sharedFileUtils()->setSearchPaths(searchPath);
-	
+    CCFileUtils::sharedFileUtils()->setSearchPaths(searchPaths);
+    
+    CCEGLView::sharedOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, kResolutionNoBorder);
+
     // turn on display FPS
     pDirector->setDisplayStats(true);
 
@@ -68,7 +45,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     pDirector->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-    CCScene *pScene = HelloWorld::scene();
+    CCScene *pScene = GameplayScene::scene();
 
     // run
     pDirector->runWithScene(pScene);
