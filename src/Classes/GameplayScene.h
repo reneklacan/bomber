@@ -42,6 +42,7 @@ protected:
 	cocos2d::CCArray *_projectiles;
 	int _projectilesDestroyed;
     Joystick *_joystick;
+    CCTMXTiledMap *_map;
     CCSprite *_player;
     int _sensitivity;
 

@@ -29,6 +29,10 @@ GameplayScene::GameplayScene()
 ,_projectilesDestroyed(0)
 ,_sensitivity(5)
 {
+    _map = CCTMXTiledMap::create("tiles/tilemap.tmx");
+    this->addChild(_map, 0, 7);
+    CCSize CC_UNUSED s = _map->getContentSize();
+    CCLOG("ContentSize: %f, %f", s.width,s.height);
 }
 
 CCScene* GameplayScene::scene()
@@ -58,22 +62,11 @@ bool GameplayScene::init()
 	bool bRet = false;
 	do 
 	{
-		//////////////////////////////////////////////////////////////////////////
-		// super init first
-		//////////////////////////////////////////////////////////////////////////
-
 		CC_BREAK_IF(! CCLayerColor::initWithColor( ccc4(255,255,255,255) ) );
-
-		//////////////////////////////////////////////////////////////////////////
-		// add your codes below...
-		//////////////////////////////////////////////////////////////////////////
-        //
 
         Joystick *joystick =  Joystick::create();
         this->addChild(joystick,2);
         this->setJoystick(joystick);
-
-		// 1. Add a menu item with "X" image, which is clicked to quit the program.
 
 		// Create a "close" menu item with close icon, it's an auto release object.
 		CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
@@ -84,7 +77,6 @@ bool GameplayScene::init()
         );
 		CC_BREAK_IF(! pCloseItem);
         
-		// Place the menu item bottom-right conner.
         CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
         CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
         
@@ -103,9 +95,22 @@ bool GameplayScene::init()
 		// Add the menu to GameplayScene layer as a child layer.
 		this->addChild(pMenu, 1);
 
-		/////////////////////////////
-		// 2. add your codes below...
-		_player = CCSprite::create("Player.png", CCRectMake(0, 0, 27, 40) );
+        CCTMXLayer* layer = _map->layerNamed("trees");
+        _player = layer->tileAt(ccp(0, 9));
+        _player->retain();
+        //_player->setPosition(CC_POINT_PIXELS_TO_POINTS(ccp(mapWidth/2,0)));
+        _player->setAnchorPoint(ccp(0.5f, 0.3f));
+
+        CCLog(
+                "++++++++Player width:%f, height:%f",
+                _player->getContentSize().width,
+                _player->getContentSize().height
+        );
+        CCLog(
+                "++++++++Player x:%f, y:%f",
+                _player->getPosition().x,
+                _player->getPosition().y
+        );
         
 		_player->setPosition(
                 ccp(
@@ -113,7 +118,7 @@ bool GameplayScene::init()
                     origin.y + visibleSize.height/2
                 )
         );
-		this->addChild(_player);
+		//this->addChild(_player);
 
 		this->schedule( schedule_selector(GameplayScene::gameLogic), 1.0 );
 

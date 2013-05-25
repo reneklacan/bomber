@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="12" height="12" tilewidth="101" tileheight="81">
+ <tileset firstgid="1" source="tileset.tsx"/>
+ <layer name="grass" width="12" height="12">
+  <properties>
+   <property name="cc_vertexz" value="-1000"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGFlAdYhjRigmVQ+t3AMAHyIW+UACAAA=
+  </data>
+ </layer>
+ <layer name="trees" width="12" height="12">
+  <properties>
+   <property name="cc_alpha_func" value="0.5"/>
+   <property name="cc_vertexz" value="automatic"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGFlAEglTEwhDaXUkzAwVY4HSbFSwhwlKq0GxEJJ91ALqaGx85gMAnIoxZ0ACAAA=
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" width="12" height="12">
+  <object x="206" y="736" width="95" height="68"/>
+ </objectgroup>
+</map>
