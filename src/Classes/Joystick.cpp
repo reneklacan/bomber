@@ -23,32 +23,24 @@ bool Joystick::init()
     bool bRet = false;
     do 
     {
-        kCenter=CCPoint(JOYSTICK_RADIUS + JOYSTICK_OFFSET_X,
-                JOYSTICK_RADIUS + JOYSTICK_OFFSET_Y);
-        //////////////////////////////////////////////////////////////////////////
-        // super init first
-        //////////////////////////////////////////////////////////////////////////
+        kCenter=CCPoint(JOYSTICK_RADIUS + JOYSTICK_OFFSET_X, JOYSTICK_RADIUS + JOYSTICK_OFFSET_Y);
 
         CC_BREAK_IF(!CCLayer::init());
-
-        //////////////////////////////////////////////////////////////////////////
-        // add your codes below...
-        //////////////////////////////////////////////////////////////////////////
 
 		this->setTouchEnabled(true);
         velocity = CCPointZero;
 
         CCSprite *bg = CCSprite::create("joystick_background.png");
         bg->setPosition(kCenter);
-        this->addChild(bg,0);
+        this->addChild(bg, 0);
 
         thumb = CCSprite::create("joystick_thumb.png");
         thumb->setPosition(kCenter);
-        this->addChild(thumb,1);
+        this->addChild(thumb, 1);
 
         bRet=true;
 
-    } while(0);
+    } while (0);
 
     return bRet;
 }
@@ -70,7 +62,7 @@ void Joystick::updateVelocity(CCPoint point)
 
     velocity = CCPointMake(dx/JOYSTICK_RADIUS, dy/JOYSTICK_RADIUS);
 
-    if(distance>THUMB_RADIUS)
+    if (distance > THUMB_RADIUS)
     {
         point.x = kCenter.x + cos(angle) * THUMB_RADIUS;
         point.y = kCenter.y + sin(angle) * THUMB_RADIUS;

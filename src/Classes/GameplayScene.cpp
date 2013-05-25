@@ -29,10 +29,6 @@ GameplayScene::GameplayScene()
 ,_projectilesDestroyed(0)
 ,_sensitivity(5)
 {
-    _map = CCTMXTiledMap::create("tiles/tilemap.tmx");
-    this->addChild(_map, 0, 7);
-    CCSize CC_UNUSED s = _map->getContentSize();
-    CCLOG("ContentSize: %f, %f", s.width,s.height);
 }
 
 CCScene* GameplayScene::scene()
@@ -47,7 +43,7 @@ CCScene* GameplayScene::scene()
 		// 'layer' is an autorelease object
 		GameplayScene *layer = GameplayScene::create();
 		CC_BREAK_IF(! layer);
-
+;
 		// add layer as a child to scene
 		scene->addChild(layer);
 	} while (0);
@@ -63,6 +59,12 @@ bool GameplayScene::init()
 	do 
 	{
 		CC_BREAK_IF(! CCLayerColor::initWithColor( ccc4(255,255,255,255) ) );
+
+        _map = CCTMXTiledMap::create("tiles/tilemap.tmx");
+        this->addChild(_map, 0, 7);
+        _map->setPosition(ccp(0,0));
+        CCSize CC_UNUSED s = _map->getContentSize();
+        CCLog("ContentSize: %f, %f", s.width,s.height);
 
         Joystick *joystick =  Joystick::create();
         this->addChild(joystick,2);
@@ -95,8 +97,8 @@ bool GameplayScene::init()
 		// Add the menu to GameplayScene layer as a child layer.
 		this->addChild(pMenu, 1);
 
-        CCTMXLayer* layer = _map->layerNamed("trees");
-        _player = layer->tileAt(ccp(0, 9));
+        CCTMXLayer* layer = _map->layerNamed("players");
+        _player = layer->tileAt(ccp(0, 5));
         _player->retain();
         //_player->setPosition(CC_POINT_PIXELS_TO_POINTS(ccp(mapWidth/2,0)));
         _player->setAnchorPoint(ccp(0.5f, 0.3f));
@@ -120,7 +122,7 @@ bool GameplayScene::init()
         );
 		//this->addChild(_player);
 
-		this->schedule( schedule_selector(GameplayScene::gameLogic), 1.0 );
+		//this->schedule( schedule_selector(GameplayScene::gameLogic), 1.0 );
 
 		this->setTouchEnabled(true);
 
@@ -169,8 +171,8 @@ void GameplayScene::addTarget()
 	this->addChild(target);
 
 	// Determine speed of the target
-	int minDuration = (int)15.0;
-	int maxDuration = (int)17.0;
+	int minDuration = (int)150.0;
+	int maxDuration = (int)170.0;
 	int rangeDuration = maxDuration - minDuration;
 	// srand( TimGetTicks() );
 	int actualDuration = ( rand() % rangeDuration ) + minDuration;
@@ -284,6 +286,7 @@ void GameplayScene::updateGame(float dt)
 	CCArray *projectilesToDelete = new CCArray;
     CCObject* it = NULL;
     CCObject* jt = NULL;
+    CCObject* co = NULL;
 
     CCPoint pos = _player->getPosition();
     _player->setPosition(
@@ -292,6 +295,71 @@ void GameplayScene::updateGame(float dt)
                 pos.y + _joystick->getVelocity().y*_sensitivity
             )
     );
+
+    CCRect playerRect = CCRectMake(
+            _player->getPosition().x - (_player->getContentSize().width/4),
+            _player->getPosition().y - (_player->getContentSize().height/4),
+            _player->getContentSize().width/2,
+            _player->getContentSize().height/2
+    );
+
+    CCTMXObjectGroup *objectGroup = _map->objectGroupNamed("collx");
+    CCArray *objectList = objectGroup->getObjects();
+
+    CCDictionary *dict;
+    int x, y, width, height;
+    CCRect objRect;
+
+    CCARRAY_FOREACH(objectList, co)
+    {
+        dict = (CCDictionary*)co;
+
+        if(!dict)
+            break;
+
+        x = ((CCString*)dict->objectForKey("x"))->intValue();
+        y = ((CCString*)dict->objectForKey("y"))->intValue();
+        width = ((CCString*)dict->objectForKey("width"))->intValue();
+        height = ((CCString*)dict->objectForKey("height"))->intValue();         
+
+        //printf( "x %i, y %i, width %i, height %i\n", x, y, width, height );
+
+        objRect = CCRectMake(
+                x, y, width, height
+        );
+        //printf("obj rect height is %g\n", objRect.size.height);
+
+        if (playerRect.intersectsRect(objRect))
+        {
+            std::cout << "collision" << std::endl;
+            _player->setPosition(pos);
+
+            CCLog(
+                    "++++++++Player width:%f, height:%f",
+                    playerRect.size.width,
+                    playerRect.size.height
+            );
+            CCLog(
+                    "++++++++Player x:%f, y:%f",
+                    playerRect.origin.x,
+                    playerRect.origin.y
+            );
+
+            CCLog(
+                    "++++++++obj width:%f, height:%f",
+                    objRect.size.width,
+                    objRect.size.height
+            );
+            CCLog(
+                    "++++++++obj x:%f, y:%f",
+                    objRect.origin.x,
+                    objRect.origin.y
+            );
+
+            break;
+        }
+
+    }
 
 	// for (it = _projectiles->begin(); it != _projectiles->end(); it++)
     CCARRAY_FOREACH(_projectiles, it)

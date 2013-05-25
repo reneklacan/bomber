@@ -19,19 +19,23 @@ bool AppDelegate::applicationDidFinishLaunching() {
     pDirector->setOpenGLView(CCEGLView::sharedOpenGLView());
     
     CCSize screenSize = CCEGLView::sharedOpenGLView()->getFrameSize();
-    CCSize designSize = CCSizeMake(480, 320);
+    //CCSize designSize = CCSizeMake(1600, 900);
+    CCSize designSize = CCSizeMake(12*101, 12*81);
     std::vector<std::string> searchPaths;
     
     if (screenSize.height > 320)
     {
         searchPaths.push_back("hd");
         searchPaths.push_back("sd");
-        pDirector->setContentScaleFactor(640.0f/designSize.height);
+        CCSize resourceSize = CCSizeMake(12*101, 12*81);
+        //pDirector->setContentScaleFactor(960.0f/designSize.height);
+        ///pDirector->setContentScaleFactor(1.0f);
+        pDirector->setContentScaleFactor(resourceSize.height/designSize.height);
     }
     else
     {
         searchPaths.push_back("sd");
-        pDirector->setContentScaleFactor(320.0f/designSize.height);
+        pDirector->setContentScaleFactor(640.0f/designSize.height);
     }
     
     CCFileUtils::sharedFileUtils()->setSearchPaths(searchPaths);

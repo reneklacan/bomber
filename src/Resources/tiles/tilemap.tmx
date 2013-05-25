@@ -6,19 +6,26 @@
    <property name="cc_vertexz" value="-1000"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGFlAdYhjRigmVQ+t3AMAHyIW+UACAAA=
+   H4sIAAAAAAAAA1NlIA2o0kH9KMaNGaGYVD20cg8ArgWnkUACAAA=
+  </data>
+ </layer>
+ <layer name="players" width="12" height="12">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGFmAaaAdMMwAAN0Uo69AAgAA
   </data>
  </layer>
  <layer name="trees" width="12" height="12">
   <properties>
-   <property name="cc_alpha_func" value="0.5"/>
+   <property name="cc_alpha_func" value="1"/>
    <property name="cc_vertexz" value="automatic"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGFlAEglTEwhDaXUkzAwVY4HSbFSwhwlKq0GxEJJ91ALqaGx85gMAnIoxZ0ACAAA=
+   H4sIAAAAAAAAAxNgIB+wU6B3IIEkFMOAOhXMFEYzD4SZoXwWKM1GBXvQgRCSfdQC6mhsfOYDANaIdQJAAgAA
   </data>
  </layer>
- <objectgroup name="Object Layer 1" width="12" height="12">
-  <object x="206" y="736" width="95" height="68"/>
+ <objectgroup name="collx" width="12" height="12">
+  <object name="ca2" x="129" y="589" width="46" height="32"/>
+  <object name="ca1" x="232" y="591" width="43" height="34"/>
+  <object x="636" y="754" width="39" height="30"/>
  </objectgroup>
 </map>
