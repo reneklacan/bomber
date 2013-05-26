@@ -133,7 +133,7 @@ bool GameplayScene::init()
 		// see http://www.cocos2d-x.org/boards/6/topics/1478
 		this->schedule( schedule_selector(GameplayScene::updateGame) );
 
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background-music-aac.wav", true);
+		//CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background-music-aac.wav", true);
 
 		bRet = true;
 	} while (0);
@@ -221,6 +221,9 @@ void GameplayScene::gameLogic(float dt)
 // cpp with cocos2d-x
 void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
 {
+    CCPoint origin = _player->getPosition();
+
+    /*
 	// Choose one of the touches to work with
 	CCTouch* touch = (CCTouch*)( touches->anyObject() );
 	CCPoint location = touch->getLocation();
@@ -230,7 +233,6 @@ void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
 	// Set up initial location of projectile
 	CCSize winSize = CCDirector::sharedDirector()->getVisibleSize();
     //CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-    CCPoint origin = _player->getPosition();
 	CCSprite *projectile = CCSprite::create("Projectile.png", CCRectMake(0, 0, 20, 20));
 	projectile->setPosition(origin);
 
@@ -279,6 +281,55 @@ void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
 	_projectiles->addObject(projectile);
 
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("pew-pew-lei.wav");
+    */
+
+    ////////////////////////////
+
+    //CCParticleSmoke *emitter = CCParticleSmoke::create();
+    
+    // one for each direction
+    for (int i = 0; i < 4; i++)
+    {
+        CCParticleFire *emitter = CCParticleFire::create();
+        emitter->retain();
+        this->addChild(emitter, 10);
+        emitter->setTexture(CCTextureCache::sharedTextureCache()->addImage("particles/fire.png"));
+        emitter->initWithTotalParticles(500);
+        emitter->setStartSize(100.0f);
+        emitter->setLife(2);
+        emitter->setLifeVar(1);
+        //emitter->setSpeed(60);
+        //emitter->setSpeedVar(20);
+        emitter->setDuration(0.5);
+        emitter->setPosition(origin);
+        CCActionInterval* move;
+
+        if (i == 0)
+        {
+            emitter->setAngle(0);
+            move = CCMoveBy::create(2, ccp(500, 0));
+        }
+        else if (i == 1)
+        {
+            emitter->setAngle(90);
+            move = CCMoveBy::create(2, ccp(0, 200));
+        }
+        else if (i == 2)
+        {
+            emitter->setAngle(180);
+            move = CCMoveBy::create(2, ccp(-500, 0));
+        }
+        else if (i == 3)
+        {
+            emitter->setAngle(-90);
+            move = CCMoveBy::create(2, ccp(0, -500));
+        }
+        emitter->setAngleVar(0);
+        emitter->setAutoRemoveOnFinish(true);
+        //CCActionInterval* move_back = CCHide::create();
+        CCSequence* seq = CCSequence::create(move, NULL);
+        emitter->runAction(CCSpeed::create(seq, 5));
+    }
 }
 
 void GameplayScene::updateGame(float dt)

@@ -3,10 +3,10 @@
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer name="grass" width="12" height="12">
   <properties>
-   <property name="cc_vertexz" value="-1000"/>
+   <property name="cc_vertexz" value="-1"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA1NlIA2o0kH9KMaNGaGYVD20cg8ArgWnkUACAAA=
+   H4sIAAAAAAAAA1NlIA2o0kH9KMaNBaGYVupJxQAMsSyQQAIAAA==
   </data>
  </layer>
  <layer name="players" width="12" height="12">
@@ -16,7 +16,7 @@
  </layer>
  <layer name="trees" width="12" height="12">
   <properties>
-   <property name="cc_alpha_func" value="1"/>
+   <property name="cc_alpha_func" value="0.5"/>
    <property name="cc_vertexz" value="automatic"/>
   </properties>
   <data encoding="base64" compression="gzip">

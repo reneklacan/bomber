@@ -1,8 +1,8 @@
 
 #include "Joystick.h" 
 
-#define JOYSTICK_OFFSET_X 5.0f
-#define JOYSTICK_OFFSET_Y 5.0f
+#define JOYSTICK_OFFSET_X 15.0f
+#define JOYSTICK_OFFSET_Y 15.0f
 
 #define JOYSTICK_RADIUS 64.0f
 
@@ -60,7 +60,7 @@ void Joystick::updateVelocity(CCPoint point)
         dy = sin(angle) * JOYSTICK_RADIUS;
     }
 
-    velocity = CCPointMake(dx/JOYSTICK_RADIUS, dy/JOYSTICK_RADIUS);
+velocity = CCPointMake(dx/JOYSTICK_RADIUS, dy/JOYSTICK_RADIUS);
 
     if (distance > THUMB_RADIUS)
     {
