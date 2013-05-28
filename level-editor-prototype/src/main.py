@@ -1,3 +1,4 @@
+#!/bin/env python2
 
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
