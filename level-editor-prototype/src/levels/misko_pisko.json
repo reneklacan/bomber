@@ -1,11 +1,4 @@
 {
-    "grid_size": [
-        21, 
-        21
-    ], 
-    "effects_propability": {
-        "FlameUpEffect": 0.4
-    }, 
     "layout": [
         0, 
         0, 
@@ -46,6 +39,7 @@
         0, 
         0, 
         0, 
+        "_PG3", 
         0, 
         0, 
         0, 
@@ -158,6 +152,7 @@
         0, 
         0, 
         0, 
+        "_PA", 
         0, 
         0, 
         0, 
@@ -229,6 +224,8 @@
         0, 
         0, 
         0, 
+        "_PB", 
+        "_PG1", 
         0, 
         0, 
         0, 
@@ -387,11 +384,7 @@
         0, 
         0, 
         0, 
-        0, 
-        0, 
-        0, 
-        0, 
-        0, 
+        "_PG2", 
         0, 
         0, 
         0, 
@@ -449,11 +442,32 @@
         0, 
         0
     ], 
-    "name": "misko_pisko", 
+    "grid_size": [
+        21, 
+        21
+    ], 
+    "portals_conf": {
+        "A": {
+            "top": 1, 
+            "right": 2, 
+            "left": null, 
+            "bottom": 3
+        }, 
+        "B": {
+            "top": 3, 
+            "right": null, 
+            "left": null, 
+            "bottom": 2
+        }
+    }, 
+    "effects_propability": {
+        "FlameUpEffect": 0.4
+    }, 
     "monster_dict": {
         "DG": "DummyGhost", 
         "PF": "PurpleFluffy", 
         "EP": "EnemyPlayer", 
         "FDG": "FertileGhost"
-    }
+    }, 
+    "name": "misko_pisko"
 }

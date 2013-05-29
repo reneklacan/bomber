@@ -220,7 +220,7 @@ class Tile(RelativeLayout):
                     self.item = int(item[3:])
                 elif item.startswith('_P'):
                     self.category = 'portal'
-                    self.item = int(item[2:])
+                    self.item = item[2:]
             else:
                 self.category = 'monsters'
                 self.item = eval('monsters.' + level['monster_dict'][item])
@@ -253,6 +253,9 @@ class GridSetup(BoxLayout):
         tile_size = self.size[0] * 0.8 / width
         self.grid.size = (tile_size * width, tile_size * height)
         
+        if self.level is not None:
+            self.portals_conf = self.level['portals_conf']
+
         # TODO is self.level is not None
         self.tiles = []
         for i in range(width * height):
