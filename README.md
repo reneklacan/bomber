@@ -26,5 +26,6 @@ Pre spustenie editora je nutne pouzit python s nainstalovanym Kivy modulom
     easy_install kivy ALEBO pip install kivy
     # kivy je tiez zavisle na Cythone na vasom pc, tak mozno bude tiez nutne doinstalovat tento kompilator
 
+Nasledne
     cd level-editor-prototype/src
     ./main.py
