@@ -22,6 +22,11 @@ def convert2int(num):
     except ValueError:
         return None
 
+def convert2str(s):
+    if s is None:
+        return None
+    return str(s)
+
 class Wizard(FloatLayout):
     def __init__(self, **kwargs):
         FloatLayout.__init__(self, **kwargs)
@@ -112,17 +117,11 @@ class Wizard(FloatLayout):
 
         level['layout'] = []
         for tile in self.grid.tiles:
-            item = None
-            if tile.category == 'map':
-                item = tile.item
-                if tile.item == SPAWNPOINT:
-                    item = 'S'
-            elif tile.category == 'monsters':
-                item = tile.item.shortcut
-            elif tile.category == 'portal':
-                item = '_P%s' % tile.item
-            elif tile.category == 'portal_exit':
-                item = '_PG%d' % tile.item
+            item = (
+                    (tile.primary_category,      tile.primary_item),
+                    (tile.secondary_category,    convert2str(tile.secondary_item)),
+                    (tile.tertiary_category,     tile.tertiary_item),
+            )
             level['layout'].append(item)
 
         level['portals_conf'] = self.grid.portals_conf
@@ -130,9 +129,9 @@ class Wizard(FloatLayout):
         for monster in monsters.registered:
             level['monster_dict'][monster.shortcut] = monster.__name__
 
-        level['effects_propability'] = {
-                "FlameUpEffect": 0.4
-        }
+        #level['effects_propability'] = {
+        #        "FlameUpEffect": 0.4
+        #}
         level['grid_size'] = [
                 self.grid_width,
                 self.grid_height
@@ -146,8 +145,13 @@ class Tile(RelativeLayout):
     def __init__(self, **kwargs):
         RelativeLayout.__init__(self, **kwargs)
 
-        self.item = SPACE
-        self.category = 'map'
+        self.primary_item = SPACE
+        self.secondary_item = None
+        self.tertiary_item = None
+
+        self.primary_category = 'map'
+        self.secondary_category = None
+        self.tertiary_category = None
 
     def to_space(self):
         texture = textures.space
@@ -169,63 +173,108 @@ class Tile(RelativeLayout):
         if item is None or category is None:
             return
 
-        self.item = item
-        self.category = category
+        if category in ('tertiary', 'portal_exit', 'portal'):
+            self.tertiary_item = item
+            self.tertiary_category = category
+            if item == CLEAR:
+                self.tertiary_item = None
+                self.tertiary_category = None
+        elif category in ('secondary', 'item', 'monsters'):
+            self.secondary_item = item
+            self.secondary_category = category
+            if item == CLEAR:
+                self.secondary_item = None
+                self.secondary_category = None
+        else:
+            self.primary_item = item
+            self.primary_category = category
+            if item == CLEAR:
+                self.primary_item = None
+                self.primary_category = None
+                self.secondary_item = None
+                self.secondary_category = None
+                self.tertiary_item = None
+                self.tertiary_category = None
 
         self.update()
 
     def update(self):
         self.to_space()
 
-        if self.category == 'map':
-            if self.item == SPAWNPOINT:
-                texture = textures.player_up
-            if self.item == SPACE:
-                return
-            elif self.item == BLOCK:
-                texture = textures.block
-            elif self.item == MAZE:
-                texture = textures.maze
-            elif self.item == VOID:
-                self.canvas.clear()
-                return
-            elif self.item == COIN:
-                texture = textures.coin
-        elif self.category == 'monsters':
-            texture = self.item.cls_texture
-        elif self.category == 'portal':
-            texture = textures.portals[self.item]
-        elif self.category == 'portal_exit':
-            texture = textures.portal_exits[self.item]
+        if self.primary_category is not None:
+            if self.primary_category == 'map':
+                if self.primary_item == SPAWNPOINT:
+                    texture = textures.player_up
+                if self.primary_item == SPACE:
+                    texture = textures.space
+                elif self.primary_item == BLOCK:
+                    texture = textures.block
+                elif self.primary_item == MAZE:
+                    texture = textures.maze
+                elif self.primary_item is None:
+                    self.canvas.clear()
+                    return
+                else:
+                    print 'Unknown primary item: %s' % self.primary_item
+            else:
+                print 'Unknown primary category: %s' % self.primary_item
 
-        self.rectangle = Rectangle(
-                texture=texture,
-                pos=(0,0),
-                size=self.size,
-        )
-        self.canvas.add(self.rectangle)
+            self.rectangle = Rectangle(
+                    texture=texture,
+                    pos=(0,0),
+                    size=self.size,
+            )
+            self.canvas.add(self.rectangle)
+        else:
+            self.canvas.clear()
+            return
+
+        if self.secondary_item is not None:
+            if self.secondary_category == 'item':
+                if self.secondary_item == COIN:
+                    texture = textures.coin
+                elif self.secondary_item == POWERUP_FLAME_UP:
+                    texture = textures.powerup_flame_up
+                else:
+                    print 'Unknown secondary item: %s' % self.secondary_item
+            elif self.secondary_category == 'monsters':
+                self.secondary_item = self.secondary_item
+                texture = self.secondary_item.cls_texture
+            else:
+                print 'Unknown secondary category: %s' % self.secondary_category
+
+            self.rectangle = Rectangle(
+                    texture=texture,
+                    pos=(0,0),
+                    size=self.size,
+            )
+            self.canvas.add(self.rectangle)
+
+        if self.tertiary_item is not None:
+            if self.tertiary_category == 'portal_exit':
+                texture = textures.portal_exits[self.tertiary_item]
+            elif self.tertiary_category == 'portal':
+                texture = textures.portals[self.tertiary_item]
+            else:
+                print 'Unknown tertiary category: %s' % self.tertiary_category
+
+            self.rectangle = Rectangle(
+                    texture=texture,
+                    pos=(0,0),
+                    size=self.size,
+            )
+            self.canvas.add(self.rectangle)
 
     def on_touch_move(self, movement):
         self.on_touch_down(movement)
 
     def load(self, level, index):
         item = level['layout'][index]
-        if item == 'S':
-            item = SPAWNPOINT
-        if type(item) is int:
-            self.category = 'map'
-            self.item = item
-        elif type(item) is str or type(item) is unicode:
-            if item.startswith('_'):
-                if item.startswith('_PG'):
-                    self.category = 'portal_exit'
-                    self.item = int(item[3:])
-                elif item.startswith('_P'):
-                    self.category = 'portal'
-                    self.item = item[2:]
-            else:
-                self.category = 'monsters'
-                self.item = eval('monsters.' + level['monster_dict'][item])
+        self.primary_category, self.primary_item = item[0]
+        self.secondary_category, self.secondary_item = item[1]
+        self.tertiary_category, self.tertiary_item = item[2]
+        if self.secondary_category == 'monsters':
+            self.secondary_item = eval('monsters.' + level['monster_dict'][self.secondary_item])
         self.update()
 
 class GridSetup(BoxLayout):
@@ -278,6 +327,13 @@ class GridSetup(BoxLayout):
                 size_hint=(0.2, 1),
         )
 
+        self.sidebar.add_widget(Label(text='[b]Primary category[/b]', markup = True))
+        self.sidebar.add_widget(
+                Button(
+                    text='Clear',
+                    on_release=lambda btn: self.change_tool('primary', CLEAR),
+                )
+        )
         self.sidebar.add_widget(Label(text='Tiles:'))
         self.sidebar.add_widget(
                 Button(
@@ -288,7 +344,7 @@ class GridSetup(BoxLayout):
         self.sidebar.add_widget(
                 Button(
                     text='Void',
-                    on_release=lambda btn: self.change_tool('map', VOID),
+                    on_release=lambda btn: self.change_tool('map', CLEAR),
                 )
         )
         self.sidebar.add_widget(
@@ -310,11 +366,24 @@ class GridSetup(BoxLayout):
                 )
         )
 
-        self.sidebar.add_widget(Label(text='Tiles:'))
+        self.sidebar.add_widget(Label(text='[b]Secondary category[/b]', markup = True))
+        self.sidebar.add_widget(
+                Button(
+                    text='Clear',
+                    on_release=lambda btn: self.change_tool('secondary', CLEAR),
+                )
+        )
+        self.sidebar.add_widget(Label(text='Items:'))
         self.sidebar.add_widget(
                 Button(
                     text='Coin',
-                    on_release=lambda btn: self.change_tool('map', COIN),
+                    on_release=lambda btn: self.change_tool('item', COIN),
+                )
+        )
+        self.sidebar.add_widget(
+                Button(
+                    text='Flame up',
+                    on_release=lambda btn: self.change_tool('item', POWERUP_FLAME_UP),
                 )
         )
 
@@ -323,12 +392,19 @@ class GridSetup(BoxLayout):
         for monster_cls in monsters.registered:
             button = Button(
                 text=monster_cls.name,
-                on_release=lambda btn: self.change_tool(btn.category, btn.monster_cls),
+                on_release=lambda btn: self.change_tool(btn.category, btn.monster),
             )
             button.category = 'monsters'
-            button.monster_cls = monster_cls
+            button.monster = monster_cls()
             self.sidebar.add_widget(button)
 
+        self.sidebar.add_widget(Label(text='[b]Tertiary category[/b]', markup = True))
+        self.sidebar.add_widget(
+                Button(
+                    text='Clear',
+                    on_release=lambda btn: self.change_tool('tertiary', CLEAR),
+                )
+        )
         self.sidebar.add_widget(Label(text='Portals:'))
         self.sidebar.add_widget(
                 Button(
@@ -436,7 +512,7 @@ class GridSetup(BoxLayout):
             gl.add_widget(bottom_input)
             gl.bottom_input = bottom_input
 
-            gl.add_widget(Label(text='Left ->:'))
+            gl.add_widget(Label(text='Left ->'))
             left_input = TextInput(text=default_values['left'])
             left_input.bind(text=lambda _,__: self.save_portal_conf())
             gl.add_widget(left_input)

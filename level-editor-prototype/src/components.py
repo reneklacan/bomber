@@ -70,14 +70,6 @@ class Textures:
         self.maze = Image(file_paths.map.maze).texture
         self.bomb = Image(file_paths.map.bomb).texture
 
-        self.flame_center = Image(file_paths.map.flame_center).texture
-        self.flame_v = Image(file_paths.map.flame_v).texture
-        self.flame_h = Image(file_paths.map.flame_h).texture
-        self.flame_end_top = Image(file_paths.map.flame_end_top).texture
-        self.flame_end_bottom = Image(file_paths.map.flame_end_bottom).texture
-        self.flame_end_left = Image(file_paths.map.flame_end_left).texture
-        self.flame_end_right = Image(file_paths.map.flame_end_right).texture
-
         self.coin = Image(file_paths.items.coin).texture
 
         self.player_up = Image(file_paths.players.player_up).texture
