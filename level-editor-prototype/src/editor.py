@@ -1,6 +1,7 @@
 
 import os
 import json
+import string
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
@@ -14,6 +15,12 @@ from components import file_paths, textures
 from constants import *
 import monsters
 from monsters import *
+
+def convert2int(num):
+    try:
+        return int(num)
+    except ValueError:
+        return None
 
 class Wizard(FloatLayout):
     def __init__(self, **kwargs):
@@ -112,8 +119,13 @@ class Wizard(FloatLayout):
                     item = 'S'
             elif tile.category == 'monsters':
                 item = tile.item.shortcut
+            elif tile.category == 'portal':
+                item = '_P%s' % tile.item
+            elif tile.category == 'portal_exit':
+                item = '_PG%d' % tile.item
             level['layout'].append(item)
 
+        level['portals_conf'] = self.grid.portals_conf
         level['monster_dict'] = {}
         for monster in monsters.registered:
             level['monster_dict'][monster.shortcut] = monster.__name__
@@ -179,6 +191,10 @@ class Tile(RelativeLayout):
                 return
         elif self.category == 'monsters':
             texture = self.item.cls_texture
+        elif self.category == 'portal':
+            texture = textures.portals[self.item]
+        elif self.category == 'portal_exit':
+            texture = textures.portal_exits[self.item]
 
         self.rectangle = Rectangle(
                 texture=texture,
@@ -198,8 +214,16 @@ class Tile(RelativeLayout):
             self.category = 'map'
             self.item = item
         elif type(item) is str or type(item) is unicode:
-            self.category = 'monsters'
-            self.item = eval('monsters.' + level['monster_dict'][item])
+            if item.startswith('_'):
+                if item.startswith('_PG'):
+                    self.category = 'portal_exit'
+                    self.item = int(item[3:])
+                elif item.startswith('_P'):
+                    self.category = 'portal'
+                    self.item = int(item[2:])
+            else:
+                self.category = 'monsters'
+                self.item = eval('monsters.' + level['monster_dict'][item])
         self.update()
 
 class GridSetup(BoxLayout):
@@ -208,6 +232,10 @@ class GridSetup(BoxLayout):
         self.level = kwargs['level']
         self.current_item = None
         self.current_category = None
+        self.portal_counter = 0
+        self.portal_widget = None
+        self.portal_exit_counter = 0
+        self.portals_conf = {}
 
     def on_size(self, grid, size):
         self.clear_widgets()
@@ -244,6 +272,7 @@ class GridSetup(BoxLayout):
                 orientation='vertical',
                 size_hint=(0.2, 1),
         )
+
         self.sidebar.add_widget(Label(text='Tiles:'))
         self.sidebar.add_widget(
                 Button(
@@ -286,6 +315,21 @@ class GridSetup(BoxLayout):
             button.monster_cls = monster_cls
             self.sidebar.add_widget(button)
 
+        self.sidebar.add_widget(Label(text='Portals:'))
+        self.sidebar.add_widget(
+                Button(
+                    text='New portal',
+                    on_release=lambda btn: self.change_tool('portal_new', 0),
+                )
+        )
+        self.sidebar.add_widget(
+                Button(
+                    text='New portal exit',
+                    on_release=lambda btn: self.change_tool('portal_exit_new', 0),
+                )
+        )
+        self.sidebar.add_widget(Label(size_hint_y=0.3))
+
         self.main = BoxLayout(
                 orientation='vertical',
                 size_hint=(0.8, 1),
@@ -318,6 +362,82 @@ class GridSetup(BoxLayout):
     def change_tool(self, category, item):
         self.current_category = category
         self.current_item = item
+
+        if category == 'portal_new':
+            self.portal_counter += 1
+            portal_id = string.uppercase[self.portal_counter - 1]
+            btn = Button(
+                text='Portal %s' % portal_id,
+                on_release=lambda btn: self.change_tool('portal', btn.portal_id),
+            )
+            btn.portal_id = portal_id
+            self.sidebar.add_widget(btn)
+            self.current_item = portal_id
+
+            self.change_tool('portal', portal_id)
+
+        elif category == 'portal_exit_new':
+            self.portal_exit_counter += 1
+            btn = Button(
+                text='Portal exit %d' % self.portal_exit_counter,
+                on_release=lambda btn: self.change_tool('portal_exit', btn.portal_id),
+            )
+            btn.portal_id = self.portal_exit_counter
+            self.sidebar.add_widget(btn)
+            self.current_item = self.portal_exit_counter
+
+            self.change_tool('portal_exit', self.portal_exit_counter)
+
+        elif category == 'portal':
+            if self.portal_widget is not None:
+                self.sidebar.remove_widget(self.portal_widget)
+            gl = GridLayout(cols=2, size_hint_y=4.0)
+            gl.add_widget(Label(text='Portal %s:' % item))
+            gl.add_widget(Label(text=''))
+
+            default_values = {
+                    'top': '', 'right': '', 'bottom': '', 'left': ''
+            }
+
+            if item in self.portals_conf:
+                for direction, value in self.portals_conf[item].items():
+                    if value is None: continue
+                    default_values[direction] = str(value)
+
+            gl.add_widget(Label(text='Top ->'))
+            top_input = TextInput(text=default_values['top'])
+            top_input.bind(text=lambda _,__: self.save_portal_conf())
+            gl.add_widget(top_input)
+            gl.top_input = top_input
+
+            gl.add_widget(Label(text='Right ->'))
+            right_input = TextInput(text=default_values['right'])
+            right_input.bind(text=lambda _,__: self.save_portal_conf())
+            gl.add_widget(right_input)
+            gl.right_input = right_input
+
+            gl.add_widget(Label(text='Bottom ->'))
+            bottom_input = TextInput(text=default_values['bottom'])
+            bottom_input.bind(text=lambda _,__: self.save_portal_conf())
+            gl.add_widget(bottom_input)
+            gl.bottom_input = bottom_input
+
+            gl.add_widget(Label(text='Left ->:'))
+            left_input = TextInput(text=default_values['left'])
+            left_input.bind(text=lambda _,__: self.save_portal_conf())
+            gl.add_widget(left_input)
+            gl.left_input = left_input
+
+            self.portal_widget = gl
+            self.sidebar.add_widget(gl)
+
+    def save_portal_conf(self):
+        self.portals_conf[self.current_item] = {
+                'top':      convert2int(self.portal_widget.top_input.text),
+                'right':    convert2int(self.portal_widget.right_input.text),
+                'bottom':   convert2int(self.portal_widget.bottom_input.text),
+                'left':     convert2int(self.portal_widget.left_input.text),
+        }
 
 class InfoInput(GridLayout):
     def __init__(self, **kwargs):

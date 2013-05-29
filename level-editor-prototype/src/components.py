@@ -1,5 +1,6 @@
 
 import time
+import string
 from kivy.core.window import Window
 from kivy.core.image import Image
 from kivy.graphics import Rectangle
@@ -20,6 +21,9 @@ class FilePathsMap:
         self.flame_end_bottom = res_dir + 'resources/images/map/flame_end_bottom.gif'
         self.flame_end_left = res_dir + 'resources/images/map/flame_end_left.gif'
         self.flame_end_right = res_dir + 'resources/images/map/flame_end_right.gif'
+
+        self.portal = res_dir + 'resources/images/map/portal%s.png'
+        self.portal_exit = res_dir + 'resources/images/map/portal_gate%d.png'
 
 class FilePathsPlayers:
     def __init__(self):
@@ -99,122 +103,12 @@ class Textures:
         self.black_fluffy = Image(file_paths.monsters.black_fluffy).texture
         self.blue_fluffy = Image(file_paths.monsters.blue_fluffy).texture
 
+        self.portals = {}
+        for i in range(0,9):
+            letter = string.uppercase[i]
+            self.portals[letter] = Image(file_paths.map.portal % letter).texture
+        self.portal_exits = {}
+        for i in range(1,10):
+            self.portal_exits[i] = Image(file_paths.map.portal_exit % i).texture
+
 textures = Textures()
-
-class GameObjects:
-    def __init__(self):
-        self.last_tile_size = None
-
-        self.player = {}
-        self.player2 = {}
-
-    def on_resize(self):
-        pass
-
-    def resize(self, tile_size):
-        if tile_size[0] < 10 or tile_size[1] < 10:
-            return False
-
-        if tile_size[0] == 100 or tile_size[1] == 100:
-            return False
-
-        tile_size = map(lambda x: int(x), tile_size)
-
-        if self.last_tile_size != tile_size:
-            self.last_tile_size = tile_size
-        else:
-            return True
-
-        base_pos = (0,0)
-
-        t = time.time()
-        self.space = Rectangle(
-                texture=textures.space,
-                pos=base_pos,
-                size=tile_size,
-        )
-        self.block = Rectangle(
-                texture=textures.block,
-                pos=base_pos,
-                size=tile_size,
-        )
-        self.maze = Rectangle(
-                texture=textures.maze,
-                pos=base_pos,
-                size=tile_size,
-        )
-        # flame objects
-        self.flame_center = Rectangle(
-                texture=textures.flame_center,
-                pos=base_pos,
-                size=tile_size,
-        )
-        self.flame_v = Rectangle(
-                texture=textures.flame_v,
-                pos=base_pos,
-                size=tile_size,
-        )
-        self.flame_h = Rectangle(
-                texture=textures.flame_h,
-                pos=base_pos,
-                size=tile_size,
-        )
-        self.flame_end_top = Rectangle(
-                texture=textures.flame_end_top,
-                pos=base_pos,
-                size=tile_size,
-        )
-        self.flame_end_bottom = Rectangle(
-                texture=textures.flame_end_bottom,
-                pos=base_pos,
-                size=tile_size,
-        )
-        self.flame_end_left = Rectangle(
-                texture=textures.flame_end_left,
-                pos=base_pos,
-                size=tile_size,
-        )
-        self.flame_end_right = Rectangle(
-                texture=textures.flame_end_right,
-                pos=base_pos,
-                size=tile_size,
-        )
-
-        self.flame_arm = {}
-        self.flame_arm['top'] = self.flame_v
-        self.flame_arm['bottom'] = self.flame_v
-        self.flame_arm['left'] = self.flame_h
-        self.flame_arm['right'] = self.flame_h
-
-        self.flame_end = {}
-        self.flame_end['top'] = self.flame_end_top
-        self.flame_end['bottom'] = self.flame_end_bottom
-        self.flame_end['left'] = self.flame_end_left
-        self.flame_end['right'] = self.flame_end_right
-
-        bomb_size = map(lambda x: x*0.7, tile_size)
-        bomb_pos = [
-                (a - b)/2 for a, b in zip(tile_size, bomb_size)
-        ]
-        self.bomb = Rectangle(
-                texture=textures.bomb,
-                pos=bomb_pos,
-                size=bomb_size,
-        )
-
-        self.powerup_flame_up = Rectangle(
-                texture=textures.powerup_flame_up,
-                pos=base_pos,
-                size=tile_size,
-        )
-
-        self.ghost = Rectangle(
-                texture=textures.ghost,
-                pos=base_pos,
-                size=tile_size,
-        )
-
-        self.on_resize()
-        return True
-
-game_objects = GameObjects()
