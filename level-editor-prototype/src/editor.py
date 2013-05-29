@@ -189,6 +189,8 @@ class Tile(RelativeLayout):
             elif self.item == VOID:
                 self.canvas.clear()
                 return
+            elif self.item == COIN:
+                texture = textures.coin
         elif self.category == 'monsters':
             texture = self.item.cls_texture
         elif self.category == 'portal':
@@ -307,6 +309,15 @@ class GridSetup(BoxLayout):
                     on_release=lambda btn: self.change_tool('map', MAZE),
                 )
         )
+
+        self.sidebar.add_widget(Label(text='Tiles:'))
+        self.sidebar.add_widget(
+                Button(
+                    text='Coin',
+                    on_release=lambda btn: self.change_tool('map', COIN),
+                )
+        )
+
         self.sidebar.add_widget(Label(text='Monsters:'))
 
         for monster_cls in monsters.registered:

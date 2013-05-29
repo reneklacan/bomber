@@ -159,6 +159,7 @@
         0, 
         0, 
         0, 
+        100, 
         0, 
         0, 
         0, 
@@ -198,8 +199,7 @@
         0, 
         0, 
         0, 
-        0, 
-        0, 
+        100, 
         0, 
         0, 
         0, 
@@ -450,14 +450,14 @@
         "A": {
             "top": 1, 
             "right": 2, 
-            "left": null, 
-            "bottom": 3
+            "bottom": 3, 
+            "left": null
         }, 
         "B": {
             "top": 3, 
             "right": null, 
-            "left": null, 
-            "bottom": 2
+            "bottom": 2, 
+            "left": null
         }
     }, 
     "effects_propability": {

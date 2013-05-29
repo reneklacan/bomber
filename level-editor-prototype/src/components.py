@@ -25,6 +25,10 @@ class FilePathsMap:
         self.portal = res_dir + 'resources/images/map/portal%s.png'
         self.portal_exit = res_dir + 'resources/images/map/portal_gate%d.png'
 
+class FilePathsItems:
+    def __init__(self):
+        self.coin = res_dir + 'resources/images/map/coin.png'
+
 class FilePathsPlayers:
     def __init__(self):
         self.player_up = res_dir + 'resources/images/player/player_up.gif'
@@ -55,6 +59,7 @@ class FilePaths:
         self.monsters = FilePathsMonsters()
         self.players = FilePathsPlayers()
         self.effects = FilePathsEffects()
+        self.items = FilePathsItems()
 
 file_paths = FilePaths()
 
@@ -72,6 +77,8 @@ class Textures:
         self.flame_end_bottom = Image(file_paths.map.flame_end_bottom).texture
         self.flame_end_left = Image(file_paths.map.flame_end_left).texture
         self.flame_end_right = Image(file_paths.map.flame_end_right).texture
+
+        self.coin = Image(file_paths.items.coin).texture
 
         self.player_up = Image(file_paths.players.player_up).texture
         self.player_down = Image(file_paths.players.player_down).texture
