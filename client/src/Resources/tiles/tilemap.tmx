@@ -3,13 +3,13 @@
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer name="grass" width="12" height="12">
   <properties>
-   <property name="cc_vertexz" value="-1"/>
+   <property name="cc_vertexz" value="-20"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA1NlIA2o0kH9KMaNBaGYVupJxQAMsSyQQAIAAA==
+   H4sIAAAAAAAAA1NlwA900fiqSOK6SPLofErU48O6RKghVb0uGibFfHpjQSimlXpSMQDixnoEQAIAAA==
   </data>
  </layer>
- <layer name="players" width="12" height="12">
+ <layer name="players" width="12" height="12" visible="0">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA2NgGFmAaaAdMMwAAN0Uo69AAgAA
   </data>
@@ -20,12 +20,13 @@
    <property name="cc_vertexz" value="automatic"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAxNgIB+wU6B3IIEkFMOAOhXMFEYzD4SZoXwWKM1GBXvQgRCSfdQC6mhsfOYDANaIdQJAAgAA
+   H4sIAAAAAAAAAxNgIB+wU6B3oAATEEtCsSoUgwClfhFGYqtDMTOUzwKl2cgwl5C7hJDsoxZQR2PjMx8AXKLFx0ACAAA=
   </data>
  </layer>
- <objectgroup name="collx" width="12" height="12">
+ <objectgroup name="colliders" width="12" height="12">
   <object name="ca2" x="129" y="589" width="46" height="32"/>
   <object name="ca1" x="232" y="591" width="43" height="34"/>
   <object x="636" y="754" width="39" height="30"/>
+  <object x="131" y="428" width="148" height="9"/>
  </objectgroup>
 </map>

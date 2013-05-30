@@ -55,10 +55,13 @@ CCScene* GameplayScene::scene()
 // on "init" you need to initialize your instance
 bool GameplayScene::init()
 {
+    CCDirector::sharedDirector()->setDepthTest(true);
+    CCDirector::sharedDirector()->setProjection(kCCDirectorProjection2D);
+
 	bool bRet = false;
 	do 
 	{
-		CC_BREAK_IF(! CCLayerColor::initWithColor( ccc4(255,255,255,255) ) );
+		CC_BREAK_IF(! CCLayer::init() );
 
         //CCNode *root = new CCNode();
 
@@ -98,7 +101,7 @@ bool GameplayScene::init()
 		// Add the menu to GameplayScene layer as a child layer.
 		this->addChild(pMenu, 1);
 
-        CCTMXLayer* layer = _world->layerNamed("players");
+        CCTMXLayer* layer = _world->layerNamed("trees");
         _player = layer->tileAt(ccp(0, 5));
         _player->retain();
         //_player->setPosition(CC_POINT_PIXELS_TO_POINTS(ccp(mapWidth/2,0)));
@@ -136,6 +139,7 @@ bool GameplayScene::init()
 
 		// use updateGame instead of update, otherwise it will conflit with SelectorProtocol::update
 		// see http://www.cocos2d-x.org/boards/6/topics/1478
+		this->schedule( schedule_selector(GameplayScene::repositionSprite) );
 		this->schedule( schedule_selector(GameplayScene::updateGame) );
 
 		//CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background-music-aac.wav", true);
@@ -144,6 +148,14 @@ bool GameplayScene::init()
 	} while (0);
 
 	return bRet;
+}
+
+void GameplayScene::repositionSprite(float dt)
+{
+    CCPoint p = _player->getPosition();
+    //p = CC_POINT_POINTS_TO_PIXELS(p);
+    int z = -( (p.y+40.5) /81 ) + 0;
+    _player->setVertexZ( z );
 }
 
 void GameplayScene::menuCloseCallback(CCObject* pSender)
@@ -240,6 +252,23 @@ void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
 {
     CCPoint origin = ccpAdd(_player->getPosition(), _world->getPosition());
 
+    CCPoint playerPos = _player->getPosition();
+    //CCPoint worldPos = _world->getPosition();
+    int coordX = ((int) (playerPos.x - _player->getContentSize().width/2 + 40.5f)/81);
+    int coordY = ((int) (playerPos.y - _player->getContentSize().height/2 + 50.5f)/101);
+    coordX = (int) (playerPos.x - _player->getContentSize().width/2 + 40.5f + 10.0f)/101;
+    coordY = (int) (playerPos.y - _player->getContentSize().height/2 + 50.5f - 19.0f)/81;
+
+	//CCLog("++++++++coords  x:%d, y:%d", coordX, coordY);
+
+	//CCLog("++++++++ppos    x:%f, y:%f", playerPos.x, playerPos.y);
+	//CCLog("++++++++wpos    x:%f, y:%f", worldPos.x, worldPos.y);
+	//CCLog("++++++++origin  x:%f, y:%f", origin.x, origin.y);
+
+    origin = ccpAdd(ccp(coordX * 101 + 50.5f, coordY*81 + 2*40.5f), _world->getPosition());
+
+	//CCLog("++++++++corigin x:%f, y:%f", origin.x, origin.y);
+
     /*
 	// Choose one of the touches to work with
 	CCTouch* touch = (CCTouch*)( touches->anyObject() );
@@ -329,7 +358,7 @@ void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
         else if (i == 1)
         {
             emitter->setAngle(90);
-            move = CCMoveBy::create(2, ccp(0, 200));
+            move = CCMoveBy::create(2, ccp(0, 500));
         }
         else if (i == 2)
         {
@@ -351,6 +380,7 @@ void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
 
 void GameplayScene::updateGame(float dt)
 {
+    std::cout << "player vertex" << _player->getVertexZ() << std::endl;
 	CCArray *projectilesToDelete = new CCArray;
     CCObject* it = NULL;
     CCObject* jt = NULL;
@@ -371,7 +401,7 @@ void GameplayScene::updateGame(float dt)
             _player->getContentSize().height/2
     );
 
-    CCTMXObjectGroup *objectGroup = _world->objectGroupNamed("collx");
+    CCTMXObjectGroup *objectGroup = _world->objectGroupNamed("colliders");
     CCArray *objectList = objectGroup->getObjects();
 
     CCDictionary *dict;
@@ -384,7 +414,7 @@ void GameplayScene::updateGame(float dt)
     {
         dict = (CCDictionary*)co;
 
-        if(!dict)
+        if (!dict)
             break;
 
         x = ((CCString*)dict->objectForKey("x"))->intValue();
@@ -433,6 +463,7 @@ void GameplayScene::updateGame(float dt)
 
     }
 
+
     if (!collisionOccured)
     {
         CCPoint mapPos = _world->getPosition();
@@ -443,6 +474,22 @@ void GameplayScene::updateGame(float dt)
                 )
         );
     }
+    //tree = layer->tileAt(ccp(1, 6));
+    //std::cout << "tree vz: " << tree->getVertexZ() << std::endl;
+
+
+    //CCLog("player pos   : x:%f, y:%f", playerPos.x, playerPos.y);
+    //CCLog(
+    //        "player pos2  : x:%f, y:%f",
+    //        playerPos.x - _player->getContentSize().width/2,
+    //        playerPos.y - _player->getContentSize().height/2
+    //);
+    //CCLog(
+    //        "player pos3  : x:%d, y:%d",
+    //        (int) (playerPos.x - _player->getContentSize().width/2 + 40.5f + 10.0f)/101,
+    //        (int) (playerPos.y - _player->getContentSize().height/2 + 50.5f - 19.0f)/81
+    //);
+    //CCLog("player coords: x:%d, y:%d", coordX, coordY);
 
 	// for (it = _projectiles->begin(); it != _projectiles->end(); it++)
     CCARRAY_FOREACH(_projectiles, it)
@@ -506,6 +553,7 @@ void GameplayScene::updateGame(float dt)
 		this->removeChild(projectile, true);
 	}
 	projectilesToDelete->release();
+    std::cout << "player vertex" << _player->getVertexZ() << std::endl;
 }
 
 void GameplayScene::registerWithTouchDispatcher()

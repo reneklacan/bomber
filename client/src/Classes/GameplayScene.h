@@ -6,7 +6,7 @@
 #include "SimpleAudioEngine.h"
 #include "Joystick.h"
 
-class GameplayScene : public cocos2d::CCLayerColor
+class GameplayScene : public cocos2d::CCLayer
 {
 public:
 	GameplayScene();
@@ -33,6 +33,7 @@ public:
 
 	void registerWithTouchDispatcher();
 	void ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
+    void repositionSprite(float dt);
 	//void ccTouchesMoved(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
 
     void setJoystick(Joystick *joystick);
