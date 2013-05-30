@@ -206,7 +206,7 @@ class Tile(RelativeLayout):
             if self.primary_category == 'map':
                 if self.primary_item == SPAWNPOINT:
                     texture = textures.player_up
-                if self.primary_item == SPACE:
+                elif self.primary_item == SPACE:
                     texture = textures.space
                 elif self.primary_item == BLOCK:
                     texture = textures.block
