@@ -60,10 +60,11 @@ bool GameplayScene::init()
 	{
 		CC_BREAK_IF(! CCLayerColor::initWithColor( ccc4(255,255,255,255) ) );
 
-        _map = CCTMXTiledMap::create("tiles/tilemap.tmx");
-        this->addChild(_map, 0, 7);
-        _map->setPosition(ccp(0,0));
-        CCSize CC_UNUSED s = _map->getContentSize();
+        //CCNode *root = new CCNode();
+
+        _world = CCTMXTiledMap::create("tiles/tilemap.tmx");
+        this->addChild(_world, 0, 7);
+        CCSize CC_UNUSED s = _world->getContentSize();
         CCLog("ContentSize: %f, %f", s.width,s.height);
 
         Joystick *joystick =  Joystick::create();
@@ -97,11 +98,15 @@ bool GameplayScene::init()
 		// Add the menu to GameplayScene layer as a child layer.
 		this->addChild(pMenu, 1);
 
-        CCTMXLayer* layer = _map->layerNamed("players");
+        CCTMXLayer* layer = _world->layerNamed("players");
         _player = layer->tileAt(ccp(0, 5));
         _player->retain();
         //_player->setPosition(CC_POINT_PIXELS_TO_POINTS(ccp(mapWidth/2,0)));
         _player->setAnchorPoint(ccp(0.5f, 0.3f));
+
+        CCPoint playerPos = _player->getPosition();
+
+        _world->setPosition( ccp(s.width/2 - playerPos.x, s.height/2 - playerPos.y) );
 
         CCLog(
                 "++++++++Player width:%f, height:%f",
@@ -218,10 +223,22 @@ void GameplayScene::gameLogic(float dt)
 	this->addTarget();
 }
 
+/*
+void GameplayScene::ccTouchesMoved(CCSet* touches, CCEvent* event)
+{
+    CCTouch *touch = (CCTouch*)touches->anyObject();
+    CCPoint diff = touch->getDelta();
+    
+    CCNode* node = getChildByTag(7);
+    CCPoint currentPos = node->getPosition();
+    node->setPosition( ccpAdd(currentPos, diff) );
+}
+*/
+
 // cpp with cocos2d-x
 void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
 {
-    CCPoint origin = _player->getPosition();
+    CCPoint origin = ccpAdd(_player->getPosition(), _world->getPosition());
 
     /*
 	// Choose one of the touches to work with
@@ -354,12 +371,14 @@ void GameplayScene::updateGame(float dt)
             _player->getContentSize().height/2
     );
 
-    CCTMXObjectGroup *objectGroup = _map->objectGroupNamed("collx");
+    CCTMXObjectGroup *objectGroup = _world->objectGroupNamed("collx");
     CCArray *objectList = objectGroup->getObjects();
 
     CCDictionary *dict;
     int x, y, width, height;
     CCRect objRect;
+
+    bool collisionOccured = false;
 
     CCARRAY_FOREACH(objectList, co)
     {
@@ -407,9 +426,22 @@ void GameplayScene::updateGame(float dt)
                     objRect.origin.y
             );
 
+            collisionOccured = true;
+
             break;
         }
 
+    }
+
+    if (!collisionOccured)
+    {
+        CCPoint mapPos = _world->getPosition();
+        _world->setPosition(
+                ccp(
+                    mapPos.x - _joystick->getVelocity().x*_sensitivity,
+                    mapPos.y - _joystick->getVelocity().y*_sensitivity
+                )
+        );
     }
 
 	// for (it = _projectiles->begin(); it != _projectiles->end(); it++)

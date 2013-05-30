@@ -33,6 +33,7 @@ public:
 
 	void registerWithTouchDispatcher();
 	void ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
+	//void ccTouchesMoved(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
 
     void setJoystick(Joystick *joystick);
     
@@ -42,7 +43,7 @@ protected:
 	cocos2d::CCArray *_projectiles;
 	int _projectilesDestroyed;
     Joystick *_joystick;
-    CCTMXTiledMap *_map;
+    CCTMXTiledMap *_world;
     CCSprite *_player;
     int _sensitivity;
 
