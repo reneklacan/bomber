@@ -1,12 +1,12 @@
 
-from components import file_paths, textures
+from components import textures
 
 class MonsterBase:
-    def __repr__(cls):
-        return cls.shortcut
+    def __repr__(self):
+        return self.shortcut
 
-    def __str__(cls):
-        return cls.shortcut
+    def __str__(self):
+        return self.shortcut
 
 class EnemyPlayer(MonsterBase):
     name = "Enemy Player"

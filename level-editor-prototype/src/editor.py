@@ -10,6 +10,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
+from kivy.uix.scrollview import ScrollView
 from kivy.graphics import Rectangle
 from components import file_paths, textures
 from constants import *
@@ -274,7 +275,7 @@ class Tile(RelativeLayout):
         self.secondary_category, self.secondary_item = item[1]
         self.tertiary_category, self.tertiary_item = item[2]
         if self.secondary_category == 'monsters':
-            self.secondary_item = eval('monsters.' + level['monster_dict'][self.secondary_item])
+            self.secondary_item = eval('monsters.' + level['monster_dict'][self.secondary_item])()
         self.update()
 
 class GridSetup(BoxLayout):
@@ -324,8 +325,11 @@ class GridSetup(BoxLayout):
 
         self.sidebar = BoxLayout(
                 orientation='vertical',
-                size_hint=(0.2, 1),
+                size_hint=(1, 1.5),
         )
+        self.sidescroll = ScrollView(size_hint=(0.2, 1))
+        self.sidescroll.do_scroll_x = False
+        self.sidescroll.add_widget(self.sidebar)
 
         self.sidebar.add_widget(Label(text='[b]Primary category[/b]', markup = True))
         self.sidebar.add_widget(
@@ -447,7 +451,8 @@ class GridSetup(BoxLayout):
         self.main.add_widget(self.grid)
 
         self.add_widget(self.main)
-        self.add_widget(self.sidebar)
+        #self.sidebar.size_hint_y = len(self.sidebar.children)/25.0
+        self.add_widget(self.sidescroll)
 
     def change_tool(self, category, item):
         self.current_category = category
