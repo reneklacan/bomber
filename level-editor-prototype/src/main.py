@@ -14,10 +14,13 @@ class BomberLevelEditor(App):
 class MainWidget(BoxLayout):
     def __init__(self, **kwargs):
         BoxLayout.__init__(self, orientation='horizontal')
+        self.initialized = False
 
     def on_size(self, mw, size):
-        self.clear_widgets()
-        self.add_widget(Wizard())
+        if not self.initialized:
+            self.clear_widgets()
+            self.add_widget(Wizard())
+            self.initialized = True
 
 if __name__ in ('__main__', '__android__'):
     try:

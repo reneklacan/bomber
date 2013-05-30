@@ -288,10 +288,13 @@ class GridSetup(BoxLayout):
         self.portal_widget = None
         self.portal_exit_counter = 0
         self.portals_conf = {}
+        self.initialized = False
 
     def on_size(self, grid, size):
-        self.clear_widgets()
-        self.init()
+        if not self.initialized:
+            self.clear_widgets()
+            self.init()
+            self.initialized = True
 
     def init(self):
         self.grid = GridLayout(
@@ -308,7 +311,6 @@ class GridSetup(BoxLayout):
         if self.level is not None:
             self.portals_conf = self.level['portals_conf']
 
-        # TODO is self.level is not None
         self.tiles = []
         for i in range(width * height):
             tile = Tile(
