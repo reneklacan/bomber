@@ -174,6 +174,17 @@ class Tile(RelativeLayout):
         if item is None or category is None:
             return
 
+        if category in ('super'):
+            if item == SPACE:
+                item = SPACE
+                category = 'map'
+            else:
+                print 'Unknown super item: %s' % item
+            self.secondary_item = None
+            self.secondary_category = None
+            self.tertiary_item = None
+            self.tertiary_category = None
+
         if category in ('tertiary', 'portal_exit', 'portal'):
             self.tertiary_item = item
             self.tertiary_category = category
@@ -218,7 +229,7 @@ class Tile(RelativeLayout):
                 else:
                     print 'Unknown primary item: %s' % self.primary_item
             else:
-                print 'Unknown primary category: %s' % self.primary_item
+                print 'Unknown primary category: %s' % self.primary_category
 
             self.rectangle = Rectangle(
                     texture=texture,
@@ -351,6 +362,12 @@ class GridSetup(BoxLayout):
                 Button(
                     text='Void',
                     on_release=lambda btn: self.change_tool('map', CLEAR),
+                )
+        )
+        self.sidebar.add_widget(
+                Button(
+                    text='Super Space',
+                    on_release=lambda btn: self.change_tool('super', SPACE),
                 )
         )
         self.sidebar.add_widget(
