@@ -1,25 +1,21 @@
+#ifndef __BOMBER_JOYSTICK
+#define __BOMBER_JOYSTICK
 
-#pragma once
 #include "cocos2d.h" 
+#include "ControllerBase.h" 
 
 using namespace cocos2d;
 
-class Joystick : public CCLayer
+class Joystick : public CCLayer, public ControllerBase
 {
-
 public:
-
-    virtual bool init();  
-    CCPoint getVelocity() {return velocity;}
     CREATE_FUNC(Joystick);
+    bool init();
 
 private:
-
-    CCPoint kCenter;
-    CCSprite *thumb;
-    bool isPressed;
-
-    CCPoint velocity;
+    CCPoint _kCenter;
+    CCSprite *_thumb;
+    bool _isPressed;
 
     void updateVelocity(CCPoint point);
     void resetJoystick();
@@ -29,3 +25,5 @@ private:
     void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
     void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
 };
+
+#endif

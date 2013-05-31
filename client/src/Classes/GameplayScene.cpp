@@ -1,7 +1,10 @@
 #include "GameplayScene.h"
 #include "GameOverScene.h"
 #include "SimpleAudioEngine.h"
-#include "Joystick.h"
+#include "Input/Joystick.h"
+#include "Input/Keyboard.h"
+#include "Input/ControlLayer.h"
+#include "Gameplay/Map/Explosion.h"
 
 using namespace cocos2d;
 
@@ -58,103 +61,110 @@ bool GameplayScene::init()
     CCDirector::sharedDirector()->setDepthTest(true);
     CCDirector::sharedDirector()->setProjection(kCCDirectorProjection2D);
 
-	bool bRet = false;
-	do 
-	{
-		CC_BREAK_IF(! CCLayer::init() );
+    if (!CCLayer::init())
+        return false;
 
-        //CCNode *root = new CCNode();
+    _keyboard = CCDirector::sharedDirector()->getKeyboardDispatcher();
+    //CCNode *root = new CCNode();
 
-        _world = CCTMXTiledMap::create("tiles/tilemap.tmx");
-        this->addChild(_world, 0, 7);
-        CCSize CC_UNUSED s = _world->getContentSize();
-        CCLog("ContentSize: %f, %f", s.width,s.height);
+    _world = CCTMXTiledMap::create("tiles/tilemap.tmx");
+    this->addChild(_world, 0, 7);
+    CCSize CC_UNUSED s = _world->getContentSize();
+    CCLog("ContentSize: %f, %f", s.width,s.height);
 
-        Joystick *joystick =  Joystick::create();
-        this->addChild(joystick,2);
-        this->setJoystick(joystick);
+    ControlLayer* controlLayer = ControlLayer::create();
+    //Joystick *joystick =  Joystick::create();
+    this->addChild(controlLayer, 2);
+    //this->setJoystick(joystick);
 
-		// Create a "close" menu item with close icon, it's an auto release object.
-		CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-                "CloseNormal.png",
-                "CloseSelected.png",
-                this,
-                menu_selector(GameplayScene::menuCloseCallback)
-        );
-		CC_BREAK_IF(! pCloseItem);
-        
-        CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-        CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-        
-		pCloseItem->setPosition(
-                ccp(
-                    origin.x + visibleSize.width - pCloseItem->getContentSize().width/2,
-                    origin.y + pCloseItem->getContentSize().height/2
-                )
-        );
+    // Create a "close" menu item with close icon, it's an auto release object.
+    CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
+            "CloseNormal.png",
+            "CloseSelected.png",
+            this,
+            menu_selector(GameplayScene::menuCloseCallback)
+    );
+    if (!pCloseItem)
+        return false;
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    pCloseItem->setPosition(
+            ccp(
+                origin.x + visibleSize.width - pCloseItem->getContentSize().width/2,
+                origin.y + pCloseItem->getContentSize().height/2
+            )
+    );
 
-		// Create a menu with the "close" menu item, it's an auto release object.
-		CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
-		pMenu->setPosition(CCPointZero);
-		CC_BREAK_IF(! pMenu);
+    // Create a menu with the "close" menu item, it's an auto release object.
+    CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
+    pMenu->setPosition(CCPointZero);
+    if (!pMenu)
+        return false;
 
-		// Add the menu to GameplayScene layer as a child layer.
-		this->addChild(pMenu, 1);
+    // Add the menu to GameplayScene layer as a child layer.
+    this->addChild(pMenu, 1);
 
-        CCTMXLayer* layer = _world->layerNamed("trees");
-        _player = layer->tileAt(ccp(0, 5));
-        _player->retain();
-        //_player->setPosition(CC_POINT_PIXELS_TO_POINTS(ccp(mapWidth/2,0)));
-        _player->setAnchorPoint(ccp(0.5f, 0.3f));
+    //CCTMXLayer* layer = _world->layerNamed("trees");
+    //_player = (GameSprite *) layer->tileAt(ccp(0, 5));
+    //_player = GameSprite::gameSpriteWithFile("tiles/timmy.png");
+    _player = Human::create();
+    this->addChild(_player, 0);
+    //_player->setSpeed(1);
+    _player->retain();
+    //_player->setPosition(CC_POINT_PIXELS_TO_POINTS(ccp(mapWidth/2,0)));
+    //_player->setAnchorPoint(ccp(0.5f, 0.3f));
+    controlLayer->setControlledSprite((GameSprite *)_player);
+    controlLayer->enableJoystick();
+    controlLayer->enableKeyboard();
 
-        CCPoint playerPos = _player->getPosition();
+    //CCPoint playerPos = _player->getPosition();
 
-        _world->setPosition( ccp(s.width/2 - playerPos.x, s.height/2 - playerPos.y) );
+    _world->setPosition( ccp(0, 0) );
 
-        CCLog(
-                "++++++++Player width:%f, height:%f",
-                _player->getContentSize().width,
-                _player->getContentSize().height
-        );
-        CCLog(
-                "++++++++Player x:%f, y:%f",
-                _player->getPosition().x,
-                _player->getPosition().y
-        );
-        
-		_player->setPosition(
-                ccp(
-                    origin.x + _player->getContentSize().width/2,
-                    origin.y + visibleSize.height/2
-                )
-        );
-		//this->addChild(_player);
+    CCLog(
+            "++++++++Player width:%f, height:%f",
+            _player->getContentSize().width,
+            _player->getContentSize().height
+    );
+    CCLog(
+            "++++++++Player x:%f, y:%f",
+            _player->getPosition().x,
+            _player->getPosition().y
+    );
+    
+    _player->setPosition(
+            ccp(
+                origin.x + _player->getContentSize().width/2,
+                origin.y + visibleSize.height/2
+            )
+    );
+    //this->addChild(_player);
 
-		//this->schedule( schedule_selector(GameplayScene::gameLogic), 1.0 );
+    //this->schedule( schedule_selector(GameplayScene::gameLogic), 1.0 );
 
-		this->setTouchEnabled(true);
+    this->setTouchEnabled(true);
+    //this->setKeyboardEnabled(true);
 
-		_targets = new CCArray;
-		_projectiles = new CCArray;
+    _targets = new CCArray;
+    _projectiles = new CCArray;
 
-		// use updateGame instead of update, otherwise it will conflit with SelectorProtocol::update
-		// see http://www.cocos2d-x.org/boards/6/topics/1478
-		this->schedule( schedule_selector(GameplayScene::repositionSprite) );
-		this->schedule( schedule_selector(GameplayScene::updateGame) );
+    // use updateGame instead of update, otherwise it will conflit with SelectorProtocol::update
+    // see http://www.cocos2d-x.org/boards/6/topics/1478
+    this->schedule( schedule_selector(GameplayScene::repositionSprite) );
+    this->schedule( schedule_selector(GameplayScene::updateGame) );
 
-		//CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background-music-aac.wav", true);
+    //CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background-music-aac.wav", true);
 
-		bRet = true;
-	} while (0);
-
-	return bRet;
+	return true;
 }
 
 void GameplayScene::repositionSprite(float dt)
 {
     CCPoint p = _player->getPosition();
     //p = CC_POINT_POINTS_TO_PIXELS(p);
-    int z = -( (p.y+40.5) /81 ) + 0;
+    int z = -( (p.y+100.5) /81 ) + 0;
     _player->setVertexZ( z );
 }
 
@@ -258,10 +268,12 @@ void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
     int coordY = ((int) (playerPos.y - _player->getContentSize().height/2 + 50.5f)/101);
     coordX = (int) (playerPos.x - _player->getContentSize().width/2 + 40.5f + 10.0f)/101;
     coordY = (int) (playerPos.y - _player->getContentSize().height/2 + 50.5f - 19.0f)/81;
+    coordX = (int) (playerPos.x - _player->getContentSize().width/2 + 35.5f)/101;
+    coordY = (int) (playerPos.y - _player->getContentSize().height/2 + 55.5f - 81)/81;
 
-	//CCLog("++++++++coords  x:%d, y:%d", coordX, coordY);
+	CCLog("++++++++coords  x:%d, y:%d", coordX, coordY);
 
-	//CCLog("++++++++ppos    x:%f, y:%f", playerPos.x, playerPos.y);
+    //CCLog("++++++++ppos    x:%f, y:%f", playerPos.x, playerPos.y);
 	//CCLog("++++++++wpos    x:%f, y:%f", worldPos.x, worldPos.y);
 	//CCLog("++++++++origin  x:%f, y:%f", origin.x, origin.y);
 
@@ -334,69 +346,23 @@ void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
     //CCParticleSmoke *emitter = CCParticleSmoke::create();
     
     // one for each direction
-    for (int i = 0; i < 4; i++)
-    {
-        CCParticleFire *emitter = CCParticleFire::create();
-        emitter->retain();
-        this->addChild(emitter, 10);
-        emitter->setTexture(CCTextureCache::sharedTextureCache()->addImage("particles/fire.png"));
-        emitter->initWithTotalParticles(500);
-        emitter->setStartSize(100.0f);
-        emitter->setLife(2);
-        emitter->setLifeVar(1);
-        //emitter->setSpeed(60);
-        //emitter->setSpeedVar(20);
-        emitter->setDuration(0.5);
-        emitter->setPosition(origin);
-        CCActionInterval* move;
-
-        if (i == 0)
-        {
-            emitter->setAngle(0);
-            move = CCMoveBy::create(2, ccp(500, 0));
-        }
-        else if (i == 1)
-        {
-            emitter->setAngle(90);
-            move = CCMoveBy::create(2, ccp(0, 500));
-        }
-        else if (i == 2)
-        {
-            emitter->setAngle(180);
-            move = CCMoveBy::create(2, ccp(-500, 0));
-        }
-        else if (i == 3)
-        {
-            emitter->setAngle(-90);
-            move = CCMoveBy::create(2, ccp(0, -500));
-        }
-        emitter->setAngleVar(0);
-        emitter->setAutoRemoveOnFinish(true);
-        //CCActionInterval* move_back = CCHide::create();
-        CCSequence* seq = CCSequence::create(move, NULL);
-        emitter->runAction(CCSpeed::create(seq, 5));
-    }
+    Explosion *explosion = new Explosion(origin, 3);
+    explosion->autorelease();
+    this->addChild(explosion, 0);
 }
 
 void GameplayScene::updateGame(float dt)
 {
-    std::cout << "player vertex" << _player->getVertexZ() << std::endl;
 	CCArray *projectilesToDelete = new CCArray;
     CCObject* it = NULL;
     CCObject* jt = NULL;
     CCObject* co = NULL;
 
-    CCPoint pos = _player->getPosition();
-    _player->setPosition(
-            ccp(
-                pos.x + _joystick->getVelocity().x*_sensitivity,
-                pos.y + _joystick->getVelocity().y*_sensitivity
-            )
-    );
+    CCPoint nextPos = _player->getNextPosition();
 
     CCRect playerRect = CCRectMake(
-            _player->getPosition().x - (_player->getContentSize().width/4),
-            _player->getPosition().y - (_player->getContentSize().height/4),
+            nextPos.x - (_player->getContentSize().width/4),
+            nextPos.y - (_player->getContentSize().height/4),
             _player->getContentSize().width/2,
             _player->getContentSize().height/2
     );
@@ -432,7 +398,7 @@ void GameplayScene::updateGame(float dt)
         if (playerRect.intersectsRect(objRect))
         {
             std::cout << "collision" << std::endl;
-            _player->setPosition(pos);
+            //_player->setPosition(pos);
 
             CCLog(
                     "++++++++Player width:%f, height:%f",
@@ -463,33 +429,39 @@ void GameplayScene::updateGame(float dt)
 
     }
 
-
     if (!collisionOccured)
+    {
+        _player->setPosition(nextPos);
+    }
+
+    if (false && !collisionOccured)
     {
         CCPoint mapPos = _world->getPosition();
         _world->setPosition(
-                ccp(
-                    mapPos.x - _joystick->getVelocity().x*_sensitivity,
-                    mapPos.y - _joystick->getVelocity().y*_sensitivity
-                )
+                ccpAdd(mapPos, _player->getNextPositionDelta())
         );
     }
     //tree = layer->tileAt(ccp(1, 6));
     //std::cout << "tree vz: " << tree->getVertexZ() << std::endl;
 
+    CCPoint playerPos = _player->getPosition();
+    int coordX = ((int) (playerPos.x - _player->getContentSize().width/2 + 40.5f)/81);
+    int coordY = ((int) (playerPos.y - _player->getContentSize().height/2 + 50.5f)/101);
+    coordX = (int) (playerPos.x - _player->getContentSize().width/2 + 35.5f)/101;
+    coordY = (int) (playerPos.y - _player->getContentSize().height/2 + 55.5f)/81;
 
-    //CCLog("player pos   : x:%f, y:%f", playerPos.x, playerPos.y);
-    //CCLog(
-    //        "player pos2  : x:%f, y:%f",
-    //        playerPos.x - _player->getContentSize().width/2,
-    //        playerPos.y - _player->getContentSize().height/2
-    //);
+    CCLog("player pos   : x:%f, y:%f", playerPos.x, playerPos.y);
+    CCLog(
+            "player pos2  : x:%f, y:%f",
+            playerPos.x - _player->getContentSize().width/2,
+            playerPos.y - _player->getContentSize().height/2
+    );
     //CCLog(
     //        "player pos3  : x:%d, y:%d",
     //        (int) (playerPos.x - _player->getContentSize().width/2 + 40.5f + 10.0f)/101,
     //        (int) (playerPos.y - _player->getContentSize().height/2 + 50.5f - 19.0f)/81
     //);
-    //CCLog("player coords: x:%d, y:%d", coordX, coordY);
+    CCLog("player coords: x:%d, y:%d", coordX, coordY);
 
 	// for (it = _projectiles->begin(); it != _projectiles->end(); it++)
     CCARRAY_FOREACH(_projectiles, it)
@@ -553,7 +525,6 @@ void GameplayScene::updateGame(float dt)
 		this->removeChild(projectile, true);
 	}
 	projectilesToDelete->release();
-    std::cout << "player vertex" << _player->getVertexZ() << std::endl;
 }
 
 void GameplayScene::registerWithTouchDispatcher()

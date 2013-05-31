@@ -4,9 +4,11 @@
 #include "cocos2d.h"
 
 #include "SimpleAudioEngine.h"
-#include "Joystick.h"
+#include "Input/Joystick.h"
+#include "Gameplay/Sprites/GameSprite.h"
+#include "Gameplay/Sprites/Human.h"
 
-class GameplayScene : public cocos2d::CCLayer
+class GameplayScene : public CCLayer
 {
 public:
 	GameplayScene();
@@ -37,15 +39,16 @@ public:
 	//void ccTouchesMoved(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
 
     void setJoystick(Joystick *joystick);
-    
-    
+
 protected:
 	cocos2d::CCArray *_targets;
 	cocos2d::CCArray *_projectiles;
 	int _projectilesDestroyed;
+    CCKeyboardDispatcher* _keyboard;
     Joystick *_joystick;
     CCTMXTiledMap *_world;
-    CCSprite *_player;
+    //CCSprite *_player;
+    Human *_player;
     int _sensitivity;
 
 	void addTarget();

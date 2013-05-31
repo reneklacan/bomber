@@ -6,13 +6,19 @@ SOURCES = Main.cpp \
         ../Classes/AppDelegate.cpp \
         ../Classes/GameplayScene.cpp \
         ../Classes/GameOverScene.cpp \
-        ../Classes/Joystick.cpp
+        ../Classes/Input/Joystick.cpp \
+        ../Classes/Input/Keyboard.cpp \
+        ../Classes/Input/ControlLayer.cpp \
+        ../Classes/Gameplay/Map/Explosion.cpp \
+        ../Classes/Gameplay/Sprites/GameSprite.cpp \
+        ../Classes/Gameplay/Sprites/Human.cpp \
 
 COCOS_ROOT = ../../lib/cocos2d-2.1rc0-x-2.1.3
+COCOS_ROOT = ../../lib/cocos2d-x
 include $(COCOS_ROOT)/cocos2dx/proj.linux/cocos2dx.mk
 
 SHAREDLIBS += -lcocos2d -lcocosdenshion
-CXXFLAGS += -g
+CXXFLAGS += -g -lglut
 COCOS_LIBS = $(LIB_DIR)/libcocos2d.so $(LIB_DIR)/libcocosdenshion.so
 INCLUDES += -I$(COCOS_ROOT)/CocosDenshion/include
 
