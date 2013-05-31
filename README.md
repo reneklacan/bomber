@@ -4,12 +4,12 @@ Bomber
 Projekt teraz obsahuje jednoduchu hru a jednoduchy editor vyprototypovany v pythone
 
 
-Pre skompilovanie je nutne najprv stiahnut zdrojaky cocos2d
+Pre skompilovanie je nutne najprv stiahnut zdrojaky cocos2d (musel som forknut zdrojaky, aby som pridal podporu na hw klavesnicu)
 
     cd client/lib
     ./download.sh
     # tu je mozno nutne poupravit/patchnut zdrojaky, popripade doinstalovat zavislosti
-    cd cocos2d-2.1rc0-x-2.1.3
+    cd cocos2d-x
     ./make-all-linux-project.sh 
 
 Nasledne, ak sa vsetko podari bez chyby
