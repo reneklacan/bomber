@@ -1,9 +1,8 @@
 #/bin/bash
 
-if [ ! -d cocos2d-2.1rc0-x-2.1.3 ] ; then
+if [ ! -d "cocos2d-x" ] ; then
     echo "Downloading cocos2d sources..."
-    wget http://cocos2d-x.googlecode.com/files/cocos2d-2.1rc0-x-2.1.3.zip
-    unzip cocos2d-2.1rc0-x-2.1.3.zip
+    git clone https://github.com/simpliplant/cocos2d-x.git
 else
     echo "Ok ;)"
 fi
