@@ -444,24 +444,24 @@ void GameplayScene::updateGame(float dt)
     //tree = layer->tileAt(ccp(1, 6));
     //std::cout << "tree vz: " << tree->getVertexZ() << std::endl;
 
-    CCPoint playerPos = _player->getPosition();
-    int coordX = ((int) (playerPos.x - _player->getContentSize().width/2 + 40.5f)/81);
-    int coordY = ((int) (playerPos.y - _player->getContentSize().height/2 + 50.5f)/101);
-    coordX = (int) (playerPos.x - _player->getContentSize().width/2 + 35.5f)/101;
-    coordY = (int) (playerPos.y - _player->getContentSize().height/2 + 55.5f)/81;
+    //CCPoint playerPos = _player->getPosition();
+    //int coordX = ((int) (playerPos.x - _player->getContentSize().width/2 + 40.5f)/81);
+    //int coordY = ((int) (playerPos.y - _player->getContentSize().height/2 + 50.5f)/101);
+    //coordX = (int) (playerPos.x - _player->getContentSize().width/2 + 35.5f)/101;
+    //coordY = (int) (playerPos.y - _player->getContentSize().height/2 + 55.5f)/81;
 
-    CCLog("player pos   : x:%f, y:%f", playerPos.x, playerPos.y);
-    CCLog(
-            "player pos2  : x:%f, y:%f",
-            playerPos.x - _player->getContentSize().width/2,
-            playerPos.y - _player->getContentSize().height/2
-    );
+    //CCLog("player pos   : x:%f, y:%f", playerPos.x, playerPos.y);
+    //CCLog(
+    //        "player pos2  : x:%f, y:%f",
+    //        playerPos.x - _player->getContentSize().width/2,
+    //        playerPos.y - _player->getContentSize().height/2
+    //);
     //CCLog(
     //        "player pos3  : x:%d, y:%d",
     //        (int) (playerPos.x - _player->getContentSize().width/2 + 40.5f + 10.0f)/101,
     //        (int) (playerPos.y - _player->getContentSize().height/2 + 50.5f - 19.0f)/81
     //);
-    CCLog("player coords: x:%d, y:%d", coordX, coordY);
+    //CCLog("player coords: x:%d, y:%d", coordX, coordY);
 
 	// for (it = _projectiles->begin(); it != _projectiles->end(); it++)
     CCARRAY_FOREACH(_projectiles, it)
