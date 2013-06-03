@@ -16,6 +16,8 @@ class GameSprite : public CCSprite
         //~GameSprite();
         static GameSprite* gameSpriteWithFile(const char * pszFileName);
 
+        virtual void actionOne();
+
     private:
 };
 

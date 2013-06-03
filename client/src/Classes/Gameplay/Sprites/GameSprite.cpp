@@ -34,3 +34,8 @@ GameSprite* GameSprite::gameSpriteWithFile(const char * pszFileName)
     CC_SAFE_DELETE(sprite);
     return NULL;
 }
+
+void GameSprite::actionOne()
+{
+
+}

@@ -6,7 +6,7 @@
    <property name="cc_vertexz" value="-20"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA1NlwA900fiqSOK6SPLofErU48O6RKghVb0uGibFfHpjQSimlXpSMQDixnoEQAIAAA==
+   H4sIAAAAAAAAA1NlYGBQHcVDBgtCMa3Uk4oBuiLawkACAAA=
   </data>
  </layer>
  <layer name="players" width="12" height="12" visible="0">
@@ -20,13 +20,14 @@
    <property name="cc_vertexz" value="automatic"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAxNgIB+wU6B3oAATEEtCsSoUgwClfhFGYqtDMTOUzwKl2cgwl5C7hJDsoxZQR2PjMx8AXKLFx0ACAAA=
+   H4sIAAAAAAAAA+NlIB/wUqCXGCCCAxMDYG7Dpl4SirGZS6xd6HLCSGx1KGZGU4/NbC0kjM8fMABSJ4SkXhnJPmz2EDIfmx/V0djqaGLIAACFo9ogQAIAAA==
   </data>
  </layer>
  <objectgroup name="colliders" width="12" height="12">
   <object name="ca2" x="129" y="589" width="46" height="32"/>
   <object name="ca1" x="232" y="591" width="43" height="34"/>
   <object x="636" y="754" width="39" height="30"/>
-  <object x="131" y="428" width="148" height="9"/>
+  <object x="131" y="420" width="356" height="30"/>
+  <object x="320" y="259" width="164" height="27"/>
  </objectgroup>
 </map>

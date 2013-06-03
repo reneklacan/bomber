@@ -10,13 +10,13 @@ class ExplosionCache
     public:
         int _counter;
         int _cacheSize;
-        CCParticleFire *_emitters[4];
+        CCParticleSun *_emitters[4];
         static ExplosionCache *_instance;
 
         static ExplosionCache *getInstance();
 
         ExplosionCache();
-        CCParticleFire *getEmitter();
+        CCParticleSun *getEmitter();
 };
 
 

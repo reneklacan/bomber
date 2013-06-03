@@ -5,7 +5,7 @@ bool Keyboard::init()
     if (!CCLayer::init())
         return false;
 
-    setKeyboardEnabled(true);
+    this->setKeyboardEnabled(true);
     return true;
 }
 
@@ -31,6 +31,10 @@ void Keyboard::keyPressed(int keyCode)
         case KEY_A:
         case KEY_ArrowLeft:
             _leftArrowPressed = true;
+            break;
+
+        case KEY_Space:
+            _actionKeyOnePressed = true;
             break;
 
         default:
@@ -62,6 +66,10 @@ void Keyboard::keyReleased(int keyCode)
         case KEY_A:
         case KEY_ArrowLeft:
             _leftArrowPressed = false;
+            break;
+
+        case KEY_Space:
+            _actionKeyOnePressed = false;
             break;
 
         default:

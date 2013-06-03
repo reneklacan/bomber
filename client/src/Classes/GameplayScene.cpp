@@ -4,7 +4,7 @@
 #include "Input/Joystick.h"
 #include "Input/Keyboard.h"
 #include "Input/ControlLayer.h"
-#include "Gameplay/Map/Explosion.h"
+#include "Gameplay/Map/Bomb.h"
 
 using namespace cocos2d;
 
@@ -67,9 +67,11 @@ bool GameplayScene::init()
     _keyboard = CCDirector::sharedDirector()->getKeyboardDispatcher();
     //CCNode *root = new CCNode();
 
-    _world = CCTMXTiledMap::create("tiles/tilemap.tmx");
-    this->addChild(_world, 0, 7);
-    CCSize CC_UNUSED s = _world->getContentSize();
+    _tileMap = CCTMXTiledMap::create("tiles/tilemap.tmx");
+    _map = new Map();
+    this->addChild(_map);
+    _map->addChild(_tileMap, 0, 7);
+    CCSize CC_UNUSED s = _tileMap->getContentSize();
     CCLog("ContentSize: %f, %f", s.width,s.height);
 
     ControlLayer* controlLayer = ControlLayer::create();
@@ -106,22 +108,22 @@ bool GameplayScene::init()
     // Add the menu to GameplayScene layer as a child layer.
     this->addChild(pMenu, 1);
 
-    //CCTMXLayer* layer = _world->layerNamed("trees");
+    //CCTMXLayer* layer = _tileMap->layerNamed("trees");
     //_player = (GameSprite *) layer->tileAt(ccp(0, 5));
     //_player = GameSprite::gameSpriteWithFile("tiles/timmy.png");
-    _player = Human::create();
-    this->addChild(_player, 0);
+    _player = Human::create(_map);
+    _map->addChild(_player, 1);
     //_player->setSpeed(1);
     _player->retain();
     //_player->setPosition(CC_POINT_PIXELS_TO_POINTS(ccp(mapWidth/2,0)));
     //_player->setAnchorPoint(ccp(0.5f, 0.3f));
     controlLayer->setControlledSprite((GameSprite *)_player);
-    controlLayer->enableJoystick();
+    //controlLayer->enableJoystick();
     controlLayer->enableKeyboard();
 
     //CCPoint playerPos = _player->getPosition();
 
-    _world->setPosition( ccp(0, 0) );
+    _tileMap->setPosition( ccp(0, 0) );
 
     CCLog(
             "++++++++Player width:%f, height:%f",
@@ -174,76 +176,6 @@ void GameplayScene::menuCloseCallback(CCObject* pSender)
 	CCDirector::sharedDirector()->end();
 }
 
-// cpp with cocos2d-x
-void GameplayScene::addTarget()
-{
-	CCSprite *target = CCSprite::create("Target.png", CCRectMake(0,0,27,40) );
-    
-	// Determine where to spawn the target along the Y axis
-	CCSize winSize = CCDirector::sharedDirector()->getVisibleSize();
-	float minY = target->getContentSize().height/2;
-	float maxY = winSize.height -  target->getContentSize().height/2;
-	int rangeY = (int)(maxY - minY);
-	// srand( TimGetTicks() );
-	int actualY = ( rand() % rangeY ) + (int)minY;
-
-	// Create the target slightly off-screen along the right edge,
-	// and along a random position along the Y axis as calculated
-	target->setPosition( 
-            ccp(
-                winSize.width + (target->getContentSize().width/2), 
-                CCDirector::sharedDirector()->getVisibleOrigin().y + actualY
-            )
-    );
-	this->addChild(target);
-
-	// Determine speed of the target
-	int minDuration = (int)150.0;
-	int maxDuration = (int)170.0;
-	int rangeDuration = maxDuration - minDuration;
-	// srand( TimGetTicks() );
-	int actualDuration = ( rand() % rangeDuration ) + minDuration;
-
-	// Create the actions
-	CCFiniteTimeAction* actionMove = CCMoveTo::create(
-            (float)actualDuration,
-            ccp(0 - target->getContentSize().width/2, actualY)
-    );
-	CCFiniteTimeAction* actionMoveDone = CCCallFuncN::create(
-            this, 
-            callfuncN_selector(GameplayScene::spriteMoveFinished)
-    );
-	target->runAction( CCSequence::create(actionMove, actionMoveDone, NULL) );
-
-	// Add to targets array
-	target->setTag(1);
-	_targets->addObject(target);
-}
-
-void GameplayScene::spriteMoveFinished(CCNode* sender)
-{
-	CCSprite *sprite = (CCSprite *)sender;
-	this->removeChild(sprite, true);
-
-	if (sprite->getTag() == 1)  // target
-	{
-		_targets->removeObject(sprite);
-        
-		GameOverScene *gameOverScene = GameOverScene::create();
-		gameOverScene->getLayer()->getLabel()->setString("You Lose :[");
-		CCDirector::sharedDirector()->replaceScene(gameOverScene);
-
-	}
-	else if (sprite->getTag() == 2) // projectile
-	{
-		_projectiles->removeObject(sprite);
-	}
-}
-
-void GameplayScene::gameLogic(float dt)
-{
-	this->addTarget();
-}
 
 /*
 void GameplayScene::ccTouchesMoved(CCSet* touches, CCEvent* event)
@@ -260,95 +192,7 @@ void GameplayScene::ccTouchesMoved(CCSet* touches, CCEvent* event)
 // cpp with cocos2d-x
 void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
 {
-    CCPoint origin = ccpAdd(_player->getPosition(), _world->getPosition());
-
-    CCPoint playerPos = _player->getPosition();
-    //CCPoint worldPos = _world->getPosition();
-    int coordX = ((int) (playerPos.x - _player->getContentSize().width/2 + 40.5f)/81);
-    int coordY = ((int) (playerPos.y - _player->getContentSize().height/2 + 50.5f)/101);
-    coordX = (int) (playerPos.x - _player->getContentSize().width/2 + 40.5f + 10.0f)/101;
-    coordY = (int) (playerPos.y - _player->getContentSize().height/2 + 50.5f - 19.0f)/81;
-    coordX = (int) (playerPos.x - _player->getContentSize().width/2 + 35.5f)/101;
-    coordY = (int) (playerPos.y - _player->getContentSize().height/2 + 55.5f - 81)/81;
-
-	CCLog("++++++++coords  x:%d, y:%d", coordX, coordY);
-
-    //CCLog("++++++++ppos    x:%f, y:%f", playerPos.x, playerPos.y);
-	//CCLog("++++++++wpos    x:%f, y:%f", worldPos.x, worldPos.y);
-	//CCLog("++++++++origin  x:%f, y:%f", origin.x, origin.y);
-
-    origin = ccpAdd(ccp(coordX * 101 + 50.5f, coordY*81 + 2*40.5f), _world->getPosition());
-
-	//CCLog("++++++++corigin x:%f, y:%f", origin.x, origin.y);
-
-    /*
-	// Choose one of the touches to work with
-	CCTouch* touch = (CCTouch*)( touches->anyObject() );
-	CCPoint location = touch->getLocation();
-    
-	CCLog("++++++++after  x:%f, y:%f", location.x, location.y);
-
-	// Set up initial location of projectile
-	CCSize winSize = CCDirector::sharedDirector()->getVisibleSize();
-    //CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-	CCSprite *projectile = CCSprite::create("Projectile.png", CCRectMake(0, 0, 20, 20));
-	projectile->setPosition(origin);
-
-	// Determinie offset of location to projectile
-	float offX = location.x - projectile->getPosition().x;
-	float offY = location.y - projectile->getPosition().y;
-
-	// Ok to add now - we've double checked position
-	this->addChild(projectile);
-
-	// Determine where we wish to shoot the projectile to
-    float realX = origin.x;
-    float realY = origin.y;
-
-    while (realX > 0 && realX < winSize.width && realY > 0 && realY < winSize.height)
-    {
-        realX += offX;
-        realY += offY;
-    }
-
-    CCPoint realDest;
-
-    realDest = ccp(realX, realY);
-
-	// Determine the length of how far we're shooting
-	float offRealX = realX - projectile->getPosition().x;
-	float offRealY = realY - projectile->getPosition().y;
-	float length = sqrtf((offRealX * offRealX) + (offRealY*offRealY));
-	float velocity = 480/1; // 480pixels/1sec
-	float realMoveDuration = length/velocity;
-
-	// Move projectile to actual endpoint
-	projectile->runAction(
-            CCSequence::create(
-                CCMoveTo::create(realMoveDuration, realDest),
-                CCCallFuncN::create(
-                    this, 
-                    callfuncN_selector(GameplayScene::spriteMoveFinished)
-                ), 
-                NULL
-            )
-    );
-
-	// Add to projectiles array
-	projectile->setTag(2);
-	_projectiles->addObject(projectile);
-
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("pew-pew-lei.wav");
-    */
-
-    ////////////////////////////
-
-    //CCParticleSmoke *emitter = CCParticleSmoke::create();
-    
-    // one for each direction
-    Explosion *explosion = new Explosion(origin, 3);
-    explosion->autorelease();
-    this->addChild(explosion, 0);
+	//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("pew-pew-lei.wav");
 }
 
 void GameplayScene::updateGame(float dt)
@@ -367,7 +211,7 @@ void GameplayScene::updateGame(float dt)
             _player->getContentSize().height/2
     );
 
-    CCTMXObjectGroup *objectGroup = _world->objectGroupNamed("colliders");
+    CCTMXObjectGroup *objectGroup = _tileMap->objectGroupNamed("colliders");
     CCArray *objectList = objectGroup->getObjects();
 
     CCDictionary *dict;
@@ -434,11 +278,11 @@ void GameplayScene::updateGame(float dt)
         _player->setPosition(nextPos);
     }
 
-    if (false && !collisionOccured)
+    if (!collisionOccured)
     {
-        CCPoint mapPos = _world->getPosition();
-        _world->setPosition(
-                ccpAdd(mapPos, _player->getNextPositionDelta())
+        CCPoint mapPos = _map->getPosition();
+        _map->setPosition(
+                ccpAdd(mapPos, ccpNeg(_player->getNextPositionDelta()))
         );
     }
     //tree = layer->tileAt(ccp(1, 6));

@@ -33,6 +33,10 @@ void ControlLayer::update(float dt)
     if (_keyboardEnabled && !velocity.x && !velocity.y)
     {
         velocity = _keyboard->getVelocity();
+        if (_keyboard->isActionKeyOnePressed())
+        {
+            _controlledSprite->actionOne();
+        }
     }
 
     _controlledSprite->setNextPositionDelta(
@@ -64,26 +68,13 @@ void ControlLayer::enableKeyboard()
     _keyboardEnabled = true;
     _keyboard = Keyboard::create();
     this->addChild(_keyboard, 2);
-    this->setKeyboardEnabled(true);
+    //this->setKeyboardEnabled(true);
 }
 
 void ControlLayer::disableKeyboard()
 {
     _keyboardEnabled = false;
-    this->setKeyboardEnabled(false);
-}
-
-void ControlLayer::keyPressed(int keyCode)
-{
-    if (keyCode == KEY_Space)
-        std::cout << "TADA: tab pressed " << std::endl;
-    else
-        std::cout << "TADA: key pressed " << keyCode << std::endl;
-}
-
-void ControlLayer::keyReleased(int keyCode)
-{
-    std::cout << "TADA: key released " << keyCode << std::endl;
+    //this->setKeyboardEnabled(false);
 }
 
 void ControlLayer::enableAccelerometer()

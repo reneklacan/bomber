@@ -15,6 +15,8 @@ class Keyboard : public CCLayer, public ControllerBase
 
         virtual bool init();
 
+        bool isActionKeyOnePressed() { return _actionKeyOnePressed; };
+
         void keyPressed(int keyCode);
         void keyReleased(int keyCode);
     private:
@@ -24,6 +26,7 @@ class Keyboard : public CCLayer, public ControllerBase
         bool _upArrowPressed;
         bool _rightArrowPressed;
         bool _downArrowPressed;
+        bool _actionKeyOnePressed;
 };
 
 typedef enum 

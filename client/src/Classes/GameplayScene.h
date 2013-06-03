@@ -5,6 +5,7 @@
 
 #include "SimpleAudioEngine.h"
 #include "Input/Joystick.h"
+#include "Gameplay/Map/Map.h"
 #include "Gameplay/Sprites/GameSprite.h"
 #include "Gameplay/Sprites/Human.h"
 
@@ -46,7 +47,8 @@ protected:
 	int _projectilesDestroyed;
     CCKeyboardDispatcher* _keyboard;
     Joystick *_joystick;
-    CCTMXTiledMap *_world;
+    Map *_map;
+    CCTMXTiledMap *_tileMap;
     //CCSprite *_player;
     Human *_player;
     int _sensitivity;

@@ -29,9 +29,6 @@ class ControlLayer: public CCLayer
         // keyboard stuff
         void enableKeyboard();
         void disableKeyboard();
-
-        void keyPressed(int keyCode);
-        void keyReleased(int keyCode);
         // accelerometer stuff
         void enableAccelerometer();
         void disableAccelerometer();
