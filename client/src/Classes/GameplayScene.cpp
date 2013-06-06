@@ -1,6 +1,6 @@
 #include "GameplayScene.h"
 #include "GameOverScene.h"
-#include "SimpleAudioEngine.h"
+//#include "SimpleAudioEngine.h"
 #include "Input/Joystick.h"
 #include "Input/Keyboard.h"
 #include "Input/ControlLayer.h"
@@ -64,10 +64,9 @@ bool GameplayScene::init()
     if (!CCLayer::init())
         return false;
 
-    _keyboard = CCDirector::sharedDirector()->getKeyboardDispatcher();
-    //CCNode *root = new CCNode();
-
-    _tileMap = CCTMXTiledMap::create("tiles/tilemap.tmx");
+    printf("-----------\n");
+    _tileMap = CCTMXTiledMap::create("tiles/test.tmx");
+    printf("-----------\n");
     _map = new Map();
     this->addChild(_map);
     _map->addChild(_tileMap, 0, 7);
@@ -118,7 +117,7 @@ bool GameplayScene::init()
     //_player->setPosition(CC_POINT_PIXELS_TO_POINTS(ccp(mapWidth/2,0)));
     //_player->setAnchorPoint(ccp(0.5f, 0.3f));
     controlLayer->setControlledSprite((GameSprite *)_player);
-    //controlLayer->enableJoystick();
+    controlLayer->enableJoystick();
     controlLayer->enableKeyboard();
 
     //CCPoint playerPos = _player->getPosition();
@@ -138,8 +137,14 @@ bool GameplayScene::init()
     
     _player->setPosition(
             ccp(
-                origin.x + _player->getContentSize().width/2,
+                origin.x + _player->getContentSize().width/2 + 101,
                 origin.y + visibleSize.height/2
+            )
+    );
+    _map->setPosition(
+            ccp(
+                visibleSize.width/2 - _player->getPosition().x,
+                0
             )
     );
     //this->addChild(_player);

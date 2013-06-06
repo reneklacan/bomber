@@ -2,7 +2,7 @@
 #include "Joystick.h" 
 
 #define JOYSTICK_OFFSET_X 15.0f
-#define JOYSTICK_OFFSET_Y 15.0f
+#define JOYSTICK_OFFSET_Y 115.0f
 
 #define JOYSTICK_RADIUS 64.0f
 

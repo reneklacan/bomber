@@ -71,7 +71,7 @@ void Bomb::update(float dt)
 
 void Bomb::explode()
 {
-    return;
+    //return;
 
     Explosion *explosion = new Explosion(this->getPosition(), 3);
     explosion->autorelease();

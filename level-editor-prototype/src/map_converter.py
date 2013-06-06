@@ -1,56 +1,175 @@
 import os
 import sys
 import json
-import tmx.etree.ElementTree as etree
+from lxml import etree
 
-class MapLayout:
-    def __init__(self):
-        pass
+def json2tmx(category, item):
+    json2tmx_table = {
+            None: 0,
+            'SPACE': 37,
+            'MAZE': 20,
+            'BLOCK': 42,
+            'PORTAL': 15,
+            'COIN': 35,
+    }
+
+    if category == 'portal':
+        return json2tmx_table['PORTAL']
+    elif category == 'portal_exit':
+        return json2tmx_table['SPACE']
+
+    if item not in json2tmx_table:
+        #print '%s not in convert table' % item
+        return json2tmx_table['SPACE']
+    return json2tmx_table[item]
+
+class MapLayer:
+    def __init__(self, name):
+        self.name = name
+        self.layout = []
 
 class Map:
     def __init__(self):
         self.width = 0
         self.height = 0
-        self.layouts = None
+        self.layers = None
 
-    def _get_file_content(file_path):
+    def _get_file_content(self, file_path):
         with open(file_path, 'r') as f:
             return f.read()
 
-    def _save_file(file_path, content):
+    def _save_file(self, file_path, content):
         with open(file_path, 'w') as f:
             f.write(content)
 
-    def load_json_file(file_path):
-        self.load_json_string(self.get_file_content(file_path))
+    def load_json_file(self, file_path):
+        self.load_json_string(self._get_file_content(file_path))
 
-    def load_tmx_file(file_path):
-        self.load_tmx_string(self.get_file_content(file_path))
+    def load_tmx_file(self, file_path):
+        self.load_tmx_string(self._get_file_content(file_path))
 
-    def load_json_string(json_string):
+    def load_json_string(self, json_string):
         level = json.loads(json_string)
         
         self.width = level['grid_size'][0]
         self.height = level['grid_size'][1]
 
-    def load_tmx_string(xml_string):
+        self.layers = (
+                MapLayer('floor'),
+                MapLayer('obstacles'),
+                MapLayer('items'),
+                MapLayer('portals'),
+        )
+
+        for tile in level['layout']:
+            self.layers[0].layout.append(json2tmx('', 'SPACE'))
+            if tile[0][1] != 'SPACE':
+                self.layers[1].layout.append(json2tmx(*tile[0]))
+            else:
+                self.layers[1].layout.append(json2tmx('', None))
+            self.layers[2].layout.append(json2tmx(*tile[1]))
+            self.layers[3].layout.append(json2tmx(*tile[2]))
+
+
+    def load_tmx_string(self, xml_string):
         pass
 
-    def dump_tmx_string():
+    def dump_tmx_string(self):
+        map = etree.Element('map')
+        map.set('version', '1.0')
+        map.set('orientation', 'orthogonal')
+        map.set('width', '%d' % self.width)
+        map.set('height', '%d' % self.height)
+        map.set('tilewidth', '101')
+        map.set('tileheight', '81')
+
+        tileset = etree.Element('tileset')
+        tileset.set('firstgid', '1')
+        tileset.set('source', 'tileset.tsx')
+        map.append(tileset)
+
+        floor_properties = etree.Element('properties')
+        property1 = etree.Element('property')
+        property1.set('name', 'cc_vertexz')
+        property1.set('value', '-20')
+        floor_properties.append(property1)
+
+        for each in self.layers:
+            layer = etree.Element('layer')
+            layer.set('name', each.name)
+            layer.set('width', '%d' % self.width)
+            layer.set('height', '%d' % self.height)
+            data = etree.Element('data')
+            empty = True
+
+            if each.name == 'floor':
+                layer.append(floor_properties)
+            else:
+                other_properties = etree.Element('properties')
+                property1 = etree.Element('property')
+                property1.set('name', 'cc_vertexz')
+                property1.set('value', 'automatic')
+                other_properties.append(property1)
+                property2 = etree.Element('property')
+                property2.set('name', 'cc_alpha_func')
+                property2.set('value', '0.5')
+                other_properties.append(property2)
+
+                layer.append(other_properties)
+
+            for item in each.layout:
+                if item:
+                    empty = False
+                tile = etree.Element('tile')
+                tile.set('gid', '%d' % item)
+                data.append(tile)
+
+            if empty:
+                layer.set('visible', '0')
+            layer.append(data)
+            map.append(layer)
+
+        objectgroup = etree.Element('objectgroup')
+        objectgroup.set('name', 'colliders')
+        objectgroup.set('width', '%d' % self.width)
+        objectgroup.set('height', '%d' % self.height)
+
+        for i, item in enumerate(self.layers[1].layout):
+            x = i % self.width
+            y = i//self.width
+            if not item:
+                continue
+
+            obj = etree.Element('object')
+            obj.set('name', '')
+            obj.set('x', '%d' % (x*101))
+            obj.set('y', '%d' % (y*81))
+            obj.set('width', '101')
+            obj.set('height', '40')
+
+            objectgroup.append(obj)
+
+        map.append(objectgroup)
+
+        return etree.tostring(map, pretty_print=True)
+
+    def dump_json_string(self):
         pass
 
-    def dump_json_string():
-        pass
-
-    def dump_json_file(file_path):
+    def dump_json_file(self, file_path):
         self._save_file(self.dump_json_string())
 
-    def dump_tmx_file(file_path):
+    def dump_tmx_file(self, file_path):
         self._save_file(self.dump_tmx_string())
 
 def main():
     map = Map()
-    map.load_json_file('levels/test.json')
+    if len(sys.argv) == 1:
+        map.load_json_file('levels/test2.json')
+    else:
+        map.load_json_file(sys.argv[0])
+
+    print map.dump_tmx_string()
 
 if __name__ == '__main__':
     main()

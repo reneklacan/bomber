@@ -5,7 +5,7 @@ bool Keyboard::init()
     if (!CCLayer::init())
         return false;
 
-    this->setKeyboardEnabled(true);
+    //this->setKeyboardEnabled(true);
     return true;
 }
 

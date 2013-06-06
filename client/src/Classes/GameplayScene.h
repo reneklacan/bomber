@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-#include "SimpleAudioEngine.h"
+//#include "SimpleAudioEngine.h"
 #include "Input/Joystick.h"
 #include "Gameplay/Map/Map.h"
 #include "Gameplay/Sprites/GameSprite.h"
@@ -45,7 +45,6 @@ protected:
 	cocos2d::CCArray *_targets;
 	cocos2d::CCArray *_projectiles;
 	int _projectilesDestroyed;
-    CCKeyboardDispatcher* _keyboard;
     Joystick *_joystick;
     Map *_map;
     CCTMXTiledMap *_tileMap;
