@@ -180,9 +180,11 @@ class Tile(RelativeLayout):
         if category in ('super'):
             if item == SPACE:
                 item = SPACE
-                category = 'map'
+                category = 'floor'
             else:
                 print 'Unknown super item: %s' % item
+            self.primary_item = None
+            self.primary_category = None
             self.secondary_item = None
             self.secondary_category = None
             self.tertiary_item = None

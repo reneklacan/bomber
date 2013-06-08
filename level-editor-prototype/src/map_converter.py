@@ -10,6 +10,7 @@ def json2tmx(category, item):
             'MAZE': 20,
             'BLOCK': 42,
             'PORTAL': 15,
+            'DEATH_FLAME': 13,
             'COIN': 35,
     }
 
@@ -19,7 +20,7 @@ def json2tmx(category, item):
         return json2tmx_table['SPACE']
 
     if item not in json2tmx_table:
-        #print '%s not in convert table' % item
+        print >> sys.stderr, '%s not in convert table' % item
         return json2tmx_table['SPACE']
     return json2tmx_table[item]
 
@@ -61,15 +62,28 @@ class Map:
                 MapLayer('portals'),
         )
 
-        for tile in level['layout']:
-            self.layers[0].layout.append(json2tmx('', 'SPACE'))
-            if tile[0][1] != 'SPACE':
-                self.layers[1].layout.append(json2tmx(*tile[0]))
-            else:
-                self.layers[1].layout.append(json2tmx('', None))
-            self.layers[2].layout.append(json2tmx(*tile[1]))
-            self.layers[3].layout.append(json2tmx(*tile[2]))
+        self.portals_location = {}
+        self.portal_exits_location = {}
+        self.portals_conf = level['portals_conf']
 
+        for i, tile in enumerate(level['layout']):
+            self.layers[0].layout.append(json2tmx(*tile[0]))
+            self.layers[1].layout.append(json2tmx(*tile[1]))
+            self.layers[2].layout.append(json2tmx(*tile[2]))
+            self.layers[3].layout.append(json2tmx(*tile[3]))
+            
+            if tile[3][0] == 'portal':
+                pass
+                print >> sys.stderr, tile[3]
+                self.portals_location[tile[3][1]] = {'x': i%self.width, 'y':i//self.width}
+            elif tile[3][0] == 'portal_exit':
+                pass
+                print >> sys.stderr, tile[3]
+                self.portal_exits_location[tile[3][1]] = {'x': i%self.width, 'y':i//self.width}
+
+        print >> sys.stderr, self.portals_conf
+        print >> sys.stderr, self.portals_location
+        print >> sys.stderr, self.portal_exits_location
 
     def load_tmx_string(self, xml_string):
         pass
@@ -151,6 +165,11 @@ class Map:
 
         map.append(objectgroup)
 
+        for i, item in enumerate(self.layers[3].layout):
+            continue
+            print >> sys.stderr, item
+
+
         return etree.tostring(map, pretty_print=True)
 
     def dump_json_string(self):
@@ -165,7 +184,7 @@ class Map:
 def main():
     map = Map()
     if len(sys.argv) == 1:
-        map.load_json_file('levels/test2.json')
+        map.load_json_file('levels/kocky.json')
     else:
         map.load_json_file(sys.argv[0])
 
