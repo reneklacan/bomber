@@ -140,7 +140,7 @@ class Wizard(FloatLayout):
         ]
 
         level_name = level['name'].lower().replace(' ', '_')
-        with open('levels/' + level_name + '-new.json', 'w') as f:
+        with open('levels/' + level_name + '.json', 'w') as f:
             f.write(json.dumps(level, indent=4))
 
 class Tile(RelativeLayout):

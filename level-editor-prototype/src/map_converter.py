@@ -17,7 +17,7 @@ def json2tmx(category, item):
     if category == 'portal':
         return json2tmx_table['PORTAL']
     elif category == 'portal_exit':
-        return json2tmx_table['SPACE']
+        return json2tmx_table[None]
 
     if item not in json2tmx_table:
         print >> sys.stderr, '%s not in convert table' % item
@@ -73,17 +73,9 @@ class Map:
             self.layers[3].layout.append(json2tmx(*tile[3]))
             
             if tile[3][0] == 'portal':
-                pass
-                print >> sys.stderr, tile[3]
                 self.portals_location[tile[3][1]] = {'x': i%self.width, 'y':i//self.width}
             elif tile[3][0] == 'portal_exit':
-                pass
-                print >> sys.stderr, tile[3]
                 self.portal_exits_location[tile[3][1]] = {'x': i%self.width, 'y':i//self.width}
-
-        print >> sys.stderr, self.portals_conf
-        print >> sys.stderr, self.portals_location
-        print >> sys.stderr, self.portal_exits_location
 
     def load_tmx_string(self, xml_string):
         pass
@@ -105,7 +97,7 @@ class Map:
         floor_properties = etree.Element('properties')
         property1 = etree.Element('property')
         property1.set('name', 'cc_vertexz')
-        property1.set('value', '-20')
+        property1.set('value', '-40')
         floor_properties.append(property1)
 
         for each in self.layers:
@@ -143,10 +135,10 @@ class Map:
             layer.append(data)
             map.append(layer)
 
-        objectgroup = etree.Element('objectgroup')
-        objectgroup.set('name', 'colliders')
-        objectgroup.set('width', '%d' % self.width)
-        objectgroup.set('height', '%d' % self.height)
+        colliders = etree.Element('objectgroup')
+        colliders.set('name', 'colliders')
+        colliders.set('width', '%d' % self.width)
+        colliders.set('height', '%d' % self.height)
 
         for i, item in enumerate(self.layers[1].layout):
             x = i % self.width
@@ -161,14 +153,77 @@ class Map:
             obj.set('width', '101')
             obj.set('height', '40')
 
-            objectgroup.append(obj)
+            colliders.append(obj)
 
-        map.append(objectgroup)
+        map.append(colliders)
 
-        for i, item in enumerate(self.layers[3].layout):
-            continue
-            print >> sys.stderr, item
+        portals = etree.Element('objectgroup')
+        portals.set('name', 'portals')
+        portals.set('width', '%d' % self.width)
+        portals.set('height', '%d' % self.height)
+        
+        for portal, location in self.portals_location.items():
+            portal_conf = self.portals_conf[portal]
 
+            x = location['x']
+            y = location['y']
+
+            obj = etree.Element('object')
+            obj.set('name', '%d' % portal_conf['left'])
+            obj.set('x', '%d' % (x*101))
+            obj.set('y', '%d' % (y*81 + (81/2 - 30/2)))
+            obj.set('width', '30')
+            obj.set('height', '30')
+
+            portals.append(obj)
+
+            obj = etree.Element('object')
+            obj.set('name', '%d' % portal_conf['right'])
+            obj.set('x', '%d' % (x*101 + 101 - 30))
+            obj.set('y', '%d' % (y*81 + (81/2 - 30/2)))
+            obj.set('width', '30')
+            obj.set('height', '30')
+
+            portals.append(obj)
+
+            obj = etree.Element('object')
+            obj.set('name', '%d' % portal_conf['top'])
+            obj.set('x', '%d' % (x*101 + (101/2 - 30/2)))
+            obj.set('y', '%d' % (y*81))
+            obj.set('width', '30')
+            obj.set('height', '30')
+
+            portals.append(obj)
+
+            obj = etree.Element('object')
+            obj.set('name', '%d' % portal_conf['bottom'])
+            obj.set('x', '%d' % (x*101 + (101/2 - 30/2)))
+            obj.set('y', '%d' % (y*81 + 81 - 30))
+            obj.set('width', '30')
+            obj.set('height', '30')
+
+            portals.append(obj)
+
+        map.append(portals)
+
+        portal_exits = etree.Element('objectgroup')
+        portal_exits.set('name', 'portal_exits')
+        portal_exits.set('width', '%d' % self.width)
+        portal_exits.set('height', '%d' % self.height)
+
+        for exit, location in self.portal_exits_location.items():
+            x = location['x']
+            y = location['y']
+
+            obj = etree.Element('object')
+            obj.set('name', '%d' % exit)
+            obj.set('x', '%d' % (x*101 + (101/2 - 30/2)))
+            obj.set('y', '%d' % (y*81 + (81/2 - 30/2)))
+            obj.set('width', '30')
+            obj.set('height', '30')
+            portal_exits.append(obj)
+
+        map.append(portal_exits)
 
         return etree.tostring(map, pretty_print=True)
 
