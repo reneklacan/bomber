@@ -64,7 +64,7 @@ bool GameplayScene::init()
     if (!CCLayer::init())
         return false;
 
-    _tileMap = CCTMXTiledMap::create("tiles/test.tmx");
+    _tileMap = CCTMXTiledMap::create("tiles/kocky.tmx");
     _map = new Map();
     this->addChild(_map);
     _map->addChild(_tileMap, 0, 7);
@@ -274,6 +274,80 @@ void GameplayScene::updateGame(float dt)
         CCPoint mapPos = _map->getPosition();
         _map->setPosition(
                 ccpAdd(mapPos, ccpNeg(_player->getNextPositionDelta()))
+        );
+    }
+
+    collisionOccured = false;
+
+    objectGroup = _tileMap->objectGroupNamed("portals");
+    objectList = objectGroup->getObjects();
+
+    CCString *name;
+
+    int portalExit = 0;
+
+    CCARRAY_FOREACH(objectList, co)
+    {
+        dict = (CCDictionary*) co;
+
+        if (!dict)
+            break;
+
+        name = ((CCString*)dict->objectForKey("name"));
+        x = ((CCString*)dict->objectForKey("x"))->intValue();
+        y = ((CCString*)dict->objectForKey("y"))->intValue();
+        width = ((CCString*)dict->objectForKey("width"))->intValue();
+        height = ((CCString*)dict->objectForKey("height"))->intValue();         
+
+        //printf( "x %i, y %i, width %i, height %i\n", x, y, width, height );
+
+        objRect = CCRectMake(
+                x, y, width, height
+        );
+        //printf("obj rect height is %g\n", objRect.size.height);
+
+        if (playerRect.intersectsRect(objRect))
+        {
+            //_player->setPosition(pos);
+            portalExit = name->intValue();
+            break;
+        }
+
+    }
+
+    if (portalExit)
+    {
+        objectGroup = _tileMap->objectGroupNamed("portal_exits");
+        objectList = objectGroup->getObjects();
+
+        CCARRAY_FOREACH(objectList, co)
+        {
+            dict = (CCDictionary*) co;
+
+            if (!dict)
+                break;
+
+            name = ((CCString*)dict->objectForKey("name"));
+            x = ((CCString*)dict->objectForKey("x"))->intValue();
+            y = ((CCString*)dict->objectForKey("y"))->intValue();
+            width = ((CCString*)dict->objectForKey("width"))->intValue();
+            height = ((CCString*)dict->objectForKey("height"))->intValue();         
+
+            if (portalExit == name->intValue())
+                break;
+        }
+
+        x += 15;
+        y += 40;
+
+        std::cout << "teleport!!!! " << portalExit << std::endl;
+
+        CCPoint delta = ccpSub(_player->getPosition(), ccp(x, y));
+        _player->setPosition(ccp(x, y));
+
+        CCPoint mapPos = _map->getPosition();
+        _map->setPosition(
+                ccpAdd(mapPos, delta)
         );
     }
 }
