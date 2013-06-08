@@ -25,6 +25,9 @@ class FilePathsMap:
         self.portal = res_dir + 'resources/images/map/portal%s.png'
         self.portal_exit = res_dir + 'resources/images/map/portal_gate%d.png'
 
+        self.portal_level_end = res_dir + 'resources/images/map/portal_level_end.png'
+        self.death_flame = res_dir + 'resources/images/map/death_flame.png'
+
 class FilePathsItems:
     def __init__(self):
         self.coin = res_dir + 'resources/images/map/coin.png'
@@ -101,6 +104,11 @@ class Textures:
         self.red_fluffy = Image(file_paths.monsters.red_fluffy).texture
         self.black_fluffy = Image(file_paths.monsters.black_fluffy).texture
         self.blue_fluffy = Image(file_paths.monsters.blue_fluffy).texture
+
+        self.portal_level_end = Image(file_paths.map.portal_level_end).texture
+        self.death_flame = Image(file_paths.map.death_flame).texture
+
+        self.death_flame
 
         self.portals = {}
         for i in range(0,9):

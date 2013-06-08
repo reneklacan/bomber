@@ -119,9 +119,10 @@ class Wizard(FloatLayout):
         level['layout'] = []
         for tile in self.grid.tiles:
             item = (
-                    (tile.primary_category,      tile.primary_item),
-                    (tile.secondary_category,    convert2str(tile.secondary_item)),
-                    (tile.tertiary_category,     tile.tertiary_item),
+                    (tile.zero_category,        tile.zero_item),
+                    (tile.primary_category,     tile.primary_item),
+                    (tile.secondary_category,   convert2str(tile.secondary_item)),
+                    (tile.tertiary_category,    tile.tertiary_item),
             )
             level['layout'].append(item)
 
@@ -139,18 +140,20 @@ class Wizard(FloatLayout):
         ]
 
         level_name = level['name'].lower().replace(' ', '_')
-        with open('levels/' + level_name + '.json', 'w') as f:
+        with open('levels/' + level_name + '-new.json', 'w') as f:
             f.write(json.dumps(level, indent=4))
 
 class Tile(RelativeLayout):
     def __init__(self, **kwargs):
         RelativeLayout.__init__(self, **kwargs)
 
-        self.primary_item = SPACE
+        self.zero_item = SPACE
+        self.primary_item = None
         self.secondary_item = None
         self.tertiary_item = None
 
-        self.primary_category = 'map'
+        self.zero_category = 'floor'
+        self.primary_category = None
         self.secondary_category = None
         self.tertiary_category = None
 
@@ -197,6 +200,8 @@ class Tile(RelativeLayout):
             if item == CLEAR:
                 self.secondary_item = None
                 self.secondary_category = None
+        elif category in ('floor'):
+            pass
         else:
             self.primary_item = item
             self.primary_category = category
@@ -213,12 +218,18 @@ class Tile(RelativeLayout):
     def update(self):
         self.to_space()
 
+        if self.zero_category is not None:
+            if self.primary_category == 'floor':
+                if self.primary_item == SPACE:
+                    texture = textures.space
+        else:
+            self.canvas.clear()
+            return
+
         if self.primary_category is not None:
             if self.primary_category == 'map':
                 if self.primary_item == SPAWNPOINT:
                     texture = textures.player_up
-                elif self.primary_item == SPACE:
-                    texture = textures.space
                 elif self.primary_item == BLOCK:
                     texture = textures.block
                 elif self.primary_item == MAZE:
@@ -237,9 +248,6 @@ class Tile(RelativeLayout):
                     size=self.size,
             )
             self.canvas.add(self.rectangle)
-        else:
-            self.canvas.clear()
-            return
 
         if self.secondary_item is not None:
             if self.secondary_category == 'item':
@@ -247,6 +255,10 @@ class Tile(RelativeLayout):
                     texture = textures.coin
                 elif self.secondary_item == POWERUP_FLAME_UP:
                     texture = textures.powerup_flame_up
+                elif self.secondary_item == DEATH_FLAME:
+                    texture = textures.death_flame
+                elif self.secondary_item == PORTAL_LEVEL_END:
+                    texture = textures.portal_level_end
                 else:
                     print 'Unknown secondary item: %s' % self.secondary_item
             elif self.secondary_category == 'monsters':
@@ -282,9 +294,10 @@ class Tile(RelativeLayout):
 
     def load(self, level, index):
         item = level['layout'][index]
-        self.primary_category, self.primary_item = item[0]
-        self.secondary_category, self.secondary_item = item[1]
-        self.tertiary_category, self.tertiary_item = item[2]
+        self.zero_category, self.zero_item = item[0]
+        self.primary_category, self.primary_item = item[1]
+        self.secondary_category, self.secondary_item = item[2]
+        self.tertiary_category, self.tertiary_item = item[3]
         if self.secondary_category == 'monsters':
             self.secondary_item = eval('monsters.' + level['monster_dict'][self.secondary_item])()
         self.update()
@@ -338,26 +351,13 @@ class GridSetup(BoxLayout):
 
         self.sidebar = BoxLayout(
                 orientation='vertical',
-                size_hint=(1, 1.5),
+                size_hint=(1, 2.5),
         )
         self.sidescroll = ScrollView(size_hint=(0.2, 1))
         self.sidescroll.do_scroll_x = False
         self.sidescroll.add_widget(self.sidebar)
 
-        self.sidebar.add_widget(Label(text='[b]Primary category[/b]', markup = True))
-        self.sidebar.add_widget(
-                Button(
-                    text='Clear',
-                    on_release=lambda btn: self.change_tool('primary', CLEAR),
-                )
-        )
-        self.sidebar.add_widget(Label(text='Tiles:'))
-        self.sidebar.add_widget(
-                Button(
-                    text='Spawnpoint',
-                    on_release=lambda btn: self.change_tool('map', SPAWNPOINT),
-                )
-        )
+        self.sidebar.add_widget(Label(text='[b]Floor[/b]', markup = True))
         self.sidebar.add_widget(
                 Button(
                     text='Void',
@@ -373,7 +373,21 @@ class GridSetup(BoxLayout):
         self.sidebar.add_widget(
                 Button(
                     text='Space',
-                    on_release=lambda btn: self.change_tool('map', SPACE),
+                    on_release=lambda btn: self.change_tool('floor', SPACE),
+                )
+        )
+        self.sidebar.add_widget(Label(text='[b]Primary category[/b]', markup = True))
+        self.sidebar.add_widget(
+                Button(
+                    text='Clear',
+                    on_release=lambda btn: self.change_tool('primary', CLEAR),
+                )
+        )
+        self.sidebar.add_widget(Label(text='Tiles:'))
+        self.sidebar.add_widget(
+                Button(
+                    text='Spawnpoint',
+                    on_release=lambda btn: self.change_tool('map', SPAWNPOINT),
                 )
         )
         self.sidebar.add_widget(
@@ -407,6 +421,18 @@ class GridSetup(BoxLayout):
                 Button(
                     text='Flame up',
                     on_release=lambda btn: self.change_tool('item', POWERUP_FLAME_UP),
+                )
+        )
+        self.sidebar.add_widget(
+                Button(
+                    text='Death flame',
+                    on_release=lambda btn: self.change_tool('item', DEATH_FLAME),
+                )
+        )
+        self.sidebar.add_widget(
+                Button(
+                    text='End level portal',
+                    on_release=lambda btn: self.change_tool('item', PORTAL_LEVEL_END),
                 )
         )
 
