@@ -64,9 +64,7 @@ bool GameplayScene::init()
     if (!CCLayer::init())
         return false;
 
-    printf("-----------\n");
     _tileMap = CCTMXTiledMap::create("tiles/test.tmx");
-    printf("-----------\n");
     _map = new Map();
     this->addChild(_map);
     _map->addChild(_tileMap, 0, 7);
@@ -74,9 +72,7 @@ bool GameplayScene::init()
     CCLog("ContentSize: %f, %f", s.width,s.height);
 
     ControlLayer* controlLayer = ControlLayer::create();
-    //Joystick *joystick =  Joystick::create();
     this->addChild(controlLayer, 2);
-    //this->setJoystick(joystick);
 
     // Create a "close" menu item with close icon, it's an auto release object.
     CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
@@ -120,7 +116,6 @@ bool GameplayScene::init()
     controlLayer->enableJoystick();
     controlLayer->enableKeyboard();
 
-    //CCPoint playerPos = _player->getPosition();
 
     _tileMap->setPosition( ccp(0, 0) );
 
@@ -147,15 +142,10 @@ bool GameplayScene::init()
                 0
             )
     );
-    //this->addChild(_player);
 
-    //this->schedule( schedule_selector(GameplayScene::gameLogic), 1.0 );
-
-    this->setTouchEnabled(true);
+    //this->setTouchEnabled(true);
     //this->setKeyboardEnabled(true);
 
-    _targets = new CCArray;
-    _projectiles = new CCArray;
 
     // use updateGame instead of update, otherwise it will conflit with SelectorProtocol::update
     // see http://www.cocos2d-x.org/boards/6/topics/1478
@@ -202,7 +192,6 @@ void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
 
 void GameplayScene::updateGame(float dt)
 {
-	CCArray *projectilesToDelete = new CCArray;
     CCObject* it = NULL;
     CCObject* jt = NULL;
     CCObject* co = NULL;
@@ -281,99 +270,12 @@ void GameplayScene::updateGame(float dt)
     if (!collisionOccured)
     {
         _player->setPosition(nextPos);
-    }
 
-    if (!collisionOccured)
-    {
         CCPoint mapPos = _map->getPosition();
         _map->setPosition(
                 ccpAdd(mapPos, ccpNeg(_player->getNextPositionDelta()))
         );
     }
-    //tree = layer->tileAt(ccp(1, 6));
-    //std::cout << "tree vz: " << tree->getVertexZ() << std::endl;
-
-    //CCPoint playerPos = _player->getPosition();
-    //int coordX = ((int) (playerPos.x - _player->getContentSize().width/2 + 40.5f)/81);
-    //int coordY = ((int) (playerPos.y - _player->getContentSize().height/2 + 50.5f)/101);
-    //coordX = (int) (playerPos.x - _player->getContentSize().width/2 + 35.5f)/101;
-    //coordY = (int) (playerPos.y - _player->getContentSize().height/2 + 55.5f)/81;
-
-    //CCLog("player pos   : x:%f, y:%f", playerPos.x, playerPos.y);
-    //CCLog(
-    //        "player pos2  : x:%f, y:%f",
-    //        playerPos.x - _player->getContentSize().width/2,
-    //        playerPos.y - _player->getContentSize().height/2
-    //);
-    //CCLog(
-    //        "player pos3  : x:%d, y:%d",
-    //        (int) (playerPos.x - _player->getContentSize().width/2 + 40.5f + 10.0f)/101,
-    //        (int) (playerPos.y - _player->getContentSize().height/2 + 50.5f - 19.0f)/81
-    //);
-    //CCLog("player coords: x:%d, y:%d", coordX, coordY);
-
-	// for (it = _projectiles->begin(); it != _projectiles->end(); it++)
-    CCARRAY_FOREACH(_projectiles, it)
-	{
-		CCSprite *projectile = dynamic_cast<CCSprite*>(it);
-		CCRect projectileRect = CCRectMake(
-                projectile->getPosition().x - (projectile->getContentSize().width/2),
-                projectile->getPosition().y - (projectile->getContentSize().height/2),
-                projectile->getContentSize().width,
-                projectile->getContentSize().height
-        );
-
-		CCArray* targetsToDelete = new CCArray;
-
-		// for (jt = _targets->begin(); jt != _targets->end(); jt++)
-        CCARRAY_FOREACH(_targets, jt)
-		{
-			CCSprite *target = dynamic_cast<CCSprite*>(jt);
-			CCRect targetRect = CCRectMake(
-                    target->getPosition().x - (target->getContentSize().width/2),
-                    target->getPosition().y - (target->getContentSize().height/2),
-                    target->getContentSize().width,
-                    target->getContentSize().height
-            );
-
-			// if (CCRect::CCRectIntersectsRect(projectileRect, targetRect))
-            if (projectileRect.intersectsRect(targetRect))
-			{
-				targetsToDelete->addObject(target);
-			}
-		}
-
-		// for (jt = targetsToDelete->begin(); jt != targetsToDelete->end(); jt++)
-        CCARRAY_FOREACH(targetsToDelete, jt)
-		{
-			CCSprite *target = dynamic_cast<CCSprite*>(jt);
-			_targets->removeObject(target);
-			this->removeChild(target, true);
-
-			_projectilesDestroyed++;
-			if (_projectilesDestroyed >= 15)
-			{
-				GameOverScene *gameOverScene = GameOverScene::create();
-				gameOverScene->getLayer()->getLabel()->setString("You Win!");
-				CCDirector::sharedDirector()->replaceScene(gameOverScene);
-			}
-		}
-
-		if (targetsToDelete->count() > 0)
-		{
-			projectilesToDelete->addObject(projectile);
-		}
-		targetsToDelete->release();
-	}
-
-	// for (it = projectilesToDelete->begin(); it != projectilesToDelete->end(); it++)
-    CCARRAY_FOREACH(projectilesToDelete, it)
-	{
-		CCSprite* projectile = dynamic_cast<CCSprite*>(it);
-		_projectiles->removeObject(projectile);
-		this->removeChild(projectile, true);
-	}
-	projectilesToDelete->release();
 }
 
 void GameplayScene::registerWithTouchDispatcher()
