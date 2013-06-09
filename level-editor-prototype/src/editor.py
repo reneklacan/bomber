@@ -16,6 +16,7 @@ from components import file_paths, textures
 from constants import *
 import monsters
 from monsters import *
+from map_converter import Map
 
 def convert2int(num):
     try:
@@ -112,7 +113,21 @@ class Wizard(FloatLayout):
         self.add_widget(self.grid)
         #self.grid_setup.init()
 
-    def export(self):
+    def export_tmx(self):
+        map = Map()
+        map.load_json_string(self.dump_json())
+
+        level_name = self.name.lower().replace(' ', '_')
+
+        map.dump_tmx_file('levels/' + level_name + '.tmx')
+
+    def save_json(self):
+        level_name = self.name.lower().replace(' ', '_')
+
+        with open('levels/' + level_name + '.json', 'w') as f:
+            f.write(self.dump_json())
+
+    def dump_json(self):
         level = {}
         level['name'] = self.name
 
@@ -139,9 +154,7 @@ class Wizard(FloatLayout):
                 self.grid_height
         ]
 
-        level_name = level['name'].lower().replace(' ', '_')
-        with open('levels/' + level_name + '.json', 'w') as f:
-            f.write(json.dumps(level, indent=4))
+        return json.dumps(level, indent=4)
 
 class Tile(RelativeLayout):
     def __init__(self, **kwargs):
@@ -489,8 +502,14 @@ class GridSetup(BoxLayout):
         self.topbar.add_widget(Label(text=''))
         self.topbar.add_widget(
                 Button(
-                    text='Save level',
-                    on_release=lambda btn: self.parent.export(),
+                    text='Export TMX',
+                    on_release=lambda btn: self.parent.export_tmx(),
+                )
+        )
+        self.topbar.add_widget(
+                Button(
+                    text='Save JSON',
+                    on_release=lambda btn: self.parent.save_json(),
                 )
         )
         self.main.add_widget(self.topbar)

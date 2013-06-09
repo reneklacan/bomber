@@ -225,16 +225,17 @@ class Map:
 
         map.append(portal_exits)
 
-        return etree.tostring(map, pretty_print=True)
+        header = '<?xml version="1.0" encoding="UTF-8"?>\n'
+        return header + etree.tostring(map, pretty_print=True)
 
     def dump_json_string(self):
         pass
 
     def dump_json_file(self, file_path):
-        self._save_file(self.dump_json_string())
+        self._save_file(file_path, self.dump_json_string())
 
     def dump_tmx_file(self, file_path):
-        self._save_file(self.dump_tmx_string())
+        self._save_file(file_path, self.dump_tmx_string())
 
 def main():
     map = Map()
