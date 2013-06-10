@@ -16,14 +16,14 @@ bool Map::init()
         return false;
 
     _bombs = new CCArray();
-    _tiledMap = CCTMXTiledMap::create("tiles/kocky.tmx");
+    _tiledMap = CCTMXTiledMap::create("tiles/level_name.tmx");
     _portalExits = CCDictionary::create();
 
     this->addChild(_tiledMap, 0, 7);
 
     _tiledMap->setPosition(ccp(0, 0));
 
-    this->schedule(schedule_selector(Map::update));
+    this->schedule(schedule_selector(Map::updateBombs));
 
     CCTMXObjectGroup *objectGroup = _tiledMap->objectGroupNamed("portal_exits");
     CCArray *objectList = objectGroup->getObjects();
@@ -42,10 +42,26 @@ bool Map::init()
         _portalExits->setObject(co, id);
     }
 
+    CCSize mapSize = _tiledMap->getMapSize();
+    _width = (int) mapSize.width;
+    _height = (int) mapSize.height;
+
+    CCTMXLayer *obstaclesLayer = _tiledMap->layerNamed("obstacles");
+
+    _obstaclesMap = (int *) malloc(_width*_height*sizeof(int));
+
+    for (int iy = 0; iy < _height; iy++)
+    {
+        for (int ix = 0; ix < _width; ix++)
+        {
+            _obstaclesMap[iy*_width + ix] = obstaclesLayer->tileGIDAt(ccp(ix, _height - 1 - iy));
+        }
+    }
+
     return true;
 }
 
-void Map::update(float dt)
+void Map::updateBombs(float dt)
 {
     CCObject *it = NULL;
     CCArray *detonatedBombs = new CCArray();
@@ -53,15 +69,74 @@ void Map::update(float dt)
     CCARRAY_FOREACH(_bombs, it)
     {
         Bomb *bomb = (Bomb *) it;
+        //bomb->updateTimer(dt);
         if (bomb->isDetonated())
         {
             detonatedBombs->addObject(bomb);
         }
     }
 
+    int power, ix, iy, penetration;
+    int penetrationTop, penetrationBottom, penetrationLeft, penetrationRight;
+    CCPoint epicentrum;
+
+    CCTMXLayer *obstaclesLayer = _tiledMap->layerNamed("obstacles");
+
     CCARRAY_FOREACH(detonatedBombs, it)
     {
+        printf("boooming...\n");
         Bomb *bomb = (Bomb *) it;
+
+        power = bomb->getPower();
+        epicentrum = bomb->getTilemapPosition();
+        penetration = bomb->getPenetration();
+
+        penetrationTop = penetration;
+        penetrationBottom = penetration;
+        penetrationLeft = penetration;
+        penetrationRight = penetration;
+
+        ix = epicentrum.x;
+        iy = epicentrum.y;
+
+        _obstaclesMap[iy*_width + ix] = 0;
+
+        for (int i = 0; i < power; i++)
+        {
+            ix = epicentrum.x;
+            iy = epicentrum.y + i + 1;
+            if (_obstaclesMap[iy*_width + ix] == 42 && penetrationTop)
+            {
+                penetrationTop--;
+                obstaclesLayer->removeTileAt(ccp(ix, _height - 1 - iy));
+                _obstaclesMap[iy*_width + ix] = 0;
+            }
+
+            iy = epicentrum.y - i - 1;
+            if (_obstaclesMap[iy*_width + ix] == 42 && penetrationBottom)
+            {
+                penetrationBottom--;
+                obstaclesLayer->removeTileAt(ccp(ix, _height - 1 - iy));
+                _obstaclesMap[iy*_width + ix] = 0;
+            }
+
+            ix = epicentrum.x + i + 1;
+            iy = epicentrum.y;
+            if (_obstaclesMap[iy*_width + ix] == 42 && penetrationRight)
+            {
+                penetrationRight--;
+                obstaclesLayer->removeTileAt(ccp(ix, _height - 1 - iy));
+                _obstaclesMap[iy*_width + ix] = 0;
+            }
+
+            ix = epicentrum.x - i - 1;
+            if (_obstaclesMap[iy*_width + ix] == 42 && penetrationLeft)
+            {
+                penetrationLeft--;
+                obstaclesLayer->removeTileAt(ccp(ix, _height - 1 - iy));
+                _obstaclesMap[iy*_width + ix] = 0;
+            }
+        }
 
         _bombs->fastRemoveObject(bomb);
         this->removeChild(bomb);
@@ -71,20 +146,28 @@ void Map::update(float dt)
 
 void Map::spawnBomb(GameSprite *owner)
 {
-    printf("spawn bomb on map\n");
-    
     CCPoint ownerPos = owner->getPosition();
     CCSize ownerSize = owner->getContentSize();
 
-    int coordX = (int) (ownerPos.x - ownerSize.width/2 + 35.5f)/TILE_WIDTH;
-    int coordY = (int) (ownerPos.y - ownerSize.height/2 + 95.5f - TILE_HEIGHT)/TILE_HEIGHT;
+    int ix = (int) (ownerPos.x - ownerSize.width/2 + 35.5f)/TILE_WIDTH;
+    int iy = (int) (ownerPos.y - ownerSize.height/2 + 95.5f - TILE_HEIGHT)/TILE_HEIGHT;
 
-	//CCLog("++++++++coords  x:%d, y:%d", coordX, coordY);
+    if (_obstaclesMap[iy*_width + ix] != 0)
+    {
+        return;
+    }
 
-    CCPoint origin = ccpAdd(ccp(coordX * 101 + 50.5f, coordY*81 + 50.5f), ccp(0, 0));
+    _obstaclesMap[iy*_width + ix] = 777;
+
+    printf("spawn bomb on map at x:%d, y:%d\n", ix, iy);
+
+    CCPoint origin = ccp(ix*101 + 50.5f, iy*81 + 50.5f);
 
     Bomb *bomb = Bomb::create(this, owner);
     bomb->setPosition(origin);
+    bomb->setTilemapPosition(ccp(ix, iy));
     bomb->setPower(3);
     bomb->setTimeout(2.0f);
+
+    _bombs->addObject(bomb);
 }

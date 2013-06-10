@@ -52,17 +52,20 @@ Bomb* Bomb::create(Map* map, GameSprite *owner)
 
 Bomb::Bomb()
 :_expired(0)
+,_detonated(false)
+,_power(1)
+,_penetration(1)
 {
-    this->schedule(schedule_selector(Bomb::update));
+    this->schedule(schedule_selector(Bomb::updateTimer));
 }
 
-void Bomb::update(float dt)
+void Bomb::updateTimer(float dt)
 {
     _expired += dt;
 
     if (_expired >= _timeout)
     {
-        this->unschedule(schedule_selector(Bomb::update));
+        this->unschedule(schedule_selector(Bomb::updateTimer));
         this->setVisible(false);
         this->explode();
         _detonated = true;
@@ -71,7 +74,7 @@ void Bomb::update(float dt)
 
 void Bomb::explode()
 {
-    //return;
+    return;
 
     Explosion *explosion = new Explosion(this->getPosition(), 3);
     explosion->autorelease();

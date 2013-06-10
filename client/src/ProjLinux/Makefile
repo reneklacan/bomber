@@ -21,7 +21,7 @@ COCOS_ROOT = ../../lib/cocos2d-x
 include $(COCOS_ROOT)/cocos2dx/proj.linux/cocos2dx.mk
 
 SHAREDLIBS += -lcocos2d -lcocosdenshion
-CXXFLAGS += -g -lglut
+CXXFLAGS += -g -lglut -Wunused-variable
 COCOS_LIBS = $(LIB_DIR)/libcocos2d.so $(LIB_DIR)/libcocosdenshion.so
 INCLUDES += -I$(COCOS_ROOT)/CocosDenshion/include
 

@@ -3,6 +3,16 @@ import sys
 import json
 from lxml import etree
 
+
+TILE_WIDTH = 101
+TILE_HEIGHT = 81
+
+SPAWNPOINT = 1000
+
+SPECIALS = (
+        SPAWNPOINT,
+)
+
 def json2tmx(category, item):
     json2tmx_table = {
             None: 0,
@@ -12,6 +22,7 @@ def json2tmx(category, item):
             'PORTAL': 15,
             'DEATH_FLAME': 13,
             'COIN': 35,
+            'SPAWN': SPAWNPOINT,
     }
 
     if category == 'portal':
@@ -86,8 +97,8 @@ class Map:
         map.set('orientation', 'orthogonal')
         map.set('width', '%d' % self.width)
         map.set('height', '%d' % self.height)
-        map.set('tilewidth', '101')
-        map.set('tileheight', '81')
+        map.set('tilewidth', '%d' % TILE_WIDTH)
+        map.set('tileheight', '%d' % TILE_HEIGHT)
 
         tileset = etree.Element('tileset')
         tileset.set('firstgid', '1')
@@ -124,6 +135,8 @@ class Map:
                 layer.append(other_properties)
 
             for item in each.layout:
+                if item in SPECIALS:
+                    item = 0
                 if item:
                     empty = False
                 tile = etree.Element('tile')
@@ -134,6 +147,11 @@ class Map:
                 layer.set('visible', '0')
             layer.append(data)
             map.append(layer)
+
+        spawnpoints = etree.Element('objectgroup')
+        spawnpoints.set('name', 'spawnpoints')
+        spawnpoints.set('width', '%d' % self.width)
+        spawnpoints.set('height', '%d' % self.height)
 
         colliders = etree.Element('objectgroup')
         colliders.set('name', 'colliders')
@@ -146,15 +164,27 @@ class Map:
             if not item:
                 continue
 
+            if item == SPAWNPOINT:
+                obj = etree.Element('object')
+                obj.set('name', 'spawnpoint')
+                obj.set('x', '%d' % (x*TILE_WIDTH + (TILE_WIDTH/2 - 30/2)))
+                obj.set('y', '%d' % (y*TILE_HEIGHT + (TILE_HEIGHT/2 - 30/2)))
+                obj.set('width', '30')
+                obj.set('height', '30')
+
+                spawnpoints.append(obj)
+                continue
+
             obj = etree.Element('object')
             obj.set('name', '')
-            obj.set('x', '%d' % (x*101))
-            obj.set('y', '%d' % (y*81))
-            obj.set('width', '101')
+            obj.set('x', '%d' % (x*TILE_WIDTH))
+            obj.set('y', '%d' % (y*TILE_HEIGHT))
+            obj.set('width', '%d' % TILE_WIDTH)
             obj.set('height', '40')
 
             colliders.append(obj)
 
+        map.append(spawnpoints)
         map.append(colliders)
 
         portals = etree.Element('objectgroup')
@@ -168,41 +198,45 @@ class Map:
             x = location['x']
             y = location['y']
 
-            obj = etree.Element('object')
-            obj.set('name', '%d' % portal_conf['left'])
-            obj.set('x', '%d' % (x*101))
-            obj.set('y', '%d' % (y*81 + (81/2 - 30/2)))
-            obj.set('width', '30')
-            obj.set('height', '30')
+            if portal_conf['left'] is not None:
+                obj = etree.Element('object')
+                obj.set('name', '%d' % portal_conf['left'])
+                obj.set('x', '%d' % (x*TILE_WIDTH))
+                obj.set('y', '%d' % (y*TILE_HEIGHT + (TILE_HEIGHT/2 - 30/2)))
+                obj.set('width', '30')
+                obj.set('height', '30')
 
-            portals.append(obj)
+                portals.append(obj)
 
-            obj = etree.Element('object')
-            obj.set('name', '%d' % portal_conf['right'])
-            obj.set('x', '%d' % (x*101 + 101 - 30))
-            obj.set('y', '%d' % (y*81 + (81/2 - 30/2)))
-            obj.set('width', '30')
-            obj.set('height', '30')
+            if portal_conf['right'] is not None:
+                obj = etree.Element('object')
+                obj.set('name', '%d' % portal_conf['right'])
+                obj.set('x', '%d' % (x*TILE_WIDTH + TILE_WIDTH - 30))
+                obj.set('y', '%d' % (y*TILE_HEIGHT + (TILE_HEIGHT/2 - 30/2)))
+                obj.set('width', '30')
+                obj.set('height', '30')
 
-            portals.append(obj)
+                portals.append(obj)
 
-            obj = etree.Element('object')
-            obj.set('name', '%d' % portal_conf['top'])
-            obj.set('x', '%d' % (x*101 + (101/2 - 30/2)))
-            obj.set('y', '%d' % (y*81))
-            obj.set('width', '30')
-            obj.set('height', '30')
+            if portal_conf['top'] is not None:
+                obj = etree.Element('object')
+                obj.set('name', '%d' % portal_conf['top'])
+                obj.set('x', '%d' % (x*TILE_WIDTH + (TILE_WIDTH/2 - 30/2)))
+                obj.set('y', '%d' % (y*TILE_HEIGHT))
+                obj.set('width', '30')
+                obj.set('height', '30')
 
-            portals.append(obj)
+                portals.append(obj)
 
-            obj = etree.Element('object')
-            obj.set('name', '%d' % portal_conf['bottom'])
-            obj.set('x', '%d' % (x*101 + (101/2 - 30/2)))
-            obj.set('y', '%d' % (y*81 + 81 - 30))
-            obj.set('width', '30')
-            obj.set('height', '30')
+            if portal_conf['bottom'] is not None:
+                obj = etree.Element('object')
+                obj.set('name', '%d' % portal_conf['bottom'])
+                obj.set('x', '%d' % (x*TILE_WIDTH + (TILE_WIDTH/2 - 30/2)))
+                obj.set('y', '%d' % (y*TILE_HEIGHT + TILE_HEIGHT - 30))
+                obj.set('width', '30')
+                obj.set('height', '30')
 
-            portals.append(obj)
+                portals.append(obj)
 
         map.append(portals)
 
@@ -217,8 +251,8 @@ class Map:
 
             obj = etree.Element('object')
             obj.set('name', '%d' % exit)
-            obj.set('x', '%d' % (x*101 + (101/2 - 30/2)))
-            obj.set('y', '%d' % (y*81 + (81/2 - 30/2)))
+            obj.set('x', '%d' % (x*TILE_WIDTH + (TILE_WIDTH/2 - 30/2)))
+            obj.set('y', '%d' % (y*TILE_HEIGHT + (TILE_HEIGHT/2 - 30/2)))
             obj.set('width', '30')
             obj.set('height', '30')
             portal_exits.append(obj)

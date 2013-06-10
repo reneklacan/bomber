@@ -10,15 +10,17 @@ class Bomb : public GameSprite
 {
     public:
         CC_SYNTHESIZE(int, _power, Power);
+        CC_SYNTHESIZE(int, _penetration, Penetration);
         CC_SYNTHESIZE(float, _timeout, Timeout);
         CC_SYNTHESIZE(GameSprite *, _owner, Owner);
         CC_SYNTHESIZE(Map *, _map, Map);
+        CC_SYNTHESIZE(CCPoint, _tilemapPosition, TilemapPosition);
 
         Bomb();
 
         static Bomb *create(Map *map, GameSprite *owner);
         //Bomb(CCPoint epicentrum, int power, float timeout);
-        void update(float dt);
+        void updateTimer(float dt);
         void explode();
 
         bool isDetonated() { return _detonated; };

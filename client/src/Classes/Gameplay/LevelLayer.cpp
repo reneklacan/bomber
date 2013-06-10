@@ -75,18 +75,11 @@ void LevelLayer::repositionSprite(float dt)
 
 void LevelLayer::updateGame(float dt)
 {
-    CCObject* it = NULL;
-    CCObject* jt = NULL;
     CCObject* co = NULL;
 
     CCPoint nextPos = _player->getNextPosition();
 
-    CCRect playerRect = CCRectMake(
-            nextPos.x - (_player->getContentSize().width/4),
-            nextPos.y - (_player->getContentSize().height/4),
-            _player->getContentSize().width/2,
-            _player->getContentSize().height/2
-    );
+    CCRect playerRect = _player->getCollisionBox();
 
     CCTMXObjectGroup *objectGroup = _map->getTiledMap()->objectGroupNamed("colliders");
     CCArray *objectList = objectGroup->getObjects();

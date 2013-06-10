@@ -20,8 +20,8 @@ ExplosionCache::ExplosionCache()
        CCParticleSun *emitter = CCParticleSun::create();
         emitter->retain();
         emitter->setTexture(CCTextureCache::sharedTextureCache()->addImage("particles/fire.png"));
-        emitter->initWithTotalParticles(50);
-        emitter->setStartSize(100.0f);
+        emitter->initWithTotalParticles(20);
+        emitter->setStartSize(20.0f);
         emitter->setLife(2);
         emitter->setLifeVar(1);
         //emitter->setSpeed(60);
@@ -58,6 +58,8 @@ Explosion::Explosion(CCPoint epicentrum, int power)
         CCParticleSun *emitter = ExplosionCache::getInstance()->getEmitter();
         emitter->setPosition(epicentrum);
         this->addChild(emitter, -5);
+
+        continue;
 
         CCActionInterval* move;
 

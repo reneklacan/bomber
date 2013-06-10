@@ -39,9 +39,9 @@ CCRect GameSprite::getCollisionBox()
 {
     return CCRectMake(
             _nextPosition.x - (this->getContentSize().width/4),
-            _nextPosition.y - (this->getContentSize().height/4),
+            _nextPosition.y - (this->getContentSize().height/2),
             this->getContentSize().width/2,
-            this->getContentSize().height/2
+            this->getContentSize().height/1.5
     );
 }
 
