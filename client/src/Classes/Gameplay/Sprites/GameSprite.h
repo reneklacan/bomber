@@ -16,7 +16,10 @@ class GameSprite : public CCSprite
         //~GameSprite();
         static GameSprite* gameSpriteWithFile(const char * pszFileName);
 
+        virtual CCRect getCollisionBox();
         virtual void actionOne();
+        virtual const char* spriteName();
+        virtual void logInfo();
 
     private:
 };

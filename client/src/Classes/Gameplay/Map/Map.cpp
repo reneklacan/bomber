@@ -4,8 +4,45 @@
 
 Map::Map()
 {
+}
+
+Map::~Map()
+{
+}
+
+bool Map::init()
+{
+    if (!CCLayer::init())
+        return false;
+
     _bombs = new CCArray();
+    _tiledMap = CCTMXTiledMap::create("tiles/kocky.tmx");
+    _portalExits = CCDictionary::create();
+
+    this->addChild(_tiledMap, 0, 7);
+
+    _tiledMap->setPosition(ccp(0, 0));
+
     this->schedule(schedule_selector(Map::update));
+
+    CCTMXObjectGroup *objectGroup = _tiledMap->objectGroupNamed("portal_exits");
+    CCArray *objectList = objectGroup->getObjects();
+
+    CCObject* co = NULL;
+    CCDictionary *dict = NULL;
+    int id;
+
+    CCARRAY_FOREACH(objectList, co)
+    {
+        dict = (CCDictionary*) co;
+        if (!dict)
+            break;
+
+        id = ((CCString*) dict->objectForKey("name"))->intValue();
+        _portalExits->setObject(co, id);
+    }
+
+    return true;
 }
 
 void Map::update(float dt)

@@ -9,6 +9,7 @@ SOURCES = Main.cpp \
         ../Classes/Input/Joystick.cpp \
         ../Classes/Input/Keyboard.cpp \
         ../Classes/Input/ControlLayer.cpp \
+        ../Classes/Gameplay/LevelLayer.cpp \
         ../Classes/Gameplay/Map/Map.cpp \
         ../Classes/Gameplay/Map/Bomb.cpp \
         ../Classes/Gameplay/Map/Explosion.cpp \

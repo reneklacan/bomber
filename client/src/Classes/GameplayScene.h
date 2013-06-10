@@ -8,6 +8,7 @@
 #include "Gameplay/Map/Map.h"
 #include "Gameplay/Sprites/GameSprite.h"
 #include "Gameplay/Sprites/Human.h"
+#include "Gameplay/LevelLayer.h"
 
 class GameplayScene : public CCLayer
 {
@@ -28,33 +29,13 @@ public:
 	// implement the "static node()" method manually
 	CREATE_FUNC(GameplayScene);
 
-	void spriteMoveFinished(cocos2d::CCNode* sender);
-
-	void gameLogic(float dt);
-
-	void updateGame(float dt);
-
 	void registerWithTouchDispatcher();
 	void ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
-    void repositionSprite(float dt);
 	//void ccTouchesMoved(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
 
-    void setJoystick(Joystick *joystick);
 
 protected:
-	cocos2d::CCArray *_targets;
-	cocos2d::CCArray *_projectiles;
-	int _projectilesDestroyed;
-    Joystick *_joystick;
-    Map *_map;
-    CCTMXTiledMap *_tileMap;
-    //CCSprite *_player;
-    Human *_player;
-    int _sensitivity;
-
-	void addTarget();
-
-
+    LevelLayer *_levelLayer;
 };
 
 #endif  // __HELLOWORLD_SCENE_H__
