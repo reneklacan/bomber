@@ -1,10 +1,10 @@
 
 #include "Joystick.h" 
 
-#define JOYSTICK_OFFSET_X 15.0f
-#define JOYSTICK_OFFSET_Y 115.0f
+#define JOYSTICK_OFFSET_X 55.0f
+#define JOYSTICK_OFFSET_Y 315.0f
 
-#define JOYSTICK_RADIUS 64.0f
+#define JOYSTICK_RADIUS 164.0f
 
 #define THUMB_RADIUS 26.0f
 
@@ -74,6 +74,12 @@ void Joystick::resetJoystick()
 
 bool Joystick::handleLastTouch()
 {
+    if (_actionKeyOnePressed)
+    {
+        _actionKeyOnePressed = false;
+        return false;
+    }
+
     bool wasPressed = _isPressed;
     if (wasPressed)
     {
@@ -94,6 +100,11 @@ void Joystick::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
         _isPressed = true;
         this->updateVelocity(point);
     }
+
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+
+    if (point.x > visibleSize.width/2)
+        _actionKeyOnePressed = true;
 }
 
 void Joystick::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)

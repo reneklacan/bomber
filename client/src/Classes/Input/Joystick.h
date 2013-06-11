@@ -11,11 +11,13 @@ class Joystick : public CCLayer, public ControllerBase
 public:
     CREATE_FUNC(Joystick);
     bool init();
+    bool isActionKeyOnePressed() { return _actionKeyOnePressed; };
 
 private:
     CCPoint _kCenter;
     CCSprite *_thumb;
     bool _isPressed;
+    bool _actionKeyOnePressed;
 
     void updateVelocity(CCPoint point);
     void resetJoystick();

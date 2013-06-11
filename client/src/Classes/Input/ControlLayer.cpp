@@ -28,6 +28,10 @@ void ControlLayer::update(float dt)
     if (_joystickEnabled)
     {
         velocity = _joystick->getVelocity();
+        if (_joystick->isActionKeyOnePressed())
+        {
+            _controlledSprite->actionOne();
+        }
     }
 
     if (_keyboardEnabled && !velocity.x && !velocity.y)

@@ -148,9 +148,10 @@ void Map::spawnBomb(GameSprite *owner)
 {
     CCPoint ownerPos = owner->getPosition();
     CCSize ownerSize = owner->getContentSize();
+    CCPoint tilemapPosition = owner->getTilemapPosition(); 
 
-    int ix = (int) (ownerPos.x - ownerSize.width/2 + 35.5f)/TILE_WIDTH;
-    int iy = (int) (ownerPos.y - ownerSize.height/2 + 95.5f - TILE_HEIGHT)/TILE_HEIGHT;
+    int ix = (int) tilemapPosition.x;
+    int iy = (int) tilemapPosition.y;
 
     if (_obstaclesMap[iy*_width + ix] != 0)
     {
@@ -170,4 +171,9 @@ void Map::spawnBomb(GameSprite *owner)
     bomb->setTimeout(2.0f);
 
     _bombs->addObject(bomb);
+}
+
+void Map::addToPosition(CCPoint point)
+{
+    this->setPosition(ccpAdd(this->getPosition(), point));
 }

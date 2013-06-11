@@ -1,4 +1,5 @@
 #include "LevelLayer.h"
+#include "../Constants.h"
 
 LevelLayer::LevelLayer()
 :_player(NULL)
@@ -76,54 +77,64 @@ void LevelLayer::repositionSprite(float dt)
 void LevelLayer::updateGame(float dt)
 {
     CCObject* co = NULL;
-
-    CCPoint nextPos = _player->getNextPosition();
-
-    CCRect playerRect = _player->getCollisionBox();
-
-    CCTMXObjectGroup *objectGroup = _map->getTiledMap()->objectGroupNamed("colliders");
-    CCArray *objectList = objectGroup->getObjects();
-
-    CCDictionary *dict;
     int x, y, width, height;
     CCRect objRect;
-
     bool collisionOccured = false;
+    bool collisionOccuredX = false;
+    bool collisionOccuredY = false;
+    CCTMXObjectGroup *objectGroup;
+    CCArray *objectList;
+    CCDictionary *dict;
 
-    // TODO: rewrite with box2d collision system?
-    CCARRAY_FOREACH(objectList, co)
+    CCPoint currentPos = _player->getPosition();
+    CCPoint nextPos = _player->getNextPosition();
+    CCPoint nextPosX = ccp(nextPos.x, currentPos.y);
+    CCPoint nextPosY = ccp(currentPos.x, nextPos.y);
+
+    CCRect playerRect = _player->getCollisionBox();
+    CCRect playerRectX = _player->getCollisionBox(nextPosX);
+    CCRect playerRectY = _player->getCollisionBox(nextPosY);
+
+    CCTMXLayer *obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
+
+    CCPoint tilemapPosition = _player->getTilemapPosition();
+
+    for (int iy = tilemapPosition.y - 1; iy <= tilemapPosition.y + 1; iy++)
     {
-        dict = (CCDictionary*)co;
-
-        if (!dict)
-            break;
-
-        x = ((CCString*)dict->objectForKey("x"))->intValue();
-        y = ((CCString*)dict->objectForKey("y"))->intValue();
-        width = ((CCString*)dict->objectForKey("width"))->intValue();
-        height = ((CCString*)dict->objectForKey("height"))->intValue();         
-
-        //printf( "x %i, y %i, width %i, height %i\n", x, y, width, height );
-
-        objRect = CCRectMake(x, y, width, height);
-
-        if (playerRect.intersectsRect(objRect))
+        for (int ix = tilemapPosition.x - 1; ix <= tilemapPosition.x + 1; ix++)
         {
-            collisionOccured = true;
-            break;
-        }
+            if (!obstaclesLayer->tileGIDAt(ccp(ix, _map->getHeight() - 1 - iy)))
+                continue;
 
+            objRect = CCRectMake(ix*TILE_WIDTH, iy*TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
+
+            if (!collisionOccured && playerRect.intersectsRect(objRect))
+                collisionOccured = true;
+            if (!collisionOccuredX && playerRectX.intersectsRect(objRect))
+                collisionOccuredX = true;
+            if (!collisionOccuredY && playerRectY.intersectsRect(objRect))
+                collisionOccuredY = true;
+        }
     }
+
+    bool move = true;
 
     if (!collisionOccured)
+        ;
+    else if (!collisionOccuredX)
+        nextPos = nextPosX;
+    else if (!collisionOccuredY)
+        nextPos = nextPosY;
+    else
+        move = false;
+
+    if (move)
     {
         _player->setPosition(nextPos);
-
-        CCPoint mapPos = _map->getPosition();
-        _map->setPosition(
-                ccpAdd(mapPos, ccpNeg(_player->getNextPositionDelta()))
-        );
+        _map->addToPosition(ccpSub(currentPos, nextPos));
     }
+
+    CCPoint mapPos = _map->getPosition();
 
     collisionOccured = false;
 
@@ -134,7 +145,7 @@ void LevelLayer::updateGame(float dt)
 
     int portalExit = 0;
 
-    // use CCDictionary for portals and portal_exits
+    // use CCDictionary for portals and portal_exits?
 
     CCARRAY_FOREACH(objectList, co)
     {

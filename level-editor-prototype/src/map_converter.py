@@ -180,7 +180,7 @@ class Map:
             obj.set('x', '%d' % (x*TILE_WIDTH))
             obj.set('y', '%d' % (y*TILE_HEIGHT))
             obj.set('width', '%d' % TILE_WIDTH)
-            obj.set('height', '40')
+            obj.set('height', '81')
 
             colliders.append(obj)
 

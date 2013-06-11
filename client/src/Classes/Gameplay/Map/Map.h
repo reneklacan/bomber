@@ -25,6 +25,7 @@ class Map : public CCLayer
 
         void updateBombs(float dt);
         void spawnBomb(GameSprite *owner);
+        void addToPosition(CCPoint point);
 };
 
 

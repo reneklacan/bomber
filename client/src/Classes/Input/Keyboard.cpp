@@ -5,7 +5,9 @@ bool Keyboard::init()
     if (!CCLayer::init())
         return false;
 
+#ifndef ANDROID
     this->setKeyboardEnabled(true);
+#endif
     return true;
 }
 

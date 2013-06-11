@@ -1,4 +1,5 @@
 #include "GameSprite.h"
+#include "../../Constants.h"
 
 GameSprite::GameSprite()
 :_speed(10.0f)
@@ -37,11 +38,27 @@ GameSprite* GameSprite::gameSpriteWithFile(const char * pszFileName)
 
 CCRect GameSprite::getCollisionBox()
 {
+    return this->getCollisionBox(_nextPosition);
+}
+
+CCRect GameSprite::getCollisionBox(CCPoint point)
+{
     return CCRectMake(
-            _nextPosition.x - (this->getContentSize().width/4),
-            _nextPosition.y - (this->getContentSize().height/2),
-            this->getContentSize().width/2,
-            this->getContentSize().height/1.5
+            point.x - (this->getContentSize().width/2), // aww, division in every frame? :(
+            point.y - (this->getContentSize().height/2),
+            this->getContentSize().width,
+            this->getContentSize().height/4
+    );
+}
+
+CCPoint GameSprite::getTilemapPosition()
+{
+    CCPoint pos = this->getPosition();
+    CCSize size = this->getContentSize();
+
+    return ccp( 
+        (pos.x - size.width/2 + 35.5f)/TILE_WIDTH,
+        (pos.y - size.height/2 + 95.5f - TILE_HEIGHT)/TILE_HEIGHT
     );
 }
 
