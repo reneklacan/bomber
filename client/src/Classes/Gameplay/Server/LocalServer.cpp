@@ -32,6 +32,10 @@ bool LocalServer::startServer()
     pthread_create(&_logicThread, NULL, logicHelper, NULL);
     _sender = new Sender();
     pthread_create(&_senderThread, NULL, senderHelper, NULL);
+
+    LocalServer::getInstance().getSender()->setLogic(
+        LocalServer::getInstance().getLogic());
+
     return true;
 }
 

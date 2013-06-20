@@ -6,13 +6,22 @@
 
 #include "Sender.h"
 
- //
+//
 void Sender::init()
 {
-    int x = 1;
+    while(!_logic->isLogicReady()) {
+        sleep(0.2);
+    }
     while(1) {
-        std::cout << "Sender: " << x++ << std::endl;
+        std::map<unsigned int, Point *> &pP = _logic->getPlayersPositions();
+        std::cout << "Sender: " << "Player (" << 58585 << "): " << pP[58585]->x << " " << pP[58585]->y << std::endl;
         sleep(1);
     }
     return;
+}
+
+//
+void Sender::setLogic(Logic *logic)
+{
+    _logic = logic;
 }

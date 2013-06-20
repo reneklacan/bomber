@@ -1,6 +1,6 @@
 EXECUTABLE = SimpleGame
 
-INCLUDES = -I.. -I../Classes
+INCLUDES = -I.. -I../Classes -I../../lib/cocos2d-x/cocos2dx/support/tinyxml2
 
 SOURCES = Main.cpp \
         ../Classes/AppDelegate.cpp \

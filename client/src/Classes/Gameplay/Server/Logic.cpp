@@ -10,6 +10,8 @@
 //
 void Logic::init()
 {
+    this->initGame(DEFAULT);
+
     try
     {
         boost::asio::io_service io_service;
@@ -20,8 +22,6 @@ void Logic::init()
     {
         std::cerr << e.what() << std::endl;
     }
-
-    initGame(DEFAULT);
 }
 
 //
@@ -29,12 +29,93 @@ void Logic::initGame(GAME_LEVELS gameID)
 {
     _playersPositions.clear();
     _bombsPositions.clear();
+    _obstacles.clear();
+    _portals.clear();
+    _items.clear();
 
-    _playersPositions[58585] = ccp(0, 0); // TODO
-    // _obstacles = ???;
+    _playersPositions[58585] = new Point(0, 0); // TODO
+
+    // Parse Map
+    XMLDocument doc;
+    doc.LoadFile("../Resources/tiles/level_name.tmx");
+    XMLElement* element = doc.FirstChildElement("map")->FirstChildElement("layer");
+    XMLElement* obstaclesLayer = NULL;
+    XMLElement* portalsLayer = NULL;
+    XMLElement* itemsLayer = NULL;
+
+    /// Obstacles, Portals
+    while(element != NULL)
+    {
+        if( strcmp(element->Attribute("name"), "obstacles") == 0 )
+        {
+            obstaclesLayer = element;
+        }
+        else if( strcmp(element->Attribute("name"), "portals") == 0 )
+        {
+            portalsLayer = element;
+        }
+        else if( strcmp(element->Attribute("name"), "items") == 0 )
+        {
+            itemsLayer = element;
+        }
+        element = element->NextSiblingElement("layer");
+    }
+
+    this->initLayer(obstaclesLayer, _obstacles);
+    this->initLayer(portalsLayer, _portals);
+    this->initLayer(itemsLayer, _items);
+
+    _isReady = true;
+
+    // DEBUG
+    /*for(std::map<Point *, GAME_LAYER_OBJECTS>::iterator it = _obstacles.begin(); it != _obstacles.end(); it++)
+    {
+        std::cout << "Obstacle: [" << it->first->x << ", "<< it->first->y << "] = " << it->second << std::endl;
+    }
+    for(std::map<Point *, GAME_LAYER_OBJECTS>::iterator it = _portals.begin(); it != _portals.end(); it++)
+    {
+        std::cout << "Portal: [" << it->first->x << ", "<< it->first->y << "] = " << it->second << std::endl;
+    }
+    for(std::map<Point *, GAME_LAYER_OBJECTS>::iterator it = _items.begin(); it != _items.end(); it++)
+    {
+        std::cout << "Items: [" << it->first->x << ", "<< it->first->y << "] = " << it->second << std::endl;
+    }*/
+
     return;
 }
 
+//
+void Logic::initLayer(XMLElement* element, std::map<Point *, GAME_LAYER_OBJECTS> &structure)
+{
+    if(element == NULL)
+    {
+        std::cerr << "Map does not contain one or more necessary layers." << std::endl;
+    }
+
+    int coo_count = 0;
+    int max_x = element->IntAttribute("width");
+    int max_y = element->IntAttribute("height");
+    for(XMLElement* obsTile = element->FirstChildElement("data")->FirstChildElement("tile"); 
+        obsTile != NULL; obsTile = obsTile->NextSiblingElement())
+    {
+        // Get coordinates
+        int obs_x = coo_count % max_x;
+        int obs_y = max_y - (coo_count / max_x) - 1;
+        // Save type of obsatecle
+        int obs_t = obsTile->IntAttribute("gid");
+        if(obs_t != 0)
+        {
+            structure[new Point(obs_x, obs_y)] = (GAME_LAYER_OBJECTS)obs_t;
+        }
+        coo_count++;
+    }
+    return;
+}
+
+std::map<unsigned int, Point *> &Logic::getPlayersPositions()
+{
+    return _playersPositions;
+}
 
 //
 void Logic::updateState(std::vector<unsigned char> data)
@@ -57,7 +138,11 @@ void Logic::updateState(std::vector<unsigned char> data)
     // Movement
     if(packetType == MOVE)
     {
-        processMovement(playerID, locationX, locationY);
+        this->processMovement(playerID, locationX, locationY);
+    }
+    else if(packetType == PLANT)
+    {
+        this->processPlanting(playerID, locationX, locationY);
     }
 
     return;
@@ -65,7 +150,12 @@ void Logic::updateState(std::vector<unsigned char> data)
 
 //
 void Logic::processMovement(unsigned int pid, unsigned int p_x, unsigned int p_y)
-{/*
+{
+
+    _playersPositions[pid]->x = p_x;
+    _playersPositions[pid]->y = p_y;
+
+    /*
     CCObject* co = NULL;
     int x, y, width, height;
     CCRect objRect;
@@ -75,66 +165,6 @@ void Logic::processMovement(unsigned int pid, unsigned int p_x, unsigned int p_y
     CCTMXObjectGroup *objectGroup;
     CCArray *objectList;
     CCDictionary *dict;
-
-    //CCPoint currentPos = _player->getPosition();
-    CCPoint nextPos = ccp(p_x, p_y);
-    CCPoint nextPosX = ccp(nextPos.x, currentPos.y);
-    CCPoint nextPosY = ccp(currentPos.x, nextPos.y);
-
-    CCRect playerRect = _player->getCollisionBox();
-    CCRect playerRectX = _player->getCollisionBox(nextPosX);
-    CCRect playerRectY = _player->getCollisionBox(nextPosY);
-
-    CCTMXLayer *obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
-
-    CCPoint tilemapPosition = _player->getTilemapPosition();
-
-    for (int iy = tilemapPosition.y - 1; iy <= tilemapPosition.y + 1; iy++)
-    {
-        for (int ix = tilemapPosition.x - 1; ix <= tilemapPosition.x + 1; ix++)
-        {
-            if (!obstaclesLayer->tileGIDAt(ccp(ix, _map->getHeight() - 1 - iy)))
-                continue;
-
-            objRect = CCRectMake(ix*TILE_WIDTH, iy*TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
-
-            if (!collisionOccured && playerRect.intersectsRect(objRect))
-                collisionOccured = true;
-            if (!collisionOccuredX && playerRectX.intersectsRect(objRect))
-                collisionOccuredX = true;
-            if (!collisionOccuredY && playerRectY.intersectsRect(objRect))
-                collisionOccuredY = true;
-        }
-    }
-
-    bool move = true;
-
-    if (!collisionOccured)
-        ;
-    else if (!collisionOccuredX)
-        nextPos = nextPosX;
-    else if (!collisionOccuredY)
-        nextPos = nextPosY;
-    else
-        move = false;
-
-    if (move)
-    {
-        // Only send data when something has changed
-        if(currentPos.x != nextPos.x || currentPos.y != nextPos.y) 
-        {
-            // Send Data
-            Communication comm = Communication();
-            comm.sendSpriteMovement(58585, nextPos.x, nextPos.y);
-        }
-
-        _player->setPosition(nextPos);
-        _map->addToPosition(ccpSub(currentPos, nextPos));
-    }
-
-    CCPoint mapPos = _map->getPosition();
-
-    collisionOccured = false;
 
     objectGroup = _map->getTiledMap()->objectGroupNamed("portals");
     objectList = objectGroup->getObjects();
@@ -239,4 +269,10 @@ void Logic::processMovement(unsigned int pid, unsigned int p_x, unsigned int p_y
         }
     }
 */
+}
+
+//
+void Logic::processPlanting(unsigned int pid, unsigned int p_x, unsigned int p_y)
+{
+    return;
 }

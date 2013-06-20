@@ -8,6 +8,7 @@
 #define __BOMBER_SENDER_LAYER
 
 #include <iostream>
+#include "Logic.h"
 
 class Sender {
 public:
@@ -15,8 +16,9 @@ public:
     ~Sender() {};
 
     void init();
-    
+    void setLogic(Logic* logic);
 private:
+    Logic *_logic;
 };
 
 #endif
