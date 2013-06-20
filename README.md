@@ -41,6 +41,6 @@ Buildovanie na android (stiahnite si android sdk/ndk najprv)
     android list target
     android update project -p . -t ID_SDK(vacsinou 1)
     android update project -p cocos2d-x/cocos2dx/platform/android/java/ -t TO_ISTE_ID_CO_V_PRIKAZE_VYSSIE
-    ant debug install
+    ant debug
 
-Ak nieco zlyhalo, tak si teply curak a citaj hlasky ;)
+Ak sa vsetko podarilo, tak v zlozke "bin" sa nachadza apk subor, v nasom pripade HelloWorld-debug.apk
