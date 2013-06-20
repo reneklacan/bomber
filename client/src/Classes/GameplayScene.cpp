@@ -19,19 +19,18 @@ GameplayScene::GameplayScene()
 CCScene* GameplayScene::scene()
 {
 	CCScene * scene = NULL;
-	do 
-	{
-		// 'scene' is an autorelease object
-		scene = CCScene::create();
-		CC_BREAK_IF(! scene);
+    // 'scene' is an autorelease object
+    scene = CCScene::create();
+    if (!scene)
+        return NULL;
 
-		// 'layer' is an autorelease object
-		GameplayScene *layer = GameplayScene::create();
-		CC_BREAK_IF(! layer);
-;
-		// add layer as a child to scene
-		scene->addChild(layer);
-	} while (0);
+    // 'layer' is an autorelease object
+    GameplayScene *layer = GameplayScene::create();
+    if (!layer)
+        return NULL;
+    ;
+    // add layer as a child to scene
+    scene->addChild(layer);
 
 	// return the scene
 	return scene;

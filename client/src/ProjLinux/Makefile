@@ -15,6 +15,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Map/Explosion.cpp \
         ../Classes/Gameplay/Sprites/GameSprite.cpp \
         ../Classes/Gameplay/Sprites/Human.cpp \
+        ../Classes/Menu/MainMenuLayer.cpp \
 
 COCOS_ROOT = ../../lib/cocos2d-2.1rc0-x-2.1.3
 COCOS_ROOT = ../../lib/cocos2d-x

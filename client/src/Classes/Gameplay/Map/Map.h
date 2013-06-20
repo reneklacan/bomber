@@ -28,6 +28,5 @@ class Map : public CCLayer
         void addToPosition(CCPoint point);
 };
 
-
 #endif
 
