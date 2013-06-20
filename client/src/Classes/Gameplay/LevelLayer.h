@@ -9,6 +9,9 @@
 #include "Sprites/Human.h"
 #include "../Input/ControlLayer.h"
 
+#include "Server/LocalServer.h"
+#include "Comm/Communication.h"
+
 class LevelLayer : public CCLayer
 {
 public:

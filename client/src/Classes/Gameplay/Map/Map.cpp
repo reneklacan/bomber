@@ -1,6 +1,7 @@
 #include "Map.h"
 #include "Bomb.h"
 #include "../../Constants.h"
+#include "../Comm/Communication.h"
 
 Map::Map()
 {
@@ -161,6 +162,10 @@ void Map::spawnBomb(GameSprite *owner)
     _obstaclesMap[iy*_width + ix] = 777;
 
     printf("spawn bomb on map at x:%d, y:%d\n", ix, iy);
+
+    // Send Data
+    Communication comm = Communication();
+    comm.sendSpriteBombPlant(58585, ix, iy);
 
     CCPoint origin = ccp(ix*101 + 50.5f, iy*81 + 50.5f);
 

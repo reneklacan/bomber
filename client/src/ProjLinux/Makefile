@@ -15,12 +15,17 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Map/Explosion.cpp \
         ../Classes/Gameplay/Sprites/GameSprite.cpp \
         ../Classes/Gameplay/Sprites/Human.cpp \
+        ../Classes/Gameplay/Server/LocalServer.cpp \
+        ../Classes/Gameplay/Server/Logic.cpp \
+        ../Classes/Gameplay/Server/Sender.cpp \
+        ../Classes/Gameplay/Comm/Communication.cpp \
+        ../Classes/Gameplay/Comm/Sockets.cpp \
 
 COCOS_ROOT = ../../lib/cocos2d-2.1rc0-x-2.1.3
 COCOS_ROOT = ../../lib/cocos2d-x
 include $(COCOS_ROOT)/cocos2dx/proj.linux/cocos2dx.mk
 
-SHAREDLIBS += -lcocos2d -lcocosdenshion
+SHAREDLIBS += -lcocos2d -lcocosdenshion -lboost_system
 CXXFLAGS += -g -lglut -Wunused-variable
 COCOS_LIBS = $(LIB_DIR)/libcocos2d.so $(LIB_DIR)/libcocosdenshion.so
 INCLUDES += -I$(COCOS_ROOT)/CocosDenshion/include

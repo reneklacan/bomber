@@ -1,85 +1,71 @@
-#include "LevelLayer.h"
-#include "../Constants.h"
+/*
+ * Project: Bomber
+ * Created: 18.06.2013
+ * Class: Logic
+ */
 
-LevelLayer::LevelLayer()
-:_player(NULL)
-,_map(NULL)
+ #include "Logic.h"
+ #include "../Comm/Sockets.h"
+
+//
+void Logic::init()
 {
+    try
+    {
+        boost::asio::io_service io_service;
+        tcp_server server(io_service, this);
+        io_service.run();
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
+
+    initGame(DEFAULT);
 }
 
-LevelLayer::~LevelLayer()
+//
+void Logic::initGame(GAME_LEVELS gameID)
 {
+    _playersPositions.clear();
+    _bombsPositions.clear();
+
+    _playersPositions[58585] = ccp(0, 0); // TODO
+    // _obstacles = ???;
+    return;
 }
 
-bool LevelLayer::init()
+
+//
+void Logic::updateState(std::vector<unsigned char> data)
 {
-    CCDirector::sharedDirector()->setDepthTest(true);
-    CCDirector::sharedDirector()->setProjection(kCCDirectorProjection2D);
+    if(data.size() != SEND_PAKET_LENGTH) {
+        std::cerr << "Wrong length of received packet: " << data.size() << std::endl;
+        return;
+    }
 
-    if (!CCLayer::init())
-        return false;
+    unsigned int sessioID = data[0] * 256 + data[1];
+    unsigned int playerID = data[2] * 256 + data[3];
+    unsigned int packetType = data[4];
+    unsigned int locationX = data[5] * 256 + data[6];
+    unsigned int locationY = data[7] * 256 + data[8];
 
-    _map = Map::create();
-    _player = Human::create(_map);
-    _controlLayer = ControlLayer::create();
+    // DEBUG
+    std::cout << "SID: " << sessioID << std::endl << "PID: " << playerID << std::endl << "T: " << 
+        packetType << std::endl << "X: " << locationX << std::endl << "Y: " << locationY << std::endl;
 
-    _player->retain();
+    // Movement
+    if(packetType == MOVE)
+    {
+        processMovement(playerID, locationX, locationY);
+    }
 
-    this->addChild(_map);
-    this->addChild(_controlLayer, 2);
-
-    _map->addChild(_player, 1);
-
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-    
-    //_player = (GameSprite *) layer->tileAt(ccp(0, 5));
-    //_player = GameSprite::gameSpriteWithFile("tiles/timmy.png");
-    //_player->setSpeed(1);
-    //_player->setPosition(CC_POINT_PIXELS_TO_POINTS(ccp(mapWidth/2,0)));
-    //_player->setAnchorPoint(ccp(0.5f, 0.3f));
-
-    _controlLayer->setControlledSprite((GameSprite *)_player);
-    _controlLayer->enableJoystick();
-    _controlLayer->enableKeyboard();
-
-    // Start Local Server
-    LocalServer& localServer = LocalServer::getInstance();
-    localServer.startServer();
-    
-    _player->setPosition(
-            ccp(
-                origin.x + _player->getContentSize().width/2 + 101,
-                origin.y + visibleSize.height/2
-            )
-    );
-    _map->setPosition(
-            ccp(
-                visibleSize.width/2 - _player->getPosition().x,
-                0
-            )
-    );
-
-    // use updateGame instead of update, otherwise it will conflit with SelectorProtocol::update
-    // see http://www.cocos2d-x.org/boards/6/topics/1478
-    this->schedule( schedule_selector(LevelLayer::repositionSprite) );
-    this->schedule( schedule_selector(LevelLayer::updateGame) );
-
-    //CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background-music-aac.wav", true);
-
-	return true;
+    return;
 }
 
-void LevelLayer::repositionSprite(float dt)
-{
-    CCPoint p = _player->getPosition();
-    //p = CC_POINT_POINTS_TO_PIXELS(p);
-    int z = -( (p.y+100.5) /81 ) + 0;
-    _player->setVertexZ( z );
-}
-
-void LevelLayer::updateGame(float dt)
-{
+//
+void Logic::processMovement(unsigned int pid, unsigned int p_x, unsigned int p_y)
+{/*
     CCObject* co = NULL;
     int x, y, width, height;
     CCRect objRect;
@@ -90,8 +76,8 @@ void LevelLayer::updateGame(float dt)
     CCArray *objectList;
     CCDictionary *dict;
 
-    CCPoint currentPos = _player->getPosition();
-    CCPoint nextPos = _player->getNextPosition();
+    //CCPoint currentPos = _player->getPosition();
+    CCPoint nextPos = ccp(p_x, p_y);
     CCPoint nextPosX = ccp(nextPos.x, currentPos.y);
     CCPoint nextPosY = ccp(currentPos.x, nextPos.y);
 
@@ -189,7 +175,7 @@ void LevelLayer::updateGame(float dt)
     }
 
     if (portalExit)
-    {
+    {*/
         /*
         dict = (CCDictionary*) _map->getPortalExits()->objectForKey(portalExit);
 
@@ -212,7 +198,7 @@ void LevelLayer::updateGame(float dt)
 
         return;
         */
-
+/*
         objectGroup = _map->getTiledMap()->objectGroupNamed("portal_exits");
         objectList = objectGroup->getObjects();
 
@@ -252,4 +238,5 @@ void LevelLayer::updateGame(float dt)
             );
         }
     }
+*/
 }
