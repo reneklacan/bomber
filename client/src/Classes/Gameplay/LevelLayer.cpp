@@ -80,15 +80,15 @@ void LevelLayer::repositionSprite(float dt)
 
 void LevelLayer::updateGame(float dt)
 {
-    CCObject* co = NULL;
-    int x, y, width, height;
+    //CCObject* co = NULL;
+    //int x, y, width, height;
     CCRect objRect;
     bool collisionOccured = false;
     bool collisionOccuredX = false;
     bool collisionOccuredY = false;
-    CCTMXObjectGroup *objectGroup;
-    CCArray *objectList;
-    CCDictionary *dict;
+    //CCTMXObjectGroup *objectGroup;
+    //CCArray *objectList;
+    //CCDictionary *dict;
 
     CCPoint currentPos = _player->getPosition();
     CCPoint nextPos = _player->getNextPosition();
@@ -142,12 +142,20 @@ void LevelLayer::updateGame(float dt)
             comm.sendSpriteMovement(58585, nextPos.x, nextPos.y);
         }
 
-        _player->setPosition(nextPos);
-        _map->addToPosition(ccpSub(currentPos, nextPos));
+        //_player->setPosition(nextPos);
+        //_map->addToPosition(ccpSub(currentPos, nextPos));
     }
 
-    // PORTALS FROM HERE
+    // Get Data
+    Communication comm = Communication();
+    comm.receiveServerData();
 
+    //CCPoint serverNextPosition = ccp(comm.getPlayerPositionX(58585), comm.getPlayerPositionY(58585))
+    //_player->setPosition(serverNextPosition);
+    //_map->addToPosition(ccpSub(currentPos, serverNextPosition));
+
+    // PORTALS FROM HERE
+/*
     CCPoint mapPos = _map->getPosition();
 
     collisionOccured = false;
@@ -192,7 +200,7 @@ void LevelLayer::updateGame(float dt)
 
     if (portalExit)
     {
-        /*
+*/        /*
         dict = (CCDictionary*) _map->getPortalExits()->objectForKey(portalExit);
 
         if (dict != NULL)
@@ -214,7 +222,7 @@ void LevelLayer::updateGame(float dt)
 
         return;
         */
-
+/*
         objectGroup = _map->getTiledMap()->objectGroupNamed("portal_exits");
         objectList = objectGroup->getObjects();
 
@@ -253,5 +261,5 @@ void LevelLayer::updateGame(float dt)
                     ccpAdd(mapPos, delta)
             );
         }
-    }
+    }*/
 }

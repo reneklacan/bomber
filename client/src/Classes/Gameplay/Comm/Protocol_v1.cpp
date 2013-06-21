@@ -43,3 +43,76 @@ bool Protocol_v1::getDataPlayerAction(TPlayerAction *playerAction, std::vector<u
 
     return true;
 }
+
+//
+void Protocol_v1::setDataServerSync(std::vector<unsigned char> &buffer, TServerSync &data)
+{
+    buffer.push_back( (unsigned char)(data.session_id / 256) );
+    buffer.push_back( (unsigned char)(data.session_id % 256) );
+    buffer.push_back( (unsigned char)(data.num_players / 256) );
+    buffer.push_back( (unsigned char)(data.num_players % 256) );
+    for(std::vector<TServerPlayer>::iterator it = data.players_data.begin(); it != data.players_data.end(); it++)
+    {
+        TServerPlayer* itT = (TServerPlayer *)&it;
+        buffer.push_back( (unsigned char)(itT->data_length / 256) );
+        buffer.push_back( (unsigned char)(itT->data_length % 256) );
+        buffer.push_back( (unsigned char)(itT->player_id / 256) ); 
+        buffer.push_back( (unsigned char)(itT->player_id / 256) ); 
+        buffer.push_back( (unsigned char)(itT->player_state) ); 
+        buffer.push_back( (unsigned char)(itT->data_length / 256) );
+        buffer.push_back( (unsigned char)(itT->location_x / 256) );
+        buffer.push_back( (unsigned char)(itT->location_x % 256) );
+        buffer.push_back( (unsigned char)(itT->location_y / 256) );
+        buffer.push_back( (unsigned char)(itT->location_y % 256) ); 
+    }
+
+    return;
+}
+
+//
+bool Protocol_v1::getDataServerSync(TServerSync *target, std::vector<unsigned char> *workData)
+{
+    unsigned int dataSize = workData->size();
+    if(dataSize < MINIMUM_SERVER_SYNC_PAKET_LENGTH)
+    {
+        std::cerr << "1: Wrong length of received packet: " << workData->size() << std::endl;
+        return false;
+    }
+
+    std::vector<unsigned char> &data = *workData;
+
+    target->session_id = data[0] * 256 + data[1];
+    target->num_players = data[2] * 256 + data[3];
+    unsigned int offset = 4;
+    dataSize -= MINIMUM_SERVER_SYNC_PAKET_LENGTH;
+    for(unsigned int i = 0; i < target->num_players; i++)
+    {
+        if(dataSize < 2) {
+            std::cerr << "2: Wrong length of received packet: " << workData->size() << std::endl;
+            return false;
+        }
+
+        TServerPlayer sP;
+        sP.data_length = data[offset] * 256 + data[offset+1];
+        offset += 2;
+        if(dataSize < sP.data_length) {
+            std::cerr << "3: Wrong length of received packet: " << workData->size() << std::endl;
+            return false;
+        }
+
+        sP.player_id = data[offset] * 256 + data[offset+1];
+        offset += 2;
+        sP.player_state = data[offset];
+        offset += 1;
+        sP.location_x = data[offset] * 256 + data[offset+1];
+        offset += 2;
+        sP.location_y = data[offset] * 256 + data[offset+1];
+        offset += 2;
+
+        target->players_data.push_back(sP);
+
+        dataSize -= sP.data_length;
+    }
+
+    return true;
+}

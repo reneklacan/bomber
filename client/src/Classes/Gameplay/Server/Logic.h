@@ -12,10 +12,7 @@
 #include <map>
 #include <sstream>
 
-#include "../Comm/Communication.h"
 #include "../Comm/Protocol_v1.h"
-#include "../Map/Map.h"
-//#include "cocos2d.h"
 #include "tinyxml2.h"
 
  using namespace tinyxml2;

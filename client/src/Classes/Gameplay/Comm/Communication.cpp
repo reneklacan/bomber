@@ -72,6 +72,10 @@ bool Communication::sendServerData()
 //
 bool Communication::receiveServerData()
 {
+    TcpClient tcpClient = TcpClient();
+    std::vector<unsigned char> *data = tcpClient.receiveData(_serverAddress, _serverSyncPort);
+    _protocol->getDataServerSync(&_dataReceive, data);
+
     return true;
 }
 

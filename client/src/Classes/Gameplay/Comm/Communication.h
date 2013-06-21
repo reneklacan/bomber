@@ -18,7 +18,7 @@ using namespace std;
 
 class Communication {
 public:
-    Communication(): _serverAddress("127.0.0.1"), _serverPort("2244")
+    Communication(): _serverAddress("127.0.0.1"), _serverPort("2244"), _serverSyncPort("2245")
     {
         _protocol = new Protocol_v1();
     };
@@ -33,8 +33,9 @@ public:
 private:
     string _serverAddress;
     string _serverPort;
+    string _serverSyncPort;
     vector<unsigned char> _bufferSend;
-    vector<unsigned char> _bufferReceive;
+    TServerSync _dataReceive;
     Protocol_v1 *_protocol;
 
     unsigned int createBinaryData(unsigned int playerID, SEND_PACKET_TYPES type, 
