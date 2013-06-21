@@ -6,7 +6,7 @@
 
 using namespace cocos2d;
 
-class Joystick : public CCLayer, public GameController
+class Joystick : public GameController
 {
 public:
     CREATE_FUNC(Joystick);

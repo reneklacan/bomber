@@ -8,6 +8,7 @@ bool Keyboard::init()
 #ifndef ANDROID
     this->setKeyboardEnabled(true);
 #endif
+
     return true;
 }
 
@@ -36,7 +37,7 @@ void Keyboard::keyPressed(int keyCode)
             break;
 
         case KEY_Space:
-            _actionKeyOnePressed = true;
+            _gameActionDelefate->actionOne();
             break;
 
         default:
@@ -72,6 +73,13 @@ void Keyboard::keyReleased(int keyCode)
 
         case KEY_Space:
             _actionKeyOnePressed = false;
+            break;
+
+        case KEY_Escape:
+            if (_pauseGameDelegate)
+            {
+                _pauseGameDelegate->pauseGameAction();
+            }
             break;
 
         default:

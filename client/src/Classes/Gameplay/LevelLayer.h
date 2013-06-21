@@ -8,8 +8,9 @@
 #include "Sprites/GameSprite.h"
 #include "Sprites/Human.h"
 #include "../Input/ControlLayer.h"
+#include "../Input/ActionDelegates.h"
 
-class LevelLayer : public CCLayer
+class LevelLayer : public CCLayer, public PauseGameDelegate
 {
 public:
 	LevelLayer();
@@ -32,6 +33,8 @@ public:
 	//void ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
     void repositionSprite(float dt);
 	//void ccTouchesMoved(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
+
+    void pauseGameAction() { printf("game paused in level layer\n"); };
 
 protected:
     ControlLayer *_controlLayer;

@@ -42,6 +42,8 @@ bool LevelLayer::init()
     _controlLayer->setControlledSprite((GameSprite *)_player);
     _controlLayer->enableJoystick();
     _controlLayer->enableKeyboard();
+    _controlLayer->setPauseGameDelegate(this);
+    _controlLayer->setGameActionDelegate(_player);
     
     _player->setPosition(
             ccp(

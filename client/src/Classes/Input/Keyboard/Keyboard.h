@@ -2,11 +2,12 @@
 #define __BOMBER_KEYBOARD
 
 #include "cocos2d.h"
+#include "../ActionDelegates.h"
 #include "../GameController.h"
 
 using namespace cocos2d;
 
-class Keyboard : public CCLayer, public GameController
+class Keyboard : public GameController
 {
     public:
         //Keyboard();
@@ -39,7 +40,7 @@ typedef enum
     KEY_Alt = 0x12,
     KEY_Pause = 0x13,
     KEY_CapsLock = 0x14,
-    KEY_Escape = 0x1B,
+    KEY_Escape = 0x101,
     KEY_Space = 0x20,
     KEY_PageUp = 0x21,
     KEY_PageDown = 0x22,

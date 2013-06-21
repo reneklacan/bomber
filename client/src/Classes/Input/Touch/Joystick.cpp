@@ -74,12 +74,6 @@ void Joystick::resetJoystick()
 
 bool Joystick::handleLastTouch()
 {
-    if (_actionKeyOnePressed)
-    {
-        _actionKeyOnePressed = false;
-        return false;
-    }
-
     bool wasPressed = _isPressed;
     if (wasPressed)
     {
@@ -104,7 +98,9 @@ void Joystick::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 
     if (point.x > visibleSize.width/2)
-        _actionKeyOnePressed = true;
+    {
+        _gameActionDelefate->actionOne();
+    }
 }
 
 void Joystick::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)

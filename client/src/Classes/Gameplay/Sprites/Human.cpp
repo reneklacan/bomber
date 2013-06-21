@@ -32,6 +32,16 @@ void Human::actionOne()
     this->plantBomb();
 }
 
+void Human::actionTwo()
+{
+
+}
+
+void Human::actionThree()
+{
+
+}
+
 void Human::plantBomb()
 {
     _map->spawnBomb(this);
