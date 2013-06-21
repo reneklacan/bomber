@@ -11,14 +11,13 @@
 #include <vector>
 #include "Logic.h"
 #include "../Comm/Protocol_v1.h"
-#include "../Comm/Sockets.h"
 
 class Sender {
 public:
-    Sender();
+    Sender() {}
     ~Sender() {}
 
-    void init();
+    std::vector<unsigned char> init();
     void setLogic(Logic* logic);
 private:
     Logic *_logic;

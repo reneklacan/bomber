@@ -5,23 +5,8 @@
  */
 
 #include "Sender.h"
-
-//
-Sender::Sender()
-{
-    _protocol = new Protocol_v1();
-
-    try
-    {
-        boost::asio::io_service io_service;
-        tcp_server_sync server(io_service, this);
-        io_service.run();
-    }
-    catch (std::exception& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-}
+#include "../Comm/Sockets.h"
+#include "../Comm/Protocol_v1.h"
 
 std::vector<unsigned char> Sender::init()
 {
@@ -48,7 +33,7 @@ std::vector<unsigned char> Sender::init()
     _protocol->setDataServerSync(_buffer, _data);
 
     // DEBUG
-    /*std::cout << "Sender: " << "Player (" << 58585 << "): " << pP[58585]->x << " " << pP[58585]->y << std::endl;*/
+    //std::cout << "Sender: " << "Player (" << 58585 << "): " << pP[58585]->x << " " << pP[58585]->y << std::endl;
 
     return _buffer;
 }

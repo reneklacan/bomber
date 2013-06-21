@@ -12,12 +12,6 @@ void *logicHelper(void * arg)
     LocalServer::getInstance().getLogic()->init();
 }
 
-// Clean function to start thread
-void *senderHelper(void * arg)
-{
-    LocalServer::getInstance().getSender()->init();
-}
-
 // Singleton
 LocalServer& LocalServer::getInstance()
 {
@@ -30,11 +24,6 @@ bool LocalServer::startServer()
 {
     _logic = new Logic();
     pthread_create(&_logicThread, NULL, logicHelper, NULL);
-    _sender = new Sender();
-    pthread_create(&_senderThread, NULL, senderHelper, NULL);
-
-    LocalServer::getInstance().getSender()->setLogic(
-        LocalServer::getInstance().getLogic());
 
     return true;
 }
@@ -43,12 +32,6 @@ bool LocalServer::startServer()
 Logic *LocalServer::getLogic()
 {
     return _logic;
-}
-
-// Return pointer to Logic class
-Sender *LocalServer::getSender()
-{
-    return _sender;
 }
 
 // TODO: implement

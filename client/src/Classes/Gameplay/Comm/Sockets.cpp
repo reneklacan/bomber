@@ -5,8 +5,6 @@
  */
 
 #include "Sockets.h"
-#include "../Server/Logic.h"
-#include "../Server/Sender.h"
 
 std::string make_daytime_string()
 {
@@ -21,14 +19,14 @@ tcp::socket& tcp_connection::socket()
   return socket_;
 }
 
-void tcp_connection::start()
+void tcp_connection::start(Logic *logic)
 {
-  /*message_ = make_daytime_string();
+  message_ = logic->getState();
 
   boost::asio::async_write(socket_, boost::asio::buffer(message_),
       boost::bind(&tcp_connection::handle_write, shared_from_this(),
         boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));*/
+        boost::asio::placeholders::bytes_transferred));
 }
 
 void tcp_server::start_accept()
@@ -46,8 +44,6 @@ void tcp_server::handle_accept(tcp_connection::pointer new_connection,
 {
   if (!error)
   {
-    new_connection->start();
-
     // Receive data
     boost::array<char, 9> buf;
     boost::system::error_code error;
@@ -62,11 +58,14 @@ void tcp_server::handle_accept(tcp_connection::pointer new_connection,
       throw boost::system::system_error(error);
 
     // Send data to Logic only if there are some
-    if(len > 0) {
+    if(len > 1) 
+    {
       //Convert to vector and send data to Logic
       std::vector<unsigned char> vData(buf.begin(), buf.end());
       _logic->updateState(vData);
     }
+
+    new_connection->start(_logic);
   }
 
   start_accept();
@@ -88,21 +87,7 @@ void TcpClient::sendData(std::string ip, std::string port, std::vector<unsigned 
 
     boost::asio::write(socket, boost::asio::buffer(data));
 
-    // Receive data
-    boost::array<char, 128> buf;
-    boost::system::error_code error;
-
-    //size_t len = socket.read_some(boost::asio::buffer(buf), error);
-    socket.read_some(boost::asio::buffer(buf), error);
-
-    // Connection closed by peer
-    if (error == boost::asio::error::eof)
-      ;
-    // Other error
-    else if (error)
-      throw boost::system::system_error(error);
-
-    //std::cout.write(buf.data(), len);
+    socket.close();
   }
   catch (std::exception& e)
   {
@@ -123,6 +108,8 @@ std::vector<unsigned char> *TcpClient::receiveData(std::string ip, std::string p
 
     tcp::socket socket(io_service);
     boost::asio::connect(socket, endpoint_iterator);
+
+    boost::asio::write(socket, boost::asio::buffer(""));
 
     // Receive data
     boost::array<char, 128> buf;
@@ -149,61 +136,4 @@ std::vector<unsigned char> *TcpClient::receiveData(std::string ip, std::string p
   }
 
   return &_buf;
-}
-
-tcp::socket& tcp_connection_sync::socket()
-{
-  return socket_;
-}
-
-void tcp_connection_sync::start()
-{
-  message_ = sender->init();
-
-  boost::asio::async_write(socket_, boost::asio::buffer(message_),
-      boost::bind(&tcp_connection_sync::handle_write, shared_from_this(),
-        boost::asio::placeholders::error,
-        boost::asio::placeholders::bytes_transferred));
-}
-
-//
-void tcp_server_sync::start_accept()
-{
-  tcp_connection_sync::pointer new_connection =
-    tcp_connection_sync::create(acceptor_.get_io_service());
-
-  acceptor_.async_accept(new_connection->socket(),
-      boost::bind(&tcp_server_sync::handle_accept, this, new_connection,
-        boost::asio::placeholders::error));
-}
-
-void tcp_server_sync::handle_accept(tcp_connection_sync::pointer new_connection,
-    const boost::system::error_code& error)
-{
-  if (!error)
-  {
-    new_connection->start();
-
-    // Receive data
-    boost::array<char, 9> buf;
-    boost::system::error_code error;
-
-    size_t len = new_connection->socket().read_some(boost::asio::buffer(buf), error);
-
-    // Connection closed by peer
-    if (error == boost::asio::error::eof)
-      ;
-    // Other error
-    else if (error)
-      throw boost::system::system_error(error);
-
-    // Send data to Logic only if there are some
-    if(len > 0) {
-      //Convert to vector and send data to Logic
-      std::vector<unsigned char> vData(buf.begin(), buf.end());
-      _logic->updateState(vData);
-    }
-  }
-
-  start_accept();
 }

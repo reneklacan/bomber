@@ -17,7 +17,6 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Sprites/Human.cpp \
         ../Classes/Gameplay/Server/LocalServer.cpp \
         ../Classes/Gameplay/Server/Logic.cpp \
-        ../Classes/Gameplay/Server/Sender.cpp \
         ../Classes/Gameplay/Comm/Communication.cpp \
         ../Classes/Gameplay/Comm/Sockets.cpp \
         ../Classes/Gameplay/Comm/Protocol_v1.cpp \

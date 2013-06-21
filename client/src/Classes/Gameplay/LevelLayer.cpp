@@ -132,7 +132,7 @@ void LevelLayer::updateGame(float dt)
     else
         move = false;
 
-    if (move)
+    /*if (move)
     {
         // Only send data when something has changed
         if(currentPos.x != nextPos.x || currentPos.y != nextPos.y) 
@@ -144,15 +144,30 @@ void LevelLayer::updateGame(float dt)
 
         //_player->setPosition(nextPos);
         //_map->addToPosition(ccpSub(currentPos, nextPos));
-    }
+    }*/
 
     // Get Data
     Communication comm = Communication();
+    if(currentPos.x != nextPos.x || currentPos.y != nextPos.y) 
+    {
+        // Send Data
+        comm.sendSpriteMovement(58585, nextPos.x, nextPos.y);
+    }
     comm.receiveServerData();
 
-    //CCPoint serverNextPosition = ccp(comm.getPlayerPositionX(58585), comm.getPlayerPositionY(58585))
-    //_player->setPosition(serverNextPosition);
-    //_map->addToPosition(ccpSub(currentPos, serverNextPosition));
+    // Get Player Data
+    PlayerInfo *pI = comm.getPlayerInfo(58585);
+    CCPoint serverNextPosition;
+    if(pI->valid)
+    {
+       serverNextPosition = ccp(pI->x, pI->y); 
+    }
+    else
+    {
+        serverNextPosition = currentPos;
+    }
+    _player->setPosition(serverNextPosition);
+    _map->addToPosition(ccpSub(currentPos, serverNextPosition));
 
     // PORTALS FROM HERE
 /*

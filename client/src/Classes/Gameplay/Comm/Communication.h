@@ -16,9 +16,20 @@
 
 using namespace std;
 
+class PlayerInfo
+{
+public:
+    PlayerInfo() {}
+    ~PlayerInfo() {}
+
+    unsigned int x;
+    unsigned int y;
+    bool valid;
+};
+
 class Communication {
 public:
-    Communication(): _serverAddress("127.0.0.1"), _serverPort("2244"), _serverSyncPort("2245")
+    Communication(): _serverAddress("127.0.0.1"), _serverPort("2244")
     {
         _protocol = new Protocol_v1();
     };
@@ -30,10 +41,11 @@ public:
     bool sendServerData();
     bool receiveServerData();
 
+    PlayerInfo *getPlayerInfo(unsigned int pid);
+
 private:
     string _serverAddress;
     string _serverPort;
-    string _serverSyncPort;
     vector<unsigned char> _bufferSend;
     TServerSync _dataReceive;
     Protocol_v1 *_protocol;

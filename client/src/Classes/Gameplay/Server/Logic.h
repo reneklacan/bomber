@@ -51,13 +51,20 @@ public:
     void init();
     void updateState(std::vector<unsigned char> data);
     std::map<unsigned int, Point *> &getPlayersPositions();
+    void setSender(void* sender);
+    void *getSender()
+    { 
+        return _sender;
+    }
     bool isLogicReady()
     {
         return _isReady;
     }
+    std::vector<unsigned char> getState();
 
 private:
     bool _isReady;
+    void *_sender;
     Protocol_v1 *_protocol;
 
     std::map<unsigned int, Point *> _playersPositions;
@@ -71,6 +78,8 @@ private:
     void processMovement(unsigned int pid, unsigned int p_x, unsigned int p_y);
     void processPlanting(unsigned int pid, unsigned int p_x, unsigned int p_y);
 
+    std::vector<unsigned char> _buffer;
+    TServerSync _data;
 };
 
 #endif

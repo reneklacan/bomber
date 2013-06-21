@@ -53,17 +53,15 @@ void Protocol_v1::setDataServerSync(std::vector<unsigned char> &buffer, TServerS
     buffer.push_back( (unsigned char)(data.num_players % 256) );
     for(std::vector<TServerPlayer>::iterator it = data.players_data.begin(); it != data.players_data.end(); it++)
     {
-        TServerPlayer* itT = (TServerPlayer *)&it;
-        buffer.push_back( (unsigned char)(itT->data_length / 256) );
-        buffer.push_back( (unsigned char)(itT->data_length % 256) );
-        buffer.push_back( (unsigned char)(itT->player_id / 256) ); 
-        buffer.push_back( (unsigned char)(itT->player_id / 256) ); 
-        buffer.push_back( (unsigned char)(itT->player_state) ); 
-        buffer.push_back( (unsigned char)(itT->data_length / 256) );
-        buffer.push_back( (unsigned char)(itT->location_x / 256) );
-        buffer.push_back( (unsigned char)(itT->location_x % 256) );
-        buffer.push_back( (unsigned char)(itT->location_y / 256) );
-        buffer.push_back( (unsigned char)(itT->location_y % 256) ); 
+        buffer.push_back( (unsigned char)(it->data_length / 256) );
+        buffer.push_back( (unsigned char)(it->data_length % 256) );
+        buffer.push_back( (unsigned char)(it->player_id / 256) ); 
+        buffer.push_back( (unsigned char)(it->player_id % 256) ); 
+        buffer.push_back( (unsigned char)(it->player_state) ); 
+        buffer.push_back( (unsigned char)(it->location_x / 256) );
+        buffer.push_back( (unsigned char)(it->location_x % 256) );
+        buffer.push_back( (unsigned char)(it->location_y / 256) );
+        buffer.push_back( (unsigned char)(it->location_y % 256) ); 
     }
 
     return;

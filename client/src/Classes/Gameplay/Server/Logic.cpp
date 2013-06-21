@@ -4,9 +4,9 @@
  * Class: Logic
  */
 
- #include "Logic.h"
- #include "../Comm/Sockets.h"
- #include "../Comm/Protocol_v1.h"
+#include "Logic.h"
+#include "../Comm/Sockets.h"
+#include "../Comm/Protocol_v1.h"
 
 //
 void Logic::init()
@@ -34,7 +34,7 @@ void Logic::initGame(GAME_LEVELS gameID)
     _portals.clear();
     _items.clear();
 
-    _playersPositions[58585] = new Point(0, 0); // TODO
+    _playersPositions[58585] = new Point(150, 486); // TODO
 
     // Parse Map
     XMLDocument doc;
@@ -119,6 +119,40 @@ std::map<unsigned int, Point *> &Logic::getPlayersPositions()
 }
 
 //
+std::vector<unsigned char> Logic::getState()
+{
+    // Get player positions
+    //std::map<unsigned int, Point *> &pP = this->getPlayersPositions();
+    _buffer.clear();
+    _data.players_data.clear();
+
+    // Inicialize data structure
+    _data.session_id = 14568; // TODO
+    _data.num_players = _playersPositions.size();
+    for(std::map<unsigned int, Point *>::iterator it = _playersPositions.begin(); it != _playersPositions.end(); it++)
+    {
+        TServerPlayer sP = 
+        {
+            PLAYER_ACTION_PAKET_LENGTH,
+            it->first,
+            0, // TODO
+            it->second->x,
+            it->second->y
+        };
+        std::cout << "Sender: " << "Player (" << it->first << "): " << it->second->x << " " << it->second->y << std::endl;
+        _data.players_data.push_back(sP);
+    }
+
+    // Create packet
+    _protocol->setDataServerSync(_buffer, _data);
+
+    // DEBUG
+    //std::cout << "Sender: " << "Player (" << 58585 << "): " << _playersPositions[58585]->x << " " << _playersPositions[58585]->y << std::endl;
+
+    return _buffer;
+}
+
+//
 void Logic::updateState(std::vector<unsigned char> data)
 {
     // Parse data
@@ -154,6 +188,8 @@ void Logic::processMovement(unsigned int pid, unsigned int p_x, unsigned int p_y
 
     _playersPositions[pid]->x = p_x;
     _playersPositions[pid]->y = p_y;
+
+    std::cout << _playersPositions[pid]->x << " " << _playersPositions[pid]->y << "\n";
 
     /*
     CCObject* co = NULL;
@@ -275,4 +311,10 @@ void Logic::processMovement(unsigned int pid, unsigned int p_x, unsigned int p_y
 void Logic::processPlanting(unsigned int pid, unsigned int p_x, unsigned int p_y)
 {
     return;
+}
+
+//void 
+void Logic::setSender(void* sender)
+{
+    _sender = sender;
 }

@@ -73,7 +73,7 @@ bool Communication::sendServerData()
 bool Communication::receiveServerData()
 {
     TcpClient tcpClient = TcpClient();
-    std::vector<unsigned char> *data = tcpClient.receiveData(_serverAddress, _serverSyncPort);
+    std::vector<unsigned char> *data = tcpClient.receiveData(_serverAddress, _serverPort);
     _protocol->getDataServerSync(&_dataReceive, data);
 
     return true;
@@ -89,4 +89,21 @@ void Communication::errorSend()
 void Communication::errorSendPacketLength()
 {
     cerr << "Wrong length of created packet." << endl;
+}
+
+//
+PlayerInfo *Communication::getPlayerInfo(unsigned int pid)
+{
+    PlayerInfo *p = new PlayerInfo();
+    p->valid = false;
+    for(std::vector<TServerPlayer>::iterator it = _dataReceive.players_data.begin(); 
+        it!= _dataReceive.players_data.end(); it++)
+    {
+        if(it->player_id == pid)
+        {
+            p->x = it->location_x;
+            p->y = it->location_y;
+            p->valid = true;
+        }
+    }
 }
