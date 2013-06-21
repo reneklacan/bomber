@@ -1,9 +1,21 @@
 *.swp
+*.swo
 *.o
 *.pyc
 *.pyo
+
+# lib stuff
 client/lib/cocos2d-2.1rc0-x-2.1.3/
 client/lib/cocos2d-2.1rc0-x-2.1.3.zip
 client/lib/cocos2d-x/
+
+# linux garbage
 client/src/ProjLinux/bin/
 client/src/ProjLinux/obj/
+
+# android garbage
+client/src/ProjAndroid/assets/
+client/src/ProjAndroid/bin/
+client/src/ProjAndroid/gen/
+client/src/ProjAndroid/libs/
+client/src/ProjAndroid/obj/
