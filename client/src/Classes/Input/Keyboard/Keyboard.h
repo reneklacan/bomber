@@ -2,11 +2,11 @@
 #define __BOMBER_KEYBOARD
 
 #include "cocos2d.h"
-#include "ControllerBase.h"
+#include "../GameController.h"
 
 using namespace cocos2d;
 
-class Keyboard : public CCLayer, public ControllerBase
+class Keyboard : public CCLayer, public GameController
 {
     public:
         //Keyboard();
@@ -14,8 +14,7 @@ class Keyboard : public CCLayer, public ControllerBase
         CREATE_FUNC(Keyboard);
 
         virtual bool init();
-
-        bool isActionKeyOnePressed() { return _actionKeyOnePressed; };
+        virtual const char *getName() { return "Keyboard"; };
 
         void keyPressed(int keyCode);
         void keyReleased(int keyCode);

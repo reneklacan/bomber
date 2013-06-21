@@ -4,10 +4,6 @@
 #include "cocos2d.h"
 
 //#include "SimpleAudioEngine.h"
-#include "Input/Joystick.h"
-#include "Gameplay/Map/Map.h"
-#include "Gameplay/Sprites/GameSprite.h"
-#include "Gameplay/Sprites/Human.h"
 #include "Gameplay/LevelLayer.h"
 
 class GameplayScene : public CCLayer

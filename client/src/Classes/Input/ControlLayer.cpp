@@ -5,6 +5,9 @@ bool ControlLayer::init()
     if (!CCLayer::init())
         return false;
 
+    _keyboard = NULL;
+    _joystick = NULL;
+
     this->schedule(schedule_selector(ControlLayer::update));
 
     return true;
@@ -25,60 +28,63 @@ void ControlLayer::update(float dt)
     CCPoint pos = _controlledSprite->getPosition();
     CCPoint velocity;
 
-    if (_joystickEnabled)
+    for (GameController *controller : _enabledControllers)
     {
-        velocity = _joystick->getVelocity();
-        if (_joystick->isActionKeyOnePressed())
+        if (!controller->isEnabled())
+            continue;
+
+        velocity = controller->getVelocity();
+        if (controller->isActionKeyOnePressed())
         {
             _controlledSprite->actionOne();
         }
+
+        if (velocity.x == 0.0 && velocity.y == 0.0)
+            continue;
+
+        _controlledSprite->setNextPositionDelta(
+                ccp(
+                    velocity.x*sensitivity*dt*speed,
+                    velocity.y*sensitivity*dt*speed
+                )
+        );
+
+        _controlledSprite->setNextPosition(
+                ccpAdd(pos, _controlledSprite->getNextPositionDelta())
+        );
     }
-
-    if (_keyboardEnabled && !velocity.x && !velocity.y)
-    {
-        velocity = _keyboard->getVelocity();
-        if (_keyboard->isActionKeyOnePressed())
-        {
-            _controlledSprite->actionOne();
-        }
-    }
-
-    _controlledSprite->setNextPositionDelta(
-            ccp(
-                velocity.x*sensitivity*dt*speed,
-                velocity.y*sensitivity*dt*speed
-            )
-    );
-
-    _controlledSprite->setNextPosition(
-            ccpAdd(pos, _controlledSprite->getNextPositionDelta())
-    );
 }
 
 void ControlLayer::enableJoystick()
 {
-    _joystickEnabled = true;
-    _joystick =  Joystick::create();
-    this->addChild(_joystick, 2);
+    if (_joystick == NULL)
+    {
+        _joystick =  Joystick::create();
+        this->addChild(_joystick, 2);
+        _enabledControllers.push_back(_joystick);
+    }
+    _joystick->setEnabled(true);
 }
 
 void ControlLayer::disableJoystick()
 {
-
+    _joystick->setEnabled(false);
 }
 
 void ControlLayer::enableKeyboard()
 {
-    _keyboardEnabled = true;
-    _keyboard = Keyboard::create();
-    this->addChild(_keyboard, 2);
-    //this->setKeyboardEnabled(true);
+    if (_keyboard == NULL)
+    {
+        _keyboard = Keyboard::create();
+        this->addChild(_keyboard, 2);
+        _enabledControllers.push_back(_keyboard);
+    }
+    _keyboard->setEnabled(true);
 }
 
 void ControlLayer::disableKeyboard()
 {
-    _keyboardEnabled = false;
-    //this->setKeyboardEnabled(false);
+    _keyboard->setEnabled(false);
 }
 
 void ControlLayer::enableAccelerometer()

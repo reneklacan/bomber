@@ -2,8 +2,8 @@
 #define __BOMBER_CONTROL_LAYER
 
 #include "cocos2d.h"
-#include "Joystick.h"
-#include "Keyboard.h"
+#include "Touch/Joystick.h"
+#include "Keyboard/Keyboard.h"
 #include "../Gameplay/Sprites/GameSprite.h"
 
 using namespace cocos2d;
@@ -39,6 +39,7 @@ class ControlLayer: public CCLayer
         Joystick *_joystick;
         bool _keyboardEnabled;
         Keyboard *_keyboard;
+        std::vector<GameController *> _enabledControllers;
 };
 
 #endif

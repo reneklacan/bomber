@@ -49,6 +49,8 @@ bool LevelLayer::init()
                 origin.y + visibleSize.height/2
             )
     );
+    _player->setNextPosition(_player->getPosition());
+
     _map->setPosition(
             ccp(
                 visibleSize.width/2 - _player->getPosition().x,

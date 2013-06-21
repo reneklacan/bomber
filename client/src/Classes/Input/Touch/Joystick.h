@@ -2,22 +2,21 @@
 #define __BOMBER_JOYSTICK
 
 #include "cocos2d.h" 
-#include "ControllerBase.h" 
+#include "../GameController.h" 
 
 using namespace cocos2d;
 
-class Joystick : public CCLayer, public ControllerBase
+class Joystick : public CCLayer, public GameController
 {
 public:
     CREATE_FUNC(Joystick);
     bool init();
-    bool isActionKeyOnePressed() { return _actionKeyOnePressed; };
+    virtual const char *getName() { return "Touch"; };
 
 private:
     CCPoint _kCenter;
     CCSprite *_thumb;
     bool _isPressed;
-    bool _actionKeyOnePressed;
 
     void updateVelocity(CCPoint point);
     void resetJoystick();
@@ -29,3 +28,4 @@ private:
 };
 
 #endif
+

@@ -1,9 +1,7 @@
 #include "GameplayScene.h"
 #include "GameOverScene.h"
 //#include "SimpleAudioEngine.h"
-#include "Input/Joystick.h"
-#include "Input/Keyboard.h"
-#include "Gameplay/Map/Bomb.h"
+//#include "Gameplay/Map/Bomb.h"
 
 using namespace cocos2d;
 
