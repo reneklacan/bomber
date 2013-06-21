@@ -6,6 +6,7 @@
 
  #include "Logic.h"
  #include "../Comm/Sockets.h"
+ #include "../Comm/Protocol_v1.h"
 
 //
 void Logic::init()
@@ -120,29 +121,28 @@ std::map<unsigned int, Point *> &Logic::getPlayersPositions()
 //
 void Logic::updateState(std::vector<unsigned char> data)
 {
-    if(data.size() != SEND_PAKET_LENGTH) {
-        std::cerr << "Wrong length of received packet: " << data.size() << std::endl;
+    // Parse data
+    TPlayerAction playerAction;
+    bool result = _protocol->getDataPlayerAction(&playerAction, data);
+    if(!result)
+    {
+        std::cerr << "Cannot update state." << std::endl;
         return;
     }
 
-    unsigned int sessioID = data[0] * 256 + data[1];
-    unsigned int playerID = data[2] * 256 + data[3];
-    unsigned int packetType = data[4];
-    unsigned int locationX = data[5] * 256 + data[6];
-    unsigned int locationY = data[7] * 256 + data[8];
-
     // DEBUG
-    std::cout << "SID: " << sessioID << std::endl << "PID: " << playerID << std::endl << "T: " << 
-        packetType << std::endl << "X: " << locationX << std::endl << "Y: " << locationY << std::endl;
+    /*std::cout << "SID: " << playerAction.session_id << std::endl << "PID: " << playerAction.player_id << std::endl << "T: " << 
+        playerAction.action_type << std::endl << "X: " << playerAction.location_x << std::endl << "Y: " << playerAction.location_y << std::endl;*/
 
     // Movement
-    if(packetType == MOVE)
+    if(playerAction.action_type == MOVE)
     {
-        this->processMovement(playerID, locationX, locationY);
+        this->processMovement(playerAction.player_id, playerAction.location_x, playerAction.location_y);
     }
-    else if(packetType == PLANT)
+    // Bomb
+    else if(playerAction.action_type == PLANT)
     {
-        this->processPlanting(playerID, locationX, locationY);
+        this->processPlanting(playerAction.player_id, playerAction.location_x, playerAction.location_y);
     }
 
     return;

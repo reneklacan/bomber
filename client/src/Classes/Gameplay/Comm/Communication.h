@@ -12,19 +12,16 @@
 #include <vector> 
 #include <boost/asio.hpp>
 
+#include "Protocol_v1.h"
+
 using namespace std;
-
-#define SEND_PAKET_LENGTH 9 // number of Bytes
-
-// Types of packets for sending to a server
-enum SEND_PACKET_TYPES {
-    MOVE,
-    PLANT
-};
 
 class Communication {
 public:
-    Communication(): _serverAddress("127.0.0.1"), _serverPort("2244") {};
+    Communication(): _serverAddress("127.0.0.1"), _serverPort("2244")
+    {
+        _protocol = new Protocol_v1();
+    };
     ~Communication() {};
 
     bool sendSpriteMovement(unsigned int pid, unsigned int x, unsigned int y);
@@ -38,9 +35,10 @@ private:
     string _serverPort;
     vector<unsigned char> _bufferSend;
     vector<unsigned char> _bufferReceive;
+    Protocol_v1 *_protocol;
 
     unsigned int createBinaryData(unsigned int playerID, SEND_PACKET_TYPES type, 
-        unsigned int location_x, unsigned int location_y);
+        unsigned int locationX, unsigned int locationY);
 
     void errorSend();
     void errorSendPacketLength();

@@ -20,6 +20,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Server/Sender.cpp \
         ../Classes/Gameplay/Comm/Communication.cpp \
         ../Classes/Gameplay/Comm/Sockets.cpp \
+        ../Classes/Gameplay/Comm/Protocol_v1.cpp \
 
 COCOS_ROOT = ../../lib/cocos2d-2.1rc0-x-2.1.3
 COCOS_ROOT = ../../lib/cocos2d-x

@@ -4,14 +4,14 @@
  * Class: Communication
  */
 
- #include "Communication.h"
- #include "Sockets.h"
+#include "Communication.h"
+#include "Sockets.h"
 
 
 //
 bool Communication::sendSpriteMovement(unsigned int pid, unsigned int x, unsigned int y) 
 {
-    if( createBinaryData(pid, MOVE, x, y) != SEND_PAKET_LENGTH )
+    if( createBinaryData(pid, MOVE, x, y) != PLAYER_ACTION_PAKET_LENGTH )
     {
     	errorSendPacketLength();
     }
@@ -27,7 +27,7 @@ bool Communication::sendSpriteMovement(unsigned int pid, unsigned int x, unsigne
 //
 bool Communication::sendSpriteBombPlant(unsigned int pid, unsigned int x, unsigned int y)
 {
-    if( createBinaryData(pid, PLANT, x, y) != SEND_PAKET_LENGTH )
+    if( createBinaryData(pid, PLANT, x, y) != PLAYER_ACTION_PAKET_LENGTH )
     {
     	errorSendPacketLength();
     }
@@ -43,26 +43,20 @@ bool Communication::sendSpriteBombPlant(unsigned int pid, unsigned int x, unsign
 
 //
 unsigned int Communication::createBinaryData(unsigned int playerID, 
-    SEND_PACKET_TYPES type, unsigned int location_x, unsigned int location_y)
+    SEND_PACKET_TYPES type, unsigned int locationX, unsigned int locationY)
 {
-    unsigned int sessionID = 14568; // TODO
+    TPlayerAction data = 
+    {
+        type,
+        14568,  //TODO
+        playerID, 
+        locationX,
+        locationY,
+    };
 
-    // Set Session ID
-    _bufferSend.push_back( (unsigned char)(sessionID / 256) );
-    _bufferSend.push_back( (unsigned char)(sessionID % 256) );
-    // Set Player ID
-    _bufferSend.push_back( (unsigned char)(playerID / 256) );
-    _bufferSend.push_back( (unsigned char)(playerID % 256) );
-    // Set Type of Data
-    _bufferSend.push_back( (unsigned char)type );
-    // Set Location X
-    _bufferSend.push_back( (unsigned char)(location_x / 256) );
-    _bufferSend.push_back( (unsigned char)(location_x % 256) );
-    // Set Location Y
-    _bufferSend.push_back( (unsigned char)(location_y / 256) );
-    _bufferSend.push_back( (unsigned char)(location_y % 256) );
+    _protocol->setDataPlayerAction(_bufferSend, &data);
 
-    return SEND_PAKET_LENGTH;
+    return _bufferSend.size();
 }
 
 //

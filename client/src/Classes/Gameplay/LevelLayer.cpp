@@ -146,6 +146,8 @@ void LevelLayer::updateGame(float dt)
         _map->addToPosition(ccpSub(currentPos, nextPos));
     }
 
+    // PORTALS FROM HERE
+
     CCPoint mapPos = _map->getPosition();
 
     collisionOccured = false;

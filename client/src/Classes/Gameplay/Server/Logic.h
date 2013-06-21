@@ -13,6 +13,7 @@
 #include <sstream>
 
 #include "../Comm/Communication.h"
+#include "../Comm/Protocol_v1.h"
 #include "../Map/Map.h"
 //#include "cocos2d.h"
 #include "tinyxml2.h"
@@ -44,7 +45,10 @@ public:
 class Logic
 {
 public:
-    Logic(): _isReady(false) {};
+    Logic(): _isReady(false)
+    {
+        _protocol = new Protocol_v1();
+    };
     ~Logic() {};
 
     void init();
@@ -57,6 +61,7 @@ public:
 
 private:
     bool _isReady;
+    Protocol_v1 *_protocol;
 
     std::map<unsigned int, Point *> _playersPositions;
     std::map<unsigned int, Point *> _bombsPositions;
