@@ -15,7 +15,7 @@ Server::Server(boost::asio::io_service& io_service, const tcp::endpoint& endpoin
 :_ioService(io_service)
 ,_acceptor(io_service, endpoint)
 {
-    std::cout << "chat server\n";
+    std::cout << "server\n";
 
     sessionPtr newSession(new Session(_ioService, _receivers));
     _acceptor.async_accept(

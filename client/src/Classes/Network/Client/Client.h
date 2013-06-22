@@ -10,6 +10,7 @@ class Client
     public:
         Client(boost::asio::io_service& io_service, tcp::resolver::iterator endpoint_iterator);
 
+        void write(char* msg);
         void write(const Message& msg);
         void close();
 
@@ -26,6 +27,9 @@ class Client
         void handleWrite(const boost::system::error_code& error);
         void doClose();
 };
+
+void runClient();
+void runClient2();
 
 #endif
 

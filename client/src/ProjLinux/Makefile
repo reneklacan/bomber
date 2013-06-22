@@ -22,6 +22,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Comm/Protocol_v1.cpp \
         ../Classes/Network/Common/Message.cpp \
         ../Classes/Network/Client/Client.cpp \
+        ../Classes/Network/Client/ClientConnection.cpp \
         ../Classes/Network/Server/ReceiverContainer.cpp \
         ../Classes/Network/Server/Server.cpp \
         ../Classes/Network/Server/Session.cpp \

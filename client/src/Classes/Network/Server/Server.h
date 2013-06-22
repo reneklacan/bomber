@@ -21,5 +21,7 @@ class Server
 
 typedef boost::shared_ptr<Server> serverPtr;
 
+void runServer();
+
 #endif
 

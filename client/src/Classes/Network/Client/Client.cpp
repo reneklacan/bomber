@@ -23,6 +23,15 @@ Client::Client(boost::asio::io_service& io_service, tcp::resolver::iterator endp
     );
 }
 
+void Client::write(char *cMsg)
+{
+    Message msg;
+    msg.bodyLength(std::strlen(cMsg));
+    std::memcpy(msg.body(), cMsg, msg.bodyLength());
+    msg.encodeHeader();
+    this->write(msg);
+}
+
 void Client::write(const Message& msg)
 {
     _ioService.post(boost::bind(&Client::doWrite, this, msg));
@@ -168,7 +177,7 @@ void Client::doClose()
     _socket.close();
 }
 
-void runClient(int argc, char* argv[])
+void runClient()
 {
     try
     {
@@ -190,6 +199,46 @@ void runClient(int argc, char* argv[])
             std::memcpy(msg.body(), line, msg.bodyLength());
             msg.encodeHeader();
             client.write(msg);
+        }
+
+        client.close();
+        t.join();
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << "Exception: " << e.what() << "\n";
+    }
+}
+
+void runClient2()
+{
+    try
+    {
+        boost::asio::io_service ioService;
+
+        tcp::resolver resolver(ioService);
+        tcp::resolver::query query("localhost", "8888");
+        tcp::resolver::iterator iterator = resolver.resolve(query);
+
+        Client client(ioService, iterator);
+
+        boost::asio::detail::thread t(boost::bind(&boost::asio::io_service::run, &ioService));
+
+        //char line[Message::maxBodyLength + 1];
+        char *line;
+        while (1)
+        {
+            std::cout << "tu\n";
+            line = (char *) "test";
+            client.write(line);
+            sleep(1);
+            continue;
+            Message msg;
+            msg.bodyLength(std::strlen(line));
+            std::memcpy(msg.body(), line, msg.bodyLength());
+            msg.encodeHeader();
+            client.write(msg);
+            sleep(1);
         }
 
         client.close();

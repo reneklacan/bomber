@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include "Session.h"
 
 Session::Session(boost::asio::io_service& io_service, ReceiverContainer& receivers)
@@ -28,6 +29,9 @@ void Session::start()
 
 void Session::dispatch(const Message& msg)
 {
+    std::cout.write(msg.body(), msg.bodyLength());
+    std::cout << "\n";
+
     bool writeInProgress = !_writeMsgs.empty();
     _writeMsgs.push_back(msg);
 
