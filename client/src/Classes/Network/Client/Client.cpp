@@ -10,6 +10,7 @@
 Client::Client(boost::asio::io_service& io_service, tcp::resolver::iterator endpoint_iterator)
 :_ioService(io_service)
 ,_socket(io_service)
+,_ready(false)
 {
     tcp::endpoint endpoint = *endpoint_iterator;
     _socket.async_connect(
@@ -34,6 +35,10 @@ void Client::write(char *cMsg)
 
 void Client::write(const Message& msg)
 {
+    if (!_ready)
+    {
+        return;
+    }
     _ioService.post(boost::bind(&Client::doWrite, this, msg));
 }
 
@@ -46,6 +51,8 @@ void Client::handleConnect(const boost::system::error_code& error, tcp::resolver
 {
     if (!error)
     {
+        _ready = true;
+        std::cout << "client handleConnect not error\n";
         boost::asio::async_read(
                 _socket,
                 boost::asio::buffer(
@@ -61,6 +68,7 @@ void Client::handleConnect(const boost::system::error_code& error, tcp::resolver
     }
     else if (endpoint_iterator != tcp::resolver::iterator())
     {
+        std::cout << "client handleConnect error\n";
         _socket.close();
         tcp::endpoint endpoint = *endpoint_iterator;
         _socket.async_connect(

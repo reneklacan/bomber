@@ -19,6 +19,7 @@ class Client
         tcp::socket _socket;
         Message _readMsg;
         MessageQueue _writeMsgs;
+        bool _ready;
 
         void handleConnect(const boost::system::error_code& error, tcp::resolver::iterator endpoint_iterator);
         void handleReadHeader(const boost::system::error_code& error);
