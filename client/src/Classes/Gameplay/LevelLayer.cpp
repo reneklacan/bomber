@@ -147,16 +147,16 @@ void LevelLayer::updateGame(float dt)
     }*/
 
     // Get Data
-    Communication comm = Communication();
+    Communication *comm = Communication::getInstance();
     if(currentPos.x != nextPos.x || currentPos.y != nextPos.y) 
     {
         // Send Data
-        comm.sendSpriteMovement(58585, nextPos.x, nextPos.y);
+        comm->sendSpriteMovement(58585, nextPos.x, nextPos.y);
     }
-    comm.receiveServerData();
+    comm->receiveServerData();
 
     // Get Player Data
-    PlayerInfo *pI = comm.getPlayerInfo(58585);
+    PlayerInfo *pI = comm->getPlayerInfo(58585);
     CCPoint serverNextPosition;
     if(pI->valid)
     {

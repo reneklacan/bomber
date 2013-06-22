@@ -27,34 +27,36 @@ public:
     bool valid;
 };
 
-class Communication {
-public:
-    Communication(): _serverAddress("127.0.0.1"), _serverPort("2244")
-    {
-        _protocol = new Protocol_v1();
-    };
-    ~Communication() {};
+class Communication
+{
+    public:
+        ~Communication() {};
 
-    bool sendSpriteMovement(unsigned int pid, unsigned int x, unsigned int y);
-    bool sendSpriteBombPlant(unsigned int pid, unsigned int x, unsigned int y);
+        static Communication *getInstance();
 
-    bool sendServerData();
-    bool receiveServerData();
+        bool sendSpriteMovement(unsigned int pid, unsigned int x, unsigned int y);
+        bool sendSpriteBombPlant(unsigned int pid, unsigned int x, unsigned int y);
 
-    PlayerInfo *getPlayerInfo(unsigned int pid);
+        bool sendServerData();
+        bool receiveServerData();
 
-private:
-    string _serverAddress;
-    string _serverPort;
-    vector<unsigned char> _bufferSend;
-    TServerSync _dataReceive;
-    Protocol_v1 *_protocol;
+        PlayerInfo *getPlayerInfo(unsigned int pid);
 
-    unsigned int createBinaryData(unsigned int playerID, SEND_PACKET_TYPES type, 
-        unsigned int locationX, unsigned int locationY);
+    private:
+        static Communication *_instance;
 
-    void errorSend();
-    void errorSendPacketLength();
+        string _serverAddress;
+        string _serverPort;
+        vector<unsigned char> _bufferSend;
+        TServerSync _dataReceive;
+        Protocol_v1 *_protocol;
+
+        Communication();
+        unsigned int createBinaryData(unsigned int playerID, SEND_PACKET_TYPES type, 
+                unsigned int locationX, unsigned int locationY);
+
+        void errorSend();
+        void errorSendPacketLength();
 };
 
 #endif

@@ -164,8 +164,8 @@ void Map::spawnBomb(GameSprite *owner)
     printf("spawn bomb on map at x:%d, y:%d\n", ix, iy);
 
     // Send Data
-    Communication comm = Communication();
-    comm.sendSpriteBombPlant(58585, ix, iy);
+    Communication *comm = Communication::getInstance();
+    comm->sendSpriteBombPlant(58585, ix, iy);
 
     CCPoint origin = ccp(ix*101 + 50.5f, iy*81 + 50.5f);
 

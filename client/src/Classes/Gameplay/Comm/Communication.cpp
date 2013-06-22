@@ -7,6 +7,23 @@
 #include "Communication.h"
 #include "Sockets.h"
 
+Communication *Communication::_instance = NULL;
+
+Communication *Communication::getInstance()
+{
+    if (_instance == NULL)
+    {
+        _instance = new Communication();
+    }
+    return _instance;
+}
+
+Communication::Communication()
+:_serverAddress("127.0.0.1")
+,_serverPort("2244")
+{
+    _protocol = new Protocol_v1();
+};
 
 //
 bool Communication::sendSpriteMovement(unsigned int pid, unsigned int x, unsigned int y) 
