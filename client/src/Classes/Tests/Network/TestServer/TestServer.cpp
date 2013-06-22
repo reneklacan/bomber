@@ -1,6 +1,5 @@
 
 #include "../../../Network/Server/ServerConnection.h"
-#include "../../../Network/Common/ReceiveDelegate.h"
 
 class TestReceiver : public ReceiveDelegate
 {

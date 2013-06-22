@@ -1,6 +1,5 @@
 
 #include "../../../Network/Client/ClientConnection.h"
-#include "../../../Network/Client/Client.h"
 
 class TestReceiver : public ReceiveDelegate
 {
@@ -10,7 +9,6 @@ class TestReceiver : public ReceiveDelegate
             std::cout << "receive in delegate: " << msg << "\n";
         }
 };
-
 
 int main()
 {
