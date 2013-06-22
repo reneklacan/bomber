@@ -2,10 +2,11 @@
 #define __BOMBER_CLIENTv2
 
 #include "../Common/Message.h"
+#include "../Common/ReceiveDelegator.h"
 
 using boost::asio::ip::tcp;
 
-class Client
+class Client : public ReceiveDelegator
 {
     public:
         Client(boost::asio::io_service& io_service, tcp::resolver::iterator endpoint_iterator);

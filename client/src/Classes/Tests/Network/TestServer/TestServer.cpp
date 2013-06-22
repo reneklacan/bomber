@@ -1,11 +1,11 @@
 
 #include "../../../Network/Server/ServerConnection.h"
-#include "../../../Network/Server/ReceiveDelegate.h"
+#include "../../../Network/Common/ReceiveDelegate.h"
 
 class TestReceiver : public ReceiveDelegate
 {
     public:
-        void receiveServerData(const char* msg)
+        void receiveData(const char* msg)
         {
             std::cout << "receive in delegate: " << msg << "\n";
         }
@@ -19,7 +19,7 @@ int main()
 
     while (1)
     {
-        std::cout << "tu\n";
+        std::cout << ".\n";
         sc->dispatch((char *) "abcdefgh");
         sleep(2);
     }

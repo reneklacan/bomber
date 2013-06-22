@@ -21,6 +21,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Comm/Sockets.cpp \
         ../Classes/Gameplay/Comm/Protocol_v1.cpp \
         ../Classes/Network/Common/Message.cpp \
+        ../Classes/Network/Common/ReceiveDelegator.cpp \
         ../Classes/Network/Client/ClientConnection.cpp \
         ../Classes/Network/Client/Client.cpp \
         ../Classes/Network/Server/ServerConnection.cpp \

@@ -7,6 +7,7 @@
 
 #include "Receiver.h"
 #include "ReceiverContainer.h"
+#include "../Common/ReceiveDelegator.h"
 
 using boost::asio::ip::tcp;
 
@@ -21,14 +22,12 @@ class Session : public Receiver, public boost::enable_shared_from_this<Session>
         void handleReadHeader(const boost::system::error_code& error);
         void handleReadBody(const boost::system::error_code& error);
         void handleWrite(const boost::system::error_code& error);
-        void addReceiveDelegate(ReceiveDelegate *delegate);
 
     private:
         tcp::socket _socket;
         ReceiverContainer& _receivers;
         Message _readMsg;
         MessageQueue _writeMsgs;
-        std::set<ReceiveDelegate *> _receiveDelegates;
 };
 
 typedef boost::shared_ptr<Session> sessionPtr;

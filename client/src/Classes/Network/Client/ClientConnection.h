@@ -14,6 +14,7 @@ class ClientConnection
 
         void send(char *msg);
         void send(std::vector<unsigned char> msg);
+        void addReceiveDelegate(ReceiveDelegate *delegate);
     private:
         boost::asio::io_service _ioService;
         Client *_client;

@@ -3,19 +3,17 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "ReceiveDelegate.h"
+#include "../Common/ReceiveDelegator.h"
 #include "../Common/Message.h"
 
-class Receiver
+class Receiver : public ReceiveDelegator
 {
     public:
         virtual ~Receiver() {};
         virtual void dispatch(const Message& msg) = 0;
-        virtual void addReceiveDelegate(ReceiveDelegate *delegate) = 0;
 };
 
 typedef boost::shared_ptr<Receiver> ReceiverSPtr;
-//typedef Receiver* ReceiverSPtr;
 
 #endif
 

@@ -3,7 +3,7 @@
 
 #include <set>
 
-#include "ReceiveDelegate.h"
+#include "../Common/ReceiveDelegate.h"
 #include "Receiver.h"
 
 class ReceiverContainer

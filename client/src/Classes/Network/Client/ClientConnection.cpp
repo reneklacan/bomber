@@ -3,6 +3,7 @@
 #include <boost/bind.hpp>
 
 #include "ClientConnection.h"
+#include "../Common/ReceiveDelegate.h"
 
 ClientConnection::ClientConnection(std::string host, std::string port)
 {
@@ -35,4 +36,9 @@ void ClientConnection::send(char *cMsg)
 void ClientConnection::send(std::vector<unsigned char> msg)
 {
     this->send(reinterpret_cast<char*> (&msg[0]));
+}
+
+void ClientConnection::addReceiveDelegate(ReceiveDelegate *delegate)
+{
+    _client->addReceiveDelegate(delegate);
 }

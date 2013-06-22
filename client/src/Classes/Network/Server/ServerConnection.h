@@ -4,7 +4,7 @@
 #include <vector>
 #include <boost/asio.hpp>
 
-#include "ReceiveDelegate.h"
+#include "../Common/ReceiveDelegate.h"
 #include "Server.h"
 
 class ServerConnection

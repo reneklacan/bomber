@@ -101,8 +101,8 @@ void Client::handleReadBody(const boost::system::error_code& error)
 {
     if (!error)
     {
-        std::cout.write(_readMsg.body(), _readMsg.bodyLength());
-        std::cout << "\n";
+        this->delegateReceivedMessage(_readMsg.body());
+
         boost::asio::async_read(
                 _socket,
                 boost::asio::buffer(

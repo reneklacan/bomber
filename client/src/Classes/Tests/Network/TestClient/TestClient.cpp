@@ -2,21 +2,26 @@
 #include "../../../Network/Client/ClientConnection.h"
 #include "../../../Network/Client/Client.h"
 
+class TestReceiver : public ReceiveDelegate
+{
+    public:
+        void receiveData(const char* msg)
+        {
+            std::cout << "receive in delegate: " << msg << "\n";
+        }
+};
+
+
 int main()
 {
-    //runClient2();
-    //return 0;
-
     ClientConnection *cc = new ClientConnection("localhost", "8888");
+    TestReceiver *receiver = new TestReceiver();
+    cc->addReceiveDelegate(receiver);
+
     while (1)
     {
-        std::cout << "tu\n";
-        std::vector<unsigned char> msg;
-        msg.push_back('x');
-        msg.push_back('y');
-        msg.push_back('z');
-        cc->send(msg);
-        //cc->send((char *) "abc");
+        std::cout << ".\n";
+        cc->send((char *) "abcpol");
         sleep(1);
     }
 

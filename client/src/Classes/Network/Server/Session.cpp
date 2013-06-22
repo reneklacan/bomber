@@ -29,14 +29,6 @@ void Session::start()
 
 void Session::dispatch(const Message& msg)
 {
-    std::cout.write(msg.body(), msg.bodyLength());
-    std::cout << "\n";
-
-    for (ReceiveDelegate *delegate : _receiveDelegates)
-    {
-        delegate->receiveServerData(msg.body());
-    }
-
     bool writeInProgress = !_writeMsgs.empty();
     _writeMsgs.push_back(msg);
 
@@ -84,7 +76,8 @@ void Session::handleReadBody(const boost::system::error_code& error)
 {
     if (!error)
     {
-        _receivers.dispatch(_readMsg);
+        this->delegateReceivedMessage(_readMsg.body());
+
         boost::asio::async_read(
                 _socket,
                 boost::asio::buffer(
@@ -130,9 +123,4 @@ void Session::handleWrite(const boost::system::error_code& error)
     {
         _receivers.remove(shared_from_this());
     }
-}
-
-void Session::addReceiveDelegate(ReceiveDelegate *delegate)
-{
-    _receiveDelegates.insert(delegate);
 }

@@ -4,7 +4,8 @@
 class ReceiveDelegate
 {
     public:
-        virtual void receiveServerData(const char *) = 0;
+        virtual void receiveData(const char *) = 0;
 };
 
 #endif
+
