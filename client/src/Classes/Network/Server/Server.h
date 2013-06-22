@@ -12,6 +12,7 @@ class Server
         Server(boost::asio::io_service& io_service, const tcp::endpoint& endpoint);
 
         void handleAccept(sessionPtr session, const boost::system::error_code& error);
+        ReceiverContainer& getReceiverContainer() { return _receivers; };
 
     private:
         boost::asio::io_service& _ioService;
