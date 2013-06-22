@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include <boost/bind.hpp>
 
 #include "ClientConnection.h"
@@ -21,14 +22,17 @@ ClientConnection::~ClientConnection()
     _thread->join();
 }
 
-void ClientConnection::send(char *msg)
+void ClientConnection::send(char *cMsg)
 {
+    Message msg;
+    msg.bodyLength(std::strlen(cMsg));
+    std::memcpy(msg.body(), cMsg, msg.bodyLength());
+    msg.encodeHeader();
+
     _client->write(msg);
 }
 
 void ClientConnection::send(std::vector<unsigned char> msg)
 {
-    std::cout << "sending...\n";
-    //this->send((char *) "test");
     this->send(reinterpret_cast<char*> (&msg[0]));
 }

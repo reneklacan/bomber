@@ -13,6 +13,7 @@
 #include <boost/asio.hpp>
 
 #include "Protocol_v1.h"
+#include "../../Network/Client/ClientConnection.h"
 
 using namespace std;
 
@@ -50,6 +51,7 @@ class Communication
         vector<unsigned char> _bufferSend;
         TServerSync _dataReceive;
         Protocol_v1 *_protocol;
+        ClientConnection *_clientConnection;
 
         Communication();
         unsigned int createBinaryData(unsigned int playerID, SEND_PACKET_TYPES type, 

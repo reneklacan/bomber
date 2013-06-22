@@ -24,21 +24,13 @@ Client::Client(boost::asio::io_service& io_service, tcp::resolver::iterator endp
     );
 }
 
-void Client::write(char *cMsg)
-{
-    Message msg;
-    msg.bodyLength(std::strlen(cMsg));
-    std::memcpy(msg.body(), cMsg, msg.bodyLength());
-    msg.encodeHeader();
-    this->write(msg);
-}
-
 void Client::write(const Message& msg)
 {
     if (!_ready)
     {
         return;
     }
+
     _ioService.post(boost::bind(&Client::doWrite, this, msg));
 }
 
@@ -52,7 +44,7 @@ void Client::handleConnect(const boost::system::error_code& error, tcp::resolver
     if (!error)
     {
         _ready = true;
-        std::cout << "client handleConnect not error\n";
+
         boost::asio::async_read(
                 _socket,
                 boost::asio::buffer(
@@ -68,7 +60,6 @@ void Client::handleConnect(const boost::system::error_code& error, tcp::resolver
     }
     else if (endpoint_iterator != tcp::resolver::iterator())
     {
-        std::cout << "client handleConnect error\n";
         _socket.close();
         tcp::endpoint endpoint = *endpoint_iterator;
         _socket.async_connect(
@@ -185,7 +176,7 @@ void Client::doClose()
     _socket.close();
 }
 
-void runClient()
+void runClient(int argc, char* argv[])
 {
     try
     {
@@ -207,46 +198,6 @@ void runClient()
             std::memcpy(msg.body(), line, msg.bodyLength());
             msg.encodeHeader();
             client.write(msg);
-        }
-
-        client.close();
-        t.join();
-    }
-    catch (std::exception& e)
-    {
-        std::cerr << "Exception: " << e.what() << "\n";
-    }
-}
-
-void runClient2()
-{
-    try
-    {
-        boost::asio::io_service ioService;
-
-        tcp::resolver resolver(ioService);
-        tcp::resolver::query query("localhost", "8888");
-        tcp::resolver::iterator iterator = resolver.resolve(query);
-
-        Client client(ioService, iterator);
-
-        boost::asio::detail::thread t(boost::bind(&boost::asio::io_service::run, &ioService));
-
-        //char line[Message::maxBodyLength + 1];
-        char *line;
-        while (1)
-        {
-            std::cout << "tu\n";
-            line = (char *) "test";
-            client.write(line);
-            sleep(1);
-            continue;
-            Message msg;
-            msg.bodyLength(std::strlen(line));
-            std::memcpy(msg.body(), line, msg.bodyLength());
-            msg.encodeHeader();
-            client.write(msg);
-            sleep(1);
         }
 
         client.close();

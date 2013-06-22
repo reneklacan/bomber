@@ -23,6 +23,7 @@ Communication::Communication()
 ,_serverPort("2244")
 {
     _protocol = new Protocol_v1();
+    _clientConnection = new ClientConnection(_serverAddress, _serverPort);
 };
 
 //
@@ -81,6 +82,7 @@ bool Communication::sendServerData()
 {
     TcpClient tcpClient = TcpClient();
     tcpClient.sendData(_serverAddress, _serverPort, _bufferSend);
+    _clientConnection->send(_bufferSend);
     _bufferSend.clear();
 
     return true;
