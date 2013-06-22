@@ -3,7 +3,7 @@
 
 ServerConnection::ServerConnection(int port)
 {
-    tcp::endpoint endpoint(tcp::v4(), 8888); //TODO hardcoded port
+    tcp::endpoint endpoint(tcp::v4(), port);
     _server = new Server(_ioService, endpoint);
     _thread = new boost::asio::detail::thread(boost::bind(&boost::asio::io_service::run, &_ioService));
 }

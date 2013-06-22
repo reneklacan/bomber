@@ -8,14 +8,11 @@
 ClientConnection::ClientConnection(std::string host, std::string port)
 {
     tcp::resolver resolver(_ioService);
-    tcp::resolver::query query("localhost", "8888"); // TODO: get rid of hardcoded host and port
+    tcp::resolver::query query(host, port);
     tcp::resolver::iterator iterator = resolver.resolve(query);
 
     _client = new Client(_ioService, iterator);
-
     _thread = new boost::asio::detail::thread(boost::bind(&boost::asio::io_service::run, &_ioService));
-    //boost::asio::detail::thread t(boost::bind(&boost::asio::io_service::run, &ioService));
-    //_thread = &t;
 }
 
 ClientConnection::~ClientConnection()
