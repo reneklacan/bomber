@@ -1,6 +1,9 @@
 EXECUTABLE = SimpleGame
 
-INCLUDES = -I.. -I../Classes -I../../lib/cocos2d-x/cocos2dx/support/tinyxml2
+INCLUDES = -I.. \
+		   -I../Classes \
+		   -I../../lib/cocos2d-x/cocos2dx/support/tinyxml2 \
+		   -I../../lib/raknet
 
 SOURCES = Main.cpp \
         ../Classes/AppDelegate.cpp \
@@ -33,12 +36,16 @@ COCOS_ROOT = ../../lib/cocos2d-2.1rc0-x-2.1.3
 COCOS_ROOT = ../../lib/cocos2d-x
 include $(COCOS_ROOT)/cocos2dx/proj.linux/cocos2dx.mk
 
+RAKNET_ROOT = ../../lib/raknet
+
 SHAREDLIBS += -lcocos2d -lcocosdenshion -lboost_system
 CXXFLAGS += -g -lglut -Wunused-variable
+RAKNET_LIBS = $(RAKNET_ROOT)/lib/libraknet.so
 COCOS_LIBS = $(LIB_DIR)/libcocos2d.so $(LIB_DIR)/libcocosdenshion.so
 INCLUDES += -I$(COCOS_ROOT)/CocosDenshion/include
+SHAREDLIBS += $(RAKNET_LIBS)
 
-$(TARGET): $(OBJECTS) $(STATICLIBS) $(COCOS_LIBS) $(CORE_MAKEFILE_LIST)
+$(TARGET): $(OBJECTS) $(STATICLIBS) $(COCOS_LIBS) $(RAKNET_LIBS) $(CORE_MAKEFILE_LIST)
 	@mkdir -p $(@D)
 	$(LOG_LINK)$(CXX) $(CXXFLAGS) $(OBJECTS) -o $@ $(SHAREDLIBS) $(STATICLIBS)
 

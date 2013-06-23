@@ -12,7 +12,7 @@ class TestReceiver : public ReceiveDelegate
 
 int main()
 {
-    ClientConnection *cc = new ClientConnection("localhost", "8888");
+    ClientConnection *cc = new ClientConnection("127.0.0.1", "8888");
     TestReceiver *receiver = new TestReceiver();
     cc->addReceiveDelegate(receiver);
 
