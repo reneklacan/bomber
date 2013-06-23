@@ -1,9 +1,12 @@
 EXECUTABLE = SimpleGame
 
+COCOS_ROOT = ../../lib/cocos2d-x
+RAKNET_ROOT = ../../lib/raknet
+
 INCLUDES = -I.. \
 		   -I../Classes \
-		   -I../../lib/cocos2d-x/cocos2dx/support/tinyxml2 \
-		   -I../../lib/raknet
+		   -I$(COCOS_ROOT)/cocos2dx/support/tinyxml2 \
+		   -I$(RAKNET_ROOT)/sources
 
 SOURCES = Main.cpp \
         ../Classes/AppDelegate.cpp \
@@ -32,11 +35,7 @@ SOURCES = Main.cpp \
         ../Classes/Network/Server/Server.cpp \
         ../Classes/Network/Server/Session.cpp \
 
-COCOS_ROOT = ../../lib/cocos2d-2.1rc0-x-2.1.3
-COCOS_ROOT = ../../lib/cocos2d-x
 include $(COCOS_ROOT)/cocos2dx/proj.linux/cocos2dx.mk
-
-RAKNET_ROOT = ../../lib/raknet
 
 SHAREDLIBS += -lcocos2d -lcocosdenshion -lboost_system
 CXXFLAGS += -g -lglut -Wunused-variable
