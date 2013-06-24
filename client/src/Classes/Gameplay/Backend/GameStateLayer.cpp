@@ -30,6 +30,11 @@ void GameStateLayer::addObject(unsigned int id, GameObject *object)
     _grid[nextCoords.y*_width + nextCoords.x].insert(object);
 }
 
+GameObject *GameStateLayer::getObject(unsigned int id)
+{
+    return _objects.at(id);
+}
+
 void GameStateLayer::removeObject(GameObject *object)
 {
     this->removeObject(object->getId());
@@ -42,6 +47,8 @@ void GameStateLayer::removeObject(unsigned int id)
 
 void GameStateLayer::update(GameStateChange *change)
 {
+    _changes.push_back(change);
+
     GameObject *object = _objects.at(change->getGameObjectId());
     Coordinates currentCoords = object->getCoords();
     Coordinates nextCoords = object->getNextCoords();
@@ -53,11 +60,11 @@ void GameStateLayer::update(GameStateChange *change)
     _grid[nextCoords.y*_width + nextCoords.x].insert(object);
 }
 
-void GameStateLayer::getObjectsAroundCoords(Coordinates coords, std::vector<GameObject *> &objects)
+void GameStateLayer::getObjectsAroundCoords(Coordinates coords, int range, std::vector<GameObject *> &objects)
 {
-    for (int y = coords.y - 1; y <= coords.y + 1; y++)
+    for (int y = coords.y - range; y <= coords.y + range; y++)
     {
-        for (int x = coords.x - 1; x <= coords.x + 1; x++)
+        for (int x = coords.x - range; x <= coords.x + range; x++)
         {
             for (GameObject *object : _grid[y*_width + x])
             {
@@ -65,4 +72,24 @@ void GameStateLayer::getObjectsAroundCoords(Coordinates coords, std::vector<Game
             }
         }
     }
+}
+
+void GameStateLayer::getObjectsAroundCoords(Coordinates coords, std::vector<GameObject *> &objects)
+{
+    this->getObjectsAroundCoords(coords, 1, objects);
+}
+
+void GameStateLayer::getObjectsAtCoords(Coordinates coords, std::vector<GameObject *> &objects)
+{
+    this->getObjectsAroundCoords(coords, 0, objects);
+}
+
+GameStateChange *GameStateLayer::popChange()
+{
+    if (_changes.empty())
+        return nullptr;
+
+    GameStateChange *tmp = _changes.front();
+    _changes.pop_front();
+    return tmp;
 }

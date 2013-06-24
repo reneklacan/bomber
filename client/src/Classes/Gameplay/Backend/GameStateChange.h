@@ -40,22 +40,32 @@ namespace Bomber
                 unsigned int _gameObjectId;
         };
 
+        class GSCPosition : public GameStateChange
+        {
+            public:
+                virtual void update(Position p) { _position = p; };
+
+            private:
+                Position _position;
+        };
+
+        class GSCCoordinates : public GameStateChange
+        {
+            public:
+                virtual void update(Coordinates c) { _coordinates = c; };
+
+            private:
+                Coordinates _coordinates;
+        };
+
         class GSCSpriteMove : public GameStateChange
         {
             public:
                 GSCSpriteMove() { _type = SPRITE_MOVE; };
-                void update(Position p, Position np) { _position = p; _nextPosition = np; };
+                virtual void update(Position &p, Position &np) { _position = p; _nextPosition = np; };
             private:
                 Position _position;
                 Position _nextPosition;
-        };
-
-        class GSCPosition : public GameStateChange
-        {
-            public:
-                void update(Position p) { _position = p; };
-            private:
-                Position _position;
         };
 
         class GSCSpritePositionOverride : public GSCPosition
@@ -68,6 +78,12 @@ namespace Bomber
         {
             public:
                 GSCBombSpawn() { _type = BOMB_SPAWN; };
+        };
+
+        class GSCObstacleDestroy : public GameStateChange
+        {
+            public:
+                GSCObstacleDestroy() { _type = OBSTACLE_DESTROY; };
         };
     }
 }

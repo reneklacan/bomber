@@ -27,3 +27,8 @@ void Bomb::update(float dt)
         _detonated = true;
     }
 }
+
+void Bomb::configure(GameObject *owner)
+{
+    // configure bomb by owner's attributes
+}

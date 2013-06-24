@@ -11,6 +11,7 @@ namespace Bomber
         {
             public:
                 Bomb();
+                void configure(GameObject *owner);
                 void update(float dt);
                 bool isDetonated() { return _detonated; };
 

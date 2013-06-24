@@ -13,9 +13,20 @@ namespace Bomber
             public:
                 Logic();
                 void update(float dt);
+                void setState(GameState *state) { _state = state; };
+                bool moveSprite(Position position);
+                bool moveSprite(unsigned int id, Position position);
+                bool spawnBomb();
+                bool spawnBomb(unsigned int);
+                bool spawnBomb(GameObject *owner);
+                
+                unsigned int getUniqueId() { return _uniqueId++; };
+                void setControlledSprite(unsigned int id);
 
             private:
                 GameState *_state;
+                GameObject *_controlledSprite;
+                unsigned int _uniqueId;
         };
     }
 }

@@ -14,8 +14,11 @@ namespace Bomber
                 GameState();
                 ~GameState();
 
+                std::vector<GameStateChange *> getChangesFromId(unsigned int id);
                 void addChange(GameStateChange *change);
+                void gatherChanges();
 
+                GameStateLayer *getSpriteLayer() { return _spriteLayer; };
                 GameStateLayer *getBombLayer() { return _bombLayer; };
 
             private:
@@ -28,6 +31,8 @@ namespace Bomber
                 GameStateLayer *_portalExitLayer;
                 GameStateLayer *_specialLayer;
                 GameStateLayer *_bombLayer;
+
+                std::vector<GameStateLayer *> _allLayers;
         };
     }
 }

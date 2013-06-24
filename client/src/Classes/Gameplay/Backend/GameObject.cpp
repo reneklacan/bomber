@@ -3,11 +3,30 @@
 
 using namespace Bomber::Backend;
 
+void GameObject::moveToPosition(Position position)
+{
+    GSCSpriteMove *change = new GSCSpriteMove();
+    change->update(_position, position);
+    _eventDelegate->update(change);
+    _position = position;
+}
+
+void GameObject::overridePosition(Position position)
+{
+    GSCSpritePositionOverride *change = new GSCSpritePositionOverride();
+    change->update(position);
+    _eventDelegate->update(change);
+    _position = position;
+}
+
 void GameObject::setPosition(Position position)
 {
-    _position = position;
 
-    _eventDelegate->update(new GameStateChange());
+}
+
+void GameObject::setNextPosition(Position position)
+{
+
 }
 
 Coordinates GameObject::getCoords()
