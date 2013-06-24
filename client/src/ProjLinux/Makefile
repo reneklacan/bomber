@@ -15,9 +15,11 @@ SOURCES = Main.cpp \
         ../Classes/Input/Joystick.cpp \
         ../Classes/Input/Keyboard.cpp \
         ../Classes/Input/ControlLayer.cpp \
-        ../Classes/Gameplay/State/GameState.cpp \
-        ../Classes/Gameplay/State/GameStateLayer.cpp \
-        ../Classes/Gameplay/State/GameStateChange.cpp \
+        ../Classes/Gameplay/Backend/Logic.cpp \
+        ../Classes/Gameplay/Backend/GameState.cpp \
+        ../Classes/Gameplay/Backend/GameStateLayer.cpp \
+        ../Classes/Gameplay/Backend/GameObject.cpp \
+        ../Classes/Gameplay/Backend/Bomb.cpp \
         ../Classes/Gameplay/LevelLayer.cpp \
         ../Classes/Gameplay/Map/Map.cpp \
         ../Classes/Gameplay/Map/Bomb.cpp \

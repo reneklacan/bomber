@@ -1,6 +1,8 @@
 
 #include "GameStateLayer.h"
 
+using namespace Bomber::Backend;
+
 GameStateLayer::GameStateLayer(int width, int height)
 {
     _width = width;
@@ -16,8 +18,13 @@ GameStateLayer::GameStateLayer(int width, int height)
 
 void GameStateLayer::addObject(GameObject *object)
 {
+    this->addObject(object->getId(), object);
+}
+
+void GameStateLayer::addObject(unsigned int id, GameObject *object)
+{
     object->setEventDelegate(this);
-    _objects.insert(object);
+    _objects.at(id) = object;
 
     Coordinates nextCoords = object->getNextCoords();
     _grid[nextCoords.y*_width + nextCoords.x].insert(object);
@@ -25,12 +32,17 @@ void GameStateLayer::addObject(GameObject *object)
 
 void GameStateLayer::removeObject(GameObject *object)
 {
-    _objects.erase(object);
+    this->removeObject(object->getId());
+}
+
+void GameStateLayer::removeObject(unsigned int id)
+{
+    _objects.erase(_objects.find(id));
 }
 
 void GameStateLayer::update(GameStateChange *change)
 {
-    GameObject *object = change->getGameObject();
+    GameObject *object = _objects.at(change->getGameObjectId());
     Coordinates currentCoords = object->getCoords();
     Coordinates nextCoords = object->getNextCoords();
 
