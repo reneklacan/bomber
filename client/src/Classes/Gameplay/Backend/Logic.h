@@ -13,8 +13,6 @@ namespace Bomber
             public:
                 static Logic* getInstance();
 
-                Logic();
-
                 void update(float dt);
                 void setState(GameState *state) { _state = state; };
 
@@ -36,10 +34,13 @@ namespace Bomber
                 void setControlledSprite(unsigned int id);
 
             private:
+                Logic();
+
                 static Logic *_instance;
                 GameState *_state;
                 GameObject *_controlledSprite;
                 unsigned int _uniqueId;
+
         };
     }
 }
