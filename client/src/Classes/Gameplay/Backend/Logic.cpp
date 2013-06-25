@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "Logic.h"
-#include "Bomb.h"
 
 using namespace Bomber::Backend;
 
@@ -29,13 +28,6 @@ void Logic::update(float dt)
                 if (explObj->isDetonated())
                 {
                     layer->removeObject(object);
-                    GSCExplosionSpawn* change = new GSCExplosionSpawn();
-                    change->update(
-                            explObj->getOwner(),
-                            explObj->getPower(),
-                            explObj->getPenetration()
-                    );
-                    _state->addChange(change);
                     this->spawnExplosion(explObj);
                 }
             }
@@ -57,18 +49,29 @@ bool Logic::moveSprite(Position position)
         return false;
     }
 
-    _controlledSprite->moveToPosition(position);
-    return true;
+    return this->moveSprite(_controlledSprite, position);
 }
 
 bool Logic::moveSprite(unsigned int spriteId, Position position)
 {
-    _state->getSpriteLayer()->getObject(spriteId)->moveToPosition(position);
-    return true;
+    return this->moveSprite(_state->getSpriteLayer()->getObject(spriteId), position);
+}
+
+bool Logic::moveSprite(GameObject *sprite, Position position)
+{
+    this->logSpriteMove(sprite, sprite->getPosition(), position);
+
+    sprite->setPosition(position);
 }
 
 bool Logic::spawnBomb()
 { 
+    if (_controlledSprite == nullptr)
+    {
+        std::cout << "Logic::_controlledSprite is nullptr\n";
+        return false;
+    }
+
     return this->spawnBomb(_controlledSprite);
 }
 
@@ -89,14 +92,46 @@ bool Logic::spawnBomb(GameObject *owner)
     Bomb *bomb = new Bomb();
     bomb->configure(owner);
     bomb->setId(this->getUniqueId());
-    bomb->activate();
 
     bombLayer->addObject(bomb);
+
+    this->logBombSpawn(bomb);
 
     return true;
 }
 
 void Logic::spawnExplosion(ExplodableObject *explObj)
 {
+    this->logExplosionSpawn(explObj);
+
     // spawn explosion and destroy blocks and kill sprites
 }
+
+void Logic::logSpriteMove(GameObject *sprite, Position &from, Position &to)
+{
+    GSCSpriteMove *change = new GSCSpriteMove();
+    change->update(from, to);
+    change->setGameObjectId(sprite->getId());
+    _state->addChange(change);
+}
+
+void Logic::logBombSpawn(Bomb *bomb)
+{
+    GSCBombSpawn *change = new GSCBombSpawn();
+    change->update(bomb->getPosition());
+    change->setGameObjectId(bomb->getOwner());
+    _state->addChange(change);
+}
+
+void Logic::logExplosionSpawn(ExplodableObject *explObj)
+{
+    GSCExplosionSpawn* change = new GSCExplosionSpawn();
+    change->update(
+            explObj->getOwner(),
+            explObj->getPower(),
+            explObj->getPenetration()
+    );
+    change->setGameObjectId(explObj->getOwner());
+    _state->addChange(change);
+}
+

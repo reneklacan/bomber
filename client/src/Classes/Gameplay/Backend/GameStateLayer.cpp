@@ -23,7 +23,6 @@ void GameStateLayer::addObject(GameObject *object)
 
 void GameStateLayer::addObject(unsigned int id, GameObject *object)
 {
-    object->setEventDelegate(this);
     _objects.at(id) = object;
 
     Coordinates nextCoords = object->getNextCoords();

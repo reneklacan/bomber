@@ -17,7 +17,6 @@ namespace Bomber
                 virtual unsigned int getPenetration() { return _penetration; };
 
             protected:
-                bool _activated;
                 bool _detonated;
                 float _expired;
                 float _timeout;
