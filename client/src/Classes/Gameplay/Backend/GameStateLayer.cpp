@@ -1,5 +1,6 @@
 
 #include "GameStateLayer.h"
+#include <stdio.h>
 
 using namespace Bomber::Backend;
 
@@ -23,10 +24,12 @@ void GameStateLayer::addObject(GameObject *object)
 
 void GameStateLayer::addObject(unsigned int id, GameObject *object)
 {
-    _objects.at(id) = object;
+    _objects[id] = object;
 
-    Coordinates nextCoords = object->getNextCoords();
-    _grid[nextCoords.y*_width + nextCoords.x].insert(object);
+    Coordinates coords = object->getCoords();
+    printf("%d %d\n", coords.x, coords.y);
+    printf("%d %d %d\n", _width, _height, coords.y*_width + coords.x);
+    _grid[coords.y*_width + coords.x].insert(object);
 }
 
 GameObject *GameStateLayer::getObject(unsigned int id)

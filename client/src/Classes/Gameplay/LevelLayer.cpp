@@ -1,5 +1,8 @@
 #include "LevelLayer.h"
 #include "../Constants.h"
+#include "Backend/Logic.h"
+
+using namespace Bomber;
 
 LevelLayer::LevelLayer()
 :_player(NULL)
@@ -22,6 +25,11 @@ bool LevelLayer::init()
     _map = Map::create();
     _player = Human::create(_map);
     _controlLayer = ControlLayer::create();
+
+    Backend::GameState *gameState = new Backend::GameState(_map->getWidth(), _map->getHeight());
+    Backend::Logic::getInstance()->setState(gameState);
+
+    gameState->init(_map->getTiledMap());
 
     _player->retain();
 
@@ -132,20 +140,23 @@ void LevelLayer::updateGame(float dt)
     else
         move = false;
 
-    /*if (move)
+    if (move)
     {
         // Only send data when something has changed
+        /*
         if(currentPos.x != nextPos.x || currentPos.y != nextPos.y) 
         {
             // Send Data
             Communication comm = Communication();
             comm.sendSpriteMovement(58585, nextPos.x, nextPos.y);
         }
+        */
 
-        //_player->setPosition(nextPos);
-        //_map->addToPosition(ccpSub(currentPos, nextPos));
-    }*/
+        _player->setPosition(nextPos);
+        _map->addToPosition(ccpSub(currentPos, nextPos));
+    }
 
+    /*
     // Get Data
     Communication *comm = Communication::getInstance();
     if(currentPos.x != nextPos.x || currentPos.y != nextPos.y) 
@@ -168,6 +179,7 @@ void LevelLayer::updateGame(float dt)
     }
     _player->setPosition(serverNextPosition);
     _map->addToPosition(ccpSub(currentPos, serverNextPosition));
+    */
 
     // PORTALS FROM HERE
 /*

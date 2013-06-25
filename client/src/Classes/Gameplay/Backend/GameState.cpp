@@ -1,15 +1,19 @@
 
 #include "GameState.h"
+#include "Obstacle.h"
+#include "Portal.h"
+#include "PortalExit.h"
+#include "../../Constants.h"
 
 using namespace Bomber::Backend;
 
-GameState::GameState()
+GameState::GameState(unsigned int width, unsigned int height)
 {
     _lastChangeId = 0;
     _lastChangeIdOffset = 0;
 
-    int _width = 10;
-    int _height = 10;
+    _width = width;
+    _height = height;
 
     _spriteLayer = new GameStateLayer(_width, _height);
     _obstacleLayer = new GameStateLayer(_width, _height);
@@ -37,6 +41,74 @@ GameState::GameState()
 GameState::~GameState()
 {
 
+}
+
+void GameState::init(CCTMXTiledMap *tiledMap)
+{
+    CCTMXLayer *obstaclesLayer = tiledMap->layerNamed("obstacles");
+
+    for (int iy = 0; iy < _height; iy++)
+    {
+        for (int ix = 0; ix < _width; ix++)
+        {
+            if (!obstaclesLayer->tileGIDAt(ccp(ix, _height - 1 - iy)))
+                continue;
+
+            Obstacle *obstacle = new Obstacle();
+            obstacle->setId(iy*_width + ix);
+            obstacle->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
+            obstacle->setSize(TILE_WIDTH, TILE_HEIGHT);
+
+            _obstacleLayer->addObject(obstacle);
+        }
+    }
+
+    int id, x, y, width, height;
+    CCObject *ccObject;
+    CCDictionary *dict;
+    CCTMXObjectGroup *objectGroup;
+
+    objectGroup = tiledMap->objectGroupNamed("portals");
+    CCArray *portals = objectGroup->getObjects();
+
+    CCARRAY_FOREACH(portals, ccObject)
+    {
+        dict = (CCDictionary*) ccObject;
+
+        id = ((CCString*)dict->objectForKey("name"))->intValue();
+        x = ((CCString*)dict->objectForKey("x"))->intValue();
+        y = ((CCString*)dict->objectForKey("y"))->intValue();
+        width = ((CCString*)dict->objectForKey("width"))->intValue();
+        height = ((CCString*)dict->objectForKey("height"))->intValue();
+
+        Portal *portal = new Portal();
+        portal->setId(id);
+        portal->setPosition(x, y);
+        portal->setSize(width, height);
+
+        _portalLayer->addObject(portal);
+    }
+
+    objectGroup = tiledMap->objectGroupNamed("portal_exits");
+    CCArray *portalExits = objectGroup->getObjects();
+
+    CCARRAY_FOREACH(portalExits, ccObject)
+    {
+        dict = (CCDictionary*) ccObject;
+
+        id = ((CCString*)dict->objectForKey("name"))->intValue();
+        x = ((CCString*)dict->objectForKey("x"))->intValue();
+        y = ((CCString*)dict->objectForKey("y"))->intValue();
+        width = ((CCString*)dict->objectForKey("width"))->intValue();
+        height = ((CCString*)dict->objectForKey("height"))->intValue();         
+
+        PortalExit *portalExit = new PortalExit();
+        portalExit->setId(id);
+        portalExit->setPosition(x, y);
+        portalExit->setSize(width, height);
+
+        _portalExitLayer->addObject(portalExit);
+    }
 }
 
 std::vector<GameStateChange *> GameState::getChangesFromId(unsigned int id)

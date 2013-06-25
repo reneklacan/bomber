@@ -1,8 +1,12 @@
 #ifndef __BOMBER_GAME_STATE
 #define __BOMBER_GAME_STATE
 
+#include "cocos2d.h"
+
 #include "GameStateLayer.h"
 #include "GameStateChange.h"
+
+using namespace cocos2d;
 
 namespace Bomber
 {
@@ -11,8 +15,10 @@ namespace Bomber
         class GameState
         {
             public:
-                GameState();
+                GameState(unsigned int width, unsigned int height);
                 ~GameState();
+
+                void init(CCTMXTiledMap *tiledMap);
 
                 std::vector<GameStateChange *> getChangesFromId(unsigned int id);
                 void deleteChangesToId(unsigned int id);
@@ -24,6 +30,9 @@ namespace Bomber
                 GameStateLayer *getBombLayer() { return _bombLayer; };
 
             private:
+                unsigned int _width;
+                unsigned int _height;
+
                 std::deque<GameStateChange *> _changes;
                 unsigned int _lastChangeId; // id of latest change
                 unsigned int _lastChangeIdOffset; // offset needed when old changes are deleted

@@ -5,6 +5,17 @@
 
 using namespace Bomber::Backend;
 
+Logic *Logic::_instance = nullptr;
+
+Logic *Logic::getInstance()
+{
+    if (_instance == nullptr)
+    {
+        _instance = new Logic();
+    }
+    return _instance;
+}
+
 Logic::Logic()
 {
     _uniqueId = 1;

@@ -15,6 +15,7 @@ SOURCES = Main.cpp \
         ../Classes/Input/Joystick.cpp \
         ../Classes/Input/Keyboard.cpp \
         ../Classes/Input/ControlLayer.cpp \
+        ../Classes/Gameplay/Backend/Rectangle.cpp \
         ../Classes/Gameplay/Backend/Logic.cpp \
         ../Classes/Gameplay/Backend/GameState.cpp \
         ../Classes/Gameplay/Backend/GameStateLayer.cpp \
