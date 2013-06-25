@@ -54,6 +54,7 @@ void Logic::setControlledSprite(unsigned int spriteId)
 
 bool Logic::moveSprite(Position position)
 {
+    printf("moveSprite\n");
     if (_controlledSprite == nullptr)
     {
         std::cout << "Logic::_controlledSprite is nullptr\n";
@@ -77,6 +78,7 @@ bool Logic::moveSprite(GameObject *sprite, Position position)
 
 bool Logic::spawnBomb()
 { 
+    printf("spawnBomb\n");
     if (_controlledSprite == nullptr)
     {
         std::cout << "Logic::_controlledSprite is nullptr\n";
@@ -120,6 +122,7 @@ void Logic::spawnExplosion(ExplodableObject *explObj)
 
 void Logic::logSpriteMove(GameObject *sprite, Position &from, Position &to)
 {
+    printf("logSpriteMove\n");
     GSCSpriteMove *change = new GSCSpriteMove();
     change->update(from, to);
     change->setGameObjectId(sprite->getId());

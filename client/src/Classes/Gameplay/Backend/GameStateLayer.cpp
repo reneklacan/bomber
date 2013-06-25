@@ -34,7 +34,7 @@ void GameStateLayer::addObject(unsigned int id, GameObject *object)
 
 GameObject *GameStateLayer::getObject(unsigned int id)
 {
-    return _objects.at(id);
+    return _objects[id];
 }
 
 void GameStateLayer::removeObject(GameObject *object)

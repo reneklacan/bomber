@@ -15,23 +15,19 @@ SOURCES = Main.cpp \
         ../Classes/Input/Joystick.cpp \
         ../Classes/Input/Keyboard.cpp \
         ../Classes/Input/ControlLayer.cpp \
-        ../Classes/Gameplay/Backend/Rectangle.cpp \
+        ../Classes/Gameplay/Backend/Mediator.cpp \
         ../Classes/Gameplay/Backend/Logic.cpp \
         ../Classes/Gameplay/Backend/GameState.cpp \
         ../Classes/Gameplay/Backend/GameStateLayer.cpp \
         ../Classes/Gameplay/Backend/GameObject.cpp \
         ../Classes/Gameplay/Backend/Bomb.cpp \
+        ../Classes/Gameplay/Backend/Rectangle.cpp \
         ../Classes/Gameplay/LevelLayer.cpp \
         ../Classes/Gameplay/Map/Map.cpp \
         ../Classes/Gameplay/Map/Bomb.cpp \
         ../Classes/Gameplay/Map/Explosion.cpp \
         ../Classes/Gameplay/Sprites/GameSprite.cpp \
         ../Classes/Gameplay/Sprites/Human.cpp \
-        ../Classes/Gameplay/Server/LocalServer.cpp \
-        ../Classes/Gameplay/Server/Logic.cpp \
-        ../Classes/Gameplay/Comm/Communication.cpp \
-        ../Classes/Gameplay/Comm/Sockets.cpp \
-        ../Classes/Gameplay/Comm/Protocol_v1.cpp \
         ../Classes/Network/Common/Message.cpp \
         ../Classes/Network/Common/ReceiveDelegator.cpp \
         ../Classes/Network/Client/ClientConnection.cpp \

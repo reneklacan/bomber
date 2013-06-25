@@ -1,6 +1,6 @@
 #include "LevelLayer.h"
 #include "../Constants.h"
-#include "Backend/Logic.h"
+#include "Backend/Mediator.h"
 
 using namespace Bomber;
 
@@ -27,9 +27,16 @@ bool LevelLayer::init()
     _controlLayer = ControlLayer::create();
 
     Backend::GameState *gameState = new Backend::GameState(_map->getWidth(), _map->getHeight());
-    Backend::Logic::getInstance()->setState(gameState);
-
+    Backend::Mediator::getInstance()->setState(gameState);
     gameState->init(_map->getTiledMap());
+    
+    Backend::GameObject *controlledSprite = new Backend::GameObject();
+    controlledSprite->setId(19991);
+    controlledSprite->setPosition(_player->getPosition().x, _player->getPosition().y);
+    controlledSprite->setSize(10, 10);
+    gameState->getSpriteLayer()->addObject(controlledSprite);
+
+    Backend::Mediator::getInstance()->setControlledSprite(controlledSprite->getId());
 
     _player->retain();
 
@@ -51,10 +58,6 @@ bool LevelLayer::init()
     _controlLayer->enableJoystick();
     _controlLayer->enableKeyboard();
 
-    // Start Local Server
-    LocalServer& localServer = LocalServer::getInstance();
-    localServer.startServer();
-    
     _player->setPosition(
             ccp(
                 origin.x + _player->getContentSize().width/2 + 101,
@@ -140,7 +143,7 @@ void LevelLayer::updateGame(float dt)
     else
         move = false;
 
-    if (move)
+    if (move && (currentPos.x != nextPos.x || currentPos.y != nextPos.y))
     {
         // Only send data when something has changed
         /*
@@ -154,6 +157,7 @@ void LevelLayer::updateGame(float dt)
 
         _player->setPosition(nextPos);
         _map->addToPosition(ccpSub(currentPos, nextPos));
+        Backend::Mediator::getInstance()->moveSprite(Position(nextPos.x, nextPos.y));
     }
 
     /*

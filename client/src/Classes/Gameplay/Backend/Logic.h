@@ -1,4 +1,3 @@
-
 #ifndef __BOMBER_LOGICv2
 #define __BOMBER_LOGICv2
 
