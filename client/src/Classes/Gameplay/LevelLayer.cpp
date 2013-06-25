@@ -1,5 +1,8 @@
 #include "LevelLayer.h"
 #include "../Constants.h"
+#include "Backend/Mediator.h"
+
+using namespace Bomber;
 
 LevelLayer::LevelLayer()
 :_player(NULL)
@@ -22,6 +25,18 @@ bool LevelLayer::init()
     _map = Map::create();
     _player = Human::create(_map);
     _controlLayer = ControlLayer::create();
+
+    Backend::GameState *gameState = new Backend::GameState(_map->getWidth(), _map->getHeight());
+    Backend::Mediator::getInstance()->setState(gameState);
+    gameState->init(_map->getTiledMap());
+    
+    Backend::GameObject *controlledSprite = new Backend::GameObject();
+    controlledSprite->setId(19991);
+    controlledSprite->setPosition(_player->getPosition().x, _player->getPosition().y);
+    controlledSprite->setSize(10, 10);
+    gameState->getSpriteLayer()->addObject(controlledSprite);
+
+    Backend::Mediator::getInstance()->setControlledSprite(controlledSprite->getId());
 
     _player->retain();
 
@@ -80,15 +95,15 @@ void LevelLayer::repositionSprite(float dt)
 
 void LevelLayer::updateGame(float dt)
 {
-    CCObject* co = NULL;
-    int x, y, width, height;
+    //CCObject* co = NULL;
+    //int x, y, width, height;
     CCRect objRect;
     bool collisionOccured = false;
     bool collisionOccuredX = false;
     bool collisionOccuredY = false;
-    CCTMXObjectGroup *objectGroup;
-    CCArray *objectList;
-    CCDictionary *dict;
+    //CCTMXObjectGroup *objectGroup;
+    //CCArray *objectList;
+    //CCDictionary *dict;
 
     CCPoint currentPos = _player->getPosition();
     CCPoint nextPos = _player->getNextPosition();
@@ -132,12 +147,50 @@ void LevelLayer::updateGame(float dt)
     else
         move = false;
 
-    if (move)
+    if (move && (currentPos.x != nextPos.x || currentPos.y != nextPos.y))
     {
+        // Only send data when something has changed
+        /*
+        if(currentPos.x != nextPos.x || currentPos.y != nextPos.y) 
+        {
+            // Send Data
+            Communication comm = Communication();
+            comm.sendSpriteMovement(58585, nextPos.x, nextPos.y);
+        }
+        */
+
         _player->setPosition(nextPos);
         _map->addToPosition(ccpSub(currentPos, nextPos));
+        Backend::Mediator::getInstance()->moveSprite(Position(nextPos.x, nextPos.y));
     }
 
+    /*
+    // Get Data
+    Communication *comm = Communication::getInstance();
+    if(currentPos.x != nextPos.x || currentPos.y != nextPos.y) 
+    {
+        // Send Data
+        comm->sendSpriteMovement(58585, nextPos.x, nextPos.y);
+    }
+    comm->receiveServerData();
+
+    // Get Player Data
+    PlayerInfo *pI = comm->getPlayerInfo(58585);
+    CCPoint serverNextPosition;
+    if(pI->valid)
+    {
+       serverNextPosition = ccp(pI->x, pI->y); 
+    }
+    else
+    {
+        serverNextPosition = currentPos;
+    }
+    _player->setPosition(serverNextPosition);
+    _map->addToPosition(ccpSub(currentPos, serverNextPosition));
+    */
+
+    // PORTALS FROM HERE
+/*
     CCPoint mapPos = _map->getPosition();
 
     collisionOccured = false;
@@ -182,7 +235,7 @@ void LevelLayer::updateGame(float dt)
 
     if (portalExit)
     {
-        /*
+*/        /*
         dict = (CCDictionary*) _map->getPortalExits()->objectForKey(portalExit);
 
         if (dict != NULL)
@@ -204,7 +257,7 @@ void LevelLayer::updateGame(float dt)
 
         return;
         */
-
+/*
         objectGroup = _map->getTiledMap()->objectGroupNamed("portal_exits");
         objectList = objectGroup->getObjects();
 
@@ -243,5 +296,5 @@ void LevelLayer::updateGame(float dt)
                     ccpAdd(mapPos, delta)
             );
         }
-    }
+    }*/
 }

@@ -1,6 +1,12 @@
 EXECUTABLE = SimpleGame
 
-INCLUDES = -I.. -I../Classes
+COCOS_ROOT = ../../lib/cocos2d-x
+RAKNET_ROOT = ../../lib/raknet
+
+INCLUDES = -I.. \
+		   -I../Classes \
+		   -I$(COCOS_ROOT)/cocos2dx/support/tinyxml2 \
+		   -I$(RAKNET_ROOT)/sources
 
 SOURCES = Main.cpp \
         ../Classes/AppDelegate.cpp \
@@ -9,6 +15,13 @@ SOURCES = Main.cpp \
         ../Classes/Input/Touch/Joystick.cpp \
         ../Classes/Input/Keyboard/Keyboard.cpp \
         ../Classes/Input/ControlLayer.cpp \
+        ../Classes/Gameplay/Backend/Mediator.cpp \
+        ../Classes/Gameplay/Backend/Logic.cpp \
+        ../Classes/Gameplay/Backend/GameState.cpp \
+        ../Classes/Gameplay/Backend/GameStateLayer.cpp \
+        ../Classes/Gameplay/Backend/GameObject.cpp \
+        ../Classes/Gameplay/Backend/Bomb.cpp \
+        ../Classes/Gameplay/Backend/Rectangle.cpp \
         ../Classes/Gameplay/LevelLayer.cpp \
         ../Classes/Gameplay/Map/Map.cpp \
         ../Classes/Gameplay/Map/Bomb.cpp \
@@ -18,17 +31,25 @@ SOURCES = Main.cpp \
         ../Classes/Menu/MainMenuLayer.cpp \
         ../Classes/Menu/SettingsLayer.cpp \
         ../Classes/Menu/CreditsLayer.cpp \
+        ../Classes/Network/Common/Message.cpp \
+        ../Classes/Network/Common/ReceiveDelegator.cpp \
+        ../Classes/Network/Client/ClientConnection.cpp \
+        ../Classes/Network/Client/Client.cpp \
+        ../Classes/Network/Server/ServerConnection.cpp \
+        ../Classes/Network/Server/ReceiverContainer.cpp \
+        ../Classes/Network/Server/Server.cpp \
+        ../Classes/Network/Server/Session.cpp \
 
-COCOS_ROOT = ../../lib/cocos2d-2.1rc0-x-2.1.3
-COCOS_ROOT = ../../lib/cocos2d-x
 include $(COCOS_ROOT)/cocos2dx/proj.linux/cocos2dx.mk
 
-SHAREDLIBS += -lcocos2d -lcocosdenshion
+SHAREDLIBS += -lcocos2d -lcocosdenshion -lboost_system
 CXXFLAGS += -g -lglut -Wunused-variable
+RAKNET_LIBS = $(RAKNET_ROOT)/lib/libraknet.so
 COCOS_LIBS = $(LIB_DIR)/libcocos2d.so $(LIB_DIR)/libcocosdenshion.so
 INCLUDES += -I$(COCOS_ROOT)/CocosDenshion/include
+SHAREDLIBS += $(RAKNET_LIBS)
 
-$(TARGET): $(OBJECTS) $(STATICLIBS) $(COCOS_LIBS) $(CORE_MAKEFILE_LIST)
+$(TARGET): $(OBJECTS) $(STATICLIBS) $(COCOS_LIBS) $(RAKNET_LIBS) $(CORE_MAKEFILE_LIST)
 	@mkdir -p $(@D)
 	$(LOG_LINK)$(CXX) $(CXXFLAGS) $(OBJECTS) -o $@ $(SHAREDLIBS) $(STATICLIBS)
 
