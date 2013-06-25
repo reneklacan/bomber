@@ -11,11 +11,12 @@ Bomb::Bomb()
     _penetration = 1;
     _owner = 0;
     _power = 2;
+    _activated = false;
 }
 
 void Bomb::update(float dt)
 {
-    if (_detonated)
+    if (!_activated || _detonated)
     {
         return;
     }
@@ -32,3 +33,13 @@ void Bomb::configure(GameObject *owner)
 {
     // configure bomb by owner's attributes
 }
+
+void Bomb::activate()
+{
+    _activated = true;
+
+    GSCBombSpawn *change = new GSCBombSpawn();
+    change->update(this->getPosition());
+    _eventDelegate->notify(change);
+}
+

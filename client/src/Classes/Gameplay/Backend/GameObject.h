@@ -14,6 +14,7 @@ namespace Bomber
             public:
                 virtual void setId(unsigned int id) { _id = id; };
                 virtual unsigned int getId() { return _id; };
+                virtual void update(float dt) {};
                 virtual void moveToPosition(Position position);
                 virtual void overridePosition(Position position);
                 virtual void setPosition(Position position);
@@ -24,8 +25,9 @@ namespace Bomber
                 virtual Coordinates getNextCoords();
                 virtual void setEventDelegate(GameObjectEventDelegate* delegate);
                 virtual bool isBombPotent() { return false; };
+                virtual bool isExplodable() { return false; };
 
-            private:
+            protected:
                 GameObjectEventDelegate *_eventDelegate;
                 Position _position;
                 Position _nextPosition;

@@ -14,7 +14,34 @@ Logic::Logic()
 
 void Logic::update(float dt)
 {
+    GameObject *object;
 
+    for (auto layer : _state->getAllLayers())
+    {
+        for (auto pair : layer->getObjects())
+        {
+            object = pair.second;
+            object->update(dt);
+
+            if (object->isExplodable())
+            {
+                ExplodableObject* explObj =  (ExplodableObject *) object;
+                if (explObj->isDetonated())
+                {
+                    layer->removeObject(object);
+                    GSCExplosionSpawn* change = new GSCExplosionSpawn();
+                    change->update(
+                            explObj->getOwner(),
+                            explObj->getPower(),
+                            explObj->getPenetration()
+                    );
+                    _state->addChange(change);
+                    this->spawnExplosion(explObj);
+                }
+            }
+
+        }
+    }
 }
 
 void Logic::setControlledSprite(unsigned int spriteId)
@@ -62,8 +89,14 @@ bool Logic::spawnBomb(GameObject *owner)
     Bomb *bomb = new Bomb();
     bomb->configure(owner);
     bomb->setId(this->getUniqueId());
+    bomb->activate();
 
     bombLayer->addObject(bomb);
 
     return true;
+}
+
+void Logic::spawnExplosion(ExplodableObject *explObj)
+{
+    // spawn explosion and destroy blocks and kill sprites
 }

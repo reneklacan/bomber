@@ -45,7 +45,7 @@ void GameStateLayer::removeObject(unsigned int id)
     _objects.erase(_objects.find(id));
 }
 
-void GameStateLayer::update(GameStateChange *change)
+void GameStateLayer::notify(GameStateChange *change)
 {
     _changes.push_back(change);
 

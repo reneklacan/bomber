@@ -18,6 +18,7 @@ namespace Bomber
                 void addChange(GameStateChange *change);
                 void gatherChanges();
 
+                std::vector<GameStateLayer *> &getAllLayers() { return _allLayers; };
                 GameStateLayer *getSpriteLayer() { return _spriteLayer; };
                 GameStateLayer *getBombLayer() { return _bombLayer; };
 

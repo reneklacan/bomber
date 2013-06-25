@@ -6,7 +6,7 @@
 #include <set>
 #include <map>
 
-#include "GameObject.h"
+#include "ExplodableObject.h"
 #include "GameStateChange.h"
 #include "GameObjectEventDelegate.h"
 
@@ -23,10 +23,11 @@ namespace Bomber
                 GameObject *getObject(unsigned int id);
                 void removeObject(GameObject *object);
                 void removeObject(unsigned int id);
-                void update(GameStateChange *change);
+                void notify(GameStateChange *change);
                 void getObjectsAroundCoords(Coordinates coords, int range, std::vector<GameObject *> &objects);
                 void getObjectsAroundCoords(Coordinates coords, std::vector<GameObject *> &objects);
                 void getObjectsAtCoords(Coordinates coords, std::vector<GameObject *> &objects);
+                std::map<unsigned int, GameObject *> &getObjects() { return _objects; };
 
                 std::deque<GameStateChange *> &getChanges() { return _changes; };
                 GameStateChange *popChange();

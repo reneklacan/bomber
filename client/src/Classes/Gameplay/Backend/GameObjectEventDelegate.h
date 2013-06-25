@@ -10,7 +10,7 @@ namespace Bomber
         class GameObjectEventDelegate
         {
             public:
-                virtual void update(GameStateChange *change) = 0;
+                virtual void notify(GameStateChange *change) = 0;
         };
     }
 }

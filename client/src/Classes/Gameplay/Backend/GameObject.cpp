@@ -7,7 +7,8 @@ void GameObject::moveToPosition(Position position)
 {
     GSCSpriteMove *change = new GSCSpriteMove();
     change->update(_position, position);
-    _eventDelegate->update(change);
+    change->setGameObjectId(this->getId());
+    _eventDelegate->notify(change);
     _position = position;
 }
 
@@ -15,7 +16,8 @@ void GameObject::overridePosition(Position position)
 {
     GSCSpritePositionOverride *change = new GSCSpritePositionOverride();
     change->update(position);
-    _eventDelegate->update(change);
+    change->setGameObjectId(this->getId());
+    _eventDelegate->notify(change);
     _position = position;
 }
 

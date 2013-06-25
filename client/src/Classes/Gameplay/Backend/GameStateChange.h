@@ -9,6 +9,8 @@ namespace Bomber
     {
         enum TGameStateChangeType
         {
+            NONE,
+
             SPRITE_MOVE,
             SPRITE_POSITION_OVERRIDE,
             SPRITE_SPAWN,
@@ -30,13 +32,14 @@ namespace Bomber
         class GameStateChange
         {
             public:
-                GameStateChange() { _type = 0; };
+                GameStateChange() { _type = NONE; };
 
                 void setGameObjectId(unsigned int id) { _gameObjectId = id; };
                 unsigned int getGameObjectId() { return _gameObjectId; };
+                TGameStateChangeType getType() { return _type; };
 
             protected:
-                int _type;
+                TGameStateChangeType _type;
                 unsigned int _gameObjectId;
         };
 
@@ -84,6 +87,20 @@ namespace Bomber
         {
             public:
                 GSCObstacleDestroy() { _type = OBSTACLE_DESTROY; };
+        };
+
+        class GSCExplosionSpawn : public GameStateChange
+        {
+            public:
+                GSCExplosionSpawn() { _type = EXPLOSION_SPAWN; };
+                virtual void update(unsigned int owner, unsigned int power, unsigned int penetration)
+                {
+                    _owner = owner; _power = power; _penetration = penetration;
+                };
+            private:
+                unsigned int _owner;
+                int _power;
+                int _penetration;
         };
     }
 }
