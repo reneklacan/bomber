@@ -31,14 +31,6 @@ SOURCES = Main.cpp \
         ../Classes/Menu/MainMenuLayer.cpp \
         ../Classes/Menu/SettingsLayer.cpp \
         ../Classes/Menu/CreditsLayer.cpp \
-        ../Classes/Network/Common/Message.cpp \
-        ../Classes/Network/Common/ReceiveDelegator.cpp \
-        ../Classes/Network/Client/ClientConnection.cpp \
-        ../Classes/Network/Client/Client.cpp \
-        ../Classes/Network/Server/ServerConnection.cpp \
-        ../Classes/Network/Server/ReceiverContainer.cpp \
-        ../Classes/Network/Server/Server.cpp \
-        ../Classes/Network/Server/Session.cpp \
 
 include $(COCOS_ROOT)/cocos2dx/proj.linux/cocos2dx.mk
 
