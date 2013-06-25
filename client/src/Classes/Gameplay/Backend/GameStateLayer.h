@@ -8,13 +8,12 @@
 
 #include "ExplodableObject.h"
 #include "GameStateChange.h"
-#include "GameObjectEventDelegate.h"
 
 namespace Bomber
 {
     namespace Backend
     {
-        class GameStateLayer : public GameObjectEventDelegate
+        class GameStateLayer
         {
             public:
                 GameStateLayer(int width, int height);
@@ -23,21 +22,16 @@ namespace Bomber
                 GameObject *getObject(unsigned int id);
                 void removeObject(GameObject *object);
                 void removeObject(unsigned int id);
-                void notify(GameStateChange *change);
                 void getObjectsAroundCoords(Coordinates coords, int range, std::vector<GameObject *> &objects);
                 void getObjectsAroundCoords(Coordinates coords, std::vector<GameObject *> &objects);
                 void getObjectsAtCoords(Coordinates coords, std::vector<GameObject *> &objects);
                 std::map<unsigned int, GameObject *> &getObjects() { return _objects; };
-
-                std::deque<GameStateChange *> &getChanges() { return _changes; };
-                GameStateChange *popChange();
 
             private:
                 int _width;
                 int _height;
                 std::vector< std::set<GameObject *> > _grid;
                 std::map<unsigned int, GameObject *> _objects;
-                std::deque<GameStateChange *> _changes;
         };
     }
 }

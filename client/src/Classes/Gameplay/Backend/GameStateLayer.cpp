@@ -44,21 +44,6 @@ void GameStateLayer::removeObject(unsigned int id)
     _objects.erase(_objects.find(id));
 }
 
-void GameStateLayer::notify(GameStateChange *change)
-{
-    _changes.push_back(change);
-
-    GameObject *object = _objects.at(change->getGameObjectId());
-    Coordinates currentCoords = object->getCoords();
-    Coordinates nextCoords = object->getNextCoords();
-
-    if (currentCoords == nextCoords)
-        return;
-
-    _grid[currentCoords.y*_width + currentCoords.x].erase(object);
-    _grid[nextCoords.y*_width + nextCoords.x].insert(object);
-}
-
 void GameStateLayer::getObjectsAroundCoords(Coordinates coords, int range, std::vector<GameObject *> &objects)
 {
     for (int y = coords.y - range; y <= coords.y + range; y++)
@@ -83,12 +68,3 @@ void GameStateLayer::getObjectsAtCoords(Coordinates coords, std::vector<GameObje
     this->getObjectsAroundCoords(coords, 0, objects);
 }
 
-GameStateChange *GameStateLayer::popChange()
-{
-    if (_changes.empty())
-        return nullptr;
-
-    GameStateChange *tmp = _changes.front();
-    _changes.pop_front();
-    return tmp;
-}

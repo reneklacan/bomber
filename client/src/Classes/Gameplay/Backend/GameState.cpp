@@ -6,6 +6,7 @@ using namespace Bomber::Backend;
 GameState::GameState()
 {
     _lastChangeId = 0;
+    _lastChangeIdOffset = 0;
 
     int _width = 10;
     int _height = 10;
@@ -42,12 +43,26 @@ std::vector<GameStateChange *> GameState::getChangesFromId(unsigned int id)
 {
     std::vector<GameStateChange *> changes;
 
-    for (int i = id; i < _lastChangeId; i++)
+    unsigned int fromId = id - _lastChangeIdOffset;
+    unsigned int toId = _lastChangeId - _lastChangeIdOffset;
+
+    for (int i = fromId; i < toId; i++) 
     {
         changes.push_back(_changes[i]);
     }
 
     return changes;
+}
+
+void GameState::deleteChangesToId(unsigned int id)
+{
+    unsigned int numberToDelete = id - _lastChangeIdOffset;
+
+    for (unsigned int i = 0; i < numberToDelete; i++)
+    {
+        _changes.pop_front();
+        _lastChangeIdOffset++;
+    }
 }
 
 void GameState::addChange(GameStateChange *change)
@@ -56,18 +71,3 @@ void GameState::addChange(GameStateChange *change)
     _changes.push_back(change);
 }
 
-void GameState::gatherChanges()
-{
-    GameStateChange *change;
-
-    for (GameStateLayer *layer : _allLayers)
-    {
-        while (!layer->getChanges().empty())
-        {
-            while ((change = layer->popChange()) != nullptr)
-            {
-                this->addChange(change);
-            }
-        }
-    }
-}

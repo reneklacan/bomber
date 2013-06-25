@@ -24,6 +24,7 @@ namespace Bomber
                 bool spawnBomb();
                 bool spawnBomb(unsigned int);
                 bool spawnBomb(GameObject *owner);
+
                 void spawnExplosion(ExplodableObject *explObj);
 
                 void logSpriteMove(GameObject *sprite, Position &from, Position &to);
