@@ -12,14 +12,15 @@ namespace Bomber
             public:
                 static Mediator *getInstance();
 
-                Mediator();
-
+                void update(float dt);
                 void setState(GameState *state);
                 void setControlledSprite(unsigned int id);
                 void moveSprite(Position position);
                 void spawnBomb();
 
             private:
+                Mediator();
+
                 static Mediator *_instance;
                 GameState *_state;
         };

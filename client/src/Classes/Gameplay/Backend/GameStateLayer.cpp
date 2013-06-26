@@ -27,8 +27,7 @@ void GameStateLayer::addObject(unsigned int id, GameObject *object)
     _objects[id] = object;
 
     Coordinates coords = object->getCoords();
-    printf("%d %d\n", coords.x, coords.y);
-    printf("%d %d %d\n", _width, _height, coords.y*_width + coords.x);
+    printf("addObject at x:%d y:%d\n", coords.x, coords.y);
     _grid[coords.y*_width + coords.x].insert(object);
 }
 

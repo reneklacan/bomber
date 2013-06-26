@@ -1,6 +1,7 @@
 #include "LevelLayer.h"
 #include "../Constants.h"
 #include "Backend/Mediator.h"
+#include "Backend/Bomber.h"
 
 using namespace Bomber;
 
@@ -30,7 +31,7 @@ bool LevelLayer::init()
     Backend::Mediator::getInstance()->setState(gameState);
     gameState->init(_map->getTiledMap());
     
-    Backend::GameObject *controlledSprite = new Backend::GameObject();
+    Backend::Bomber *controlledSprite = new Backend::Bomber();
     controlledSprite->setId(19991);
     controlledSprite->setPosition(_player->getPosition().x, _player->getPosition().y);
     controlledSprite->setSize(10, 10);
@@ -163,6 +164,9 @@ void LevelLayer::updateGame(float dt)
         _map->addToPosition(ccpSub(currentPos, nextPos));
         Backend::Mediator::getInstance()->moveSprite(Position(nextPos.x, nextPos.y));
     }
+
+    Backend::Mediator::getInstance()->update(dt);
+
 
     /*
     // Get Data

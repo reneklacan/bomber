@@ -3,6 +3,7 @@
 #include "Obstacle.h"
 #include "Portal.h"
 #include "PortalExit.h"
+#include "Bomber.h"
 #include "../../Constants.h"
 
 using namespace Bomber::Backend;
