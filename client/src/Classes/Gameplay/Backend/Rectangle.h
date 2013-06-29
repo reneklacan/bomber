@@ -4,60 +4,26 @@
 #include "Position.h"
 #include "Size.h"
 
-struct Rectangle
+class Rectangle
 {
-    float x;
-    float y;
-    float width;
-    float height;
+    public:
+        float x;
+        float y;
+        float width;
+        float height;
+        Position center;
 
-    Rectangle(int x, int y, int width, int height)
-    {
-        this->x = x;
-        this->y = y;
-        this->width = width;
-        this->height = height;
-    }
+        Rectangle(int x, int y, int width, int height);
+        Rectangle(float x, float y, int width, int height);
+        Rectangle(float x, float y, float width, float height);
+        Rectangle(Position p, Size s);
 
-    Rectangle(float x, float y, int width, int height)
-    {
-        this->x = x;
-        this->y = y;
-        this->width = width;
-        this->height = height;
-    }
+        bool operator==(const Rectangle &other) const;
 
-    Rectangle(float x, float y, float width, float height)
-    {
-        this->x = x;
-        this->y = y;
-        this->width = width;
-        this->height = height;
-    }
+        Position &getCenterPosition();
+        void calculateCenterPosition();
+        bool isIntersecting(Rectangle &r);
 
-    Rectangle(Position p, Size s)
-    {
-        this->x = p.x;
-        this->y = p.y;
-        this->width = s.width;
-        this->height = s.height;
-    }
-
-    bool operator==(const Rectangle &other) const
-    {
-        if (this->x != other.x)
-            return false;
-        if (this->y != other.y)
-            return false;
-        if (this->width != other.width)
-            return false;
-        if (this->height != other.height)
-            return false;
-        return true;
-    }
 };
-
-Position rectangleGetCenterPosition(Rectangle &rectangle);
-bool rectangleIntersect(Rectangle &r1, Rectangle &r2);
 
 #endif

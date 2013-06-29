@@ -17,6 +17,7 @@ SOURCES = Main.cpp \
         ../Classes/Input/ControlLayer.cpp \
         ../Classes/Gameplay/Backend/Mediator.cpp \
         ../Classes/Gameplay/Backend/Logic.cpp \
+        ../Classes/Gameplay/Backend/GameStateUpdater.cpp \
         ../Classes/Gameplay/Backend/GameState.cpp \
         ../Classes/Gameplay/Backend/GameStateLayer.cpp \
         ../Classes/Gameplay/Backend/GameObject.cpp \

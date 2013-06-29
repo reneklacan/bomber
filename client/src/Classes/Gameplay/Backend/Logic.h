@@ -3,6 +3,7 @@
 
 #include "GameState.h"
 #include "Bomb.h"
+#include "GameStateUpdater.h"
 
 namespace Bomber
 {
@@ -30,17 +31,16 @@ namespace Bomber
                 void logBombSpawn(Bomb *bomb);
                 void logExplosionSpawn(ExplodableObject *explObj);
                 
-                unsigned int getUniqueId() { return _uniqueId++; };
                 void setControlledSprite(unsigned int id);
+                void setGameStateUpdater(GameStateUpdater *updater);
 
             private:
                 Logic();
 
                 static Logic *_instance;
                 GameState *_state;
+                GameStateUpdater *_gameStateUpdater;
                 GameObject *_controlledSprite;
-                unsigned int _uniqueId;
-
         };
     }
 }

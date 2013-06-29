@@ -1,21 +1,71 @@
 
 #include "Rectangle.h"
 
-Position rectangleGetCenterPosition(Rectangle &rectangle)
+Rectangle::Rectangle(int x, int y, int width, int height)
 {
-    Position center(
-            rectangle.x + rectangle.width/2,
-            rectangle.y + rectangle.height/2
-    );
-    return center;
+    this->x = x;
+    this->y = y;
+    this->width = width;
+    this->height = height;
 }
 
-bool rectangleIntersect(Rectangle &r1, Rectangle &r2)
+Rectangle::Rectangle(float x, float y, int width, int height)
+{
+    this->x = x;
+    this->y = y;
+    this->width = width;
+    this->height = height;
+}
+
+Rectangle::Rectangle(float x, float y, float width, float height)
+{
+    this->x = x;
+    this->y = y;
+    this->width = width;
+    this->height = height;
+}
+
+Rectangle::Rectangle(Position p, Size s)
+{
+    this->x = p.x;
+    this->y = p.y;
+    this->width = s.width;
+    this->height = s.height;
+}
+
+bool Rectangle::operator==(const Rectangle &other) const
+{
+    if (this->x != other.x)
+        return false;
+    if (this->y != other.y)
+        return false;
+    if (this->width != other.width)
+        return false;
+    if (this->height != other.height)
+        return false;
+    return true;
+
+}
+
+Position &Rectangle::getCenterPosition()
+{
+    return this->center;
+}
+
+void Rectangle::calculateCenterPosition()
+{
+    this->center = Position(
+            this->x + this->width/2,
+            this->y + this->height/2
+    );
+}
+
+bool Rectangle::isIntersecting(Rectangle &r)
 {
     return !(
-            r1.x > r2.x + r2.width ||
-            r2.x > r1.x + r1.width ||
-            r2.y > r1.y + r2.height ||
-            r1.y > r2.y + r1.height
+            this->x > r.x + r.width ||
+            r.x > this->x + this->width ||
+            r.y > this->y + r.height ||
+            this->y > r.y + this->height
     );
 }

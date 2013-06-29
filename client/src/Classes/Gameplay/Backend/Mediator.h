@@ -2,6 +2,7 @@
 #define __BOMBER_BACKEND_MEDIATOR
 
 #include "Logic.h"
+#include "GameStateUpdater.h"
 
 namespace Bomber
 {
@@ -23,6 +24,7 @@ namespace Bomber
 
                 static Mediator *_instance;
                 GameState *_state;
+                GameStateUpdater *_gameStateUpdater;
         };
     }
 }
