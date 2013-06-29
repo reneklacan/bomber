@@ -35,6 +35,9 @@ public:
 	//void ccTouchesMoved(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
 
     void pauseGameAction() { printf("game paused in level layer\n"); };
+    
+    // a selector callback
+    virtual void menuCloseCallback(cocos2d::CCObject* pSender);
 
 protected:
     ControlLayer *_controlLayer;

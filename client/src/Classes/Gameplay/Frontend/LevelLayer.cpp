@@ -1,13 +1,16 @@
 #include "LevelLayer.h"
-#include "../Constants.h"
-#include "Backend/Mediator.h"
-#include "Backend/Bomber.h"
+#include "../../Constants.h"
+#include "../Backend/Mediator.h"
+#include "../Backend/Bomber.h"
+#include "GameButton.h"
 
 using namespace Bomber;
+using namespace Bomber::Frontend;
 
 LevelLayer::LevelLayer()
 :_player(NULL)
 ,_map(NULL)
+,_gamePaused(false)
 {
 }
 
@@ -46,34 +49,25 @@ bool LevelLayer::init()
 
     /**
     */
-    do
-    {
-        // 1. Add a menu item with "X" image, which is clicked to quit the program.
+    GameButton *gb = new GameButton();
 
-        // Create a "close" menu item with close icon, it's an auto release object.
-        CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-            "CloseNormal.png",
-            "CloseSelected.png",
+    // Add the GameButton Quit as a child layer.
+    this->addChild(
+        gb->createButton(
             this,
-            menu_selector(LevelLayer::menuCloseCallback));
+            menu_selector(LevelLayer::menuCloseCallback)
+        ),
+        1
+    );
 
-        CC_BREAK_IF(! pCloseItem);
-        
-        // Place the menu item bottom-right conner.
-        CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-        CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-        
-        pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width/2,
-                                    origin.y + pCloseItem->getContentSize().height/2));
-
-        // Create a menu with the "close" menu item, it's an auto release object.
-        CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
-        pMenu->setPosition(CCPointZero);
-        CC_BREAK_IF(! pMenu);
-
-        // Add the menu to HelloWorld layer as a child layer.
-        this->addChild(pMenu, 1);
-    } while(0);
+    // Add the GameButton Pause/Resume as a child layer.
+    this->addChild(
+        gb->createButton(
+            this,
+            menu_selector(LevelLayer::menuPauseCallback)
+        ),
+        1
+    );
     /**
     */
 
@@ -116,7 +110,7 @@ bool LevelLayer::init()
 
     //CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background-music-aac.wav", true);
 
-	return true;
+    return true;
 }
 
 void LevelLayer::repositionSprite(float dt)
@@ -129,15 +123,10 @@ void LevelLayer::repositionSprite(float dt)
 
 void LevelLayer::updateGame(float dt)
 {
-    //CCObject* co = NULL;
-    //int x, y, width, height;
     CCRect objRect;
     bool collisionOccured = false;
     bool collisionOccuredX = false;
     bool collisionOccuredY = false;
-    //CCTMXObjectGroup *objectGroup;
-    //CCArray *objectList;
-    //CCDictionary *dict;
 
     CCPoint currentPos = _player->getPosition();
     CCPoint nextPos = _player->getNextPosition();
@@ -199,145 +188,25 @@ void LevelLayer::updateGame(float dt)
     }
 
     Backend::Mediator::getInstance()->update(dt);
-
-
-    /*
-    // Get Data
-    Communication *comm = Communication::getInstance();
-    if(currentPos.x != nextPos.x || currentPos.y != nextPos.y) 
-    {
-        // Send Data
-        comm->sendSpriteMovement(58585, nextPos.x, nextPos.y);
-    }
-    comm->receiveServerData();
-
-    // Get Player Data
-    PlayerInfo *pI = comm->getPlayerInfo(58585);
-    CCPoint serverNextPosition;
-    if(pI->valid)
-    {
-       serverNextPosition = ccp(pI->x, pI->y); 
-    }
-    else
-    {
-        serverNextPosition = currentPos;
-    }
-    _player->setPosition(serverNextPosition);
-    _map->addToPosition(ccpSub(currentPos, serverNextPosition));
-    */
-
-    // PORTALS FROM HERE
-/*
-    CCPoint mapPos = _map->getPosition();
-
-    collisionOccured = false;
-
-    objectGroup = _map->getTiledMap()->objectGroupNamed("portals");
-    objectList = objectGroup->getObjects();
-
-    CCString *name;
-
-    int portalExit = 0;
-
-    // use CCDictionary for portals and portal_exits?
-
-    CCARRAY_FOREACH(objectList, co)
-    {
-        dict = (CCDictionary*) co;
-
-        if (!dict)
-            break;
-
-        name = ((CCString*)dict->objectForKey("name"));
-        x = ((CCString*)dict->objectForKey("x"))->intValue();
-        y = ((CCString*)dict->objectForKey("y"))->intValue();
-        width = ((CCString*)dict->objectForKey("width"))->intValue();
-        height = ((CCString*)dict->objectForKey("height"))->intValue();         
-
-        //printf( "x %i, y %i, width %i, height %i\n", x, y, width, height );
-
-        objRect = CCRectMake(
-                x, y, width, height
-        );
-        //printf("obj rect height is %g\n", objRect.size.height);
-
-        if (playerRect.intersectsRect(objRect))
-        {
-            //_player->setPosition(pos);
-            portalExit = name->intValue();
-            break;
-        }
-
-    }
-
-    if (portalExit)
-    {
-*/        /*
-        dict = (CCDictionary*) _map->getPortalExits()->objectForKey(portalExit);
-
-        if (dict != NULL)
-        {
-            x = ((CCString*)dict->objectForKey("x"))->intValue();
-            y = ((CCString*)dict->objectForKey("y"))->intValue();
-
-            x += 15;
-            y += 40;
-
-            std::cout << "teleport!!!! " << portalExit << std::endl;
-
-            CCPoint delta = ccpSub(_player->getPosition(), ccp(x, y));
-            _player->setPosition(ccp(x, y));
-
-            CCPoint mapPos = _map->getPosition();
-            _map->setPosition(ccpAdd(mapPos, delta));
-        }
-
-        return;
-        */
-/*
-        objectGroup = _map->getTiledMap()->objectGroupNamed("portal_exits");
-        objectList = objectGroup->getObjects();
-
-        bool found = false;
-
-        CCARRAY_FOREACH(objectList, co)
-        {
-            dict = (CCDictionary*) co;
-
-            if (!dict)
-                break;
-
-            name = ((CCString*)dict->objectForKey("name"));
-            x = ((CCString*)dict->objectForKey("x"))->intValue();
-            y = ((CCString*)dict->objectForKey("y"))->intValue();
-
-            if (portalExit == name->intValue())
-            {
-                found = true;
-                break;
-            }
-        }
-
-        if (found)
-        {
-            x += 15;
-            y += 40;
-
-            std::cout << "teleport!!!! " << portalExit << std::endl;
-
-            CCPoint delta = ccpSub(_player->getPosition(), ccp(x, y));
-            _player->setPosition(ccp(x, y));
-
-            CCPoint mapPos = _map->getPosition();
-            _map->setPosition(
-                    ccpAdd(mapPos, delta)
-            );
-        }
-    }*/
 }
 
 void LevelLayer::menuCloseCallback(CCObject* pSender)
 {
     // "close" menu item clicked
     CCDirector::sharedDirector()->end();
+}
+
+void LevelLayer::menuPauseCallback(CCObject* pSender)
+{
+    // "pause/resume" menu item clicked
+    if(_gamePaused)
+    {
+        CCDirector::sharedDirector()->resume();
+        _gamePaused = false;
+    }
+    else
+    {
+        CCDirector::sharedDirector()->pause();
+        _gamePaused = true;
+    }
 }

@@ -4,7 +4,9 @@
 #include "cocos2d.h"
 
 //#include "SimpleAudioEngine.h"
-#include "Gameplay/LevelLayer.h"
+#include "Gameplay/Frontend/LevelLayer.h"
+
+using namespace Bomber::Frontend;
 
 class GameplayScene : public CCLayer
 {

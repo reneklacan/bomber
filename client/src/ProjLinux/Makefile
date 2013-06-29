@@ -23,7 +23,8 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Backend/GameObject.cpp \
         ../Classes/Gameplay/Backend/Bomb.cpp \
         ../Classes/Gameplay/Backend/Rectangle.cpp \
-        ../Classes/Gameplay/LevelLayer.cpp \
+        ../Classes/Gameplay/Frontend/LevelLayer.cpp \
+        ../Classes/Gameplay/Frontend/GameButton.cpp \
         ../Classes/Gameplay/Map/Map.cpp \
         ../Classes/Gameplay/Map/Bomb.cpp \
         ../Classes/Gameplay/Map/Explosion.cpp \
