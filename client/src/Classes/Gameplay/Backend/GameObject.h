@@ -28,6 +28,8 @@ namespace Bomber
                 //virtual Coordinates getNextCoords();
                 virtual bool isBombPotent() { return false; };
                 virtual bool isExplodable() { return false; };
+                bool isDirty() { return _dirty; };
+                bool setDirty(bool dirty) { _dirty = dirty; }
 
                 virtual Rectangle getCollisionRect() { return Rectangle(_position, _size); };
                 virtual Circle getCollisionCircle() { return Circle(_position, _size); };
@@ -38,6 +40,7 @@ namespace Bomber
                 bool _sphereCollisionArea;
                 //Position _nextPosition;
                 unsigned int _id;
+                bool _dirty;
         };
     }
 }

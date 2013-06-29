@@ -1,4 +1,6 @@
 
+#include <stdio.h>
+
 #include "Bomb.h"
 #include "../../Constants.h"
 

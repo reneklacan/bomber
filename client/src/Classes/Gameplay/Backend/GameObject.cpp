@@ -1,4 +1,6 @@
 
+#include <stdio.h>
+
 #include "GameObject.h"
 #include "../../Constants.h"
 
@@ -7,11 +9,13 @@ using namespace Bomber::Backend;
 void GameObject::setPosition(int x, int y)
 {
     _position = Position(x, y);
+    _dirty = true;
 }
 
 void GameObject::setPosition(Position position)
 {
     _position = position;
+    _dirty = true;
 }
 
 void GameObject::setSize(int width, int height)
@@ -33,10 +37,10 @@ void GameObject::setNextPosition(Position position)
 
 Coordinates GameObject::getCoords()
 {
-    Coordinates coords;
-    coords.x = _position.x/TILE_WIDTH;
-    coords.y = _position.y/TILE_HEIGHT;
-    return coords;
+    return Coordinates(
+            _position.x/TILE_WIDTH,
+            _position.y/TILE_HEIGHT
+    );
 }
 
 /*

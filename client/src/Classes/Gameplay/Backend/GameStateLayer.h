@@ -16,22 +16,27 @@ namespace Bomber
         class GameStateLayer
         {
             public:
-                GameStateLayer(int width, int height);
+                GameStateLayer(const char *name, int width, int height);
+                void updateGrid();
                 void addObject(GameObject *object);
                 void addObject(unsigned int id, GameObject *object);
                 GameObject *getObject(unsigned int id);
                 void removeObject(GameObject *object);
                 void removeObject(unsigned int id);
-                void getObjectsAroundCoords(Coordinates coords, int range, std::vector<GameObject *> &objects);
-                void getObjectsAroundCoords(Coordinates coords, std::vector<GameObject *> &objects);
-                void getObjectsAtCoords(Coordinates coords, std::vector<GameObject *> &objects);
+                std::vector<GameObject *> getObjectsAroundCoords(Coordinates coords, int range);
+                std::vector<GameObject *> getObjectsAroundCoords(Coordinates coords);
+                std::vector<GameObject *> getObjectsAtCoords(Coordinates coords);
+                std::vector<GameObject *> getObjectsAtCoords(unsigned int x, unsigned int y);
                 std::map<unsigned int, GameObject *> &getObjects() { return _objects; };
+                void print();
 
             private:
+                const char *_name;
                 int _width;
                 int _height;
                 std::vector< std::set<GameObject *> > _grid;
                 std::map<unsigned int, GameObject *> _objects;
+                std::map<unsigned int, std::set<unsigned int> > _objectGridMap;
         };
     }
 }

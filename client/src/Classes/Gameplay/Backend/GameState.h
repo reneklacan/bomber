@@ -25,8 +25,11 @@ namespace Bomber
                 void addChange(GameStateChange *change);
                 void gatherChanges();
 
+                unsigned int getWidth() { return _width; };
+                unsigned int getHeight() { return _height; };
                 std::vector<GameStateLayer *> &getAllLayers() { return _allLayers; };
                 GameStateLayer *getSpriteLayer() { return _spriteLayer; };
+                GameStateLayer *getObstaclesLayer() { return _obstacleLayer; };
                 GameStateLayer *getBombLayer() { return _bombLayer; };
 
             private:

@@ -4,8 +4,9 @@
 
 using namespace Bomber::Backend;
 
-GameStateLayer::GameStateLayer(int width, int height)
+GameStateLayer::GameStateLayer(const char *name, int width, int height)
 {
+    _name = name;
     _width = width;
     _height = height;
     int gridSize = width*height;
@@ -14,6 +15,32 @@ GameStateLayer::GameStateLayer(int width, int height)
     {
         std::set<GameObject *> s;
         _grid.push_back(s);
+    }
+}
+
+void GameStateLayer::updateGrid()
+{
+    for (auto pair : _objects)
+    {
+        auto object = pair.second;
+
+        if (object->isDirty())
+        {
+            object->setDirty(false);
+
+            for (unsigned int index : _objectGridMap[object->getId()])
+            {
+                _grid[index].erase(object);
+            }
+
+            Coordinates coords = object->getCoords();
+            unsigned int newIndex = coords.y*_width + coords.x;
+
+            _objectGridMap[object->getId()].clear();
+            _objectGridMap[object->getId()].insert(newIndex);
+
+            _grid[newIndex].insert(object);
+        }
     }
 }
 
@@ -27,7 +54,8 @@ void GameStateLayer::addObject(unsigned int id, GameObject *object)
     _objects[id] = object;
 
     Coordinates coords = object->getCoords();
-    printf("addObject at x:%d y:%d\n", coords.x, coords.y);
+    //printf("addObject at x:%d y:%d with id %d\n", coords.x, coords.y, id);
+    _objectGridMap[id].insert(coords.y*_width + coords.x);
     _grid[coords.y*_width + coords.x].insert(object);
 }
 
@@ -38,16 +66,21 @@ GameObject *GameStateLayer::getObject(unsigned int id)
 
 void GameStateLayer::removeObject(GameObject *object)
 {
-    this->removeObject(object->getId());
+    Coordinates coords = object->getCoords();
+    _grid[coords.y*_width + coords.x].erase(object);
+    _objects.erase(_objects.find(object->getId()));
 }
 
 void GameStateLayer::removeObject(unsigned int id)
 {
+    //printf("xxxxxxxxx remove object with id %d\n", id);
     _objects.erase(_objects.find(id));
 }
 
-void GameStateLayer::getObjectsAroundCoords(Coordinates coords, int range, std::vector<GameObject *> &objects)
+std::vector<GameObject *> GameStateLayer::getObjectsAroundCoords(Coordinates coords, int range)
 {
+    std::vector<GameObject *> objects;
+
     for (int y = coords.y - range; y <= coords.y + range; y++)
     {
         for (int x = coords.x - range; x <= coords.x + range; x++)
@@ -58,15 +91,38 @@ void GameStateLayer::getObjectsAroundCoords(Coordinates coords, int range, std::
             }
         }
     }
+
+    return objects;
 }
 
-void GameStateLayer::getObjectsAroundCoords(Coordinates coords, std::vector<GameObject *> &objects)
+std::vector<GameObject *> GameStateLayer::getObjectsAroundCoords(Coordinates coords)
 {
-    this->getObjectsAroundCoords(coords, 1, objects);
+    return this->getObjectsAroundCoords(coords, 1);
 }
 
-void GameStateLayer::getObjectsAtCoords(Coordinates coords, std::vector<GameObject *> &objects)
+std::vector<GameObject *> GameStateLayer::getObjectsAtCoords(Coordinates coords)
 {
-    this->getObjectsAroundCoords(coords, 0, objects);
+    return this->getObjectsAroundCoords(coords, 0);
 }
 
+std::vector<GameObject *> GameStateLayer::getObjectsAtCoords(unsigned int x, unsigned int y)
+{
+    return this->getObjectsAroundCoords(Coordinates(x, y), 0);
+}
+
+void GameStateLayer::print()
+{
+    printf("%s\n", _name);
+    printf("----------\n");
+    
+    for (int iy = _height - 1; iy >= 0; iy--)
+    {
+        for (int ix = 0; ix < _width; ix++)
+        {
+            printf("%lu ", this->getObjectsAtCoords(ix, iy).size());
+        }
+        printf("\n");
+    }
+
+    printf("----------\n");
+}

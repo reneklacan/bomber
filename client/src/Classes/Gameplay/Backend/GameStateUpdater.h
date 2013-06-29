@@ -4,6 +4,7 @@
 #include "GameState.h"
 #include "Position.h"
 #include "Bomb.h"
+#include "Obstacle.h"
 
 namespace Bomber
 {
@@ -14,6 +15,7 @@ namespace Bomber
             public:
                 GameStateUpdater();
 
+                void updateGrid();
                 void setState(GameState *state) { _state = state; };
                 GameState *getState() { return _state; };
                 unsigned int getUniqueId() { return _uniqueId++; };
@@ -22,11 +24,13 @@ namespace Bomber
                 bool spawnBomb(GameObject *owner);
                 void spawnExplosion(ExplodableObject *explObj);
                 void destroyBomb(Bomb *bomb);
+                void makeBombImpact(int *penetration, unsigned int x, unsigned int y);
 
                 void logSpriteMove(GameObject *sprite, Position &from, Position &to);
                 void logBombSpawn(Bomb *bomb);
                 void logBombDestroy(Bomb *bomb);
                 void logExplosionSpawn(ExplodableObject *explObj);
+                void logObstacleDestroy(Obstacle *obstacle);
 
             private:
                 GameState *_state;

@@ -16,12 +16,12 @@ GameState::GameState(unsigned int width, unsigned int height)
     _width = width;
     _height = height;
 
-    _spriteLayer = new GameStateLayer(_width, _height);
-    _obstacleLayer = new GameStateLayer(_width, _height);
-    _portalLayer = new GameStateLayer(_width, _height);
-    _portalExitLayer = new GameStateLayer(_width, _height);
-    _specialLayer = new GameStateLayer(_width, _height);
-    _bombLayer = new GameStateLayer(_width, _height);
+    _spriteLayer = new GameStateLayer("Sprite Layer", _width, _height);
+    _obstacleLayer = new GameStateLayer("Obstacles Layer", _width, _height);
+    _portalLayer = new GameStateLayer("Portal Layer", _width, _height);
+    _portalExitLayer = new GameStateLayer("Portal Exit Layer", _width, _height);
+    _specialLayer = new GameStateLayer("Special Layer", _width, _height);
+    _bombLayer = new GameStateLayer("Bomb Layer", _width, _height);
 
     GameStateLayer *layers[] = {
         _spriteLayer,
@@ -46,19 +46,23 @@ GameState::~GameState()
 
 void GameState::init(CCTMXTiledMap *tiledMap)
 {
+    unsigned int gid;
     CCTMXLayer *obstaclesLayer = tiledMap->layerNamed("obstacles");
 
     for (int iy = 0; iy < _height; iy++)
     {
         for (int ix = 0; ix < _width; ix++)
         {
-            if (!obstaclesLayer->tileGIDAt(ccp(ix, _height - 1 - iy)))
+            gid = obstaclesLayer->tileGIDAt(ccp(ix, _height - 1 - iy));
+
+            if (gid == 0)
                 continue;
 
             Obstacle *obstacle = new Obstacle();
             obstacle->setId(iy*_width + ix);
             obstacle->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
             obstacle->setSize(TILE_WIDTH, TILE_HEIGHT);
+            obstacle->configureFromGid(gid);
 
             _obstacleLayer->addObject(obstacle);
         }

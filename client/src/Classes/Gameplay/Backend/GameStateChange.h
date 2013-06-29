@@ -93,7 +93,7 @@ namespace Bomber
                 unsigned int _id;
         };
 
-        class GSCObstacleDestroy : public GameStateChange
+        class GSCObstacleDestroy : public GSCCoordinates
         {
             public:
                 GSCObstacleDestroy() { _type = OBSTACLE_DESTROY; };

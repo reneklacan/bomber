@@ -69,6 +69,13 @@ bool LevelLayer::init()
     );
     _player->setNextPosition(_player->getPosition());
 
+    Backend::Mediator::getInstance()->moveSprite(
+            Position(
+                _player->getPosition().x,
+                _player->getPosition().y
+            )
+    );
+
     _map->setPosition(
             ccp(
                 visibleSize.width/2 - _player->getPosition().x,
