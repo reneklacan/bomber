@@ -44,6 +44,39 @@ bool LevelLayer::init()
     this->addChild(_map);
     this->addChild(_controlLayer, 2);
 
+    /**
+    */
+    do
+    {
+        // 1. Add a menu item with "X" image, which is clicked to quit the program.
+
+        // Create a "close" menu item with close icon, it's an auto release object.
+        CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
+            "CloseNormal.png",
+            "CloseSelected.png",
+            this,
+            menu_selector(LevelLayer::menuCloseCallback));
+
+        CC_BREAK_IF(! pCloseItem);
+        
+        // Place the menu item bottom-right conner.
+        CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+        CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+        
+        pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width/2,
+                                    origin.y + pCloseItem->getContentSize().height/2));
+
+        // Create a menu with the "close" menu item, it's an auto release object.
+        CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
+        pMenu->setPosition(CCPointZero);
+        CC_BREAK_IF(! pMenu);
+
+        // Add the menu to HelloWorld layer as a child layer.
+        this->addChild(pMenu, 1);
+    } while(0);
+    /**
+    */
+
     _map->addChild(_player, 1);
 
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
@@ -308,4 +341,10 @@ void LevelLayer::updateGame(float dt)
             );
         }
     }*/
+}
+
+void LevelLayer::menuCloseCallback(CCObject* pSender)
+{
+    // "close" menu item clicked
+    CCDirector::sharedDirector()->end();
 }

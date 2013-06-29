@@ -25,7 +25,8 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Backend/Obstacle.cpp \
         ../Classes/Gameplay/Backend/Coordinates.cpp \
         ../Classes/Gameplay/Backend/Rectangle.cpp \
-        ../Classes/Gameplay/LevelLayer.cpp \
+        ../Classes/Gameplay/Frontend/LevelLayer.cpp \
+        ../Classes/Gameplay/Frontend/GameButton.cpp \
         ../Classes/Gameplay/Map/Map.cpp \
         ../Classes/Gameplay/Map/Bomb.cpp \
         ../Classes/Gameplay/Map/Explosion.cpp \
