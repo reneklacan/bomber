@@ -18,6 +18,7 @@ namespace Bomber
                 void setControlledSprite(unsigned int id);
                 void moveSprite(Position position);
                 void spawnBomb();
+                GameState *getState() { return _state; }
 
             private:
                 Mediator();

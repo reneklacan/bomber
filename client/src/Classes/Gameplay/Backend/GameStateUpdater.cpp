@@ -131,7 +131,7 @@ void GameStateUpdater::logBombDestroy(Bomb *bomb)
     printf("logBombDestroy\n");
     GSCBombDestroy *change = new GSCBombDestroy();
     change->update(bomb->getId());
-    change->setGameObjectId(bomb->getOwnerId());
+    change->setGameObjectId(bomb->getId());
     _state->addChange(change);
 }
 

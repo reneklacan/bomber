@@ -47,6 +47,6 @@ void Human::actionThree()
 
 void Human::plantBomb()
 {
-    _map->spawnBomb(this);
+    //_map->spawnBomb(this);
     Backend::Mediator::getInstance()->spawnBomb();
 }

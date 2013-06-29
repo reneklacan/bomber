@@ -18,6 +18,7 @@ bool Map::init()
     _bombs = new CCArray();
     _tiledMap = CCTMXTiledMap::create("tiles/level_name.tmx");
     _portalExits = CCDictionary::create();
+    //_spawnedBombs = CCDictionary::create(); // Important FE
 
     this->addChild(_tiledMap, 0, 7);
 
