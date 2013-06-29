@@ -85,6 +85,9 @@ std::vector<GameObject *> GameStateLayer::getObjectsAroundCoords(Coordinates coo
     {
         for (int x = coords.x - range; x <= coords.x + range; x++)
         {
+            if (x < 0 || x >= _width || y < 0 || y >= _height)
+                continue;
+
             for (GameObject *object : _grid[y*_width + x])
             {
                 objects.push_back(object);

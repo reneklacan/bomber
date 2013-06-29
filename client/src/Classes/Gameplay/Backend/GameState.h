@@ -31,6 +31,9 @@ namespace Bomber
                 GameStateLayer *getSpriteLayer() { return _spriteLayer; };
                 GameStateLayer *getObstaclesLayer() { return _obstacleLayer; };
                 GameStateLayer *getBombLayer() { return _bombLayer; };
+                GameStateLayer *getPortalLayer() { return _portalLayer; };
+                GameStateLayer *getPortalExitLayer() { return _portalExitLayer; };
+                GameStateLayer *getSpecialLayer() { return _specialLayer; };
 
             private:
                 unsigned int _width;
@@ -42,10 +45,10 @@ namespace Bomber
 
                 GameStateLayer *_spriteLayer;
                 GameStateLayer *_obstacleLayer;
+                GameStateLayer *_bombLayer;
                 GameStateLayer *_portalLayer;
                 GameStateLayer *_portalExitLayer;
                 GameStateLayer *_specialLayer;
-                GameStateLayer *_bombLayer;
 
                 std::vector<GameStateLayer *> _allLayers;
         };

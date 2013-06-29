@@ -22,8 +22,7 @@ class Rectangle
 
         Position &getCenterPosition();
         void calculateCenterPosition();
-        bool isIntersecting(Rectangle &r);
-
+        bool isIntersecting(Rectangle r);
 };
 
 #endif

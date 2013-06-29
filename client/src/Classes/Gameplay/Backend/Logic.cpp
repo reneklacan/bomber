@@ -3,6 +3,7 @@
 
 #include "Logic.h"
 #include "Obstacle.h"
+#include "Portal.h"
 
 using namespace Bomber::Backend;
 
@@ -26,73 +27,86 @@ void Logic::update(float dt)
 {
     GameObject *object;
 
-    int ix, iy, power,
+    int power,
         penetration, penetrationTop, penetrationBottom,
         penetrationRight, penetrationLeft;
 
     Coordinates epicentrum;
 
-    for (auto layer : _state->getAllLayers())
+    for (auto pair : _state->getBombLayer()->getObjects())
     {
-        for (auto pair : layer->getObjects())
+        object = pair.second;
+        object->update(dt);
+
+        if (object->isExplodable())
         {
-            object = pair.second;
-            object->update(dt);
+            Bomb* bomb =  (Bomb *) object;
 
-            if (object->isExplodable())
+            if (bomb->isDetonated())
             {
-                Bomb* bomb =  (Bomb *) object;
-                if (bomb->isDetonated())
+                _gameStateUpdater->getState()->getObstaclesLayer()->print();
+                
+                _gameStateUpdater->destroyBomb(bomb);
+                _gameStateUpdater->spawnExplosion(bomb);
+
+                power = bomb->getPower();
+                epicentrum = bomb->getCoords();
+                penetration = bomb->getPenetration();
+
+                penetrationTop = penetration;
+                penetrationBottom = penetration;
+                penetrationLeft = penetration;
+                penetrationRight = penetration;
+
+                for (int i = 0; i < power; i++)
                 {
-                    _gameStateUpdater->getState()->getObstaclesLayer()->print();
-                    
-                    _gameStateUpdater->destroyBomb(bomb);
-                    _gameStateUpdater->spawnExplosion(bomb);
-
-                    power = bomb->getPower();
-                    epicentrum = bomb->getCoords();
-                    penetration = bomb->getPenetration();
-
-                    penetrationTop = penetration;
-                    penetrationBottom = penetration;
-                    penetrationLeft = penetration;
-                    penetrationRight = penetration;
-
-                    ix = epicentrum.x;
-                    iy = epicentrum.y;
-
-                    for (int i = 0; i < power; i++)
-                    {
-                        printf("--top p=%d\n", penetrationTop);
-                        _gameStateUpdater->makeBombImpact(
-                                &penetrationTop,
-                                epicentrum.x,
-                                epicentrum.y + i + 1
-                        );
-                        printf("--bottom p=%d\n", penetrationBottom);
-                        _gameStateUpdater->makeBombImpact(
-                                &penetrationBottom,
-                                epicentrum.x,
-                                epicentrum.y - i - 1
-                        );
-                        printf("--right p=%d\n", penetrationRight);
-                        _gameStateUpdater->makeBombImpact(
-                                &penetrationRight,
-                                epicentrum.x + i + 1,
-                                epicentrum.y
-                        );
-                        printf("--left p=%d\n", penetrationLeft);
-                        _gameStateUpdater->makeBombImpact(
-                                &penetrationLeft,
-                                epicentrum.x - i - 1,
-                                epicentrum.y
-                        );
-                    }
-
-                    _gameStateUpdater->getState()->getObstaclesLayer()->print();
+                    _gameStateUpdater->makeBombImpact(
+                            &penetrationTop,
+                            epicentrum.x,
+                            epicentrum.y + i + 1
+                    );
+                    _gameStateUpdater->makeBombImpact(
+                            &penetrationBottom,
+                            epicentrum.x,
+                            epicentrum.y - i - 1
+                    );
+                    _gameStateUpdater->makeBombImpact(
+                            &penetrationRight,
+                            epicentrum.x + i + 1,
+                            epicentrum.y
+                    );
+                    _gameStateUpdater->makeBombImpact(
+                            &penetrationLeft,
+                            epicentrum.x - i - 1,
+                            epicentrum.y
+                    );
                 }
-            }
 
+                _gameStateUpdater->getState()->getObstaclesLayer()->print();
+            }
+        }
+
+    }
+
+    auto spriteLayer = _state->getSpriteLayer();
+    auto portalLayer = _state->getPortalLayer();
+    auto portalExitLayer = _state->getPortalExitLayer();
+
+    for (auto pair : spriteLayer->getObjects())
+    {
+        auto sprite = pair.second;
+        auto portals = portalLayer->getObjectsAroundCoords(sprite->getCoords());
+
+        for (auto object : portals)
+        {
+            Portal *portal = (Portal *) object;
+            
+            if (sprite->getCollisionRect().isIntersecting(portal->getCollisionRect()))
+            {
+                auto portalExit = portalExitLayer->getObject(portal->getId());
+                _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
+                break;
+            }
         }
     }
 

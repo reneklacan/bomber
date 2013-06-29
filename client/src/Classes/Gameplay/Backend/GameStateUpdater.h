@@ -21,12 +21,14 @@ namespace Bomber
                 unsigned int getUniqueId() { return _uniqueId++; };
 
                 bool moveSprite(GameObject *sprite, Position position);
+                bool teleportSprite(GameObject *sprite, Position position);
                 bool spawnBomb(GameObject *owner);
                 void spawnExplosion(ExplodableObject *explObj);
                 void destroyBomb(Bomb *bomb);
                 void makeBombImpact(int *penetration, unsigned int x, unsigned int y);
 
                 void logSpriteMove(GameObject *sprite, Position &from, Position &to);
+                void logSpriteTeleport(GameObject *sprite, Position &to);
                 void logBombSpawn(Bomb *bomb);
                 void logBombDestroy(Bomb *bomb);
                 void logExplosionSpawn(ExplodableObject *explObj);

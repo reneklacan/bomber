@@ -12,7 +12,7 @@ namespace Bomber
             NONE,
 
             SPRITE_MOVE,
-            SPRITE_POSITION_OVERRIDE,
+            SPRITE_TELEPORT,
             SPRITE_SPAWN,
             SPRITE_DESTROY,
             SPRITE_UPDATE,
@@ -72,10 +72,10 @@ namespace Bomber
                 Position _nextPosition;
         };
 
-        class GSCSpritePositionOverride : public GSCPosition
+        class GSCSpriteTeleport : public GSCPosition
         {
             public:
-                GSCSpritePositionOverride() { _type = SPRITE_POSITION_OVERRIDE; };
+                GSCSpriteTeleport() { _type = SPRITE_TELEPORT; };
         };
 
         class GSCBombSpawn : public GSCPosition

@@ -21,6 +21,14 @@ bool GameStateUpdater::moveSprite(GameObject *sprite, Position position)
     sprite->setPosition(position);
 }
 
+bool GameStateUpdater::teleportSprite(GameObject *sprite, Position position)
+{
+    this->logSpriteTeleport(sprite, position);
+    //_state->getSpriteLayer()->print();
+
+    sprite->setPosition(position);
+}
+
 bool GameStateUpdater::spawnBomb(GameObject *owner)
 {
     if (!owner->isBombPotent())
@@ -96,6 +104,15 @@ void GameStateUpdater::logSpriteMove(GameObject *sprite, Position &from, Positio
     printf("logSpriteMove\n");
     GSCSpriteMove *change = new GSCSpriteMove();
     change->update(from, to);
+    change->setGameObjectId(sprite->getId());
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logSpriteTeleport(GameObject *sprite, Position &to)
+{
+    printf("logSpriteTeleport\n");
+    GSCSpriteTeleport *change = new GSCSpriteTeleport();
+    change->update(to);
     change->setGameObjectId(sprite->getId());
     _state->addChange(change);
 }

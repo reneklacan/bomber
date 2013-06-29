@@ -60,7 +60,7 @@ void Rectangle::calculateCenterPosition()
     );
 }
 
-bool Rectangle::isIntersecting(Rectangle &r)
+bool Rectangle::isIntersecting(Rectangle r)
 {
     return !(
             this->x > r.x + r.width ||
