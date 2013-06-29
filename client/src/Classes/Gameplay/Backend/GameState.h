@@ -20,7 +20,7 @@ namespace Bomber
 
                 void init(CCTMXTiledMap *tiledMap);
 
-                std::vector<GameStateChange *> getChangesFromId(unsigned int id);
+                std::pair< unsigned int, std::vector<GameStateChange *> > getChangesFromId(unsigned int id);
                 void deleteChangesToId(unsigned int id);
                 void addChange(GameStateChange *change);
                 void gatherChanges();

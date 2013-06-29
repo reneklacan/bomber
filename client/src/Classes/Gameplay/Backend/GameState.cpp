@@ -116,7 +116,7 @@ void GameState::init(CCTMXTiledMap *tiledMap)
     }
 }
 
-std::vector<GameStateChange *> GameState::getChangesFromId(unsigned int id)
+std::pair< unsigned int, std::vector<GameStateChange *> > GameState::getChangesFromId(unsigned int id)
 {
     std::vector<GameStateChange *> changes;
 
@@ -128,7 +128,7 @@ std::vector<GameStateChange *> GameState::getChangesFromId(unsigned int id)
         changes.push_back(_changes[i]);
     }
 
-    return changes;
+    return std::pair< unsigned int, std::vector<GameStateChange *> >(_lastChangeId, changes);
 }
 
 void GameState::deleteChangesToId(unsigned int id)
