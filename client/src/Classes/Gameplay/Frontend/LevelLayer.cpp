@@ -11,6 +11,7 @@ LevelLayer::LevelLayer()
 :_player(NULL)
 ,_map(NULL)
 ,_gamePaused(false)
+,_lastChangeID(0)
 {
 }
 
@@ -96,6 +97,13 @@ bool LevelLayer::init()
     );
     _player->setNextPosition(_player->getPosition());
 
+    Backend::Mediator::getInstance()->moveSprite(
+            Position(
+                _player->getPosition().x,
+                _player->getPosition().y
+            )
+    );
+
     _map->setPosition(
             ccp(
                 visibleSize.width/2 - _player->getPosition().x,
@@ -172,22 +180,16 @@ void LevelLayer::updateGame(float dt)
 
     if (move && (currentPos.x != nextPos.x || currentPos.y != nextPos.y))
     {
-        // Only send data when something has changed
-        /*
-        if(currentPos.x != nextPos.x || currentPos.y != nextPos.y) 
-        {
-            // Send Data
-            Communication comm = Communication();
-            comm.sendSpriteMovement(58585, nextPos.x, nextPos.y);
-        }
-        */
-
         _player->setPosition(nextPos);
         _map->addToPosition(ccpSub(currentPos, nextPos));
         Backend::Mediator::getInstance()->moveSprite(Position(nextPos.x, nextPos.y));
     }
 
     Backend::Mediator::getInstance()->update(dt);
+
+    // Draw new state
+    this->updateFromGameState(currentPos);
+    
 }
 
 void LevelLayer::menuCloseCallback(CCObject* pSender)
@@ -208,5 +210,59 @@ void LevelLayer::menuPauseCallback(CCObject* pSender)
     {
         CCDirector::sharedDirector()->pause();
         _gamePaused = true;
+    }
+}
+
+void LevelLayer::updateFromGameState(CCPoint currentPos)
+{
+    Backend::GameState* state = Backend::Mediator::getInstance()->getState();
+    std::pair< unsigned int, std::vector<Backend::GameStateChange *> > changes = state->getChangesFromId(_lastChangeID);
+
+    _lastChangeID = changes.first;
+    for(auto it = changes.second.begin(); it != changes.second.end(); it++ )
+    {
+        Backend::GameStateChange *GSChange = (*it);
+
+        switch(GSChange->getType())
+        {
+            // Move
+            case Backend::SPRITE_MOVE:
+            {
+
+            }
+            break;
+            // Portals
+            case Backend::SPRITE_TELEPORT:
+            {
+                Backend::GSCPosition *GSPosition = (Backend::GSCPosition *)GSChange;
+                CCPoint teleportPosition = ccp( GSPosition->getPosition().x, GSPosition->getPosition().y);
+                _player->setPosition(teleportPosition);
+                _map->addToPosition(ccpSub(currentPos, teleportPosition));
+            }
+            break;
+            // Bomb spawn
+            case Backend::BOMB_SPAWN:
+            {
+                Backend::GSCBombSpawn *GSBombSpawn = (Backend::GSCBombSpawn *)GSChange;
+                CCPoint bombSpawnPosition = ccp( GSBombSpawn->getPosition().x, GSBombSpawn->getPosition().y);
+                CCPoint tilemapPosition = _player->getTilemapPosition(); // WARNING
+                Bomb *bomb = Bomb::create(_map, _player);
+                bomb->setPosition(bombSpawnPosition);
+                bomb->setTilemapPosition( ccp(tilemapPosition.x, tilemapPosition.y) );
+                _map->addBomb(GSBombSpawn->getGameObjectId(), bomb);
+            }
+            break;
+            // Bomb spawn
+            case Backend::BOMB_DESTROY:
+            {
+                Backend::GSCBombDestroy *GSBombDestroy = (Backend::GSCBombDestroy *)GSChange;
+                Bomb *bomb = (Bomb *)_map->getBomb( GSBombDestroy->getGameObjectId() );
+                bomb->setVisible(false);
+                _map->removeBomb(GSBombDestroy->getGameObjectId());
+            }
+            break;
+            // Nothing    
+            default: {}
+        }
     }
 }

@@ -5,6 +5,7 @@
 
 //#include "SimpleAudioEngine.h"
 #include "../Map/Map.h"
+#include "../Map/Bomb.h"
 #include "../Sprites/GameSprite.h"
 #include "../Sprites/Human.h"
 #include "../../Input/ControlLayer.h"
@@ -44,11 +45,15 @@ namespace Bomber
             virtual void menuCloseCallback(cocos2d::CCObject* pSender);
             virtual void menuPauseCallback(cocos2d::CCObject* pSender);
 
+            // gui updates
+            void updateFromGameState(CCPoint currentPos);
+
         protected:
             ControlLayer *_controlLayer;
             Map *_map;
             Human *_player;
             bool _gamePaused;
+            unsigned int _lastChangeID;
         };
     }
 }

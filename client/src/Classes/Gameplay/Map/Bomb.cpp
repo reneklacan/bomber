@@ -41,7 +41,7 @@ Bomb* Bomb::create(Map* map, GameSprite *owner)
         sprite->setOwner(owner);
         sprite->setMap(map);
         map->addChild(sprite, 0);
-        sprite->setVertexZ(owner->getVertexZ());
+        sprite->setVertexZ(owner->getVertexZ()-1);
         sprite->autorelease();
         return sprite;
     }
@@ -56,7 +56,7 @@ Bomb::Bomb()
 ,_power(1)
 ,_penetration(1)
 {
-    this->schedule(schedule_selector(Bomb::updateTimer));
+    //this->schedule(schedule_selector(Bomb::updateTimer));
 }
 
 void Bomb::updateTimer(float dt)
