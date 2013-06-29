@@ -33,6 +33,7 @@ namespace Bomber
                 GameStateLayer *getBombLayer() { return _bombLayer; };
                 GameStateLayer *getPortalLayer() { return _portalLayer; };
                 GameStateLayer *getPortalExitLayer() { return _portalExitLayer; };
+                GameStateLayer *getEffectLayer() { return _effectLayer; };
                 GameStateLayer *getSpecialLayer() { return _specialLayer; };
 
             private:
@@ -48,6 +49,7 @@ namespace Bomber
                 GameStateLayer *_bombLayer;
                 GameStateLayer *_portalLayer;
                 GameStateLayer *_portalExitLayer;
+                GameStateLayer *_effectLayer;
                 GameStateLayer *_specialLayer;
 
                 std::vector<GameStateLayer *> _allLayers;

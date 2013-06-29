@@ -28,13 +28,6 @@ void GameObject::setSize(Size size)
     _size = size;
 }
 
-/*
-void GameObject::setNextPosition(Position position)
-{
-
-}
-*/
-
 Coordinates GameObject::getCoords()
 {
     return Coordinates(
@@ -43,10 +36,16 @@ Coordinates GameObject::getCoords()
     );
 }
 
-/*
-Coordinates GameObject::getNextCoords()
+bool GameObject::collides(GameObject *object)
 {
-    Coordinates coords;
-    return coords;
+    if (!_circleCollider && !object->hasCircleCollider())
+    {
+        return this->getCollisionRect().isIntersecting(object->getCollisionRect());
+    }
+    else
+    {
+        printf("TODO implement circle X rect, circle X circle\n");
+    }
+    return false;
 }
-*/
+

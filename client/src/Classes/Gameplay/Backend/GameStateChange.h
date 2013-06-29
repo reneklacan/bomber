@@ -16,7 +16,7 @@ namespace Bomber
             SPRITE_TELEPORT,
             SPRITE_SPAWN,
             SPRITE_DESTROY,
-            SPRITE_UPDATE,
+            SPRITE_ATTR_UPDATE,
 
             OBSTACLE_DESTROY,
             OBSTACLE_SPAWN,
@@ -26,6 +26,9 @@ namespace Bomber
 
             EXPLOSION_SPAWN,
             EXPLOSION_DESTROY,
+
+            EFFECT_SPAWN,
+            EFFECT_DESTROY,
 
             SPECIAL_SPAWN,
             SPECIAL_DESTROY
@@ -108,6 +111,22 @@ namespace Bomber
                 SYNTHESIZE(unsigned int, _owner, Owner);
                 SYNTHESIZE(unsigned int, _power, Power);
                 SYNTHESIZE(unsigned int, _penetration, Penetration);
+        };
+
+        class GSCEffectDestroy : public GSCCoordinates
+        {
+            public:
+                GSCEffectDestroy() { _type = EFFECT_DESTROY; };
+        };
+
+        class GSCSpriteAttrUpdate : public GameStateChange
+        {
+            public:
+                GSCSpriteAttrUpdate() { _type = SPRITE_ATTR_UPDATE; };
+                virtual void update(int type) { _effectType = type; };
+
+            private:
+                SYNTHESIZE(int, _effectType, EffectType);
         };
     }
 }

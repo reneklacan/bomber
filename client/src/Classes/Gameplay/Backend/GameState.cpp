@@ -18,18 +18,20 @@ GameState::GameState(unsigned int width, unsigned int height)
 
     _spriteLayer = new GameStateLayer("Sprite Layer", _width, _height);
     _obstacleLayer = new GameStateLayer("Obstacles Layer", _width, _height);
+    _bombLayer = new GameStateLayer("Bomb Layer", _width, _height);
     _portalLayer = new GameStateLayer("Portal Layer", _width, _height);
     _portalExitLayer = new GameStateLayer("Portal Exit Layer", _width, _height);
+    _effectLayer = new GameStateLayer("Effect Layer", _width, _height);
     _specialLayer = new GameStateLayer("Special Layer", _width, _height);
-    _bombLayer = new GameStateLayer("Bomb Layer", _width, _height);
 
     GameStateLayer *layers[] = {
         _spriteLayer,
         _obstacleLayer,
+        _bombLayer,
         _portalLayer,
         _portalExitLayer,
-        _specialLayer,
-        _bombLayer
+        _effectLayer,
+        _specialLayer
     };
 
     _allLayers.insert(

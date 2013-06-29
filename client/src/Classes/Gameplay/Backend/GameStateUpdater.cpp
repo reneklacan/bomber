@@ -94,9 +94,21 @@ void GameStateUpdater::makeBombImpact(int *penetration, unsigned int x, unsigned
             continue;
 
         _state->getObstaclesLayer()->removeObject(object);
-        // TODO log it
+
         this->logObstacleDestroy(obstacle);
     }
+}
+
+void GameStateUpdater::updateSpriteAttributes(Sprite *sprite, Effect *effect)
+{
+    effect->applyToSprite(sprite);
+    this->logSpriteAttributesUpdate(sprite, effect);
+}
+
+void GameStateUpdater::destroyEffect(Effect *effect)
+{
+    _state->getEffectLayer()->removeObject(effect);
+    this->logEffectDestroy(effect);
 }
 
 void GameStateUpdater::logSpriteMove(GameObject *sprite, Position &from, Position &to)
@@ -156,5 +168,27 @@ void GameStateUpdater::logObstacleDestroy(Obstacle *obstacle)
             obstacle->getCoords()
     );
     change->setGameObjectId(obstacle->getId());
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logSpriteAttributesUpdate(Sprite *sprite, Effect *effect)
+{
+    printf("logSpriteAttributesUpdate\n");
+    GSCSpriteAttrUpdate * change = new GSCSpriteAttrUpdate();
+    change->update(
+            effect->getType()
+    );
+    change->setGameObjectId(sprite->getId());
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logEffectDestroy(Effect *effect)
+{
+    printf("logEffectDestroy\n");
+    GSCEffectDestroy* change = new GSCEffectDestroy();
+    change->update(
+            effect->getCoords()
+    );
+    change->setGameObjectId(effect->getId());
     _state->addChange(change);
 }

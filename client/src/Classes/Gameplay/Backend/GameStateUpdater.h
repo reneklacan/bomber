@@ -5,6 +5,8 @@
 #include "Position.h"
 #include "Bomb.h"
 #include "Obstacle.h"
+#include "Sprite.h"
+#include "Effect.h"
 
 namespace Bomber
 {
@@ -26,6 +28,8 @@ namespace Bomber
                 void spawnExplosion(ExplodableObject *explObj);
                 void destroyBomb(Bomb *bomb);
                 void makeBombImpact(int *penetration, unsigned int x, unsigned int y);
+                void updateSpriteAttributes(Sprite *sprite, Effect *effect);
+                void destroyEffect(Effect *effect);
 
                 void logSpriteMove(GameObject *sprite, Position &from, Position &to);
                 void logSpriteTeleport(GameObject *sprite, Position &to);
@@ -33,6 +37,8 @@ namespace Bomber
                 void logBombDestroy(Bomb *bomb);
                 void logExplosionSpawn(ExplodableObject *explObj);
                 void logObstacleDestroy(Obstacle *obstacle);
+                void logSpriteAttributesUpdate(Sprite *sprite, Effect *effect);
+                void logEffectDestroy(Effect *effect);
 
             private:
                 GameState *_state;

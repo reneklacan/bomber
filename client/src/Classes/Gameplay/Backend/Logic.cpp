@@ -4,6 +4,7 @@
 #include "Logic.h"
 #include "Obstacle.h"
 #include "Portal.h"
+#include "Effect.h"
 
 using namespace Bomber::Backend;
 
@@ -91,21 +92,35 @@ void Logic::update(float dt)
     auto spriteLayer = _state->getSpriteLayer();
     auto portalLayer = _state->getPortalLayer();
     auto portalExitLayer = _state->getPortalExitLayer();
+    auto effectLayer = _state->getEffectLayer();
 
     for (auto pair : spriteLayer->getObjects())
     {
-        auto sprite = pair.second;
+        Sprite *sprite = (Sprite *) pair.second;
         auto portals = portalLayer->getObjectsAroundCoords(sprite->getCoords());
 
         for (auto object : portals)
         {
             Portal *portal = (Portal *) object;
             
-            if (sprite->getCollisionRect().isIntersecting(portal->getCollisionRect()))
+            if (sprite->collides(portal))
             {
                 auto portalExit = portalExitLayer->getObject(portal->getId());
                 _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
                 break;
+            }
+        }
+
+        auto effects = effectLayer->getObjectsAroundCoords(sprite->getCoords());
+
+        for (auto object : effects)
+        {
+            Effect *effect = (Effect *) object;
+
+            if (sprite->collides(effect))
+            {
+                _gameStateUpdater->updateSpriteAttributes(sprite, effect);
+                _gameStateUpdater->destroyEffect(effect);
             }
         }
     }

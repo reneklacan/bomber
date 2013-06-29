@@ -2,6 +2,8 @@
 #define __BOMBER_BACKEND_SPRITE
 
 #include "GameObject.h"
+#include "SpriteAttributes.h"
+#include "Macros.h"
 
 namespace Bomber
 {
@@ -9,7 +11,11 @@ namespace Bomber
     {
         class Sprite : public GameObject
         {
+            public:
+                Sprite();
 
+            private:
+                SYNTHESIZE(SpriteAttributes *, _attributes, Attributes);
         };
     }
 }

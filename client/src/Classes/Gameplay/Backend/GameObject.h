@@ -21,23 +21,22 @@ namespace Bomber
                 virtual void setPosition(Position position);
                 virtual void setSize(int width, int height);
                 virtual void setSize(Size size);
-                //virtual void setNextPosition(Position position);
                 virtual Position &getPosition() { return _position; };
-                //virtual Position getNextPosition() { return _nextPosition; };
                 virtual Coordinates getCoords();
-                //virtual Coordinates getNextCoords();
                 virtual bool isBombPotent() { return false; };
                 virtual bool isExplodable() { return false; };
                 bool isDirty() { return _dirty; };
-                bool setDirty(bool dirty) { _dirty = dirty; }
+                bool setDirty(bool dirty) { _dirty = dirty; };
+                bool collides(GameObject *object);
 
                 virtual Rectangle getCollisionRect() { return Rectangle(_position, _size); };
                 virtual Circle getCollisionCircle() { return Circle(_position, _size); };
+                virtual bool hasCircleCollider() { return _circleCollider; };
 
             protected:
                 Position _position;
                 Size _size;
-                bool _sphereCollisionArea;
+                bool _circleCollider;
                 //Position _nextPosition;
                 unsigned int _id;
                 bool _dirty;
