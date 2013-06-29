@@ -101,7 +101,7 @@ void GameStateUpdater::makeBombImpact(int *penetration, unsigned int x, unsigned
 
 void GameStateUpdater::logSpriteMove(GameObject *sprite, Position &from, Position &to)
 {
-    printf("logSpriteMove\n");
+    //printf("logSpriteMove\n"); // spam
     GSCSpriteMove *change = new GSCSpriteMove();
     change->update(from, to);
     change->setGameObjectId(sprite->getId());

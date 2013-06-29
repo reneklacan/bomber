@@ -44,7 +44,7 @@ void Logic::update(float dt)
 
             if (bomb->isDetonated())
             {
-                _gameStateUpdater->getState()->getObstaclesLayer()->print();
+                //_gameStateUpdater->getState()->getObstaclesLayer()->print();
                 
                 _gameStateUpdater->destroyBomb(bomb);
                 _gameStateUpdater->spawnExplosion(bomb);
@@ -82,7 +82,7 @@ void Logic::update(float dt)
                     );
                 }
 
-                _gameStateUpdater->getState()->getObstaclesLayer()->print();
+                //_gameStateUpdater->getState()->getObstaclesLayer()->print();
             }
         }
 

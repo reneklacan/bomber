@@ -1,6 +1,7 @@
 #ifndef __BOMBER_GAME_STATE_CHANGE
 #define __BOMBER_GAME_STATE_CHANGE
 
+#include "Macros.h"
 #include "Position.h"
 
 namespace Bomber
@@ -35,13 +36,9 @@ namespace Bomber
             public:
                 GameStateChange() { _type = NONE; };
 
-                void setGameObjectId(unsigned int id) { _gameObjectId = id; };
-                unsigned int getGameObjectId() { return _gameObjectId; };
-                TGameStateChangeType getType() { return _type; };
-
             protected:
-                TGameStateChangeType _type;
-                unsigned int _gameObjectId;
+                SYNTHESIZE(TGameStateChangeType, _type, Type);
+                SYNTHESIZE(unsigned int, _gameObjectId, GameObjectId);
         };
 
         class GSCPosition : public GameStateChange
@@ -50,7 +47,7 @@ namespace Bomber
                 virtual void update(Position p) { _position = p; };
 
             private:
-                Position _position;
+                SYNTHESIZE(Position, _position, Position);
         };
 
         class GSCCoordinates : public GameStateChange
@@ -59,7 +56,7 @@ namespace Bomber
                 virtual void update(Coordinates c) { _coordinates = c; };
 
             private:
-                Coordinates _coordinates;
+                SYNTHESIZE(Coordinates, _coordinates, Coordinates);
         };
 
         class GSCSpriteMove : public GameStateChange
@@ -68,8 +65,8 @@ namespace Bomber
                 GSCSpriteMove() { _type = SPRITE_MOVE; };
                 virtual void update(Position &p, Position &np) { _position = p; _nextPosition = np; };
             private:
-                Position _position;
-                Position _nextPosition;
+                SYNTHESIZE(Position, _position, Position);
+                SYNTHESIZE(Position, _nextPosition, NextPosition);
         };
 
         class GSCSpriteTeleport : public GSCPosition
@@ -90,7 +87,7 @@ namespace Bomber
                 GSCBombDestroy() { _type = BOMB_DESTROY; };
                 virtual void update(unsigned int id) { _id = id; };
             private:
-                unsigned int _id;
+                SYNTHESIZE(unsigned int, _id, Id);
         };
 
         class GSCObstacleDestroy : public GSCCoordinates
@@ -108,9 +105,9 @@ namespace Bomber
                     _owner = owner; _power = power; _penetration = penetration;
                 };
             private:
-                unsigned int _owner;
-                int _power;
-                int _penetration;
+                SYNTHESIZE(unsigned int, _owner, Owner);
+                SYNTHESIZE(unsigned int, _power, Power);
+                SYNTHESIZE(unsigned int, _penetration, Penetration);
         };
     }
 }
