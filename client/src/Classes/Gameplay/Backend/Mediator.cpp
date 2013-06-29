@@ -29,7 +29,6 @@ void Mediator::setState(GameState *state)
     _state = state;
     _gameStateUpdater->setState(state);
 
-    Logic::getInstance()->setState(state);
     Logic::getInstance()->setGameStateUpdater(_gameStateUpdater);
 };
 

@@ -35,6 +35,12 @@ bool GameStateUpdater::spawnBomb(GameObject *owner)
     return true;
 }
 
+void GameStateUpdater::destroyBomb(Bomb *bomb)
+{
+    _state->getBombLayer()->removeObject(bomb);
+    this->logBombDestroy(bomb);
+}
+
 void GameStateUpdater::spawnExplosion(ExplodableObject *explObj)
 {
     this->logExplosionSpawn(explObj);
@@ -56,7 +62,16 @@ void GameStateUpdater::logBombSpawn(Bomb *bomb)
     printf("logBombSpawn\n");
     GSCBombSpawn *change = new GSCBombSpawn();
     change->update(bomb->getPosition());
-    change->setGameObjectId(bomb->getOwner());
+    change->setGameObjectId(bomb->getId());
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logBombDestroy(Bomb *bomb)
+{
+    printf("logBombDestroy\n");
+    GSCBombDestroy *change = new GSCBombDestroy();
+    change->update(bomb->getId());
+    change->setGameObjectId(bomb->getOwnerId());
     _state->addChange(change);
 }
 
@@ -65,10 +80,10 @@ void GameStateUpdater::logExplosionSpawn(ExplodableObject *explObj)
     printf("logExplosionSpawn\n");
     GSCExplosionSpawn* change = new GSCExplosionSpawn();
     change->update(
-            explObj->getOwner(),
+            explObj->getOwnerId(),
             explObj->getPower(),
             explObj->getPenetration()
     );
-    change->setGameObjectId(explObj->getOwner());
+    change->setGameObjectId(explObj->getId());
     _state->addChange(change);
 }

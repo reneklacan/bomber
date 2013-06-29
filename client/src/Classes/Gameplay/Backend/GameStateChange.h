@@ -21,6 +21,7 @@ namespace Bomber
             OBSTACLE_SPAWN,
 
             BOMB_SPAWN,
+            BOMB_DESTROY,
 
             EXPLOSION_SPAWN,
             EXPLOSION_DESTROY,
@@ -81,6 +82,15 @@ namespace Bomber
         {
             public:
                 GSCBombSpawn() { _type = BOMB_SPAWN; };
+        };
+
+        class GSCBombDestroy : public GameStateChange
+        {
+            public:
+                GSCBombDestroy() { _type = BOMB_DESTROY; };
+                virtual void update(unsigned int id) { _id = id; };
+            private:
+                unsigned int _id;
         };
 
         class GSCObstacleDestroy : public GameStateChange

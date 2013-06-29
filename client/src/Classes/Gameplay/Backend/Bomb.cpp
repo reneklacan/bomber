@@ -10,7 +10,7 @@ Bomb::Bomb()
     _detonated = false;
     _timeout = 2.0f;
     _penetration = 1;
-    _owner = 0;
+    _ownerId = 0;
     _power = 2;
 }
 

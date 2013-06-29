@@ -12,7 +12,7 @@ namespace Bomber
             public:
                 virtual bool isDetonated() { return false; };
                 virtual bool isExplodable() { return true; };
-                virtual unsigned int getOwner() { return _owner; };
+                virtual unsigned int getOwnerId() { return _ownerId; };
                 virtual unsigned int getPower() { return _power; };
                 virtual unsigned int getPenetration() { return _penetration; };
 
@@ -22,7 +22,7 @@ namespace Bomber
                 float _timeout;
                 unsigned int _power;
                 unsigned int _penetration;
-                unsigned int _owner;
+                unsigned int _ownerId;
         };
     }
 }

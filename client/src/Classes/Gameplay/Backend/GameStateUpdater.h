@@ -21,9 +21,11 @@ namespace Bomber
                 bool moveSprite(GameObject *sprite, Position position);
                 bool spawnBomb(GameObject *owner);
                 void spawnExplosion(ExplodableObject *explObj);
+                void destroyBomb(Bomb *bomb);
 
                 void logSpriteMove(GameObject *sprite, Position &from, Position &to);
                 void logBombSpawn(Bomb *bomb);
+                void logBombDestroy(Bomb *bomb);
                 void logExplosionSpawn(ExplodableObject *explObj);
 
             private:

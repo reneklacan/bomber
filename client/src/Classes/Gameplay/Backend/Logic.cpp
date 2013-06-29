@@ -34,11 +34,11 @@ void Logic::update(float dt)
 
             if (object->isExplodable())
             {
-                ExplodableObject* explObj =  (ExplodableObject *) object;
-                if (explObj->isDetonated())
+                Bomb* bomb =  (Bomb *) object;
+                if (bomb->isDetonated())
                 {
-                    layer->removeObject(object);
-                    _gameStateUpdater->spawnExplosion(explObj);
+                    _gameStateUpdater->destroyBomb(bomb);
+                    _gameStateUpdater->spawnExplosion(bomb);
                 }
             }
 
