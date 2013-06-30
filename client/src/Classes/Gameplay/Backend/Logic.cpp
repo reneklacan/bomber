@@ -46,13 +46,13 @@ void Logic::update(float dt)
             if (bomb->isDetonated())
             {
                 //_gameStateUpdater->getState()->getObstaclesLayer()->print();
-                
-                _gameStateUpdater->destroyBomb(bomb);
-                _gameStateUpdater->spawnExplosion(bomb);
 
                 power = bomb->getPower();
                 epicentrum = bomb->getCoords();
                 penetration = bomb->getPenetration();
+                
+                _gameStateUpdater->spawnExplosion(bomb);
+                _gameStateUpdater->destroyBomb(bomb);
 
                 penetrationTop = penetration;
                 penetrationBottom = penetration;

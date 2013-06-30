@@ -216,12 +216,12 @@ void LevelLayer::menuPauseCallback(CCObject* pSender)
 void LevelLayer::updateFromGameState(CCPoint currentPos)
 {
     Backend::GameState* state = Backend::Mediator::getInstance()->getState();
-    std::pair< unsigned int, std::vector<Backend::GameStateChange *> > changes = state->getChangesFromId(_lastChangeID);
+    auto changes = state->getChangesFromId(_lastChangeID);
 
     _lastChangeID = changes.first;
-    for(auto it = changes.second.begin(); it != changes.second.end(); it++ )
+    for(auto change : changes.second)
     {
-        Backend::GameStateChange *GSChange = (*it);
+        Backend::GameStateChange *GSChange = change;
 
         switch(GSChange->getType())
         {

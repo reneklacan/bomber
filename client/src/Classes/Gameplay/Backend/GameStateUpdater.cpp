@@ -16,16 +16,12 @@ void GameStateUpdater::updateGrid()
 bool GameStateUpdater::moveSprite(GameObject *sprite, Position position)
 {
     this->logSpriteMove(sprite, sprite->getPosition(), position);
-    //_state->getSpriteLayer()->print();
-
     sprite->setPosition(position);
 }
 
 bool GameStateUpdater::teleportSprite(GameObject *sprite, Position position)
 {
     this->logSpriteTeleport(sprite, position);
-    //_state->getSpriteLayer()->print();
-
     sprite->setPosition(position);
 }
 
@@ -36,18 +32,17 @@ bool GameStateUpdater::spawnBomb(GameObject *owner)
         return false;
     }
 
+    if (_state->getObstaclesLayer()->getObjectsAtCoords(owner->getCoords()).size())
+    {
+        printf("bomb spawn failed, tile occupied by obstacle\n");
+        return false;
+    }
+
     GameStateLayer *bombLayer = _state->getBombLayer();
 
     Bomb *bomb = new Bomb();
     bomb->configure(owner);
     bomb->setId(this->getUniqueId());
-
-    if (_state->getObstaclesLayer()->getObjectsAtCoords(bomb->getCoords()).size())
-    {
-        printf("bomb spawn failed, tile occupied by obstacle\n");
-        delete bomb;
-        return false;
-    }
 
     bombLayer->addObject(bomb);
 
@@ -58,17 +53,14 @@ bool GameStateUpdater::spawnBomb(GameObject *owner)
 
 void GameStateUpdater::destroyBomb(Bomb *bomb)
 {
-    //_state->getBombLayer()->print();
     _state->getBombLayer()->removeObject(bomb);
     this->logBombDestroy(bomb);
-    //_state->getBombLayer()->print();
+    delete bomb;
 }
 
 void GameStateUpdater::spawnExplosion(ExplodableObject *explObj)
 {
     this->logExplosionSpawn(explObj);
-
-    // spawn explosion and destroy blocks and kill sprites
 }
 
 void GameStateUpdater::makeBombImpact(int *penetration, unsigned int x, unsigned int y)
