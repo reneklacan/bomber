@@ -192,12 +192,14 @@ void LevelLayer::updateGame(float dt)
     
 }
 
+//
 void LevelLayer::menuCloseCallback(CCObject* pSender)
 {
     // "close" menu item clicked
     CCDirector::sharedDirector()->end();
 }
 
+//
 void LevelLayer::menuPauseCallback(CCObject* pSender)
 {
     // "pause/resume" menu item clicked
@@ -213,6 +215,7 @@ void LevelLayer::menuPauseCallback(CCObject* pSender)
     }
 }
 
+//
 void LevelLayer::updateFromGameState(CCPoint currentPos)
 {
     Backend::GameState* state = Backend::Mediator::getInstance()->getState();
@@ -267,7 +270,6 @@ void LevelLayer::updateFromGameState(CCPoint currentPos)
             case Backend::OBSTACLE_DESTROY:
             {
                 Backend::GSCObstacleDestroy *GSObstacleDestroy = (Backend::GSCObstacleDestroy *)GSChange;
-                std::cout << GSObstacleDestroy->getGameObjectId() << "<- OID\n";
                 CCTMXLayer *obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
                 obstaclesLayer->removeTileAt(
                     ccp( 
@@ -275,6 +277,13 @@ void LevelLayer::updateFromGameState(CCPoint currentPos)
                         _map->getHeight() - ( GSObstacleDestroy->getGameObjectId() / _map->getWidth() ) - 1
                     )
                 );
+            }
+            break;
+            // Explosion
+            case Backend::EXPLOSION_SPAWN:
+            {
+                Backend::GSCExplosionSpawn *GSExplosionSpawn = (Backend::GSCExplosionSpawn *)GSChange;
+                std::cout << GSExplosionSpawn->getGameObjectId() << "<- EID\n";
             }
             break;
             // Nothing    
