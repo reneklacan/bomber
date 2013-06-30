@@ -7,8 +7,6 @@
 #include "../Effect.h"
 #include "../Obstacle.h"
 
-using namespace Bomber::Backend;
-
 namespace Bomber
 {
     namespace Backend

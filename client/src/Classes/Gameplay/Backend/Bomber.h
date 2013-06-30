@@ -7,7 +7,7 @@ namespace Bomber
 {
     namespace Backend
     {
-        class Bomber : public GameObject
+        class Bomber : public Sprite
         {
             virtual bool isBombPotent() { return true; };
         };

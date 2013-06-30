@@ -5,6 +5,12 @@
 
 #include "GameStateLayer.h"
 #include "GameStateChange.h"
+#include "Sprite.h"
+#include "Bomb.h"
+#include "Obstacle.h"
+#include "Portal.h"
+#include "PortalExit.h"
+#include "Effect.h"
 
 using namespace cocos2d;
 
@@ -25,34 +31,20 @@ namespace Bomber
                 void addChange(GameStateChange *change);
                 void gatherChanges();
 
-                unsigned int getWidth() { return _width; };
-                unsigned int getHeight() { return _height; };
-                std::vector<GameStateLayer *> &getAllLayers() { return _allLayers; };
-                GameStateLayer *getSpriteLayer() { return _spriteLayer; };
-                GameStateLayer *getObstaclesLayer() { return _obstacleLayer; };
-                GameStateLayer *getBombLayer() { return _bombLayer; };
-                GameStateLayer *getPortalLayer() { return _portalLayer; };
-                GameStateLayer *getPortalExitLayer() { return _portalExitLayer; };
-                GameStateLayer *getEffectLayer() { return _effectLayer; };
-                GameStateLayer *getSpecialLayer() { return _specialLayer; };
-
             private:
-                unsigned int _width;
-                unsigned int _height;
-
                 std::deque<GameStateChange *> _changes;
                 unsigned int _lastChangeId; // id of latest change
                 unsigned int _lastChangeIdOffset; // offset needed when old changes are deleted
 
-                GameStateLayer *_spriteLayer;
-                GameStateLayer *_obstacleLayer;
-                GameStateLayer *_bombLayer;
-                GameStateLayer *_portalLayer;
-                GameStateLayer *_portalExitLayer;
-                GameStateLayer *_effectLayer;
-                GameStateLayer *_specialLayer;
-
-                std::vector<GameStateLayer *> _allLayers;
+                SYNTHESIZE_READONLY(unsigned int, _width, Width);
+                SYNTHESIZE_READONLY(unsigned int, _height, Height);
+                SYNTHESIZE_READONLY(GameStateLayer<Sprite> *, _spriteLayer, SpriteLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Obstacle> *, _obstacleLayer, ObstacleLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Bomb> *, _bombLayer, BombLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Portal> *, _portalLayer, PortalLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<PortalExit> *, _portalExitLayer, PortalExitLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Effect> *, _effectLayer, EffectLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _specialLayer, SpecialLayer);
         };
     }
 }

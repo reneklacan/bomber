@@ -3,6 +3,8 @@
 
 #include "Statistics.h"
 
+using namespace Bomber::Backend;
+
 Statistics::Statistics()
 {
     this->reset();

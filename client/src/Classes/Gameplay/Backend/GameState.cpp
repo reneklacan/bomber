@@ -1,8 +1,5 @@
 
 #include "GameState.h"
-#include "Obstacle.h"
-#include "Portal.h"
-#include "PortalExit.h"
 #include "Bomber.h"
 #include "../../Constants.h"
 
@@ -16,29 +13,13 @@ GameState::GameState(unsigned int width, unsigned int height)
     _width = width;
     _height = height;
 
-    _spriteLayer = new GameStateLayer("Sprite Layer", _width, _height);
-    _obstacleLayer = new GameStateLayer("Obstacles Layer", _width, _height);
-    _bombLayer = new GameStateLayer("Bomb Layer", _width, _height);
-    _portalLayer = new GameStateLayer("Portal Layer", _width, _height);
-    _portalExitLayer = new GameStateLayer("Portal Exit Layer", _width, _height);
-    _effectLayer = new GameStateLayer("Effect Layer", _width, _height);
-    _specialLayer = new GameStateLayer("Special Layer", _width, _height);
-
-    GameStateLayer *layers[] = {
-        _spriteLayer,
-        _obstacleLayer,
-        _bombLayer,
-        _portalLayer,
-        _portalExitLayer,
-        _effectLayer,
-        _specialLayer
-    };
-
-    _allLayers.insert(
-            _allLayers.begin(),
-            layers,
-            layers + sizeof(layers)/sizeof(layers[0])
-    );
+    _spriteLayer = new GameStateLayer<Sprite>("Sprite Layer", _width, _height);
+    _obstacleLayer = new GameStateLayer<Obstacle>("Obstacles Layer", _width, _height);
+    _bombLayer = new GameStateLayer<Bomb>("Bomb Layer", _width, _height);
+    _portalLayer = new GameStateLayer<Portal>("Portal Layer", _width, _height);
+    _portalExitLayer = new GameStateLayer<PortalExit>("Portal Exit Layer", _width, _height);
+    _effectLayer = new GameStateLayer<Effect>("Effect Layer", _width, _height);
+    _specialLayer = new GameStateLayer<GameObject>("Special Layer", _width, _height);
 }
 
 GameState::~GameState()

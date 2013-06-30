@@ -26,8 +26,6 @@ Logic::Logic()
 
 void Logic::update(float dt)
 {
-    GameObject *object;
-
     int power,
         penetration, penetrationTop, penetrationBottom,
         penetrationRight, penetrationLeft;
@@ -39,63 +37,57 @@ void Logic::update(float dt)
 
     for (auto pair : _state->getBombLayer()->getObjects())
     {
-        object = pair.second;
+        Bomb *bomb = pair.second;
+        bomb->update(dt);
 
-        if (object->isExplodable())
+        if (bomb->isDetonated())
         {
-            Bomb* bomb =  (Bomb *) object;
-            bomb->update(dt);
+            //_gameStateUpdater->getState()->getObstaclesLayer()->print();
 
-            if (bomb->isDetonated())
+            power = bomb->getPower();
+            epicentrum = bomb->getCoords();
+            penetration = bomb->getPenetration();
+            owner = bomb->getOwnerId();
+            
+            _gameStateUpdater->spawnExplosion(bomb);
+            //_gameStateUpdater->destroyBomb(bomb);
+            bombsToDestroy.push_back(bomb);
+
+            penetrationTop = penetration;
+            penetrationBottom = penetration;
+            penetrationLeft = penetration;
+            penetrationRight = penetration;
+
+            for (int i = 0; i < power; i++)
             {
-                //_gameStateUpdater->getState()->getObstaclesLayer()->print();
-
-                power = bomb->getPower();
-                epicentrum = bomb->getCoords();
-                penetration = bomb->getPenetration();
-                owner = bomb->getOwnerId();
-                
-                _gameStateUpdater->spawnExplosion(bomb);
-                //_gameStateUpdater->destroyBomb(bomb);
-                bombsToDestroy.push_back(bomb);
-
-                penetrationTop = penetration;
-                penetrationBottom = penetration;
-                penetrationLeft = penetration;
-                penetrationRight = penetration;
-
-                for (int i = 0; i < power; i++)
-                {
-                    _gameStateUpdater->makeBombImpact(
-                            owner,
-                            &penetrationTop,
-                            epicentrum.x,
-                            epicentrum.y + i + 1
-                    );
-                    _gameStateUpdater->makeBombImpact(
-                            owner,
-                            &penetrationBottom,
-                            epicentrum.x,
-                            epicentrum.y - i - 1
-                    );
-                    _gameStateUpdater->makeBombImpact(
-                            owner,
-                            &penetrationRight,
-                            epicentrum.x + i + 1,
-                            epicentrum.y
-                    );
-                    _gameStateUpdater->makeBombImpact(
-                            owner,
-                            &penetrationLeft,
-                            epicentrum.x - i - 1,
-                            epicentrum.y
-                    );
-                }
-
-                //_gameStateUpdater->getState()->getObstaclesLayer()->print();
+                _gameStateUpdater->makeBombImpact(
+                        owner,
+                        &penetrationTop,
+                        epicentrum.x,
+                        epicentrum.y + i + 1
+                );
+                _gameStateUpdater->makeBombImpact(
+                        owner,
+                        &penetrationBottom,
+                        epicentrum.x,
+                        epicentrum.y - i - 1
+                );
+                _gameStateUpdater->makeBombImpact(
+                        owner,
+                        &penetrationRight,
+                        epicentrum.x + i + 1,
+                        epicentrum.y
+                );
+                _gameStateUpdater->makeBombImpact(
+                        owner,
+                        &penetrationLeft,
+                        epicentrum.x - i - 1,
+                        epicentrum.y
+                );
             }
-        }
 
+            //_gameStateUpdater->getState()->getObstaclesLayer()->print();
+        }
     }
 
     for (auto bomb : bombsToDestroy)
@@ -112,7 +104,7 @@ void Logic::update(float dt)
 
     for (auto pair : spriteLayer->getObjects())
     {
-        Sprite *sprite = (Sprite *) pair.second;
+        Sprite *sprite = pair.second;
         sprite->update(dt);
 
         auto portals = portalLayer->getObjectsAroundCoords(sprite->getCoords());

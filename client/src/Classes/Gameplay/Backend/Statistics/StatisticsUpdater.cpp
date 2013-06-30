@@ -1,6 +1,8 @@
 
 #include "StatisticsUpdater.h"
 
+using namespace Bomber::Backend;
+
 StatisticsUpdater *StatisticsUpdater::_instance = nullptr;
 
 StatisticsUpdater *StatisticsUpdater::getInstance()

@@ -33,7 +33,7 @@ bool GameStateUpdater::spawnBomb(Sprite *owner)
         return false;
     }
 
-    if (_state->getObstaclesLayer()->getObjectsAtCoords(owner->getCoords()).size())
+    if (_state->getObstacleLayer()->getObjectsAtCoords(owner->getCoords()).size())
     {
         printf("bomb spawn failed, tile occupied by obstacle\n");
         return false;
@@ -70,7 +70,7 @@ void GameStateUpdater::makeBombImpact(unsigned int ownerId, int *penetration, un
     if (!(*penetration))
         return;
 
-    auto objects = _state->getObstaclesLayer()->getObjectsAtCoords(x, y);
+    auto objects = _state->getObstacleLayer()->getObjectsAtCoords(x, y);
 
     for (auto object : objects)
     {
@@ -87,7 +87,7 @@ void GameStateUpdater::makeBombImpact(unsigned int ownerId, int *penetration, un
         if (obstacle->decreaseToughness())
             continue;
 
-        _state->getObstaclesLayer()->removeObject(object);
+        _state->getObstacleLayer()->removeObject(object);
 
         StatisticsUpdater::getInstance()->obstacleDestroyed(ownerId, obstacle);
         this->logObstacleDestroy(obstacle);
