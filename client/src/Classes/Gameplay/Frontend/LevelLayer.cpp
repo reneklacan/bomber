@@ -252,13 +252,29 @@ void LevelLayer::updateFromGameState(CCPoint currentPos)
                 _map->addBomb(GSBombSpawn->getGameObjectId(), bomb);
             }
             break;
-            // Bomb spawn
+            // Bomb destroy
             case Backend::BOMB_DESTROY:
             {
                 Backend::GSCBombDestroy *GSBombDestroy = (Backend::GSCBombDestroy *)GSChange;
                 Bomb *bomb = (Bomb *)_map->getBomb( GSBombDestroy->getGameObjectId() );
                 bomb->setVisible(false);
+                bomb->setDetonated();
                 _map->removeBomb(GSBombDestroy->getGameObjectId());
+                _map->removeChild(bomb);
+            }
+            break;
+            // Obstacle destroy
+            case Backend::OBSTACLE_DESTROY:
+            {
+                Backend::GSCObstacleDestroy *GSObstacleDestroy = (Backend::GSCObstacleDestroy *)GSChange;
+                std::cout << GSObstacleDestroy->getGameObjectId() << "<- OID\n";
+                CCTMXLayer *obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
+                obstaclesLayer->removeTileAt(
+                    ccp( 
+                        GSObstacleDestroy->getGameObjectId() % _map->getWidth(), 
+                        _map->getHeight() - ( GSObstacleDestroy->getGameObjectId() / _map->getWidth() ) - 1
+                    )
+                );
             }
             break;
             // Nothing    

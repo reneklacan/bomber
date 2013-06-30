@@ -50,34 +50,3 @@ Bomb* Bomb::create(Map* map, GameSprite *owner)
     return NULL;
 }
 
-Bomb::Bomb()
-:_expired(0)
-,_detonated(false)
-,_power(1)
-,_penetration(1)
-{
-    //this->schedule(schedule_selector(Bomb::updateTimer));
-}
-
-void Bomb::updateTimer(float dt)
-{
-    _expired += dt;
-
-    if (_expired >= _timeout)
-    {
-        this->unschedule(schedule_selector(Bomb::updateTimer));
-        this->setVisible(false);
-        this->explode();
-        _detonated = true;
-    }
-}
-
-void Bomb::explode()
-{
-    return;
-
-    Explosion *explosion = new Explosion(this->getPosition(), 3);
-    explosion->autorelease();
-    explosion->setVertexZ(this->getVertexZ());
-    _map->addChild(explosion, 0);
-}
