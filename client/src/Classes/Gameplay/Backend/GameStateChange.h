@@ -2,7 +2,7 @@
 #define __BOMBER_GAME_STATE_CHANGE
 
 #include "Macros.h"
-#include "Position.h"
+#include "Primitives/Position.h"
 
 namespace Bomber
 {

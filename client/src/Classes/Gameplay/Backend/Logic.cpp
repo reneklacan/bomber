@@ -31,17 +31,20 @@ void Logic::update(float dt)
     int power,
         penetration, penetrationTop, penetrationBottom,
         penetrationRight, penetrationLeft;
+    unsigned int owner;
 
     Coordinates epicentrum;
+
+    std::vector<Bomb *> bombsToDestroy;
 
     for (auto pair : _state->getBombLayer()->getObjects())
     {
         object = pair.second;
-        object->update(dt);
 
         if (object->isExplodable())
         {
             Bomb* bomb =  (Bomb *) object;
+            bomb->update(dt);
 
             if (bomb->isDetonated())
             {
@@ -50,9 +53,11 @@ void Logic::update(float dt)
                 power = bomb->getPower();
                 epicentrum = bomb->getCoords();
                 penetration = bomb->getPenetration();
+                owner = bomb->getOwnerId();
                 
                 _gameStateUpdater->spawnExplosion(bomb);
-                _gameStateUpdater->destroyBomb(bomb);
+                //_gameStateUpdater->destroyBomb(bomb);
+                bombsToDestroy.push_back(bomb);
 
                 penetrationTop = penetration;
                 penetrationBottom = penetration;
@@ -62,21 +67,25 @@ void Logic::update(float dt)
                 for (int i = 0; i < power; i++)
                 {
                     _gameStateUpdater->makeBombImpact(
+                            owner,
                             &penetrationTop,
                             epicentrum.x,
                             epicentrum.y + i + 1
                     );
                     _gameStateUpdater->makeBombImpact(
+                            owner,
                             &penetrationBottom,
                             epicentrum.x,
                             epicentrum.y - i - 1
                     );
                     _gameStateUpdater->makeBombImpact(
+                            owner,
                             &penetrationRight,
                             epicentrum.x + i + 1,
                             epicentrum.y
                     );
                     _gameStateUpdater->makeBombImpact(
+                            owner,
                             &penetrationLeft,
                             epicentrum.x - i - 1,
                             epicentrum.y
@@ -89,14 +98,23 @@ void Logic::update(float dt)
 
     }
 
+    for (auto bomb : bombsToDestroy)
+    {
+        _gameStateUpdater->destroyBomb(bomb);
+    }
+
     auto spriteLayer = _state->getSpriteLayer();
     auto portalLayer = _state->getPortalLayer();
     auto portalExitLayer = _state->getPortalExitLayer();
     auto effectLayer = _state->getEffectLayer();
 
+    std::vector<Effect *> effectsToDestroy;
+
     for (auto pair : spriteLayer->getObjects())
     {
         Sprite *sprite = (Sprite *) pair.second;
+        sprite->update(dt);
+
         auto portals = portalLayer->getObjectsAroundCoords(sprite->getCoords());
 
         for (auto object : portals)
@@ -120,8 +138,13 @@ void Logic::update(float dt)
             if (sprite->collides(effect))
             {
                 _gameStateUpdater->updateSpriteAttributes(sprite, effect);
-                _gameStateUpdater->destroyEffect(effect);
+                effectsToDestroy.push_back(effect);
             }
+        }
+
+        for (auto effect : effectsToDestroy)
+        {
+            _gameStateUpdater->destroyEffect(effect);
         }
     }
 
@@ -130,7 +153,7 @@ void Logic::update(float dt)
 
 void Logic::setControlledSprite(unsigned int spriteId)
 {
-    _controlledSprite = _state->getSpriteLayer()->getObject(spriteId);
+    _controlledSprite = (Sprite *) _state->getSpriteLayer()->getObject(spriteId);
 }
 
 void Logic::setGameStateUpdater(GameStateUpdater *updater)
@@ -170,7 +193,7 @@ bool Logic::spawnBomb()
 
 bool Logic::spawnBomb(unsigned int spriteId)
 {
-    bool ok = _gameStateUpdater->spawnBomb(_state->getSpriteLayer()->getObject(spriteId));
+    bool ok = _gameStateUpdater->spawnBomb((Sprite *) _state->getSpriteLayer()->getObject(spriteId));
     //_gameStateUpdater->getState()->getBombLayer()->print();
     return ok;
 }

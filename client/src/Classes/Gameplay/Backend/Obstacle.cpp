@@ -7,13 +7,17 @@ using namespace Bomber::Backend;
 
 void Obstacle::configureFromGid(unsigned int gid)
 {
+    _name = "wut";
+
     if (gid == 20)
     {
-        this->setToughness(0);
+        _name = "maze";
+        _toughness = 0;
     }
     else if (gid == 42)
     {
-        this->setToughness(1);
+        _name = "block";
+        _toughness = 1;
     }
 }
 

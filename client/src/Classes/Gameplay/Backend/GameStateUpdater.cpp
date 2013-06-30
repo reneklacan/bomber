@@ -1,5 +1,6 @@
 
 #include "GameStateUpdater.h"
+#include "Statistics/StatisticsUpdater.h"
 
 using namespace Bomber::Backend;
 
@@ -25,7 +26,7 @@ bool GameStateUpdater::teleportSprite(GameObject *sprite, Position position)
     sprite->setPosition(position);
 }
 
-bool GameStateUpdater::spawnBomb(GameObject *owner)
+bool GameStateUpdater::spawnBomb(Sprite *owner)
 {
     if (!owner->isBombPotent())
     {
@@ -38,7 +39,7 @@ bool GameStateUpdater::spawnBomb(GameObject *owner)
         return false;
     }
 
-    GameStateLayer *bombLayer = _state->getBombLayer();
+    auto *bombLayer = _state->getBombLayer();
 
     Bomb *bomb = new Bomb();
     bomb->configure(owner);
@@ -46,6 +47,7 @@ bool GameStateUpdater::spawnBomb(GameObject *owner)
 
     bombLayer->addObject(bomb);
 
+    StatisticsUpdater::getInstance()->bombSpawned(owner->getId(), bomb);
     this->logBombSpawn(bomb);
 
     return true;
@@ -55,7 +57,7 @@ void GameStateUpdater::destroyBomb(Bomb *bomb)
 {
     _state->getBombLayer()->removeObject(bomb);
     this->logBombDestroy(bomb);
-    delete bomb;
+    //delete bomb;
 }
 
 void GameStateUpdater::spawnExplosion(ExplodableObject *explObj)
@@ -63,7 +65,7 @@ void GameStateUpdater::spawnExplosion(ExplodableObject *explObj)
     this->logExplosionSpawn(explObj);
 }
 
-void GameStateUpdater::makeBombImpact(int *penetration, unsigned int x, unsigned int y)
+void GameStateUpdater::makeBombImpact(unsigned int ownerId, int *penetration, unsigned int x, unsigned int y)
 {
     if (!(*penetration))
         return;
@@ -87,6 +89,7 @@ void GameStateUpdater::makeBombImpact(int *penetration, unsigned int x, unsigned
 
         _state->getObstaclesLayer()->removeObject(object);
 
+        StatisticsUpdater::getInstance()->obstacleDestroyed(ownerId, obstacle);
         this->logObstacleDestroy(obstacle);
     }
 }
@@ -94,6 +97,7 @@ void GameStateUpdater::makeBombImpact(int *penetration, unsigned int x, unsigned
 void GameStateUpdater::updateSpriteAttributes(Sprite *sprite, Effect *effect)
 {
     effect->applyToSprite(sprite);
+    StatisticsUpdater::getInstance()->effectTaken(sprite->getId(), effect);
     this->logSpriteAttributesUpdate(sprite, effect);
 }
 

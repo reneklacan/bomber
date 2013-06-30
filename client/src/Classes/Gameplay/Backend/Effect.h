@@ -18,7 +18,11 @@ namespace Bomber
         class Effect : public GameObject
         {
             public:
-                Effect() { _type = EFFECT_NONE; };
+                Effect()
+                {
+                    _name = "effect none";
+                    _type = EFFECT_NONE;
+                };
                 virtual void applyToSprite(Sprite *sprite);
 
             private:
@@ -28,7 +32,11 @@ namespace Bomber
         class EffectFlameInc : public Effect
         {
             public:
-                EffectFlameInc() { _type = EFFECT_FLAME_INC; };
+                EffectFlameInc()
+                {
+                    _name = "effect flame inc";
+                    _type = EFFECT_FLAME_INC;
+                };
                 virtual void applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->increaseFlame();
@@ -38,7 +46,11 @@ namespace Bomber
         class EffectBombCapacityInc : public Effect
         {
             public:
-                EffectBombCapacityInc() { _type = EFFECT_BOMB_CAPACITY_INC; };
+                EffectBombCapacityInc()
+                {
+                    _name = "effect bomb cap inc";
+                    _type = EFFECT_BOMB_CAPACITY_INC;
+                };
                 virtual void applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->increaseBombCapacity();

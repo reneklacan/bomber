@@ -1,11 +1,11 @@
 #ifndef __BOMBER_GAMEOBJECT
 #define __BOMBER_GAMEOBJECT
 
-#include "Position.h"
-#include "Coordinates.h"
-#include "Size.h"
-#include "Rectangle.h"
-#include "Circle.h"
+#include "Primitives/Position.h"
+#include "Primitives/Coordinates.h"
+#include "Primitives/Size.h"
+#include "Primitives/Rectangle.h"
+#include "Primitives/Circle.h"
 
 namespace Bomber
 {
@@ -14,6 +14,7 @@ namespace Bomber
         class GameObject
         {
             public:
+                inline const char *getName() { return _name; };
                 virtual void setId(unsigned int id) { _id = id; };
                 virtual unsigned int getId() { return _id; };
                 virtual void update(float dt) {};
@@ -34,6 +35,7 @@ namespace Bomber
                 virtual bool hasCircleCollider() { return _circleCollider; };
 
             protected:
+                const char *_name;
                 Position _position;
                 Size _size;
                 bool _circleCollider;

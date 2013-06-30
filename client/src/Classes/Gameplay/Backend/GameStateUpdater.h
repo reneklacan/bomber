@@ -2,7 +2,7 @@
 #define __BOMBER_BACKEND_GAME_STATE_UPDATER
 
 #include "GameState.h"
-#include "Position.h"
+#include "Primitives/Position.h"
 #include "Bomb.h"
 #include "Obstacle.h"
 #include "Sprite.h"
@@ -24,10 +24,10 @@ namespace Bomber
 
                 bool moveSprite(GameObject *sprite, Position position);
                 bool teleportSprite(GameObject *sprite, Position position);
-                bool spawnBomb(GameObject *owner);
+                bool spawnBomb(Sprite* owner);
                 void spawnExplosion(ExplodableObject *explObj);
                 void destroyBomb(Bomb *bomb);
-                void makeBombImpact(int *penetration, unsigned int x, unsigned int y);
+                void makeBombImpact(unsigned int owner, int *penetration, unsigned int x, unsigned int y);
                 void updateSpriteAttributes(Sprite *sprite, Effect *effect);
                 void destroyEffect(Effect *effect);
 

@@ -23,7 +23,7 @@ namespace Bomber
 
                 bool spawnBomb();
                 bool spawnBomb(unsigned int);
-                bool spawnBomb(GameObject *owner);
+                bool spawnBomb(Sprite *owner);
 
                 void spawnExplosion(ExplodableObject *explObj);
 
@@ -40,7 +40,7 @@ namespace Bomber
                 static Logic *_instance;
                 GameState *_state;
                 GameStateUpdater *_gameStateUpdater;
-                GameObject *_controlledSprite;
+                Sprite *_controlledSprite;
         };
     }
 }
