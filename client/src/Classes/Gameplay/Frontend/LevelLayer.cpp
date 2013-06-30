@@ -192,12 +192,14 @@ void LevelLayer::updateGame(float dt)
     
 }
 
+//
 void LevelLayer::menuCloseCallback(CCObject* pSender)
 {
     // "close" menu item clicked
     CCDirector::sharedDirector()->end();
 }
 
+//
 void LevelLayer::menuPauseCallback(CCObject* pSender)
 {
     // "pause/resume" menu item clicked
@@ -213,6 +215,7 @@ void LevelLayer::menuPauseCallback(CCObject* pSender)
     }
 }
 
+//
 void LevelLayer::updateFromGameState(CCPoint currentPos)
 {
     Backend::GameState* state = Backend::Mediator::getInstance()->getState();
@@ -252,13 +255,35 @@ void LevelLayer::updateFromGameState(CCPoint currentPos)
                 _map->addBomb(GSBombSpawn->getGameObjectId(), bomb);
             }
             break;
-            // Bomb spawn
+            // Bomb destroy
             case Backend::BOMB_DESTROY:
             {
                 Backend::GSCBombDestroy *GSBombDestroy = (Backend::GSCBombDestroy *)GSChange;
                 Bomb *bomb = (Bomb *)_map->getBomb( GSBombDestroy->getGameObjectId() );
                 bomb->setVisible(false);
+                bomb->setDetonated();
                 _map->removeBomb(GSBombDestroy->getGameObjectId());
+                _map->removeChild(bomb);
+            }
+            break;
+            // Obstacle destroy
+            case Backend::OBSTACLE_DESTROY:
+            {
+                Backend::GSCObstacleDestroy *GSObstacleDestroy = (Backend::GSCObstacleDestroy *)GSChange;
+                CCTMXLayer *obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
+                obstaclesLayer->removeTileAt(
+                    ccp( 
+                        GSObstacleDestroy->getGameObjectId() % _map->getWidth(), 
+                        _map->getHeight() - ( GSObstacleDestroy->getGameObjectId() / _map->getWidth() ) - 1
+                    )
+                );
+            }
+            break;
+            // Explosion
+            case Backend::EXPLOSION_SPAWN:
+            {
+                Backend::GSCExplosionSpawn *GSExplosionSpawn = (Backend::GSCExplosionSpawn *)GSChange;
+                std::cout << GSExplosionSpawn->getGameObjectId() << "<- EID\n";
             }
             break;
             // Nothing    
