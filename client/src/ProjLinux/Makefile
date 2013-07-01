@@ -27,6 +27,9 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Backend/Primitives/Rectangle.cpp \
         ../Classes/Gameplay/Backend/Statistics/Statistics.cpp \
         ../Classes/Gameplay/Backend/Statistics/StatisticsUpdater.cpp \
+        ../Classes/Gameplay/Backend/Statistics/Achievements.cpp \
+        ../Classes/Gameplay/Backend/Statistics/AchievementContainer.cpp \
+        ../Classes/Gameplay/Backend/Statistics/GameAchievements.cpp \
         ../Classes/Gameplay/Frontend/LevelLayer.cpp \
         ../Classes/Gameplay/Frontend/GameButton.cpp \
         ../Classes/Gameplay/Map/Map.cpp \
