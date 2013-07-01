@@ -1,5 +1,13 @@
 
-#include "Achievements.h"
+#include "GameAchievements.h"
+
+#define AchievementList(...) std::list<Achievement *>({ __VA_ARGS__ })
+#define ConditionList(...) std::list<AchievementCondition>({ __VA_ARGS__ })
+#define Group(...) new AchievementGroup(AchievementList({ __VA_ARGS__ }))
+#define Achievement(...) new AchievementOne( __VA_ARGS__ )
+#define Condition AchievementCondition
+#define None nullptr
+#define AchievementOne new AchievementOne
 
 using namespace Bomber::Backend;
 
@@ -37,7 +45,7 @@ auto gameAchievements = AchievementList(
             ),
         ),
         AchievementOne(
-            "Act 1", // any
+            "Act 1", // act
             "Level 1", // level
             "Fast Ghost killer", // title
             "Kill 10 ghost in a one minute", // descriptopn
@@ -53,7 +61,7 @@ auto gameAchievements = AchievementList(
         ),
 );
 
-static std::list<Achievement> getGameAchievements()
+std::list<Achievement *> Bomber::Backend::getGameAchievements()
 {
     return gameAchievements;
 }

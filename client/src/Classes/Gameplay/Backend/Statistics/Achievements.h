@@ -53,13 +53,14 @@ namespace Bomber
                 );
                 bool isComplete(Statistics *statistics);
                 inline virtual bool isGroup() { return false; }
+                inline virtual bool isUnlocked() { return _unlocked; }
 
             private:
                 bool _unlocked;
                 const char *_act;
                 const char *_level;
-                const char *_title;
-                const char *_description;
+                SYNTHESIZE(const char *, _title, Title);
+                SYNTHESIZE(const char *, _description, Description);
                 bool _evalOnEnd;
                 std::list<AchievementCondition> _conditions;
         };
@@ -67,20 +68,13 @@ namespace Bomber
         class AchievementGroup : public Achievement
         {
             public:
-                AchievementGroup(std::list<Achievement> achievements);
+                AchievementGroup(std::list<Achievement *> achievements);
                 inline virtual bool isGroup() { return true; }
 
             private:
-                std::list<Achievement> _achievements;
+                SYNTHESIZE_READONLY(std::list<Achievement *>, _achievements, Achievements);
         };
     }
 }
-
-#define AchievementList(...) std::list<Achievement>({ __VA_ARGS__ })
-#define ConditionList(...) std::list<AchievementCondition>({ __VA_ARGS__ })
-#define Group(...) AchievementGroup(AchievementList({ __VA_ARGS__ }))
-#define Achievement(...) AchievementOne( __VA_ARGS__ )
-#define Condition AchievementCondition
-#define None nullptr
 
 #endif

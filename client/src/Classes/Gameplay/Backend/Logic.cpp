@@ -5,6 +5,7 @@
 #include "Obstacle.h"
 #include "Portal.h"
 #include "Effect.h"
+#include "Statistics/AchievementContainer.h"
 
 using namespace Bomber::Backend;
 
@@ -141,6 +142,18 @@ void Logic::update(float dt)
     }
 
     _gameStateUpdater->updateGrid();
+
+    if (!AchievementContainer::getInstance()->isNewQueueEmpty())
+    {
+        for (AchievementOne *achievement : AchievementContainer::getInstance()->getNewUnlocked())
+        {
+            printf("----------!\n");
+            printf("Achievement unlocked!\n");
+            printf("%s!\n", achievement->getTitle());
+            printf(" - %s!\n", achievement->getDescription());
+            printf("----------!\n");
+        }
+    }
 }
 
 void Logic::setControlledSprite(unsigned int spriteId)

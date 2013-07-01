@@ -1,5 +1,6 @@
 
 #include "StatisticsUpdater.h"
+#include "AchievementContainer.h"
 
 using namespace Bomber::Backend;
 
@@ -29,6 +30,8 @@ void StatisticsUpdater::bombSpawned(unsigned int ownerId, Bomb *bomb)
 {
     _levelStatistics->increaseBombSpawns();
     _gameStatistics->increaseBombSpawns();
+
+    AchievementContainer::getInstance()->checkAll(_gameStatistics);
    
     _levelStatistics->print();
 }

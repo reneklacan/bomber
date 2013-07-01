@@ -49,6 +49,7 @@ AchievementOne::AchievementOne(
         std::list<AchievementCondition> conditions
 )
 {
+    _unlocked = false;
     _act = act;
     _level = level;
     _title = title;
@@ -66,10 +67,11 @@ bool AchievementOne::isComplete(Statistics *statistics)
             return false;
         }
     }
+    _unlocked = true;
     return true;
 }
 
-AchievementGroup::AchievementGroup(std::list<Achievement> achievements)
+AchievementGroup::AchievementGroup(std::list<Achievement *> achievements)
 {
-
+    _achievements = achievements;
 }

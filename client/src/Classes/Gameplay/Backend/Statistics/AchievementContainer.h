@@ -2,7 +2,10 @@
 #define __BOMBER_BACKEND_ACHIEVEMENT_CONTAINER
 
 #include <list>
+#include <deque>
 #include "Statistics.h"
+#include "Achievements.h"
+#include "GameAchievements.h"
 
 namespace Bomber
 {
@@ -11,10 +14,16 @@ namespace Bomber
         class AchievementContainer
         {
             public:
-                AchievementContainer();
+                static AchievementContainer *getInstance();
+                void checkAll(Statistics *);
+                std::list<AchievementOne *> getNewUnlocked();
+                bool isNewQueueEmpty() { return !_newUnlocked.size(); };
 
-                void getObstacleCategory();
-                void getKillCategory();
+            private:
+                static AchievementContainer *_instance;
+                AchievementContainer();
+                std::list<Achievement *> _allAchievements;
+                std::deque<AchievementOne *> _newUnlocked;
         };
     }
 }
