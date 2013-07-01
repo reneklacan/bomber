@@ -5,6 +5,7 @@
 #include "Obstacle.h"
 #include "Portal.h"
 #include "Effect.h"
+#include "AI/AI.h"
 
 using namespace Bomber::Backend;
 
@@ -168,10 +169,17 @@ void Logic::update(float dt)
         {
             _gameStateUpdater->destroyEffect(effect);
         }
+
+        if (sprite->isAI() && sprite->isDirty())
+        {
+            _gameStateUpdater->logSpriteMove(sprite);
+        }
     }
 
     _gameStateUpdater->updateGrid();
     _gameStateUpdater->updateAchievements();
+
+    //_state->getSpriteLayer()->print();
 }
 
 void Logic::setControlledSprite(unsigned int spriteId)
@@ -183,6 +191,7 @@ void Logic::setGameStateUpdater(GameStateUpdater *updater)
 {
     _gameStateUpdater = updater;
     _state = updater->getState();
+    AI::getInstance()->init(_state);
 }
 
 bool Logic::moveSprite(Position position)

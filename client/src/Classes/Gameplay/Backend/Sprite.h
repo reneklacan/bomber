@@ -14,6 +14,9 @@ namespace Bomber
             public:
                 Sprite();
 
+                virtual void configureFromGid(unsigned int gid);
+                inline virtual bool isAI() { return false; };
+
             private:
                 SYNTHESIZE(SpriteAttributes *, _attributes, Attributes);
         };

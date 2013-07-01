@@ -32,8 +32,6 @@ Coordinates GameObject::getCoords()
 {
     Position center = this->getCollisionRect().getCenterPosition();
 
-    printf("x:%g, y:%g VS x:%g, y:%g\n", _position.x, _position.y, center.x, center.y);
-
     return Coordinates(
             center.x/TILE_WIDTH,
             center.y/TILE_HEIGHT

@@ -1,6 +1,7 @@
 
 #include "GameState.h"
 #include "Bomber.h"
+#include "AISprite.h"
 #include "../../Constants.h"
 
 using namespace Bomber::Backend;
@@ -30,13 +31,13 @@ GameState::~GameState()
 void GameState::init(CCTMXTiledMap *tiledMap)
 {
     unsigned int gid;
-    CCTMXLayer *obstaclesLayer = tiledMap->layerNamed("obstacles");
+    CCTMXLayer *obstacleLayer = tiledMap->layerNamed("obstacles");
 
     for (int iy = 0; iy < _height; iy++)
     {
         for (int ix = 0; ix < _width; ix++)
         {
-            gid = obstaclesLayer->tileGIDAt(ccp(ix, _height - 1 - iy));
+            gid = obstacleLayer->tileGIDAt(ccp(ix, _height - 1 - iy));
 
             if (gid == 0)
                 continue;
@@ -48,6 +49,27 @@ void GameState::init(CCTMXTiledMap *tiledMap)
             obstacle->configureFromGid(gid);
 
             _obstacleLayer->addObject(obstacle);
+        }
+    }
+
+    CCTMXLayer *spriteLayer = tiledMap->layerNamed("sprites");
+
+    for (int iy = 0; iy < _height; iy++)
+    {
+        for (int ix = 0; ix < _width; ix++)
+        {
+            gid = spriteLayer->tileGIDAt(ccp(ix, _height - 1 - iy));
+
+            if (gid == 0)
+                continue;
+
+            Sprite *sprite= new AISprite();
+            sprite->setId(iy*_width + ix);
+            sprite->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
+            sprite->setSize(TILE_WIDTH, TILE_HEIGHT);
+            sprite->configureFromGid(gid);
+
+            _spriteLayer->addObject(sprite);
         }
     }
 

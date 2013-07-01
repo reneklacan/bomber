@@ -16,8 +16,8 @@ void GameStateUpdater::updateGrid()
 
 bool GameStateUpdater::moveSprite(GameObject *sprite, Position position)
 {
-    this->logSpriteMove(sprite, sprite->getPosition(), position);
     sprite->setPosition(position);
+    this->logSpriteMove(sprite);
 }
 
 bool GameStateUpdater::teleportSprite(GameObject *sprite, Position position)
@@ -130,11 +130,11 @@ void GameStateUpdater::updateAchievements()
     }
 }
 
-void GameStateUpdater::logSpriteMove(GameObject *sprite, Position &from, Position &to)
+void GameStateUpdater::logSpriteMove(GameObject *sprite)
 {
     //printf("logSpriteMove\n"); // spam
     GSCSpriteMove *change = new GSCSpriteMove();
-    change->update(from, to);
+    change->update(sprite->getPosition());
     change->setGameObjectId(sprite->getId());
     _state->addChange(change);
 }

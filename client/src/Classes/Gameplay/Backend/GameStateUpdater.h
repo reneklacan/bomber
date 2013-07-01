@@ -33,7 +33,7 @@ namespace Bomber
                 void destroyEffect(Effect *effect);
                 void updateAchievements();
 
-                void logSpriteMove(GameObject *sprite, Position &from, Position &to);
+                void logSpriteMove(GameObject *sprite);
                 void logSpriteTeleport(GameObject *sprite, Position &to);
                 void logBombSpawn(Bomb *bomb);
                 void logBombDestroy(Bomb *bomb);

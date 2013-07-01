@@ -64,14 +64,10 @@ namespace Bomber
                 SYNTHESIZE(Coordinates, _coordinates, Coordinates);
         };
 
-        class GSCSpriteMove : public GameStateChange
+        class GSCSpriteMove : public GSCPosition
         {
             public:
                 GSCSpriteMove() { _type = SPRITE_MOVE; };
-                virtual void update(Position &p, Position &np) { _position = p; _nextPosition = np; };
-            private:
-                SYNTHESIZE(Position, _position, Position);
-                SYNTHESIZE(Position, _nextPosition, NextPosition);
         };
 
         class GSCSpriteTeleport : public GSCPosition

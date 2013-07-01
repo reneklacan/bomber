@@ -25,6 +25,30 @@ class Position
             this->y = y;
         }
 
+        Position operator-(const Position &other) const
+        {
+            return Position(this->x - other.x, this->y - other.y);
+        }
+
+        Position operator+(const Position &other) const
+        {
+            return Position(this->x + other.x, this->y + other.y);
+        }
+
+        bool operator<(const float &other) const
+        {
+            if (this->x < other && this->y < other)
+                return true;
+            return false;
+        }
+
+        bool operator>(const float &other) const
+        {
+            if (this->x > other && this->y > other)
+                return true;
+            return false;
+        }
+
         bool operator==(const Position &other) const
         {
             if (this->x == other.x && this->y == other.y)

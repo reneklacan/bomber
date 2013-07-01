@@ -21,6 +21,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Backend/GameState.cpp \
         ../Classes/Gameplay/Backend/GameObject.cpp \
         ../Classes/Gameplay/Backend/Sprite.cpp \
+        ../Classes/Gameplay/Backend/AISprite.cpp \
         ../Classes/Gameplay/Backend/Bomb.cpp \
         ../Classes/Gameplay/Backend/Obstacle.cpp \
         ../Classes/Gameplay/Backend/Primitives/Coordinates.cpp \
@@ -30,6 +31,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Backend/Statistics/Achievements.cpp \
         ../Classes/Gameplay/Backend/Statistics/AchievementContainer.cpp \
         ../Classes/Gameplay/Backend/Statistics/GameAchievements.cpp \
+        ../Classes/Gameplay/Backend/AI/AI.cpp \
         ../Classes/Gameplay/Frontend/LevelLayer.cpp \
         ../Classes/Gameplay/Frontend/GameButton.cpp \
         ../Classes/Gameplay/Map/Map.cpp \
