@@ -81,7 +81,7 @@ bool LevelLayer::init()
     //_player = GameSprite::gameSpriteWithFile("tiles/timmy.png");
     //_player->setSpeed(1);
     //_player->setPosition(CC_POINT_PIXELS_TO_POINTS(ccp(mapWidth/2,0)));
-    //_player->setAnchorPoint(ccp(0.5f, 0.3f));
+    _player->setAnchorPoint(ccp(0.5f, 0.0f));
 
     _controlLayer->setControlledSprite((GameSprite *)_player);
     _controlLayer->enableJoystick();

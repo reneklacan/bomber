@@ -30,9 +30,13 @@ void GameObject::setSize(Size size)
 
 Coordinates GameObject::getCoords()
 {
+    Position center = this->getCollisionRect().getCenterPosition();
+
+    printf("x:%g, y:%g VS x:%g, y:%g\n", _position.x, _position.y, center.x, center.y);
+
     return Coordinates(
-            _position.x/TILE_WIDTH,
-            _position.y/TILE_HEIGHT
+            center.x/TILE_WIDTH,
+            center.y/TILE_HEIGHT
     );
 }
 

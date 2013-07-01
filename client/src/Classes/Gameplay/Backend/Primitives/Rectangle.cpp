@@ -7,6 +7,7 @@ Rectangle::Rectangle(int x, int y, int width, int height)
     this->y = y;
     this->width = width;
     this->height = height;
+    this->center = Position(x + width/2, y + height/2);
 }
 
 Rectangle::Rectangle(float x, float y, int width, int height)
@@ -15,6 +16,7 @@ Rectangle::Rectangle(float x, float y, int width, int height)
     this->y = y;
     this->width = width;
     this->height = height;
+    this->center = Position(x + width/2, y + height/2);
 }
 
 Rectangle::Rectangle(float x, float y, float width, float height)
@@ -23,6 +25,7 @@ Rectangle::Rectangle(float x, float y, float width, float height)
     this->y = y;
     this->width = width;
     this->height = height;
+    this->center = Position(x + width/2, y + height/2);
 }
 
 Rectangle::Rectangle(Position p, Size s)
@@ -31,6 +34,7 @@ Rectangle::Rectangle(Position p, Size s)
     this->y = p.y;
     this->width = s.width;
     this->height = s.height;
+    this->center = Position(x + width/2, y + height/2);
 }
 
 bool Rectangle::operator==(const Rectangle &other) const
