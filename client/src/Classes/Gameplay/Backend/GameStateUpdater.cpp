@@ -113,6 +113,23 @@ void GameStateUpdater::destroyEffect(Effect *effect)
     this->logEffectDestroy(effect);
 }
 
+void GameStateUpdater::updateAchievements()
+{
+    if (!AchievementContainer::getInstance()->isNewQueueEmpty())
+    {
+        for (AchievementOne *achievement : AchievementContainer::getInstance()->getNewUnlocked())
+        {
+            printf("----------!\n");
+            printf("Achievement unlocked!\n");
+            printf("%s!\n", achievement->getTitle());
+            printf(" - %s!\n", achievement->getDescription());
+            printf("----------!\n");
+
+            this->logAchievementUnlocked(achievement);
+        }
+    }
+}
+
 void GameStateUpdater::logSpriteMove(GameObject *sprite, Position &from, Position &to)
 {
     //printf("logSpriteMove\n"); // spam
@@ -194,5 +211,17 @@ void GameStateUpdater::logEffectDestroy(Effect *effect)
             effect->getCoords()
     );
     change->setGameObjectId(effect->getId());
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logAchievementUnlocked(AchievementOne *achievement)
+{
+    printf("logAchievementUnlocked\n");
+    GSCAchievementUnlocked* change = new GSCAchievementUnlocked();
+    change->update(
+            achievement->getTitle(),
+            achievement->getDescription()
+    );
+    change->setGameObjectId(0);
     _state->addChange(change);
 }

@@ -7,6 +7,7 @@
 #include "Obstacle.h"
 #include "Sprite.h"
 #include "Effect.h"
+#include "Statistics/AchievementContainer.h"
 
 namespace Bomber
 {
@@ -30,6 +31,7 @@ namespace Bomber
                 void makeBombImpact(unsigned int owner, int *penetration, unsigned int x, unsigned int y);
                 void updateSpriteAttributes(Sprite *sprite, Effect *effect);
                 void destroyEffect(Effect *effect);
+                void updateAchievements();
 
                 void logSpriteMove(GameObject *sprite, Position &from, Position &to);
                 void logSpriteTeleport(GameObject *sprite, Position &to);
@@ -39,6 +41,7 @@ namespace Bomber
                 void logObstacleDestroy(Obstacle *obstacle);
                 void logSpriteAttributesUpdate(Sprite *sprite, Effect *effect);
                 void logEffectDestroy(Effect *effect);
+                void logAchievementUnlocked(AchievementOne *achievement);
 
             private:
                 GameState *_state;

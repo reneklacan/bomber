@@ -31,7 +31,9 @@ namespace Bomber
             EFFECT_DESTROY,
 
             SPECIAL_SPAWN,
-            SPECIAL_DESTROY
+            SPECIAL_DESTROY,
+
+            ACHIEVEMENT_UNLOCKED
         };
 
         class GameStateChange
@@ -133,6 +135,20 @@ namespace Bomber
 
             private:
                 SYNTHESIZE(int, _effectType, EffectType);
+        };
+
+        class GSCAchievementUnlocked : public GameStateChange
+        {
+            public:
+                GSCAchievementUnlocked() { _type = ACHIEVEMENT_UNLOCKED; };
+                virtual void update(const char *title, const char *description)
+                {
+                    _title = title;
+                    _description = description;
+                }
+            private:
+                SYNTHESIZE(const char *, _title, Title);
+                SYNTHESIZE(const char *, _description, Description);
         };
     }
 }
