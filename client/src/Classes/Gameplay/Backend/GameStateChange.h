@@ -103,14 +103,20 @@ namespace Bomber
         {
             public:
                 GSCExplosionSpawn() { _type = EXPLOSION_SPAWN; };
-                virtual void update(unsigned int owner, unsigned int power, unsigned int penetration)
+                virtual void update(unsigned int owner, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
                 {
-                    _owner = owner; _power = power; _penetration = penetration;
+                    _owner = owner;
+                    _topArmLength = topArmLength;
+                    _bottomArmLength = bottomArmLength;
+                    _leftArmLength = leftArmLength;
+                    _rightArmLength = rightArmLength;
                 };
             private:
                 SYNTHESIZE(unsigned int, _owner, Owner);
-                SYNTHESIZE(unsigned int, _power, Power);
-                SYNTHESIZE(unsigned int, _penetration, Penetration);
+                SYNTHESIZE(unsigned int, _topArmLength, TopArmLength);
+                SYNTHESIZE(unsigned int, _bottomArmLength, BottomArmLength);
+                SYNTHESIZE(unsigned int, _leftArmLength, LeftArmLength);
+                SYNTHESIZE(unsigned int, _rightArmLength, RightArmLength);
         };
 
         class GSCEffectDestroy : public GSCCoordinates

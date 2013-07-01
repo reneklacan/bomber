@@ -60,9 +60,15 @@ void GameStateUpdater::destroyBomb(Bomb *bomb)
     //delete bomb;
 }
 
-void GameStateUpdater::spawnExplosion(ExplodableObject *explObj)
+void GameStateUpdater::spawnExplosion(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
 {
-    this->logExplosionSpawn(explObj);
+    this->logExplosionSpawn(
+            explObj,
+            topArmLength,
+            bottomArmLength,
+            leftArmLength,
+            rightArmLength
+    );
 }
 
 void GameStateUpdater::makeBombImpact(unsigned int ownerId, int *penetration, unsigned int x, unsigned int y)
@@ -143,14 +149,16 @@ void GameStateUpdater::logBombDestroy(Bomb *bomb)
     _state->addChange(change);
 }
 
-void GameStateUpdater::logExplosionSpawn(ExplodableObject *explObj)
+void GameStateUpdater::logExplosionSpawn(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
 {
     printf("logExplosionSpawn\n");
     GSCExplosionSpawn* change = new GSCExplosionSpawn();
     change->update(
             explObj->getOwnerId(),
-            explObj->getPower(),
-            explObj->getPenetration()
+            topArmLength,
+            bottomArmLength,
+            leftArmLength,
+            rightArmLength
     );
     change->setGameObjectId(explObj->getId());
     _state->addChange(change);

@@ -29,7 +29,10 @@ void Logic::update(float dt)
 {
     int power,
         penetration, penetrationTop, penetrationBottom,
-        penetrationRight, penetrationLeft;
+        penetrationRight, penetrationLeft,
+        topArmLength, bottomArmLength,
+        leftArmLength, rightArmLength;
+        
     unsigned int owner;
 
     Coordinates epicentrum;
@@ -50,7 +53,6 @@ void Logic::update(float dt)
             penetration = bomb->getPenetration();
             owner = bomb->getOwnerId();
             
-            _gameStateUpdater->spawnExplosion(bomb);
             //_gameStateUpdater->destroyBomb(bomb);
             bombsToDestroy.push_back(bomb);
 
@@ -58,6 +60,11 @@ void Logic::update(float dt)
             penetrationBottom = penetration;
             penetrationLeft = penetration;
             penetrationRight = penetration;
+
+            topArmLength = 1;
+            bottomArmLength = 1;
+            leftArmLength = 1;
+            rightArmLength = 1;
 
             for (int i = 0; i < power; i++)
             {
@@ -67,26 +74,49 @@ void Logic::update(float dt)
                         epicentrum.x,
                         epicentrum.y + i + 1
                 );
+                if (penetrationTop)
+                {
+                    topArmLength++;
+                }
                 _gameStateUpdater->makeBombImpact(
                         owner,
                         &penetrationBottom,
                         epicentrum.x,
                         epicentrum.y - i - 1
                 );
+                if (penetrationBottom)
+                {
+                    bottomArmLength++;
+                }
                 _gameStateUpdater->makeBombImpact(
                         owner,
                         &penetrationRight,
                         epicentrum.x + i + 1,
                         epicentrum.y
                 );
+                if (penetrationRight)
+                {
+                    rightArmLength++;
+                }
                 _gameStateUpdater->makeBombImpact(
                         owner,
                         &penetrationLeft,
                         epicentrum.x - i - 1,
                         epicentrum.y
                 );
+                if (penetrationLeft)
+                {
+                    leftArmLength++;
+                }
             }
 
+            _gameStateUpdater->spawnExplosion(
+                    bomb,
+                    topArmLength,
+                    bottomArmLength,
+                    leftArmLength,
+                    rightArmLength
+            );
             //_gameStateUpdater->getState()->getObstaclesLayer()->print();
         }
     }
