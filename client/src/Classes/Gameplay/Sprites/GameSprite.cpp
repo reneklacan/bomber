@@ -45,7 +45,7 @@ CCRect GameSprite::getCollisionBox(CCPoint point)
 {
     return CCRectMake(
             point.x - (this->getContentSize().width/2), // aww, division in every frame? :(
-            point.y - (this->getContentSize().height/2),
+            point.y,// - (this->getContentSize().height/2),
             this->getContentSize().width,
             this->getContentSize().height/4
     );
