@@ -29,9 +29,9 @@ void AchievementContainer::checkAll(Statistics *statistics)
         {
             auto group = (AchievementGroup *) object;
 
-            for (Achievement *object : group->getAchievements())
+            for (AchievementObject *object : group->getAchievements())
             {
-                auto achievement = (AchievementOne *) object;
+                auto achievement = (Achievement *) object;
 
                 if (achievement->isUnlocked())
                     continue;
@@ -48,7 +48,7 @@ void AchievementContainer::checkAll(Statistics *statistics)
         }
         else
         {
-            auto achievement = (AchievementOne *) object;
+            auto achievement = (Achievement *) object;
 
             if (achievement->isComplete(statistics))
             {
@@ -58,9 +58,9 @@ void AchievementContainer::checkAll(Statistics *statistics)
     }
 }
 
-std::list<AchievementOne *> AchievementContainer::getNewUnlocked()
+std::list<Achievement *> AchievementContainer::getNewUnlocked()
 {
-    std::list<AchievementOne *> unlocked;
+    std::list<Achievement *> unlocked;
 
     while (_newUnlocked.size())
     {

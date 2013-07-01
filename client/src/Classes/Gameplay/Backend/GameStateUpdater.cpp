@@ -117,7 +117,7 @@ void GameStateUpdater::updateAchievements()
 {
     if (!AchievementContainer::getInstance()->isNewQueueEmpty())
     {
-        for (AchievementOne *achievement : AchievementContainer::getInstance()->getNewUnlocked())
+        for (Achievement *achievement : AchievementContainer::getInstance()->getNewUnlocked())
         {
             printf("----------!\n");
             printf("Achievement unlocked!\n");
@@ -214,7 +214,7 @@ void GameStateUpdater::logEffectDestroy(Effect *effect)
     _state->addChange(change);
 }
 
-void GameStateUpdater::logAchievementUnlocked(AchievementOne *achievement)
+void GameStateUpdater::logAchievementUnlocked(Achievement *achievement)
 {
     printf("logAchievementUnlocked\n");
     GSCAchievementUnlocked* change = new GSCAchievementUnlocked();

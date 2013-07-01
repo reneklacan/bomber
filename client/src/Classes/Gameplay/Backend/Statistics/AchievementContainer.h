@@ -16,14 +16,14 @@ namespace Bomber
             public:
                 static AchievementContainer *getInstance();
                 void checkAll(Statistics *);
-                std::list<AchievementOne *> getNewUnlocked();
+                std::list<Achievement *> getNewUnlocked();
                 bool isNewQueueEmpty() { return !_newUnlocked.size(); };
 
             private:
                 static AchievementContainer *_instance;
                 AchievementContainer();
-                std::list<Achievement *> _allAchievements;
-                std::deque<AchievementOne *> _newUnlocked;
+                std::list<AchievementObject *> _allAchievements;
+                std::deque<Achievement *> _newUnlocked;
         };
     }
 }

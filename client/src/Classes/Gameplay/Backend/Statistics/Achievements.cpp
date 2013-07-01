@@ -40,7 +40,7 @@ bool AchievementCondition::evaluate(Statistics *statistics)
     return false;
 }
 
-AchievementOne::AchievementOne(
+Achievement::Achievement(
         const char *act,
         const char *level,
         const char *title,
@@ -58,7 +58,7 @@ AchievementOne::AchievementOne(
     _conditions = conditions;
 }
 
-bool AchievementOne::isComplete(Statistics *statistics)
+bool Achievement::isComplete(Statistics *statistics)
 {
     for (auto condition : _conditions)
     {
@@ -71,7 +71,7 @@ bool AchievementOne::isComplete(Statistics *statistics)
     return true;
 }
 
-AchievementGroup::AchievementGroup(std::list<Achievement *> achievements)
+AchievementGroup::AchievementGroup(std::list<AchievementObject *> achievements)
 {
     _achievements = achievements;
 }

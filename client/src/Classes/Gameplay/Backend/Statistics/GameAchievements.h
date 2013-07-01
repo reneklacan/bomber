@@ -7,7 +7,7 @@ namespace Bomber
 {
     namespace Backend
     {
-        std::list<Achievement *> getGameAchievements();
+        std::list<AchievementObject *> getGameAchievements();
     }
 }
 

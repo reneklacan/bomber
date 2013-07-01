@@ -41,7 +41,7 @@ namespace Bomber
                 void logObstacleDestroy(Obstacle *obstacle);
                 void logSpriteAttributesUpdate(Sprite *sprite, Effect *effect);
                 void logEffectDestroy(Effect *effect);
-                void logAchievementUnlocked(AchievementOne *achievement);
+                void logAchievementUnlocked(Achievement *achievement);
 
             private:
                 GameState *_state;

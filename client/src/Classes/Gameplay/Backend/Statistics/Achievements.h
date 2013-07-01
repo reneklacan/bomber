@@ -34,16 +34,16 @@ namespace Bomber
                 unsigned int _timeLimit;
         };
 
-        class Achievement
+        class AchievementObject
         {
             public:
                 inline virtual bool isGroup() { return false; }
         };
 
-        class AchievementOne : public Achievement
+        class Achievement : public AchievementObject
         {
             public:
-                AchievementOne(
+                Achievement(
                         const char *act,
                         const char *level,
                         const char *title,
@@ -65,14 +65,14 @@ namespace Bomber
                 std::list<AchievementCondition> _conditions;
         };
 
-        class AchievementGroup : public Achievement
+        class AchievementGroup : public AchievementObject
         {
             public:
-                AchievementGroup(std::list<Achievement *> achievements);
+                AchievementGroup(std::list<AchievementObject *> achievements);
                 inline virtual bool isGroup() { return true; }
 
             private:
-                SYNTHESIZE_READONLY(std::list<Achievement *>, _achievements, Achievements);
+                SYNTHESIZE_READONLY(std::list<AchievementObject *>, _achievements, Achievements);
         };
     }
 }

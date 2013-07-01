@@ -1,19 +1,18 @@
 
 #include "GameAchievements.h"
 
-#define AchievementList(...) std::list<Achievement *>({ __VA_ARGS__ })
+#define AchievementList(...) std::list<AchievementObject *>({ __VA_ARGS__ })
 #define ConditionList(...) std::list<AchievementCondition>({ __VA_ARGS__ })
 #define Group(...) new AchievementGroup(AchievementList({ __VA_ARGS__ }))
-#define Achievement(...) new AchievementOne( __VA_ARGS__ )
 #define Condition AchievementCondition
 #define None nullptr
-#define AchievementOne new AchievementOne
+#define Achievement new Achievement
 
 using namespace Bomber::Backend;
 
 auto gameAchievements = AchievementList(
         Group(
-            AchievementOne(
+            Achievement(
                 None, // act
                 None, // level
                 "Bombeeeer", // title
@@ -28,7 +27,7 @@ auto gameAchievements = AchievementList(
                     ),
                 )
             ),
-            AchievementOne(
+            Achievement(
                 None, // act
                 None, // level
                 "Bombeeeer 2", // title
@@ -44,7 +43,7 @@ auto gameAchievements = AchievementList(
                 )
             ),
         ),
-        AchievementOne(
+        Achievement(
             "Act 1", // act
             "Level 1", // level
             "Fast Ghost killer", // title
@@ -61,7 +60,7 @@ auto gameAchievements = AchievementList(
         ),
 );
 
-std::list<Achievement *> Bomber::Backend::getGameAchievements()
+std::list<AchievementObject *> Bomber::Backend::getGameAchievements()
 {
     return gameAchievements;
 }
