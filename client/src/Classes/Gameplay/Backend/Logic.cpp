@@ -34,6 +34,7 @@ void Logic::update(float dt)
         leftArmLength, rightArmLength;
         
     unsigned int owner;
+    bool impact;
 
     Coordinates epicentrum;
 
@@ -61,50 +62,50 @@ void Logic::update(float dt)
             penetrationLeft = penetration;
             penetrationRight = penetration;
 
-            topArmLength = 1;
-            bottomArmLength = 1;
-            leftArmLength = 1;
-            rightArmLength = 1;
+            topArmLength = 0;
+            bottomArmLength = 0;
+            leftArmLength = 0;
+            rightArmLength = 0;
 
             for (int i = 0; i < power; i++)
             {
-                _gameStateUpdater->makeBombImpact(
+                impact = _gameStateUpdater->makeBombImpact(
                         owner,
                         &penetrationTop,
                         epicentrum.x,
                         epicentrum.y + i + 1
                 );
-                if (penetrationTop)
+                if (impact)
                 {
                     topArmLength++;
                 }
-                _gameStateUpdater->makeBombImpact(
+                impact = _gameStateUpdater->makeBombImpact(
                         owner,
                         &penetrationBottom,
                         epicentrum.x,
                         epicentrum.y - i - 1
                 );
-                if (penetrationBottom)
+                if (impact)
                 {
                     bottomArmLength++;
                 }
-                _gameStateUpdater->makeBombImpact(
+                impact = _gameStateUpdater->makeBombImpact(
                         owner,
                         &penetrationRight,
                         epicentrum.x + i + 1,
                         epicentrum.y
                 );
-                if (penetrationRight)
+                if (impact)
                 {
                     rightArmLength++;
                 }
-                _gameStateUpdater->makeBombImpact(
+                impact = _gameStateUpdater->makeBombImpact(
                         owner,
                         &penetrationLeft,
                         epicentrum.x - i - 1,
                         epicentrum.y
                 );
-                if (penetrationLeft)
+                if (impact)
                 {
                     leftArmLength++;
                 }

@@ -17,7 +17,7 @@ ExplosionCache::ExplosionCache()
 
     for (int i = 0; i < _cacheSize; i++)
     {
-       CCParticleSun *emitter = CCParticleSun::create();
+        CCParticleSun *emitter = CCParticleSun::create();
         emitter->retain();
         emitter->setTexture(CCTextureCache::sharedTextureCache()->addImage("particles/fire.png"));
         emitter->initWithTotalParticles(150);
