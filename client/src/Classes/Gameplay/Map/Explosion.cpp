@@ -27,6 +27,7 @@ ExplosionCache::ExplosionCache()
         //emitter->setSpeed(60);
         //emitter->setSpeedVar(20);
         emitter->setDuration(0.5);
+        emitter->setPositionType(kCCPositionTypeGrouped);
         /*
         emitter->setAngleVar(0);
         emitter->setStartSpin(0);
@@ -56,7 +57,6 @@ Explosion::Explosion(CCPoint epicentrum, int powerLeft, int powerRight, int powe
     for (int i = 0; i < 4; i++)
     {
         CCParticleSun *emitter = ExplosionCache::getInstance()->getEmitter();
-        std::cout << "LOOOOL\n";
         emitter->setPosition(epicentrum);
         this->addChild(emitter, -5);
 
@@ -67,12 +67,12 @@ Explosion::Explosion(CCPoint epicentrum, int powerLeft, int powerRight, int powe
         if (i == 0)
         {
             emitter->setAngle(0);
-            move = CCMoveBy::create(2, ccp(TILE_WIDTH*powerTop, 0));
+            move = CCMoveBy::create(2, ccp(TILE_WIDTH*powerRight, 0));
         }
         else if (i == 1)
         {
             emitter->setAngle(90);
-            move = CCMoveBy::create(2, ccp(0, TILE_HEIGHT*powerRight));
+            move = CCMoveBy::create(2, ccp(0, TILE_HEIGHT*powerTop));
         }
         else if (i == 2)
         {
