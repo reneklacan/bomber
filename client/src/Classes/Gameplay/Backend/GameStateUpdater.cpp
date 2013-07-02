@@ -172,6 +172,7 @@ void GameStateUpdater::logExplosionSpawn(ExplodableObject *explObj, int topArmLe
     GSCExplosionSpawn* change = new GSCExplosionSpawn();
     change->update(
             explObj->getOwnerId(),
+            explObj->getCollisionRect().getCenterPosition(),
             topArmLength,
             bottomArmLength,
             leftArmLength,

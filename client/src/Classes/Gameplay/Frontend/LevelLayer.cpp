@@ -283,7 +283,17 @@ void LevelLayer::updateFromGameState(CCPoint currentPos)
             case Backend::EXPLOSION_SPAWN:
             {
                 Backend::GSCExplosionSpawn *GSExplosionSpawn = (Backend::GSCExplosionSpawn *)GSChange;
-                std::cout << GSExplosionSpawn->getGameObjectId() << "<- EID\n";
+                CCPoint epicentrum = ccp(GSExplosionSpawn->getEpicentrum().x, GSExplosionSpawn->getEpicentrum().y);
+                Explosion *explosion = new Explosion(
+                    epicentrum,
+                    GSExplosionSpawn->getLeftArmLength(),
+                    GSExplosionSpawn->getRightArmLength(),
+                    GSExplosionSpawn->getTopArmLength(),
+                    GSExplosionSpawn->getBottomArmLength()
+                );
+                explosion->autorelease();
+                explosion->setVertexZ(this->getVertexZ());
+                _map->addChild(explosion, 1);
             }
             break;
             // Nothing    

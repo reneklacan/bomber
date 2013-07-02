@@ -23,7 +23,7 @@ class ExplosionCache
 class Explosion : public CCNode
 {
     public:
-        Explosion(CCPoint epicentrum, int power);
+        Explosion(CCPoint epicentrum, int powerLeft, int powerRight, int powerTop, int powerBottom);
 };
 
 

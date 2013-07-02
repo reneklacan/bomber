@@ -101,9 +101,10 @@ namespace Bomber
         {
             public:
                 GSCExplosionSpawn() { _type = EXPLOSION_SPAWN; };
-                virtual void update(unsigned int owner, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
+                virtual void update(unsigned int owner, Position epicentrum, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
                 {
                     _owner = owner;
+                    _epicentrum = epicentrum;
                     _topArmLength = topArmLength;
                     _bottomArmLength = bottomArmLength;
                     _leftArmLength = leftArmLength;
@@ -111,6 +112,7 @@ namespace Bomber
                 };
             private:
                 SYNTHESIZE(unsigned int, _owner, Owner);
+                SYNTHESIZE(Position, _epicentrum, Epicentrum);
                 SYNTHESIZE(unsigned int, _topArmLength, TopArmLength);
                 SYNTHESIZE(unsigned int, _bottomArmLength, BottomArmLength);
                 SYNTHESIZE(unsigned int, _leftArmLength, LeftArmLength);

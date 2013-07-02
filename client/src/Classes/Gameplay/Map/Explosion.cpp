@@ -12,7 +12,7 @@ ExplosionCache *ExplosionCache::getInstance()
 
 ExplosionCache::ExplosionCache()
 {
-    _cacheSize = 12;
+    _cacheSize = 4;
     _counter = -1;
 
     for (int i = 0; i < _cacheSize; i++)
@@ -51,37 +51,38 @@ CCParticleSun *ExplosionCache::getEmitter()
     return _emitters[_counter % _cacheSize];
 }
 
-Explosion::Explosion(CCPoint epicentrum, int power) 
+Explosion::Explosion(CCPoint epicentrum, int powerLeft, int powerRight, int powerTop, int powerBottom) 
 {
     for (int i = 0; i < 4; i++)
     {
         CCParticleSun *emitter = ExplosionCache::getInstance()->getEmitter();
+        std::cout << "LOOOOL\n";
         emitter->setPosition(epicentrum);
         this->addChild(emitter, -5);
 
-        continue;
+        //continue;
 
         CCActionInterval* move;
 
         if (i == 0)
         {
             emitter->setAngle(0);
-            move = CCMoveBy::create(2, ccp(TILE_WIDTH*power, 0));
+            move = CCMoveBy::create(2, ccp(TILE_WIDTH*powerTop, 0));
         }
         else if (i == 1)
         {
             emitter->setAngle(90);
-            move = CCMoveBy::create(2, ccp(0, TILE_HEIGHT*power));
+            move = CCMoveBy::create(2, ccp(0, TILE_HEIGHT*powerRight));
         }
         else if (i == 2)
         {
             emitter->setAngle(180);
-            move = CCMoveBy::create(2, ccp(-TILE_WIDTH*power, 0));
+            move = CCMoveBy::create(2, ccp(-TILE_WIDTH*powerLeft, 0));
         }
         else if (i == 3)
         {
             emitter->setAngle(-90);
-            move = CCMoveBy::create(2, ccp(0, -TILE_HEIGHT*power));
+            move = CCMoveBy::create(2, ccp(0, -TILE_HEIGHT*powerBottom));
         }
         //CCActionInterval* move_back = CCHide::create();
         CCSequence* seq = CCSequence::create(move, NULL);
