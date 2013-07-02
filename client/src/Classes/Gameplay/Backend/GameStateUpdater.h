@@ -28,7 +28,7 @@ namespace Bomber
                 bool spawnBomb(Sprite* owner);
                 void spawnExplosion(ExplodableObject *explObji, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void destroyBomb(Bomb *bomb);
-                void makeBombImpact(unsigned int owner, int *penetration, unsigned int x, unsigned int y);
+                bool makeBombImpact(unsigned int owner, int *penetration, unsigned int x, unsigned int y);
                 void updateSpriteAttributes(Sprite *sprite, Effect *effect);
                 void destroyEffect(Effect *effect);
                 void updateAchievements();

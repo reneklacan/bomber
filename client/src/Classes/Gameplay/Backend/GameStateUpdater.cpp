@@ -71,22 +71,30 @@ void GameStateUpdater::spawnExplosion(ExplodableObject *explObj, int topArmLengt
     );
 }
 
-void GameStateUpdater::makeBombImpact(unsigned int ownerId, int *penetration, unsigned int x, unsigned int y)
+bool GameStateUpdater::makeBombImpact(unsigned int ownerId, int *penetration, unsigned int x, unsigned int y)
 {
     if (!(*penetration))
-        return;
+        return false;
 
     auto objects = _state->getObstacleLayer()->getObjectsAtCoords(x, y);
+
+    if (objects.size() == 0)
+        return true;
+
+    bool somethingDamaged = false;
 
     for (auto object : objects)
     {
         if (!(*penetration))
-            return;
+            return somethingDamaged;
 
         Obstacle *obstacle = (Obstacle *) object;
 
         if (!obstacle->getToughness())
+        {
+            *penetration = 0;
             continue;
+        }
 
         (*penetration)--;
 
@@ -97,7 +105,11 @@ void GameStateUpdater::makeBombImpact(unsigned int ownerId, int *penetration, un
 
         StatisticsUpdater::getInstance()->obstacleDestroyed(ownerId, obstacle);
         this->logObstacleDestroy(obstacle);
+
+        somethingDamaged = true;
     }
+
+    return somethingDamaged;
 }
 
 void GameStateUpdater::updateSpriteAttributes(Sprite *sprite, Effect *effect)
