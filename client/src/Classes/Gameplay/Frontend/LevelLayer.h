@@ -46,9 +46,6 @@ namespace Bomber
             virtual void menuCloseCallback(cocos2d::CCObject* pSender);
             virtual void menuPauseCallback(cocos2d::CCObject* pSender);
 
-            // gui updates
-            void updateFromGameState(CCPoint currentPos);
-
         protected:
             ControlLayer *_controlLayer;
             Map *_map;

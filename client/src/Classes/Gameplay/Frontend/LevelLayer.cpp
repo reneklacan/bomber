@@ -3,6 +3,7 @@
 #include "../Backend/Mediator.h"
 #include "../Backend/Bomber.h"
 #include "GameButton.h"
+#include "GUIUpdater.h"
 
 using namespace Bomber;
 using namespace Bomber::Frontend;
@@ -42,6 +43,7 @@ bool LevelLayer::init()
     gameState->getSpriteLayer()->addObject(controlledSprite);
 
     Backend::Mediator::getInstance()->setControlledSprite(controlledSprite->getId());
+    GUIUpdater::getInstance()->init(_map, _player, this);
 
     _player->retain();
 
@@ -188,7 +190,8 @@ void LevelLayer::updateGame(float dt)
     Backend::Mediator::getInstance()->update(dt);
 
     // Draw new state
-    this->updateFromGameState(currentPos);
+    GUIUpdater::getInstance()->update(currentPos);
+    //this->updateFromGameState(currentPos);
     
 }
 
@@ -212,92 +215,5 @@ void LevelLayer::menuPauseCallback(CCObject* pSender)
     {
         CCDirector::sharedDirector()->pause();
         _gamePaused = true;
-    }
-}
-
-//
-void LevelLayer::updateFromGameState(CCPoint currentPos)
-{
-    Backend::GameState* state = Backend::Mediator::getInstance()->getState();
-    auto changes = state->getChangesFromId(_lastChangeID);
-
-    _lastChangeID = changes.first;
-    for(auto change : changes.second)
-    {
-        Backend::GameStateChange *GSChange = change;
-
-        switch(GSChange->getType())
-        {
-            // Move
-            case Backend::SPRITE_MOVE:
-            {
-
-            }
-            break;
-            // Portals
-            case Backend::SPRITE_TELEPORT:
-            {
-                Backend::GSCPosition *GSPosition = (Backend::GSCPosition *)GSChange;
-                CCPoint teleportPosition = ccp( GSPosition->getPosition().x, GSPosition->getPosition().y);
-                _player->setPosition(teleportPosition);
-                _map->addToPosition(ccpSub(currentPos, teleportPosition));
-            }
-            break;
-            // Bomb spawn
-            case Backend::BOMB_SPAWN:
-            {
-                Backend::GSCBombSpawn *GSBombSpawn = (Backend::GSCBombSpawn *)GSChange;
-                CCPoint bombSpawnPosition = ccp( GSBombSpawn->getPosition().x, GSBombSpawn->getPosition().y);
-                CCPoint tilemapPosition = _player->getTilemapPosition(); // WARNING
-                Bomb *bomb = Bomb::create(_map, _player);
-                bomb->setPosition(bombSpawnPosition);
-                bomb->setTilemapPosition( ccp(tilemapPosition.x, tilemapPosition.y) );
-                _map->addBomb(GSBombSpawn->getGameObjectId(), bomb);
-            }
-            break;
-            // Bomb destroy
-            case Backend::BOMB_DESTROY:
-            {
-                Backend::GSCBombDestroy *GSBombDestroy = (Backend::GSCBombDestroy *)GSChange;
-                Bomb *bomb = (Bomb *)_map->getBomb( GSBombDestroy->getGameObjectId() );
-                bomb->setVisible(false);
-                bomb->setDetonated();
-                _map->removeBomb(GSBombDestroy->getGameObjectId());
-                _map->removeChild(bomb);
-            }
-            break;
-            // Obstacle destroy
-            case Backend::OBSTACLE_DESTROY:
-            {
-                Backend::GSCObstacleDestroy *GSObstacleDestroy = (Backend::GSCObstacleDestroy *)GSChange;
-                CCTMXLayer *obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
-                obstaclesLayer->removeTileAt(
-                    ccp( 
-                        GSObstacleDestroy->getGameObjectId() % _map->getWidth(), 
-                        _map->getHeight() - ( GSObstacleDestroy->getGameObjectId() / _map->getWidth() ) - 1
-                    )
-                );
-            }
-            break;
-            // Explosion
-            case Backend::EXPLOSION_SPAWN:
-            {
-                Backend::GSCExplosionSpawn *GSExplosionSpawn = (Backend::GSCExplosionSpawn *)GSChange;
-                CCPoint epicentrum = ccp(GSExplosionSpawn->getEpicentrum().x, GSExplosionSpawn->getEpicentrum().y);
-                Explosion *explosion = new Explosion(
-                    epicentrum,
-                    GSExplosionSpawn->getLeftArmLength(),
-                    GSExplosionSpawn->getRightArmLength(),
-                    GSExplosionSpawn->getTopArmLength(),
-                    GSExplosionSpawn->getBottomArmLength()
-                );
-                explosion->autorelease();
-                explosion->setVertexZ(this->getVertexZ());
-                _map->addChild(explosion, 1);
-            }
-            break;
-            // Nothing    
-            default: {}
-        }
     }
 }

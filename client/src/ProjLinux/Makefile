@@ -34,6 +34,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Backend/AI/RandomAI.cpp \
         ../Classes/Gameplay/Frontend/LevelLayer.cpp \
         ../Classes/Gameplay/Frontend/GameButton.cpp \
+        ../Classes/Gameplay/Frontend/GUIUpdater.cpp \
         ../Classes/Gameplay/Map/Map.cpp \
         ../Classes/Gameplay/Map/Bomb.cpp \
         ../Classes/Gameplay/Map/Explosion.cpp \

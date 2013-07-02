@@ -20,14 +20,14 @@ ExplosionCache::ExplosionCache()
        CCParticleSun *emitter = CCParticleSun::create();
         emitter->retain();
         emitter->setTexture(CCTextureCache::sharedTextureCache()->addImage("particles/fire.png"));
-        emitter->initWithTotalParticles(20);
+        emitter->initWithTotalParticles(150);
         emitter->setStartSize(20.0f);
         emitter->setLife(2);
         emitter->setLifeVar(1);
         //emitter->setSpeed(60);
         //emitter->setSpeedVar(20);
         emitter->setDuration(0.5);
-        emitter->setPositionType(kCCPositionTypeGrouped);
+        emitter->setPositionType(kCCPositionTypeRelative);
         /*
         emitter->setAngleVar(0);
         emitter->setStartSpin(0);
