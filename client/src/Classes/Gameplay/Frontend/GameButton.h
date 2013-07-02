@@ -3,25 +3,32 @@
 
 #include "cocos2d.h"
 #include "../../Input/ControlLayer.h"
-#include <vector>
-#include <map>
-#include <iostream>
+#include <string>
 
 namespace Bomber
 {
     namespace Frontend
     {
-        class GameButton : public CCMenu
+        class GameButton
         {
         public:
-            ~GameButton() {}
+            GameButton() {};
 
-            GameButton *createButton(CCObject* target, SEL_MenuHandler handler);
+            unsigned int getWidth();
+            unsigned int getHeight();
+            CCMenu *getGameButton();
+            void setButtonPosition(CCPoint *position);
+            CCPoint *getButtonPosition();
 
-        private:
-            void addButton(GameButton *button, unsigned int width, unsigned int height);
-            std::map<GameButton *, CCPoint> _buttons;
-            std::vector<GameButton *> _buttonsOrder;
+        protected:
+            unsigned int _id;
+            unsigned int _width;
+            unsigned int _height;
+            std::string _image;
+            CCPoint *_position;
+            SEL_MenuHandler _handler;
+            CCObject* _target;
+            CCMenu *_button;
         };
 
     }

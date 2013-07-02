@@ -79,6 +79,7 @@ void GUIUpdater::update(CCPoint playerPosition)
 //
 void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
 {
+    //std::cout << spriteMove->getGameObjectId() << "\n";
     return;
 }
 
@@ -86,6 +87,7 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
 //
 void GUIUpdater::updateSpriteTeleport(Backend::GSCSpriteTeleport *spriteTeleport, CCPoint playerPosition)
 {
+    //std::cout << spriteTeleport->getGameObjectId() << "\n";
     CCPoint teleportPosition = ccp( spriteTeleport->getPosition().x, spriteTeleport->getPosition().y);
     _player->setPosition(teleportPosition);
     _map->addToPosition(ccpSub(playerPosition, teleportPosition));

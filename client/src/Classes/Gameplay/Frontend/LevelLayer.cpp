@@ -4,6 +4,8 @@
 #include "../Backend/Bomber.h"
 #include "GameButton.h"
 #include "GUIUpdater.h"
+#include "ButtonLayer.h"
+#include "ControlButton.h"
 
 using namespace Bomber;
 using namespace Bomber::Frontend;
@@ -52,25 +54,26 @@ bool LevelLayer::init()
 
     /**
     */
-    GameButton *gb = new GameButton();
 
-    // Add the GameButton Quit as a child layer.
-    this->addChild(
-        gb->createButton(
-            this,
-            menu_selector(LevelLayer::menuCloseCallback)
-        ),
-        1
+    // Quit Button
+    ControlButton *cbQuit = new ControlButton(
+        0,
+        "CloseNormal.png",
+        this,
+        menu_selector(LevelLayer::menuCloseCallback)
     );
+    ButtonLayer::getInstance()->addToControls(cbQuit);
+    this->addChild(cbQuit->getGameButton(), 1);
 
-    // Add the GameButton Pause/Resume as a child layer.
-    this->addChild(
-        gb->createButton(
-            this,
-            menu_selector(LevelLayer::menuPauseCallback)
-        ),
-        1
+    // Pause/Resume Button
+    ControlButton *cbPause = new ControlButton(
+        0,
+        "CloseNormal.png",
+        this,
+        menu_selector(LevelLayer::menuPauseCallback)
     );
+    ButtonLayer::getInstance()->addToControls(cbPause);
+    this->addChild(cbPause->getGameButton(), 1);
     /**
     */
 
