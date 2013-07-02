@@ -1,17 +1,17 @@
 
-#include "AISprite.h"
-#include "../../Constants.h"
-#include "AI/AI.h"
+#include "RandomAI.h"
+#include "AI.h"
+#include "../../../Constants.h"
 
 using namespace Bomber::Backend;
 
-AISprite::AISprite()
-:Sprite()
+RandomAI::RandomAI()
+: Sprite()
 {
     _state = STATE_NONE;
 }
 
-void AISprite::update(float dt)
+void RandomAI::update(float dt)
 {
     Coordinates goalCoords;
     Position delta;

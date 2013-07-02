@@ -138,6 +138,11 @@ void Logic::update(float dt)
         Sprite *sprite = pair.second;
         sprite->update(dt);
 
+        if (sprite->isAI() && sprite->isDirty())
+        {
+            _gameStateUpdater->logSpriteMove(sprite);
+        }
+
         auto portals = portalLayer->getObjectsAroundCoords(sprite->getCoords());
 
         for (auto object : portals)
@@ -168,11 +173,6 @@ void Logic::update(float dt)
         for (auto effect : effectsToDestroy)
         {
             _gameStateUpdater->destroyEffect(effect);
-        }
-
-        if (sprite->isAI() && sprite->isDirty())
-        {
-            _gameStateUpdater->logSpriteMove(sprite);
         }
     }
 

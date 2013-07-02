@@ -8,6 +8,11 @@ namespace Bomber
 {
     namespace Backend
     {
+        enum TAIType
+        {
+            AI_RANDOM,
+        };
+
         class AI
         {
             public:
