@@ -13,6 +13,9 @@ RandomAI::RandomAI()
 
 void RandomAI::update(float dt)
 {
+    // TODO in movement respects player's attributes like speed
+    //      this->getAttributes()->getSpeed();
+
     Coordinates goalCoords;
     Position delta;
     Position nextPos;
@@ -23,7 +26,7 @@ void RandomAI::update(float dt)
             goalCoords = AI::getInstance()->getRandomCoordsAround(this->getCoords());
             _goal = Position(goalCoords.x*TILE_WIDTH, goalCoords.y*TILE_HEIGHT);
             _state = STATE_MOVING;
-            break;
+            //break;
 
         case STATE_MOVING:
             delta = _goal - _position;
