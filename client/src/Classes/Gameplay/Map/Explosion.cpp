@@ -21,8 +21,8 @@ ExplosionCache::ExplosionCache()
         emitter->retain();
         emitter->setTexture(CCTextureCache::sharedTextureCache()->addImage("particles/fire.png"));
         emitter->initWithTotalParticles(150);
-        emitter->setStartSize(20.0f);
-        emitter->setLife(2);
+        emitter->setStartSize(50.0f);
+        emitter->setLife(1);
         emitter->setLifeVar(1);
         //emitter->setSpeed(60);
         //emitter->setSpeedVar(20);
