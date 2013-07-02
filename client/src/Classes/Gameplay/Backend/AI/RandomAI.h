@@ -19,7 +19,7 @@ namespace Bomber
             public:
                 RandomAI();
                 void update(float dt);
-                inline virtual bool isAI() { return false; };
+                inline virtual bool isAI() { return true; };
 
             private:
                 TRandomAIState _state;
