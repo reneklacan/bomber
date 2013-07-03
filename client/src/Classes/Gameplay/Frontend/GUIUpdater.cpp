@@ -15,6 +15,7 @@ void GUIUpdater::init( Map* map, Human* player, CCLayer* layer)
     _map = map;
     _player = player;
     _layer = layer;
+    _mobs.clear();
 }
 
 //
@@ -80,6 +81,46 @@ void GUIUpdater::update(CCPoint playerPosition)
 void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
 {
     //std::cout << spriteMove->getGameObjectId() << "\n";
+    if(spriteMove->getGameObjectId() == _player->getID())
+    {
+        // Do nothing
+        return;
+    }
+
+    // Sprite is already initialized
+    if( _mobs.find(spriteMove->getGameObjectId()) != _mobs.end() )
+    {
+        _mobs[spriteMove->getGameObjectId()]->setPosition(
+                    ccp (
+                        spriteMove->getPosition().x,
+                        spriteMove->getPosition().y
+                    )
+                );
+    }
+    // First occurence of a sprite
+    else
+    {
+        CCTMXLayer *spritesLayer = _map->getTiledMap()->layerNamed("sprites");
+        CCPoint mobTilePosition = ccp(
+                                spriteMove->getGameObjectId() % _map->getWidth(),
+                                _map->getHeight() - spriteMove->getGameObjectId() / _map->getWidth() - 1
+                            ); 
+        int spriteGID = spritesLayer->tileGIDAt(mobTilePosition);
+        if(spriteGID != 0)  // Not empty
+        {
+            _mobs[spriteMove->getGameObjectId()] = spritesLayer->tileAt(mobTilePosition);
+        }
+    }
+    //std::cout << spriteMove->getPosition().x << " " << spriteMove->getPosition().y << "\n";
+
+    /*for(int i = 0; i < _map->getWidth(); i++)
+    {
+        for(int j = 0; j < _map->getHeight(); j++)
+        {
+            std::cout << "[" << i << ", " << j << "]: " << spritesLayer->tileGIDAt( ccp( i, j ) ) << "\n";
+        }
+    }*/
+
     return;
 }
 
@@ -87,7 +128,6 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
 //
 void GUIUpdater::updateSpriteTeleport(Backend::GSCSpriteTeleport *spriteTeleport, CCPoint playerPosition)
 {
-    //std::cout << spriteTeleport->getGameObjectId() << "\n";
     CCPoint teleportPosition = ccp( spriteTeleport->getPosition().x, spriteTeleport->getPosition().y);
     _player->setPosition(teleportPosition);
     _map->addToPosition(ccpSub(playerPosition, teleportPosition));

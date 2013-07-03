@@ -22,6 +22,8 @@ class Human : public GameSprite, public GameActionDelegate
         void actionTwo();
         void actionThree();
         void plantBomb();
+
+    private:
 };
 
 #endif

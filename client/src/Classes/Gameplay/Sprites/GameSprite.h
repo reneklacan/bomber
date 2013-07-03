@@ -23,6 +23,12 @@ class GameSprite : public CCSprite
         virtual void logInfo();
         virtual CCPoint getTilemapPosition();
 
+        virtual void setID(unsigned int id) { _id = id; }
+        virtual unsigned int getID() { return _id; }
+
+    protected:
+        unsigned int _id;
+
     private:
 };
 

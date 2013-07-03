@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 
+#include <vector>
+
 #include "../Map/Map.h"
 #include "../Map/Bomb.h"
 #include "../Map/Explosion.h"
@@ -38,6 +40,7 @@ namespace Bomber
             Map* _map;
             Human* _player;
             CCLayer * _layer;
+            std::map<unsigned int, CCSprite *> _mobs;
         };
     }
 }

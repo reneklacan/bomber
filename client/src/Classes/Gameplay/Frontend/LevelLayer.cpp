@@ -44,6 +44,8 @@ bool LevelLayer::init()
     controlledSprite->setSize(10, 10);
     gameState->getSpriteLayer()->addObject(controlledSprite);
 
+    _player->setID(19991);
+
     Backend::Mediator::getInstance()->setControlledSprite(controlledSprite->getId());
     GUIUpdater::getInstance()->init(_map, _player, this);
 
