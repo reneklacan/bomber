@@ -31,7 +31,11 @@ void RandomAI::update(float dt)
         case STATE_MOVING:
             delta = _goal - _position;
 
-            if (delta < 2.0f && delta > -0.2f)
+            if (delta.x > TILE_WIDTH + 1 || delta.y > TILE_HEIGHT + 1)
+            {
+                _state = STATE_NONE;
+            }
+            else if (delta < 2.0f && delta > -0.2f)
             {
                 _state = STATE_NONE;
             }
