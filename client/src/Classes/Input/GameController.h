@@ -7,10 +7,10 @@
 
 using namespace cocos2d;
 
-class GameController : public CCLayer, public ActionDispatcher
+class GameController : public Layer, public ActionDispatcher
 {
     public:
-        CC_SYNTHESIZE(CCPoint, _velocity, Velocity);
+        CC_SYNTHESIZE(Point, _velocity, Velocity);
         CC_SYNTHESIZE(bool, _enabled, Enabled);
 
         //virtual bool init() = 0;

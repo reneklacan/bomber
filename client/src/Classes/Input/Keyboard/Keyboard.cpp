@@ -2,7 +2,7 @@
 
 bool Keyboard::init()
 {
-    if (!CCLayer::init())
+    if (!Layer::init())
         return false;
 
 #ifndef ANDROID

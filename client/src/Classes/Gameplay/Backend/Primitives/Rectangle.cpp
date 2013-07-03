@@ -1,6 +1,8 @@
 
 #include "Rectangle.h"
 
+using namespace Bomber::Backend;
+
 Rectangle::Rectangle(int x, int y, int width, int height)
 {
     this->x = x;

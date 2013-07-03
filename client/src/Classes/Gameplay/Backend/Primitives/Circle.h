@@ -1,12 +1,18 @@
 #ifndef __BOMBER_CIRCLE
 #define __BOMBER_CIRCLE
 
-struct Circle
+namespace Bomber
 {
-    Circle(Position &p, Size &s)
+    namespace Backend
     {
+        struct Circle
+        {
+            Circle(Position &p, Size &s)
+            {
 
+            }
+        };
     }
-};
+}
 
 #endif

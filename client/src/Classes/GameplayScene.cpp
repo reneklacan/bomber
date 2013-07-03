@@ -14,11 +14,11 @@ GameplayScene::GameplayScene()
 {
 }
 
-CCScene* GameplayScene::scene()
+Scene* GameplayScene::scene()
 {
-	CCScene * scene = NULL;
+	Scene * scene = NULL;
     // 'scene' is an autorelease object
-    scene = CCScene::create();
+    scene = Scene::create();
     if (!scene)
         return NULL;
 
@@ -41,7 +41,7 @@ bool GameplayScene::init()
     this->addChild(_levelLayer);
 
     // Create a "close" menu item with close icon, it's an auto release object.
-    CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
+    MenuItemImage *pCloseItem = MenuItemImage::create(
             "CloseNormal.png",
             "CloseSelected.png",
             this,
@@ -50,8 +50,8 @@ bool GameplayScene::init()
     if (!pCloseItem)
         return false;
 
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    Size visibleSize = Director::sharedDirector()->getVisibleSize();
+    Point origin = Director::sharedDirector()->getVisibleOrigin();
     
     pCloseItem->setPosition(
             ccp(
@@ -61,35 +61,35 @@ bool GameplayScene::init()
     );
 
     // Create a menu with the "close" menu item, it's an auto release object.
-    CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
-    pMenu->setPosition(CCPointZero);
+    Menu* pMenu = Menu::create(pCloseItem, NULL);
+    pMenu->setPosition(PointZero);
     if (!pMenu)
         return false;
 
     // Add the menu to GameplayScene layer as a child layer.
 }
 
-void GameplayScene::menuCloseCallback(CCObject* pSender)
+void GameplayScene::menuCloseCallback(Object* pSender)
 {
 	// "close" menu item clicked
-	CCDirector::sharedDirector()->end();
+	Director::sharedDirector()->end();
 }
 
 
 /*
-void GameplayScene::ccTouchesMoved(CCSet* touches, CCEvent* event)
+void GameplayScene::ccTouchesMoved(Set* touches, Event* event)
 {
-    CCTouch *touch = (CCTouch*)touches->anyObject();
-    CCPoint diff = touch->getDelta();
+    Touch *touch = (Touch*)touches->anyObject();
+    Point diff = touch->getDelta();
     
     CCNode* node = getChildByTag(7);
-    CCPoint currentPos = node->getPosition();
+    Point currentPos = node->getPosition();
     node->setPosition( ccpAdd(currentPos, diff) );
 }
 */
 
 // cpp with cocos2d-x
-void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
+void GameplayScene::ccTouchesEnded(Set* touches, Event* event)
 {
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("pew-pew-lei.wav");
 }
@@ -97,6 +97,6 @@ void GameplayScene::ccTouchesEnded(CCSet* touches, CCEvent* event)
 
 void GameplayScene::registerWithTouchDispatcher()
 {
-	// CCTouchDispatcher::sharedDispatcher()->addTargetedDelegate(this,0,true);
-    CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);
+	// TouchDispatcher::sharedDispatcher()->addTargetedDelegate(this,0,true);
+    Director::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);
 }

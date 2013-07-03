@@ -8,12 +8,12 @@
 
 #define THUMB_RADIUS 26.0f
 
-static CCPoint convertCoordinate(CCPoint point)
+static Point convertCoordinate(Point point)
 {
-    return CCDirector::sharedDirector()->convertToGL(point);
+    return Director::sharedDirector()->convertToGL(point);
 }
 
-static bool isPointInCircle(CCPoint point, CCPoint center, float radius)
+static bool isPointInCircle(Point point, Point center, float radius)
 {
     float dx = (point.x - center.x);
     float dy = (point.y - center.y);
@@ -22,26 +22,26 @@ static bool isPointInCircle(CCPoint point, CCPoint center, float radius)
 
 bool Joystick::init()
 {
-    _kCenter=CCPoint(JOYSTICK_RADIUS + JOYSTICK_OFFSET_X, JOYSTICK_RADIUS + JOYSTICK_OFFSET_Y);
+    _kCenter = Point(JOYSTICK_RADIUS + JOYSTICK_OFFSET_X, JOYSTICK_RADIUS + JOYSTICK_OFFSET_Y);
 
-    if (!CCLayer::init())
+    if (!Layer::init())
         return false;
 
     this->setTouchEnabled(true);
-    _velocity = CCPointZero;
+    _velocity = PointZero;
 
-    CCSprite *bg = CCSprite::create("joystick_background.png");
+    Sprite *bg = Sprite::create("joystick_background.png");
     bg->setPosition(_kCenter);
     this->addChild(bg, 0);
 
-    _thumb = CCSprite::create("joystick_thumb.png");
+    _thumb = Sprite::create("joystick_thumb.png");
     _thumb->setPosition(_kCenter);
     this->addChild(_thumb, 1);
 
     return true;
 }
 
-void Joystick::updateVelocity(CCPoint point)
+void Joystick::updateVelocity(Point point)
 {
     // calculate Angle and length
     float dx = point.x - _kCenter.x;
@@ -83,10 +83,10 @@ bool Joystick::handleLastTouch()
     return (wasPressed ? true : false);
 }
 
-void Joystick::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
+void Joystick::ccTouchesBegan(Set *pTouches, Event *pEvent)
 {
-    CCTouch *touch = (CCTouch*)pTouches->anyObject();
-    CCPoint point = touch->getLocationInView();
+    Touch *touch = (Touch*)pTouches->anyObject();
+    Point point = touch->getLocationInView();
     point = convertCoordinate(point);
 
     if (isPointInCircle(point, _kCenter, JOYSTICK_RADIUS))
@@ -95,7 +95,7 @@ void Joystick::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
         this->updateVelocity(point);
     }
 
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    Size visibleSize = Director::sharedDirector()->getVisibleSize();
 
     if (point.x > visibleSize.width/2)
     {
@@ -103,23 +103,23 @@ void Joystick::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
     }
 }
 
-void Joystick::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
+void Joystick::ccTouchesMoved(Set *pTouches, Event *pEvent)
 {
     if (_isPressed)
     {
-        CCTouch *touch = (CCTouch*)pTouches->anyObject();
-        CCPoint point = touch->getLocationInView();
+        Touch *touch = (Touch*)pTouches->anyObject();
+        Point point = touch->getLocationInView();
         point = convertCoordinate(point);
         this->updateVelocity(point);
     }
 }
 
-void Joystick::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent)
+void Joystick::ccTouchCancelled(Touch *pTouch, Event *pEvent)
 {
     this->handleLastTouch();
 }
 
-void Joystick::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
+void Joystick::ccTouchesEnded(Set *pTouches, Event *pEvent)
 {
     this->handleLastTouch();
 }

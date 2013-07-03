@@ -30,10 +30,10 @@ void ButtonLayer::addToAchievementss(GameButton *achievement)
 //
 void ButtonLayer::addToControls(GameButton *control)
 {
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    Size visibleSize = Director::sharedDirector()->getVisibleSize();
+    Point origin = Director::sharedDirector()->getVisibleOrigin();
 
-    CCPoint *last = new CCPoint();
+    Point *last = new Point();
     last->x = origin.x + visibleSize.width;
     last->y = origin.y + visibleSize.height;
 
@@ -42,7 +42,7 @@ void ButtonLayer::addToControls(GameButton *control)
         last = _controls.back()->getButtonPosition();
     }
 
-    CCPoint *next = new CCPoint();
+    Point *next = new Point();
     next->x = last->x - control->getWidth();
     next->y = origin.y + visibleSize.height - control->getHeight(); 
 

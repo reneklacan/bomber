@@ -4,25 +4,31 @@
 #include "Position.h"
 #include "Size.h"
 
-class Rectangle
+namespace Bomber
 {
-    public:
-        float x;
-        float y;
-        float width;
-        float height;
-        Position center;
+    namespace Backend
+    {
+        class Rectangle
+        {
+            public:
+                float x;
+                float y;
+                float width;
+                float height;
+                Position center;
 
-        Rectangle(int x, int y, int width, int height);
-        Rectangle(float x, float y, int width, int height);
-        Rectangle(float x, float y, float width, float height);
-        Rectangle(Position p, Size s);
+                Rectangle(int x, int y, int width, int height);
+                Rectangle(float x, float y, int width, int height);
+                Rectangle(float x, float y, float width, float height);
+                Rectangle(Position p, Size s);
 
-        bool operator==(const Rectangle &other) const;
+                bool operator==(const Rectangle &other) const;
 
-        Position &getCenterPosition();
-        void calculateCenterPosition();
-        bool isIntersecting(Rectangle r);
-};
+                Position &getCenterPosition();
+                void calculateCenterPosition();
+                bool isIntersecting(Rectangle r);
+        };
+    }
+}
 
 #endif

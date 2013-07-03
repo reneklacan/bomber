@@ -9,7 +9,7 @@
 
 using namespace cocos2d;
 
-class ControlLayer: public CCLayer, ActionDispatcher
+class ControlLayer: public Layer, ActionDispatcher
 {
     public:
         CC_SYNTHESIZE(GameSprite *, _controlledSprite, ControlledSprite);

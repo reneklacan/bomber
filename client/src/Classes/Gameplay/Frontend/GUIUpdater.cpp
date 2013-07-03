@@ -10,7 +10,7 @@ GUIUpdater *GUIUpdater::getInstance()
 }
 
 //
-void GUIUpdater::init( Map* map, Human* player, CCLayer* layer)
+void GUIUpdater::init( Map* map, Human* player, Layer* layer)
 {
     _map = map;
     _player = player;
@@ -19,7 +19,7 @@ void GUIUpdater::init( Map* map, Human* player, CCLayer* layer)
 }
 
 //
-void GUIUpdater::update(CCPoint playerPosition)
+void GUIUpdater::update(Point playerPosition)
 {
     Backend::GameState* state = Backend::Mediator::getInstance()->getState();
     auto changes = state->getChangesFromId(_lastChangeID);
@@ -100,8 +100,8 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
     // First occurence of a sprite
     else
     {
-        CCTMXLayer *spritesLayer = _map->getTiledMap()->layerNamed("sprites");
-        CCPoint mobTilePosition = ccp(
+        TMXLayer *spritesLayer = _map->getTiledMap()->layerNamed("sprites");
+        Point mobTilePosition = ccp(
                                 spriteMove->getGameObjectId() % _map->getWidth(),
                                 _map->getHeight() - spriteMove->getGameObjectId() / _map->getWidth() - 1
                             ); 
@@ -126,9 +126,9 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
 
 
 //
-void GUIUpdater::updateSpriteTeleport(Backend::GSCSpriteTeleport *spriteTeleport, CCPoint playerPosition)
+void GUIUpdater::updateSpriteTeleport(Backend::GSCSpriteTeleport *spriteTeleport, Point playerPosition)
 {
-    CCPoint teleportPosition = ccp( spriteTeleport->getPosition().x, spriteTeleport->getPosition().y);
+    Point teleportPosition = ccp( spriteTeleport->getPosition().x, spriteTeleport->getPosition().y);
     _player->setPosition(teleportPosition);
     _map->addToPosition(ccpSub(playerPosition, teleportPosition));
     return;
@@ -137,8 +137,8 @@ void GUIUpdater::updateSpriteTeleport(Backend::GSCSpriteTeleport *spriteTeleport
 //
 void GUIUpdater::updateBombSpawn(Backend::GSCBombSpawn *bombSpawn)
 {
-    CCPoint bombSpawnPosition = ccp( bombSpawn->getPosition().x, bombSpawn->getPosition().y);
-    CCPoint tilemapPosition = _player->getTilemapPosition(); // WARNING
+    Point bombSpawnPosition = ccp( bombSpawn->getPosition().x, bombSpawn->getPosition().y);
+    Point tilemapPosition = _player->getTilemapPosition(); // WARNING
     Bomb *bomb = Bomb::create(_map, _player);
     bomb->setPosition(bombSpawnPosition);
     bomb->setTilemapPosition( ccp(tilemapPosition.x, tilemapPosition.y) );
@@ -159,7 +159,7 @@ void GUIUpdater::updateBombDestroy(Backend::GSCBombDestroy *bombDestroy)
 //
 void GUIUpdater::updateObstacleDestroy(Backend::GSCObstacleDestroy *obstacleDestroy)
 {
-    CCTMXLayer *obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
+    TMXLayer *obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
     obstaclesLayer->removeTileAt(
         ccp( 
             obstacleDestroy->getGameObjectId() % _map->getWidth(), 
@@ -171,7 +171,7 @@ void GUIUpdater::updateObstacleDestroy(Backend::GSCObstacleDestroy *obstacleDest
 //
 void GUIUpdater::updateExplosionSpawn(Backend::GSCExplosionSpawn *explosionSpawn)
 {
-    CCPoint epicentrum = ccp(explosionSpawn->getEpicentrum().x, explosionSpawn->getEpicentrum().y);
+    Point epicentrum = ccp(explosionSpawn->getEpicentrum().x, explosionSpawn->getEpicentrum().y);
     Explosion *explosion = new Explosion(
         epicentrum,
         explosionSpawn->getLeftArmLength(),

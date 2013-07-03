@@ -24,10 +24,10 @@ LevelLayer::~LevelLayer()
 
 bool LevelLayer::init()
 {
-    CCDirector::sharedDirector()->setDepthTest(true);
-    CCDirector::sharedDirector()->setProjection(kCCDirectorProjection2D);
+    Director::sharedDirector()->setDepthTest(true);
+    Director::sharedDirector()->setProjection(kDirectorProjection2D);
 
-    if (!CCLayer::init())
+    if (!Layer::init())
         return false;
 
     _map = Map::create();
@@ -81,8 +81,8 @@ bool LevelLayer::init()
 
     _map->addChild(_player, 1);
 
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    Size visibleSize = Director::sharedDirector()->getVisibleSize();
+    Point origin = Director::sharedDirector()->getVisibleOrigin();
     
     //_player = (GameSprite *) layer->tileAt(ccp(0, 5));
     //_player = GameSprite::gameSpriteWithFile("tiles/timmy.png");
@@ -130,7 +130,7 @@ bool LevelLayer::init()
 
 void LevelLayer::repositionSprite(float dt)
 {
-    CCPoint p = _player->getPosition();
+    Point p = _player->getPosition();
     //p = CC_POINT_POINTS_TO_PIXELS(p);
     int z = -( (p.y+100.5) /81 ) + 0;
     _player->setVertexZ( z );
@@ -138,23 +138,23 @@ void LevelLayer::repositionSprite(float dt)
 
 void LevelLayer::updateGame(float dt)
 {
-    CCRect objRect;
+    Rect objRect;
     bool collisionOccured = false;
     bool collisionOccuredX = false;
     bool collisionOccuredY = false;
 
-    CCPoint currentPos = _player->getPosition();
-    CCPoint nextPos = _player->getNextPosition();
-    CCPoint nextPosX = ccp(nextPos.x, currentPos.y);
-    CCPoint nextPosY = ccp(currentPos.x, nextPos.y);
+    Point currentPos = _player->getPosition();
+    Point nextPos = _player->getNextPosition();
+    Point nextPosX = ccp(nextPos.x, currentPos.y);
+    Point nextPosY = ccp(currentPos.x, nextPos.y);
 
-    CCRect playerRect = _player->getCollisionBox();
-    CCRect playerRectX = _player->getCollisionBox(nextPosX);
-    CCRect playerRectY = _player->getCollisionBox(nextPosY);
+    Rect playerRect = _player->getCollisionBox();
+    Rect playerRectX = _player->getCollisionBox(nextPosX);
+    Rect playerRectY = _player->getCollisionBox(nextPosY);
 
-    CCTMXLayer *obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
+    TMXLayer *obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
 
-    CCPoint tilemapPosition = _player->getTilemapPosition();
+    Point tilemapPosition = _player->getTilemapPosition();
 
     for (int iy = tilemapPosition.y - 1; iy <= tilemapPosition.y + 1; iy++)
     {
@@ -201,24 +201,24 @@ void LevelLayer::updateGame(float dt)
 }
 
 //
-void LevelLayer::menuCloseCallback(CCObject* pSender)
+void LevelLayer::menuCloseCallback(Object* pSender)
 {
     // "close" menu item clicked
-    CCDirector::sharedDirector()->end();
+    Director::sharedDirector()->end();
 }
 
 //
-void LevelLayer::menuPauseCallback(CCObject* pSender)
+void LevelLayer::menuPauseCallback(Object* pSender)
 {
     // "pause/resume" menu item clicked
     if(_gamePaused)
     {
-        CCDirector::sharedDirector()->resume();
+        Director::sharedDirector()->resume();
         _gamePaused = false;
     }
     else
     {
-        CCDirector::sharedDirector()->pause();
+        Director::sharedDirector()->pause();
         _gamePaused = true;
     }
 }

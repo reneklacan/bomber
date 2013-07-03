@@ -13,14 +13,14 @@ Map::~Map()
 //
 bool Map::init()
 {
-    if (!CCLayer::init())
+    if (!Layer::init())
         return false;
 
-    _tiledMap = CCTMXTiledMap::create("tiles/level_name.tmx");
+    _tiledMap = TMXTiledMap::create("tiles/level_name.tmx");
     this->addChild(_tiledMap, 0, 7);
     _tiledMap->setPosition(ccp(0, 0));
 
-    CCSize mapSize = _tiledMap->getMapSize();
+    Size mapSize = _tiledMap->getMapSize();
     _width = (int) mapSize.width;
     _height = (int) mapSize.height;
 
@@ -28,19 +28,19 @@ bool Map::init()
 }
 
 //
-void Map::addToPosition(CCPoint point)
+void Map::addToPosition(Point point)
 {
     this->setPosition(ccpAdd(this->getPosition(), point));
 }
 
 //
-void Map::addBomb(unsigned int key, CCObject* bomb)
+void Map::addBomb(unsigned int key, Object* bomb)
 {
     _spawnedBombs[key] = bomb;
 }
 
 //
-CCObject *Map::getBomb(unsigned int key)
+Object *Map::getBomb(unsigned int key)
 {
     return _spawnedBombs[key];
 }

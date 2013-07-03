@@ -10,20 +10,20 @@ class ExplosionCache
     public:
         int _counter;
         int _cacheSize;
-        CCParticleSun *_emitters[4];
+        ParticleSun *_emitters[4];
         static ExplosionCache *_instance;
 
         static ExplosionCache *getInstance();
 
         ExplosionCache();
-        CCParticleSun *getEmitter();
+        ParticleSun *getEmitter();
 };
 
 
-class Explosion : public CCNode
+class Explosion : public Node
 {
     public:
-        Explosion(CCPoint epicentrum, int powerLeft, int powerRight, int powerTop, int powerBottom);
+        Explosion(Point epicentrum, int powerLeft, int powerRight, int powerTop, int powerBottom);
 };
 
 

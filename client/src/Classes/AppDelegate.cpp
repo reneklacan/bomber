@@ -15,20 +15,20 @@ AppDelegate::~AppDelegate()
 
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
-    CCDirector *pDirector = CCDirector::sharedDirector();
+    Director *pDirector = Director::sharedDirector();
     
-    pDirector->setOpenGLView(CCEGLView::sharedOpenGLView());
+    pDirector->setOpenGLView(EGLView::sharedOpenGLView());
     
-    CCSize screenSize = CCEGLView::sharedOpenGLView()->getFrameSize();
-    //CCSize designSize = CCSizeMake(1600, 900);
-    CCSize designSize = CCSizeMake(12*101, 12*81);
+    Size screenSize = EGLView::sharedOpenGLView()->getFrameSize();
+    //Size designSize = CCSizeMake(1600, 900);
+    Size designSize = CCSizeMake(12*101, 12*81);
     std::vector<std::string> searchPaths;
     
     if (screenSize.height > 320)
     {
         searchPaths.push_back("hd");
         searchPaths.push_back("sd");
-        CCSize resourceSize = CCSizeMake(12*101, 12*81);
+        Size resourceSize = CCSizeMake(12*101, 12*81);
         //pDirector->setContentScaleFactor(960.0f/designSize.height);
         ///pDirector->setContentScaleFactor(1.0f);
         pDirector->setContentScaleFactor(resourceSize.height/designSize.height);
@@ -39,9 +39,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
         pDirector->setContentScaleFactor(640.0f/designSize.height);
     }
     
-    CCFileUtils::sharedFileUtils()->setSearchPaths(searchPaths);
+    FileUtils::sharedFileUtils()->setSearchPaths(searchPaths);
     
-    CCEGLView::sharedOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, kResolutionNoBorder);
+    EGLView::sharedOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, kResolutionNoBorder);
 
     // turn on display FPS
     pDirector->setDisplayStats(true);
@@ -50,8 +50,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     pDirector->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-    //CCScene *pScene = GameplayScene::scene();
-    CCScene *pScene = MainMenuLayer::scene();
+    //Scene *pScene = GameplayScene::scene();
+    Scene *pScene = MainMenuLayer::scene();
 
     // run
     pDirector->runWithScene(pScene);
@@ -62,7 +62,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
 void AppDelegate::applicationDidEnterBackground()
 {
-    CCDirector::sharedDirector()->stopAnimation();
+    Director::sharedDirector()->stopAnimation();
 
     // if you use SimpleAudioEngine, it must be pause
     // SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
@@ -71,7 +71,7 @@ void AppDelegate::applicationDidEnterBackground()
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground()
 {
-    CCDirector::sharedDirector()->startAnimation();
+    Director::sharedDirector()->startAnimation();
 
     // if you use SimpleAudioEngine, it must resume here
     // SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();

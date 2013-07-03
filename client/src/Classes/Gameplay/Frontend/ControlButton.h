@@ -11,7 +11,7 @@ namespace Bomber
         class ControlButton : public GameButton
         {
         public:
-            ControlButton(unsigned int id, std::string image, CCObject* target, SEL_MenuHandler hadler);
+            ControlButton(unsigned int id, std::string image, Object* target, SEL_MenuHandler hadler);
         };
     }
 }

@@ -16,19 +16,19 @@ namespace Bomber
 
             unsigned int getWidth();
             unsigned int getHeight();
-            CCMenu *getGameButton();
-            void setButtonPosition(CCPoint *position);
-            CCPoint *getButtonPosition();
+            Menu *getGameButton();
+            void setButtonPosition(Point *position);
+            Point *getButtonPosition();
 
         protected:
             unsigned int _id;
             unsigned int _width;
             unsigned int _height;
             std::string _image;
-            CCPoint *_position;
+            Point *_position;
             SEL_MenuHandler _handler;
-            CCObject* _target;
-            CCMenu *_button;
+            Object* _target;
+            Menu *_button;
         };
 
     }

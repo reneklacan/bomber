@@ -23,14 +23,14 @@ namespace Bomber
         public:
             static GUIUpdater *getInstance();
 
-            void init( Map* map, Human* player, CCLayer* layer);
-            void update(CCPoint playerPosition);
+            void init( Map* map, Human* player, Layer* layer);
+            void update(Point playerPosition);
 
         private:
             GUIUpdater(): _lastChangeID(0) {};
 
             void updateSpriteMove(Backend::GSCSpriteMove *spriteMove);
-            void updateSpriteTeleport(Backend::GSCSpriteTeleport *spriteTeleport, CCPoint playerPosition);
+            void updateSpriteTeleport(Backend::GSCSpriteTeleport *spriteTeleport, Point playerPosition);
             void updateBombSpawn(Backend::GSCBombSpawn *bombSpawn);
             void updateBombDestroy(Backend::GSCBombDestroy *bombDestroy);
             void updateObstacleDestroy(Backend::GSCObstacleDestroy *obstacleDestroy);
@@ -39,8 +39,8 @@ namespace Bomber
             unsigned int _lastChangeID;
             Map* _map;
             Human* _player;
-            CCLayer * _layer;
-            std::map<unsigned int, CCSprite *> _mobs;
+            Layer * _layer;
+            std::map<unsigned int, Sprite *> _mobs;
         };
     }
 }

@@ -12,8 +12,6 @@
 #include "PortalExit.h"
 #include "Effect.h"
 
-using namespace cocos2d;
-
 namespace Bomber
 {
     namespace Backend
@@ -24,7 +22,7 @@ namespace Bomber
                 GameState(unsigned int width, unsigned int height);
                 ~GameState();
 
-                void init(CCTMXTiledMap *tiledMap);
+                void init(cocos2d::TMXTiledMap *tiledMap);
 
                 std::pair< unsigned int, std::vector<GameStateChange *> > getChangesFromId(unsigned int id);
                 void deleteChangesToId(unsigned int id);

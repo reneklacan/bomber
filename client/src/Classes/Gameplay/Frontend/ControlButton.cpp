@@ -2,7 +2,7 @@
 
 using namespace Bomber::Frontend;
 
-ControlButton::ControlButton(unsigned int id, std::string image, CCObject* target, SEL_MenuHandler handler)
+ControlButton::ControlButton(unsigned int id, std::string image, Object* target, SEL_MenuHandler handler)
 {
     _id = id;
     _image = image;
@@ -11,7 +11,7 @@ ControlButton::ControlButton(unsigned int id, std::string image, CCObject* targe
     _button = NULL;
     do 
     {
-        CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
+        MenuItemImage *pCloseItem = MenuItemImage::create(
             image.c_str(),
             image.c_str(),
             target,
@@ -27,8 +27,8 @@ ControlButton::ControlButton(unsigned int id, std::string image, CCObject* targe
         pCloseItem->setPosition( ccp(0, 0) );
 
         // Add Control button, it is an auto release object.
-        _button = CCMenu::create(pCloseItem, NULL);
-        _button->setPosition(CCPointZero);
+        _button = Menu::create(pCloseItem, NULL);
+        _button->setPosition(PointZero);
         CC_BREAK_IF(! _button);
     }
     while(0);

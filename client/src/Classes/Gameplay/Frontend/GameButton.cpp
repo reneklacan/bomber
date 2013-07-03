@@ -15,20 +15,20 @@ unsigned int GameButton::getHeight()
 }
 
 //
-CCMenu *GameButton::getGameButton()
+Menu *GameButton::getGameButton()
 {
     return _button;
 }
 
 //
-void GameButton::setButtonPosition(CCPoint *position)
+void GameButton::setButtonPosition(Point *position)
 {
     _position = position;
     _button->setPosition(*_position);
 }
 
 //
-CCPoint *GameButton::getButtonPosition()
+Point *GameButton::getButtonPosition()
 {
     return _position;
 }

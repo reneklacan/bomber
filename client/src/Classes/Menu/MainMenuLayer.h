@@ -5,19 +5,19 @@
 
 using namespace cocos2d;
 
-class MainMenuLayer : public CCLayer
+class MainMenuLayer : public Layer
 {
     public:
         CREATE_FUNC(MainMenuLayer);
 
         MainMenuLayer();
         ~MainMenuLayer();
-        static CCScene* scene();
+        static Scene* scene();
         virtual bool init();
         void registerWithTouchDispatcher();
 
     private:
-        void newGame(CCObject *sender);
+        void newGame(Object *sender);
 };
 
 #endif

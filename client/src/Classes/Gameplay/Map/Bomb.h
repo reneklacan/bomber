@@ -11,7 +11,7 @@ class Bomb : public GameSprite
     public:
         CC_SYNTHESIZE(GameSprite *, _owner, Owner);
         CC_SYNTHESIZE(Map *, _map, Map);
-        CC_SYNTHESIZE(CCPoint, _tilemapPosition, TilemapPosition);
+        CC_SYNTHESIZE(Point, _tilemapPosition, TilemapPosition);
 
         Bomb() : _detonated(false) {}
 

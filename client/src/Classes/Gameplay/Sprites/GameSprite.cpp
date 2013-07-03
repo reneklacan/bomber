@@ -15,7 +15,7 @@ GameSprite::~GameSprite()
 
 bool GameSprite::init()
 {
-    if (!CCSprite::init())
+    if (!Sprite::init())
         return false;
 
     return true;
@@ -36,12 +36,12 @@ GameSprite* GameSprite::gameSpriteWithFile(const char * pszFileName)
     return NULL;
 }
 
-CCRect GameSprite::getCollisionBox()
+Rect GameSprite::getCollisionBox()
 {
     return this->getCollisionBox(_nextPosition);
 }
 
-CCRect GameSprite::getCollisionBox(CCPoint point)
+Rect GameSprite::getCollisionBox(Point point)
 {
     return CCRectMake(
             point.x - (this->getContentSize().width/2), // aww, division in every frame? :(
@@ -51,10 +51,10 @@ CCRect GameSprite::getCollisionBox(CCPoint point)
     );
 }
 
-CCPoint GameSprite::getTilemapPosition()
+Point GameSprite::getTilemapPosition()
 {
-    CCPoint pos = this->getPosition();
-    CCSize size = this->getContentSize();
+    Point pos = this->getPosition();
+    Size size = this->getContentSize();
 
     return ccp( 
         (pos.x - size.width/2 + 35.5f)/TILE_WIDTH,

@@ -14,17 +14,17 @@ public:
     virtual const char *getName() { return "Touch"; };
 
 private:
-    CCPoint _kCenter;
-    CCSprite *_thumb;
+    Point _kCenter;
+    Sprite *_thumb;
     bool _isPressed;
 
-    void updateVelocity(CCPoint point);
+    void updateVelocity(Point point);
     void resetJoystick();
     bool handleLastTouch();
-    void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
-    void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
-    void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
-    void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
+    void ccTouchesBegan(Set *pTouches, Event *pEvent);
+    void ccTouchesMoved(Set *pTouches, Event *pEvent);
+    void ccTouchCancelled(Touch *pTouch, Event *pEvent);
+    void ccTouchesEnded(Set *pTouches, Event *pEvent);
 };
 
 #endif

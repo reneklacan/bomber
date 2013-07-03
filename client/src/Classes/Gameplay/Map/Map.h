@@ -7,24 +7,24 @@
 
 using namespace cocos2d;
 
-class Map : public CCLayer
+class Map : public Layer
 {
     public:
         CC_SYNTHESIZE(int, _width, Width);
         CC_SYNTHESIZE(int, _height, Height);
-        CC_SYNTHESIZE(CCDictionary *, _portals, Portals);
-        CC_SYNTHESIZE(CCTMXTiledMap *, _tiledMap, TiledMap);
-        std::map<unsigned int, CCObject*> _spawnedBombs;
+        CC_SYNTHESIZE(Dictionary *, _portals, Portals);
+        CC_SYNTHESIZE(TMXTiledMap *, _tiledMap, TiledMap);
+        std::map<unsigned int, Object*> _spawnedBombs;
 
         Map();
         ~Map();
         virtual bool init();
         CREATE_FUNC(Map);
         
-        void addToPosition(CCPoint point);
+        void addToPosition(Point point);
 
-        void addBomb(unsigned int key, CCObject* bomb);
-        CCObject *getBomb(unsigned int key);
+        void addBomb(unsigned int key, Object* bomb);
+        Object *getBomb(unsigned int key);
         void removeBomb(unsigned int key);
 };
 

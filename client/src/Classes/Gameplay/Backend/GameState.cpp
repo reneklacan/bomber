@@ -5,6 +5,7 @@
 #include "../../Constants.h"
 
 using namespace Bomber::Backend;
+using namespace cocos2d;
 
 GameState::GameState(unsigned int width, unsigned int height)
 {
@@ -28,10 +29,10 @@ GameState::~GameState()
 
 }
 
-void GameState::init(CCTMXTiledMap *tiledMap)
+void GameState::init(TMXTiledMap *tiledMap)
 {
     unsigned int gid;
-    CCTMXLayer *obstacleLayer = tiledMap->layerNamed("obstacles");
+    TMXLayer *obstacleLayer = tiledMap->layerNamed("obstacles");
 
     for (int iy = 0; iy < _height; iy++)
     {
@@ -52,7 +53,7 @@ void GameState::init(CCTMXTiledMap *tiledMap)
         }
     }
 
-    CCTMXLayer *spriteLayer = tiledMap->layerNamed("sprites");
+    TMXLayer *spriteLayer = tiledMap->layerNamed("sprites");
 
     for (int iy = 0; iy < _height; iy++)
     {
@@ -74,22 +75,22 @@ void GameState::init(CCTMXTiledMap *tiledMap)
     }
 
     int id, x, y, width, height;
-    CCObject *ccObject;
-    CCDictionary *dict;
-    CCTMXObjectGroup *objectGroup;
+    Object *ccObject;
+    Dictionary *dict;
+    TMXObjectGroup *objectGroup;
 
     objectGroup = tiledMap->objectGroupNamed("portals");
-    CCArray *portals = objectGroup->getObjects();
+    Array *portals = objectGroup->getObjects();
 
     CCARRAY_FOREACH(portals, ccObject)
     {
-        dict = (CCDictionary*) ccObject;
+        dict = (Dictionary*) ccObject;
 
-        id = ((CCString*)dict->objectForKey("name"))->intValue();
-        x = ((CCString*)dict->objectForKey("x"))->intValue();
-        y = ((CCString*)dict->objectForKey("y"))->intValue();
-        width = ((CCString*)dict->objectForKey("width"))->intValue();
-        height = ((CCString*)dict->objectForKey("height"))->intValue();
+        id = ((String*)dict->objectForKey("name"))->intValue();
+        x = ((String*)dict->objectForKey("x"))->intValue();
+        y = ((String*)dict->objectForKey("y"))->intValue();
+        width = ((String*)dict->objectForKey("width"))->intValue();
+        height = ((String*)dict->objectForKey("height"))->intValue();
 
         Portal *portal = new Portal();
         portal->setId(id);
@@ -100,17 +101,17 @@ void GameState::init(CCTMXTiledMap *tiledMap)
     }
 
     objectGroup = tiledMap->objectGroupNamed("portal_exits");
-    CCArray *portalExits = objectGroup->getObjects();
+    Array *portalExits = objectGroup->getObjects();
 
     CCARRAY_FOREACH(portalExits, ccObject)
     {
-        dict = (CCDictionary*) ccObject;
+        dict = (Dictionary*) ccObject;
 
-        id = ((CCString*)dict->objectForKey("name"))->intValue();
-        x = ((CCString*)dict->objectForKey("x"))->intValue();
-        y = ((CCString*)dict->objectForKey("y"))->intValue();
-        width = ((CCString*)dict->objectForKey("width"))->intValue();
-        height = ((CCString*)dict->objectForKey("height"))->intValue();         
+        id = ((String*)dict->objectForKey("name"))->intValue();
+        x = ((String*)dict->objectForKey("x"))->intValue();
+        y = ((String*)dict->objectForKey("y"))->intValue();
+        width = ((String*)dict->objectForKey("width"))->intValue();
+        height = ((String*)dict->objectForKey("height"))->intValue();         
 
         PortalExit *portalExit = new PortalExit();
         portalExit->setId(id);

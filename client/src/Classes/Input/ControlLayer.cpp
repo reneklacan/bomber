@@ -2,7 +2,7 @@
 
 bool ControlLayer::init()
 {
-    if (!CCLayer::init())
+    if (!Layer::init())
         return false;
 
     _keyboard = NULL;
@@ -25,8 +25,8 @@ void ControlLayer::update(float dt)
     float sensitivity = 20.0f;
     float speed = _controlledSprite->getSpeed();
 
-    CCPoint pos = _controlledSprite->getPosition();
-    CCPoint velocity;
+    Point pos = _controlledSprite->getPosition();
+    Point velocity;
 
     for (GameController *controller : _enabledControllers)
     {

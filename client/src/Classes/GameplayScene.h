@@ -8,7 +8,7 @@
 
 using namespace Bomber::Frontend;
 
-class GameplayScene : public CCLayer
+class GameplayScene : public Layer
 {
 public:
 	GameplayScene();
@@ -19,17 +19,17 @@ public:
 	virtual bool init();  
 
 	// there's no 'id' in cpp, so we recommand to return the exactly class pointer
-	static cocos2d::CCScene* scene();
+	static cocos2d::Scene* scene();
 
 	// a selector callback
-	virtual void menuCloseCallback(cocos2d::CCObject* pSender);
+	virtual void menuCloseCallback(cocos2d::Object* pSender);
 
 	// implement the "static node()" method manually
 	CREATE_FUNC(GameplayScene);
 
 	void registerWithTouchDispatcher();
-	void ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
-	//void ccTouchesMoved(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
+	void ccTouchesEnded(cocos2d::Set* touches, cocos2d::Event* event);
+	//void ccTouchesMoved(cocos2d::Set* touches, cocos2d::Event* event);
 
 
 protected:
