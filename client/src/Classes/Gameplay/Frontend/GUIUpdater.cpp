@@ -95,7 +95,8 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
                         spriteMove->getPosition().y
                     )
                 );
-        _mobs[spriteMove->getGameObjectId()]->setVertexZ( (-( (spriteMove->getPosition().y + TILE_WIDTH ) / (TILE_HEIGHT) ) - 0) );
+        _mobs[spriteMove->getGameObjectId()]->setVertexZ( _player->getVertexZ() - 0.000000000001 );
+        _mobs[spriteMove->getGameObjectId()]->setZOrder( _player->getZOrder() - 0 );
     }
     // First occurence of a sprite
     else
