@@ -24,7 +24,11 @@ namespace Bomber
                 void increaseBombCapacity() { _bombCapacity += 1; };
                 void decreaseBombCapacity() { _bombCapacity -= 1; };
                 void increaseSpeed() { _speed += 30; };
-                void decreaseSoeed() { _speed -= 30; };
+                void decreaseSpeed() { _speed -= 30; };
+                void increaseHealth() { _health += 30; };
+                void decreaseHealth() { _health -= 30; };
+                void increaseHealth(int num) { _health += num; };
+                void decreaseHealth(int num) { _health -= num; };
 
             private:
                 SYNTHESIZE(int, _flame, Flame);
