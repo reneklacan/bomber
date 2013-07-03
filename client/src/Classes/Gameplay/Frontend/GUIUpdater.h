@@ -14,6 +14,8 @@
 #include "../Backend/Mediator.h"
 #include "../Backend/Bomber.h"
 
+#include "../../Constants.h"
+
 namespace Bomber
 {
     namespace Frontend

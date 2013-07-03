@@ -95,6 +95,7 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
                         spriteMove->getPosition().y
                     )
                 );
+        _mobs[spriteMove->getGameObjectId()]->setVertexZ( (-( (spriteMove->getPosition().y + TILE_WIDTH ) / (TILE_HEIGHT) ) - 0) );
     }
     // First occurence of a sprite
     else
@@ -108,6 +109,7 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
         if(spriteGID != 0)  // Not empty
         {
             _mobs[spriteMove->getGameObjectId()] = spritesLayer->tileAt(mobTilePosition);
+            //_mobs[spriteMove->getGameObjectId()]->setAnchorPoint( ccp(0, -0.3) );
         }
     }
 

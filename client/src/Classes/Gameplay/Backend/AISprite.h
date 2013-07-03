@@ -12,7 +12,7 @@ namespace Bomber
             public:
                 AISprite() : RandomAI()
                 {
-                    this->getAttributes().setPortability(false);
+                    this->getAttributes().setPortability(true);
                 }
         };
     }
