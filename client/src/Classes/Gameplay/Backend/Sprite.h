@@ -18,7 +18,7 @@ namespace Bomber
                 inline virtual bool isAI() { return false; };
 
             private:
-                SYNTHESIZE(SpriteAttributes *, _attributes, Attributes);
+                SYNTHESIZE(SpriteAttributes, _attributes, Attributes);
         };
     }
 }

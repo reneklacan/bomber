@@ -144,20 +144,6 @@ void Logic::update(float dt)
             _gameStateUpdater->logSpriteMove(sprite);
         }
 
-        auto portals = portalLayer->getObjectsAroundCoords(sprite->getCoords());
-
-        for (auto object : portals)
-        {
-            Portal *portal = (Portal *) object;
-            
-            if (sprite->collides(portal))
-            {
-                auto portalExit = portalExitLayer->getObject(portal->getId());
-                _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
-                break;
-            }
-        }
-
         auto effects = effectLayer->getObjectsAroundCoords(sprite->getCoords());
 
         for (auto object : effects)
@@ -174,6 +160,25 @@ void Logic::update(float dt)
         for (auto effect : effectsToDestroy)
         {
             _gameStateUpdater->destroyEffect(effect);
+        }
+
+        if (sprite->getAttributes().getPortability() == false)
+        {
+            continue;
+        }
+
+        auto portals = portalLayer->getObjectsAroundCoords(sprite->getCoords());
+
+        for (auto object : portals)
+        {
+            Portal *portal = (Portal *) object;
+            
+            if (sprite->collides(portal))
+            {
+                auto portalExit = portalExitLayer->getObject(portal->getId());
+                _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
+                break;
+            }
         }
     }
 

@@ -39,7 +39,7 @@ namespace Bomber
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
-                    sprite->getAttributes()->increaseFlame();
+                    sprite->getAttributes().increaseFlame();
                 }
         };
 
@@ -53,7 +53,7 @@ namespace Bomber
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
-                    sprite->getAttributes()->increaseBombCapacity();
+                    sprite->getAttributes().increaseBombCapacity();
                 }
         };
     }

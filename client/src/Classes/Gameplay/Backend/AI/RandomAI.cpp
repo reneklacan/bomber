@@ -18,7 +18,7 @@ void RandomAI::update(float dt)
 
     Coordinates goalCoords;
     Position delta;
-    Position nextPos;
+    Position nextPos = _position;
 
     switch (_state)
     {
@@ -37,22 +37,28 @@ void RandomAI::update(float dt)
             }
             else
             {
-                if (delta.x > 0)
+                if (fabs(delta.x) > fabs(delta.y))
                 {
-                    nextPos.x = _position.x + 1.0f;
+                    if (delta.x > 0.5)
+                    {
+                        nextPos.x = _position.x + 1.0f;
+                    }
+                    else if (delta.x < 0.5)
+                    {
+                        nextPos.x = _position.x - 1.0f;
+                    }
                 }
                 else
                 {
-                    nextPos.x = _position.x - 1.0f;
-                }
 
-                if (delta.y > 0)
-                {
-                    nextPos.y = _position.y + 1.0f;
-                }
-                else
-                {
-                    nextPos.y = _position.y - 1.0f;
+                    if (delta.y > 0.5)
+                    {
+                        nextPos.y = _position.y + 1.0f;
+                    }
+                    else if (delta.y < 0.5)
+                    {
+                        nextPos.y = _position.y - 1.0f;
+                    }
                 }
                 this->setPosition(nextPos);
             }

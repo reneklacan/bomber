@@ -9,7 +9,11 @@ namespace Bomber
     {
         class AISprite : public RandomAI
         {
-
+            public:
+                AISprite() : RandomAI()
+                {
+                    this->getAttributes().setPortability(false);
+                }
         };
     }
 }
