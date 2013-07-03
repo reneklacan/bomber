@@ -20,7 +20,10 @@ namespace Bomber
 
                 void init(GameState *state);
                 void init(GameStateUpdater *gameStateUpdater);
+                bool isCoordsCrossable(Coordinates coords);
                 Coordinates getRandomCoordsAround(Coordinates coords);
+                std::deque<Coordinates> findPath(Coordinates from, Coordinates to);
+                std::deque<Coordinates> findPathToNearestPlayer(Coordinates from);
 
             private:
                 AI();

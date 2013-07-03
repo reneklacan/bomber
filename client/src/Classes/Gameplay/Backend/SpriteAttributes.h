@@ -29,6 +29,8 @@ namespace Bomber
                 void decreaseHealth() { _health -= 30; };
                 void increaseHealth(int num) { _health += num; };
                 void decreaseHealth(int num) { _health -= num; };
+                bool isAlive() { return _health > 0; };
+                bool isDead() { return _health <= 0; };
 
             private:
                 SYNTHESIZE(int, _flame, Flame);

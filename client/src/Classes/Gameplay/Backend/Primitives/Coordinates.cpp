@@ -13,6 +13,17 @@ Coordinates::Coordinates(unsigned int x, unsigned int y)
     this->y = y;
 }
 
+std::vector<Coordinates> Coordinates::getCoordsAround()
+{
+    std::vector<Coordinates> around({
+            Coordinates(this->x + 1, this->y),
+            Coordinates(this->x - 1, this->y),
+            Coordinates(this->x, this->y + 1),
+            Coordinates(this->x, this->y - 1),
+    });
+    return around;
+}
+
 bool Coordinates::operator==(const Coordinates &other) const
 {
     if (this->x == other.x && this->y == other.y)

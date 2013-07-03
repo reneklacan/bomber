@@ -1,17 +1,17 @@
 
-#include "RandomAI.h"
+#include "CleverFollowAI.h"
 #include "AI.h"
 #include "../../../Constants.h"
 
 using namespace Bomber::Backend;
 
-RandomAI::RandomAI()
+CleverFollowAI::CleverFollowAI()
 : Sprite()
 {
     _state = STATE_NONE;
 }
 
-void RandomAI::update(float dt)
+void CleverFollowAI::update(float dt)
 {
     // TODO in movement respect player's attributes like speed
     //      this->getAttributes()->getSpeed();
@@ -19,11 +19,17 @@ void RandomAI::update(float dt)
     Coordinates goalCoords;
     Position delta;
     Position nextPos = _position;
+    std::deque<Coordinates> path;
 
     switch (_state)
     {
         case STATE_NONE:
-            goalCoords = AI::getInstance()->getRandomCoordsAround(this->getCoords());
+            path = AI::getInstance()->findPathToNearestPlayer(this->getCoords());
+            
+            if (path.size() == 0)
+                break;
+
+            goalCoords = path[0];
             _goal = Position(goalCoords.x*TILE_WIDTH, goalCoords.y*TILE_HEIGHT);
             _state = STATE_MOVING;
             //break;
@@ -54,7 +60,6 @@ void RandomAI::update(float dt)
                 }
                 else
                 {
-
                     if (delta.y > 0.5)
                     {
                         nextPos.y = _position.y + 1.0f;
