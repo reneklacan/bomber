@@ -80,7 +80,6 @@ void GUIUpdater::update(Point playerPosition)
 //
 void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
 {
-    //std::cout << spriteMove->getGameObjectId() << "\n";
     if(spriteMove->getGameObjectId() == _player->getID())
     {
         // Do nothing
@@ -111,15 +110,6 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
             _mobs[spriteMove->getGameObjectId()] = spritesLayer->tileAt(mobTilePosition);
         }
     }
-    //std::cout << spriteMove->getPosition().x << " " << spriteMove->getPosition().y << "\n";
-
-    /*for(int i = 0; i < _map->getWidth(); i++)
-    {
-        for(int j = 0; j < _map->getHeight(); j++)
-        {
-            std::cout << "[" << i << ", " << j << "]: " << spritesLayer->tileGIDAt( ccp( i, j ) ) << "\n";
-        }
-    }*/
 
     return;
 }
@@ -128,9 +118,23 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
 //
 void GUIUpdater::updateSpriteTeleport(Backend::GSCSpriteTeleport *spriteTeleport, Point playerPosition)
 {
-    Point teleportPosition = ccp( spriteTeleport->getPosition().x, spriteTeleport->getPosition().y);
-    _player->setPosition(teleportPosition);
-    _map->addToPosition(ccpSub(playerPosition, teleportPosition));
+    // Player, map needs to be moved
+    if(spriteTeleport->getGameObjectId() == _player->getID())
+    {
+        Point teleportPosition = ccp( spriteTeleport->getPosition().x, spriteTeleport->getPosition().y);
+        _player->setPosition(teleportPosition);
+        _map->addToPosition(ccpSub(playerPosition, teleportPosition));
+    }
+    // Mob
+    else
+    {
+        _mobs[spriteTeleport->getGameObjectId()]->setPosition(
+                    ccp (
+                        spriteTeleport->getPosition().x,
+                        spriteTeleport->getPosition().y
+                    )
+                );
+    }
     return;
 }
 
