@@ -5,6 +5,7 @@
 #include "GameSprite.h"
 #include "../Map/Map.h"
 #include "../../Input/ActionDelegates.h"
+#include <string>
 
 using namespace cocos2d;
 
@@ -16,7 +17,7 @@ class Human : public GameSprite, public GameActionDelegate
         Human();
         //~Human();
 
-        static Human* create(Map *map);
+        static Human* create(Map *map, int type);
 
         virtual void actionOne();
         void actionTwo();

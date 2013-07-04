@@ -31,7 +31,7 @@ bool LevelLayer::init()
         return false;
 
     _map = Map::create();
-    _player = Human::create(_map);
+    _player = Human::create(_map, 0);
     _controlLayer = ControlLayer::create();
 
     Backend::GameState *gameState = new Backend::GameState(_map->getWidth(), _map->getHeight());
@@ -120,21 +120,23 @@ bool LevelLayer::init()
 
     // use updateGame instead of update, otherwise it will conflit with SelectorProtocol::update
     // see http://www.cocos2d-x.org/boards/6/topics/1478
-    this->schedule( schedule_selector(LevelLayer::repositionSprite) );
     this->schedule( schedule_selector(LevelLayer::updateGame) );
+    //this->schedule( schedule_selector(LevelLayer::repositionSprite) );
 
     //CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background-music-aac.wav", true);
 
     return true;
 }
 
-void LevelLayer::repositionSprite(float dt)
+/*void LevelLayer::repositionSprite(float dt)
 {
-    Point p = _player->getPosition();
+    //Point p = _player->getPosition();
     //p = CC_POINT_POINTS_TO_PIXELS(p);
-    int z = -( (p.y+100.5) /81 ) + 0;
-    _player->setVertexZ( z );
-}
+    //int z = -( (p.y+100.5) /81 ) + 0;
+    //_player->setVertexZ( z );
+
+    //_player->setZOrder( (_map->getHeight()*TILE_HEIGHT - _player->getPosition().y) );
+}*/
 
 void LevelLayer::updateGame(float dt)
 {

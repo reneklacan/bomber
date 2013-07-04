@@ -16,6 +16,30 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     _player = player;
     _layer = layer;
     _mobs.clear();
+
+    // Hide sprites
+    TMXLayer *spritesLayer = _map->getTiledMap()->layerNamed("sprites");
+    spritesLayer->setVisible(false);
+
+    // Hide obstacles
+    TMXLayer *obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
+    obstaclesLayer->setVisible(false);
+
+    // Init obstacles structure
+    for(int ix = 0; ix < _map->getWidth(); ix++)
+    {
+        for(int iy = 0; iy < _map->getHeight(); iy++)
+        {
+            if(obstaclesLayer->tileAt( ccp(ix, iy) ) != 0)
+            {
+                _obstacles[_map->getWidth() * iy + ix] = obstaclesLayer->tileAt( ccp(ix, iy) );
+                _map->addChild(_obstacles[_map->getWidth() * iy + ix], 1);
+                _obstacles[_map->getWidth() * iy + ix]->setZOrder(iy*TILE_HEIGHT+5); // DO NOT CHANGE or you will shit bricks
+                _obstacles[_map->getWidth() * iy + ix]->setVertexZ(0.00001); // DO NOT CHANGE or you will shit bricks
+            }
+        }
+    }
+
 }
 
 //
@@ -74,6 +98,10 @@ void GUIUpdater::update(Point playerPosition)
         }
     }
 
+    //_obstacles[5*_map->getWidth()+5]->setZOrder(5*TILE_HEIGHT);
+    //_obstacles[5*_map->getWidth()+5]->setVertexZ(5);
+    //_obstacles[5*_map->getWidth()+5]->setPosition(_obstacles[5*_map->getWidth()+5]->getPosition());
+
     return;
 }
 
@@ -82,7 +110,8 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
 {
     if(spriteMove->getGameObjectId() == _player->getID())
     {
-        // Do nothing
+        // Only set Z coordinate
+        _player->setZOrder( (_map->getHeight()*TILE_HEIGHT - _player->getPosition().y) );
         return;
     }
 
@@ -95,8 +124,10 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
                         spriteMove->getPosition().y
                     )
                 );
-        _mobs[spriteMove->getGameObjectId()]->setVertexZ( _player->getVertexZ() - 0.000000000001 );
-        _mobs[spriteMove->getGameObjectId()]->setZOrder( _player->getZOrder() - 0 );
+        _mobs[spriteMove->getGameObjectId()]->setVertexZ( _player->getVertexZ() - 0.0001 ); // DO NOT CHANGE or you will shit bricks
+        _mobs[spriteMove->getGameObjectId()]->setZOrder( 
+            _map->getHeight()*TILE_HEIGHT - spriteMove->getPosition().y - TILE_HEIGHT/4 // DO NOT CHANGE or you will shit bricks
+        );
     }
     // First occurence of a sprite
     else
@@ -110,7 +141,12 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
         if(spriteGID != 0)  // Not empty
         {
             _mobs[spriteMove->getGameObjectId()] = spritesLayer->tileAt(mobTilePosition);
-            //_mobs[spriteMove->getGameObjectId()]->setAnchorPoint( ccp(0, -0.3) );
+            _map->addChild(_mobs[spriteMove->getGameObjectId()], 0);
+            //_mobs[spriteMove->getGameObjectId()] = Human::create(_map, 1);
+            //_mobs[spriteMove->getGameObjectId()]->retain();
+            //_map->addChild(_mobs[spriteMove->getGameObjectId()], 0);
+            //_mobs[spriteMove->getGameObjectId()]->setAnchorPoint(ccp(-0.20f, -0.1f));
+            //_mobs[spriteMove->getGameObjectId()]->setPosition(mobTilePosition);
         }
     }
 

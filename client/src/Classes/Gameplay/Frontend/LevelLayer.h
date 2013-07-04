@@ -37,7 +37,7 @@ namespace Bomber
 
             //void registerWithTouchDispatcher();
             //void ccTouchesEnded(cocos2d::Set* touches, cocos2d::Event* event);
-            void repositionSprite(float dt);
+            //void repositionSprite(float dt);
             //void ccTouchesMoved(cocos2d::Set* touches, cocos2d::Event* event);
 
             void pauseGameAction() { printf("game paused in level layer\n"); };

@@ -15,11 +15,21 @@ Human::~Human()
 }
 */
 
-Human* Human::create(Map *map)
+Human* Human::create(Map *map, int type)
 {
     Human* sprite = new Human();
 
-    if (sprite && sprite->initWithFile("tiles/timmy.png"))
+    std::string image;
+    if(type == 0)
+    {
+        image = "tiles/timmy.png";
+    }
+    else
+    {
+        image = "tiles/timmy-evil.png";
+    }
+
+    if (sprite && sprite->initWithFile(image.c_str()))
     {
         sprite->setMap(map);
         sprite->autorelease();
