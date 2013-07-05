@@ -143,9 +143,9 @@ std::deque<Coordinates> AI::findPath(Coordinates from, Coordinates to)
     return path;
 }
 
-std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from)
+std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float range)
 {
-    float smallestDistance = -1.0;
+    float smallestDistance = range;
     float distance;
 
     Sprite *nearestSprite;

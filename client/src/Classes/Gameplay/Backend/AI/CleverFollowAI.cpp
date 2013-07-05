@@ -9,6 +9,7 @@ CleverFollowAI::CleverFollowAI()
 : Sprite()
 {
     _state = STATE_NONE;
+    _aggroDistance = -1.0;
 }
 
 void CleverFollowAI::update(float dt)
@@ -24,12 +25,17 @@ void CleverFollowAI::update(float dt)
     switch (_state)
     {
         case STATE_NONE:
-            path = AI::getInstance()->findPathToNearestPlayer(this->getCoords());
+            path = AI::getInstance()->findPathToNearestPlayer(this->getCoords(), _aggroDistance);
             
-            if (path.size() == 0)
-                break;
+            if (path.size() != 0)
+            {
+                goalCoords = path[0];
+            }
+            else
+            {
+                goalCoords = AI::getInstance()->getRandomCoordsAround(this->getCoords());
+            }
 
-            goalCoords = path[0];
             _goal = Position(goalCoords.x*TILE_WIDTH, goalCoords.y*TILE_HEIGHT);
             _state = STATE_MOVING;
             //break;

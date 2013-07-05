@@ -23,7 +23,7 @@ namespace Bomber
                 bool isCoordsCrossable(Coordinates coords);
                 Coordinates getRandomCoordsAround(Coordinates coords);
                 std::deque<Coordinates> findPath(Coordinates from, Coordinates to);
-                std::deque<Coordinates> findPathToNearestPlayer(Coordinates from);
+                std::deque<Coordinates> findPathToNearestPlayer(Coordinates from, float range);
 
             private:
                 AI();

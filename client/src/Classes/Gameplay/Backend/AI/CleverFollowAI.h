@@ -24,6 +24,7 @@ namespace Bomber
             private:
                 TCleverFollowAIState _state;
                 Position _goal;
+                float _aggroDistance;
         };
     }
 }
