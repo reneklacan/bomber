@@ -46,7 +46,7 @@ bool GameObject::collides(GameObject *object)
     }
     else
     {
-        printf("TODO implement circle X rect, circle X circle\n");
+        printf("TODO implement circle X rect, circle X circle - %s X %s\n", _name, object->getName());
     }
     return false;
 }
