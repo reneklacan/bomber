@@ -35,7 +35,7 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
                 _obstacles[_map->getWidth() * iy + ix] = obstaclesLayer->tileAt( ccp(ix, iy) );
                 _map->addChild(_obstacles[_map->getWidth() * iy + ix], 1);
                 _obstacles[_map->getWidth() * iy + ix]->setZOrder(iy*TILE_HEIGHT+5); // DO NOT CHANGE or you will shit bricks
-                _obstacles[_map->getWidth() * iy + ix]->setVertexZ(0.00001); // DO NOT CHANGE or you will shit bricks
+                _obstacles[_map->getWidth() * iy + ix]->setVertexZ(0); // DO NOT CHANGE or you will shit bricks
             }
         }
     }
@@ -112,6 +112,7 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
     {
         // Only set Z coordinate
         _player->setZOrder( (_map->getHeight()*TILE_HEIGHT - _player->getPosition().y) );
+        _player->setVertexZ(0);
         return;
     }
 
@@ -124,7 +125,7 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
                         spriteMove->getPosition().y
                     )
                 );
-        _mobs[spriteMove->getGameObjectId()]->setVertexZ( _player->getVertexZ() - 0.0001 ); // DO NOT CHANGE or you will shit bricks
+        //_mobs[spriteMove->getGameObjectId()]->setVertexZ( _player->getVertexZ() - 0.0001 ); // DO NOT CHANGE or you will shit bricks
         _mobs[spriteMove->getGameObjectId()]->setZOrder( 
             _map->getHeight()*TILE_HEIGHT - spriteMove->getPosition().y - TILE_HEIGHT/4 // DO NOT CHANGE or you will shit bricks
         );
@@ -142,6 +143,7 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
         {
             _mobs[spriteMove->getGameObjectId()] = spritesLayer->tileAt(mobTilePosition);
             _map->addChild(_mobs[spriteMove->getGameObjectId()], 0);
+            _mobs[spriteMove->getGameObjectId()]->setVertexZ(0);
             //_mobs[spriteMove->getGameObjectId()] = Human::create(_map, 1);
             //_mobs[spriteMove->getGameObjectId()]->retain();
             //_map->addChild(_mobs[spriteMove->getGameObjectId()], 0);
