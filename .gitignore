@@ -21,3 +21,8 @@ client/src/ProjAndroid/bin/
 client/src/ProjAndroid/gen/
 client/src/ProjAndroid/libs/
 client/src/ProjAndroid/obj/
+
+# windows shit
+*.opensdf
+client/src/ProjWindows/Debug.win32/
+client/src/ProjWindows/Debug
