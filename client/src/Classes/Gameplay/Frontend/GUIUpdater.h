@@ -44,6 +44,7 @@ namespace Bomber
             Layer * _layer;
             std::map<unsigned int, Sprite *> _mobs;
             std::map<unsigned int, Node *> _obstacles;
+            SpriteBatchNode* _batchNode;
         };
     }
 }

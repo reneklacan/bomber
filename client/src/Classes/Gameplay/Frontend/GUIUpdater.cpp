@@ -17,6 +17,17 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     _layer = layer;
     _mobs.clear();
 
+    _batchNode = SpriteBatchNode::create("tiles/tileset.png");
+    _batchNode->setTag(0);
+
+    // Add BatchNode
+    _map->addChild(_batchNode);
+
+    // Add player to Batch Node
+    //_batchNode->addChild(_player, 0);
+    // TMP
+    _map->addChild(_player, 0);
+
     // Hide sprites
     TMXLayer *spritesLayer = _map->getTiledMap()->layerNamed("sprites");
     spritesLayer->setVisible(false);
@@ -33,8 +44,9 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
             if(obstaclesLayer->tileAt( ccp(ix, iy) ) != 0)
             {
                 _obstacles[_map->getWidth() * iy + ix] = obstaclesLayer->tileAt( ccp(ix, iy) );
-                _map->addChild(_obstacles[_map->getWidth() * iy + ix], 1);
-                _obstacles[_map->getWidth() * iy + ix]->setZOrder(iy*TILE_HEIGHT+5); // DO NOT CHANGE
+                _batchNode->addChild(_obstacles[_map->getWidth() * iy + ix], 0);
+                //_obstacles[_map->getWidth() * iy + ix]->setZOrder(iy*TILE_HEIGHT+5); // DO NOT CHANGE
+                _batchNode->reorderChild(_obstacles[_map->getWidth() * iy + ix], iy*TILE_HEIGHT+5);
                 _obstacles[_map->getWidth() * iy + ix]->setVertexZ(0); // DO NOT CHANGE
             }
         }
@@ -120,7 +132,8 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
                         spriteMove->getPosition().y
                     )
                 );
-        _mobs[spriteMove->getGameObjectId()]->setZOrder( 
+        //_mobs[spriteMove->getGameObjectId()]->setZOrder(
+        _batchNode->reorderChild(_mobs[spriteMove->getGameObjectId()],
             _map->getHeight()*TILE_HEIGHT - spriteMove->getPosition().y - TILE_HEIGHT/4 // DO NOT CHANGE
         );
     }
@@ -136,7 +149,7 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
         if(spriteGID != 0)  // Not empty
         {
             _mobs[spriteMove->getGameObjectId()] = spritesLayer->tileAt(mobTilePosition);
-            _map->addChild(_mobs[spriteMove->getGameObjectId()], 0);
+            _batchNode->addChild(_mobs[spriteMove->getGameObjectId()], 0);
             _mobs[spriteMove->getGameObjectId()]->setVertexZ(0);
         }
     }

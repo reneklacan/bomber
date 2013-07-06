@@ -80,7 +80,7 @@ bool LevelLayer::init()
     /**
     */
 
-    _map->addChild(_player, 1);
+    //_map->addChild(_player, 1);
 
     Size visibleSize = Director::sharedDirector()->getVisibleSize();
     Point origin = Director::sharedDirector()->getVisibleOrigin();
