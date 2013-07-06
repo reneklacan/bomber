@@ -4,6 +4,7 @@
 using namespace Bomber::Backend;
 
 Sprite::Sprite()
+: GameObject()
 {
     _name = "sprite?";
     //_attributes = new SpriteAttributes();

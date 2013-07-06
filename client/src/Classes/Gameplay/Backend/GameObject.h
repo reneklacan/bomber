@@ -14,6 +14,7 @@ namespace Bomber
         class GameObject
         {
             public:
+                GameObject();
                 inline const char *getName() { return _name; };
                 virtual void setId(unsigned int id) { _id = id; };
                 virtual unsigned int getId() { return _id; };

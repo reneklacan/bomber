@@ -36,6 +36,9 @@ void CleverFollowAI::update(float dt)
                 goalCoords = AI::getInstance()->getRandomCoordsAround(this->getCoords());
             }
 
+            if (this->getCoords() == goalCoords)
+                break;
+
             _goal = Position(goalCoords.x*TILE_WIDTH, goalCoords.y*TILE_HEIGHT);
             _state = STATE_MOVING;
             //break;

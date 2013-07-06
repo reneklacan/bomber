@@ -160,7 +160,7 @@ std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float rang
         Coordinates spriteCoords = sprite->getCoords();
 
         if (from == spriteCoords)
-            return std::deque<Coordinates>();
+            return std::deque<Coordinates>({from});
 
         distance = sqrt(pow(from.x - spriteCoords.x, 2) + pow(from.y - spriteCoords.y, 2));
 

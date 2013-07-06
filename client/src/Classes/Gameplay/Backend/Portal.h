@@ -10,7 +10,7 @@ namespace Bomber
         class Portal : public GameObject
         {
             public:
-                Portal()
+                Portal() : GameObject()
                 {
                     _name = "portal";
                 };

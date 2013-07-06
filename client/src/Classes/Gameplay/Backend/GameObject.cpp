@@ -6,6 +6,11 @@
 
 using namespace Bomber::Backend;
 
+GameObject::GameObject()
+{
+    _circleCollider = false;
+}
+
 void GameObject::setPosition(int x, int y)
 {
     _position = Position(x, y);
