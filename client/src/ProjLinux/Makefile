@@ -21,7 +21,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Backend/GameState.cpp \
         ../Classes/Gameplay/Backend/GameObject.cpp \
         ../Classes/Gameplay/Backend/Sprite.cpp \
-        ../Classes/Gameplay/Backend/Bomb.cpp \
+        ../Classes/Gameplay/Backend/BBomb.cpp \
         ../Classes/Gameplay/Backend/Obstacle.cpp \
         ../Classes/Gameplay/Backend/Primitives/Coordinates.cpp \
         ../Classes/Gameplay/Backend/Primitives/Rectangle.cpp \
