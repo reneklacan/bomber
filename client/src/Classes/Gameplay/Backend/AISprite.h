@@ -13,6 +13,7 @@ namespace Bomber
                 AISprite() : FollowAI()
                 {
                     _smart = false;
+                    _attributes.setSpeed(50);
                     //_attributes.setGhostMode(true);
                 }
         };

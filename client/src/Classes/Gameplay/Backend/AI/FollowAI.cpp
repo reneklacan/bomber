@@ -16,9 +16,7 @@ FollowAI::FollowAI()
 
 void FollowAI::update(float dt)
 {
-    // TODO in movement respect player's attributes like speed
-    //      this->getAttributes()->getSpeed();
-
+    float step;
     Coordinates goalCoords;
     Position delta;
     Position nextPos = _position;
@@ -55,12 +53,13 @@ void FollowAI::update(float dt)
 
         case STATE_MOVING:
             delta = _goal - _position;
+            step = _attributes.getSpeed() * dt;
 
-            if (delta.x > TILE_WIDTH + 1 || delta.y > TILE_HEIGHT + 1)
+            if (delta.x > TILE_WIDTH + 2*step || delta.y > TILE_HEIGHT + 2*step)
             {
                 _state = STATE_NONE;
             }
-            else if (delta < 2.0f && delta > -0.2f)
+            else if (delta < 2*step && delta > -2*step)
             {
                 _state = STATE_NONE;
             }
@@ -70,22 +69,22 @@ void FollowAI::update(float dt)
                 {
                     if (delta.x > 0.5)
                     {
-                        nextPos.x = _position.x + 1.0f;
+                        nextPos.x = _position.x + step;
                     }
                     else if (delta.x < 0.5)
                     {
-                        nextPos.x = _position.x - 1.0f;
+                        nextPos.x = _position.x - step;
                     }
                 }
                 else
                 {
                     if (delta.y > 0.5)
                     {
-                        nextPos.y = _position.y + 1.0f;
+                        nextPos.y = _position.y + step;
                     }
                     else if (delta.y < 0.5)
                     {
-                        nextPos.y = _position.y - 1.0f;
+                        nextPos.y = _position.y - step;
                     }
                 }
                 this->setPosition(nextPos);
