@@ -45,8 +45,7 @@ Achievement::Achievement(
         const char *level,
         const char *title,
         const char *description,
-        bool evalOnEnd,
-        std::list<AchievementCondition> conditions
+        bool evalOnEnd
 )
 {
     _unlocked = false;
@@ -55,7 +54,11 @@ Achievement::Achievement(
     _title = title;
     _description = description;
     _evalOnEnd = evalOnEnd;
-    _conditions = conditions;
+}
+
+void Achievement::addCondition(AchievementCondition condition)
+{
+    _conditions.push_back(condition);
 }
 
 bool Achievement::isComplete(Statistics *statistics)
@@ -71,7 +74,17 @@ bool Achievement::isComplete(Statistics *statistics)
     return true;
 }
 
+AchievementGroup::AchievementGroup()
+{
+
+}
+
 AchievementGroup::AchievementGroup(std::list<AchievementObject *> achievements)
 {
     _achievements = achievements;
+}
+
+void AchievementGroup::add(AchievementObject *object)
+{
+    _achievements.push_back(object);
 }

@@ -1,66 +1,73 @@
 
 #include "GameAchievements.h"
 
-#define AchievementList(...) std::list<AchievementObject *>({ __VA_ARGS__ })
-#define ConditionList(...) std::list<AchievementCondition>({ __VA_ARGS__ })
-#define Group(...) new AchievementGroup(AchievementList({ __VA_ARGS__ }))
 #define Condition AchievementCondition
 #define None nullptr
-#define Achievement new Achievement
 
 using namespace Bomber::Backend;
 
-auto gameAchievements = AchievementList(
-        Group(
-            Achievement(
-                None, // act
-                None, // level
-                "Bombeeeer", // title
-                "Plant 5 bomb in overall", // descriptopn
-                false, // evaluate on the end of the game/act/level
-                ConditionList(
-                    Condition(
-                        BOMBS, // type
-                        None, // kind
-                        5, // amount
-                        0 // time limit
-                    ),
-                )
-            ),
-            Achievement(
-                None, // act
-                None, // level
-                "Bombeeeer 2", // title
-                "Plant 10 bomb in overall", // descriptopn
-                false, // evaluate on the end of the game/act/level
-                ConditionList(
-                    Condition(
-                        BOMBS, // type
-                        None, // kind
-                        10, // amount
-                        0 // time limit
-                    ),
-                )
-            ),
-        ),
-        Achievement(
+std::list<AchievementObject *> Bomber::Backend::getGameAchievements()
+{
+    std::list<AchievementObject *> gameAchievements;
+
+    AchievementGroup *bombAchievementGroup = new AchievementGroup();
+
+    Achievement *bombAchievement5 = new Achievement(
+            None, // act
+            None, // level
+            "Bombeeeer", // title
+            "Plant 5 bomb in overall", // descriptopn
+            false // evaluate on the end of the game/act/level
+    );
+    bombAchievement5->addCondition(
+            AchievementCondition(
+                BOMBS, // type
+                None, // kind
+                5, // amount
+                0 // time limit
+            )
+    );
+    Achievement *bombAchievement10 = new Achievement(
+            None, // act
+            None, // level
+            "Bombeeeer 2", // title
+            "Plant 10 bomb in overall", // descriptopn
+            false // evaluate on the end of the game/act/level
+    );
+    bombAchievement10->addCondition(
+            Condition(
+                BOMBS, // type
+                None, // kind
+                10, // amount
+                0 // time limit
+            )
+    );
+
+    bombAchievementGroup->add(bombAchievement5);
+    bombAchievementGroup->add(bombAchievement10);
+
+    AchievementGroup *killAchievementGroup = new AchievementGroup();
+
+    Achievement *killAchievement10in60 = new Achievement(
             "Act 1", // act
             "Level 1", // level
             "Fast Ghost killer", // title
             "Kill 10 ghost in a one minute", // descriptopn
-            true, // evaluate on the end of the game/act/level
-            ConditionList(
-                Condition(
-                    KILLS, // type
-                    "Ghost", // kind
-                    10, // amount
-                    60 // time limit
-                ),
+            true // evaluate on the end of the game/act/level
+    );
+    killAchievement10in60->addCondition(
+            Condition(
+                KILLS, // type
+                "Ghost", // kind
+                10, // amount
+                60 // time limit
             )
-        ),
-);
+    );
 
-std::list<AchievementObject *> Bomber::Backend::getGameAchievements()
-{
+    killAchievementGroup->add(killAchievement10in60);
+    
+    gameAchievements.push_back(bombAchievementGroup);
+    gameAchievements.push_back(killAchievementGroup);
+
     return gameAchievements;
 }

@@ -17,12 +17,11 @@ Coordinates::Coordinates(unsigned int x, unsigned int y)
 
 std::vector<Coordinates> Coordinates::getCoordsAround()
 {
-    std::vector<Coordinates> around({
-            Coordinates(this->x + 1, this->y),
-            Coordinates(this->x - 1, this->y),
-            Coordinates(this->x, this->y + 1),
-            Coordinates(this->x, this->y - 1),
-    });
+    std::vector<Coordinates> around;
+    around.push_back(Coordinates(this->x + 1, this->y));
+    around.push_back(Coordinates(this->x - 1, this->y));
+    around.push_back(Coordinates(this->x, this->y + 1));
+    around.push_back(Coordinates(this->x, this->y - 1));
     return around;
 }
 

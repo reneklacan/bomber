@@ -14,13 +14,13 @@ void GameStateUpdater::updateGrid()
     _state->getSpriteLayer()->updateGrid();
 }
 
-bool GameStateUpdater::moveSprite(GameObject *sprite, Position position)
+void GameStateUpdater::moveSprite(GameObject *sprite, Position position)
 {
     sprite->setPosition(position);
     this->logSpriteMove(sprite);
 }
 
-bool GameStateUpdater::teleportSprite(GameObject *sprite, Position position)
+void GameStateUpdater::teleportSprite(GameObject *sprite, Position position)
 {
     this->logSpriteTeleport(sprite, position);
     sprite->setPosition(position);

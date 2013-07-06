@@ -200,20 +200,19 @@ void Logic::setGameStateUpdater(GameStateUpdater *updater)
     AI::getInstance()->init(_state);
 }
 
-bool Logic::moveSprite(Position position)
+void Logic::moveSprite(Position position)
 {
     if (_controlledSprite == nullptr)
     {
         std::cout << "Logic::_controlledSprite is nullptr\n";
-        return false;
     }
 
-    return _gameStateUpdater->moveSprite(_controlledSprite, position);
+    _gameStateUpdater->moveSprite(_controlledSprite, position);
 }
 
-bool Logic::moveSprite(unsigned int spriteId, Position position)
+void Logic::moveSprite(unsigned int spriteId, Position position)
 {
-    return _gameStateUpdater->moveSprite(_state->getSpriteLayer()->getObject(spriteId), position);
+    _gameStateUpdater->moveSprite(_state->getSpriteLayer()->getObject(spriteId), position);
 }
 
 bool Logic::spawnBomb()

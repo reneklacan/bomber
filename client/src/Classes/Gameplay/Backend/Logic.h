@@ -17,9 +17,9 @@ namespace Bomber
                 void update(float dt);
                 void setState(GameState *state) { _state = state; };
 
-                bool moveSprite(Position position);
-                bool moveSprite(unsigned int id, Position position);
-                bool moveSprite(GameObject *sprite, Position position);
+                void moveSprite(Position position);
+                void moveSprite(unsigned int id, Position position);
+                void moveSprite(GameObject *sprite, Position position);
 
                 bool spawnBomb();
                 bool spawnBomb(unsigned int);

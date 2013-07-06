@@ -28,7 +28,7 @@ namespace Bomber
                 virtual bool isBombPotent() { return false; };
                 virtual bool isExplodable() { return false; };
                 bool isDirty() { return _dirty; };
-                bool setDirty(bool dirty) { _dirty = dirty; };
+                void setDirty(bool dirty) { _dirty = dirty; };
                 bool collides(GameObject *object);
 
                 virtual Rectangle getCollisionRect() { return Rectangle(_position, _size); };

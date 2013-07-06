@@ -1,5 +1,6 @@
 #include "GUIUpdater.h"
 
+using namespace Bomber;
 using namespace Bomber::Frontend;
 
 //

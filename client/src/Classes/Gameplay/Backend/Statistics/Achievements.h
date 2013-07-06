@@ -48,9 +48,9 @@ namespace Bomber
                         const char *level,
                         const char *title,
                         const char *description,
-                        bool evalOnEnd,
-                        std::list<AchievementCondition> conditions
+                        bool evalOnEnd
                 );
+                void addCondition(AchievementCondition condition);
                 bool isComplete(Statistics *statistics);
                 inline virtual bool isGroup() { return false; }
                 inline virtual bool isUnlocked() { return _unlocked; }
@@ -68,7 +68,9 @@ namespace Bomber
         class AchievementGroup : public AchievementObject
         {
             public:
+                AchievementGroup();
                 AchievementGroup(std::list<AchievementObject *> achievements);
+                void add(AchievementObject *object);
                 inline virtual bool isGroup() { return true; }
 
             private:

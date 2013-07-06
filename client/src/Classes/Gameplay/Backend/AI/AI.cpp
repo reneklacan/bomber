@@ -60,15 +60,9 @@ Coordinates AI::getRandomCoordsAround(Coordinates coords)
 
 Coordinates AI::getRandomCoordsAround(Coordinates coords, bool ghostMode)
 {
-    std::list<Coordinates> around({
-            Coordinates(coords.x, coords.y + 1),
-            Coordinates(coords.x, coords.y - 1),
-            Coordinates(coords.x - 1, coords.y),
-            Coordinates(coords.x + 1, coords.y)
-    });
     std::vector<Coordinates> candidates;
 
-    for (Coordinates c : around)
+    for (Coordinates c : coords.getCoordsAround())
     {
         if (this->isCoordsCrossable(c, ghostMode))
         {
@@ -91,8 +85,8 @@ std::deque<Coordinates> AI::findDirectPath(Coordinates from, Coordinates to)
 
 std::deque<Coordinates> AI::findDirectPath(Coordinates from, Coordinates to, bool ghostMode)
 {
-    int dx = fabs(to.x - from.x);
-    int dy = fabs(to.y - from.y);
+    int dx = abs(to.x - from.x);
+    int dy = abs(to.y - from.y);
     int goal;
 
     int modifierX = 1;
@@ -163,13 +157,16 @@ std::deque<Coordinates> AI::findDirectPath(Coordinates from, Coordinates to, boo
         else
         {
             printf("WTF?????\n");
-            sleep(10);
         }
 
         if (!this->isCoordsCrossable(current, ghostMode))
         {
             if (path.size() == 0)
-                return std::deque<Coordinates>({from}); 
+            {
+                path.clear();
+                path.push_back(from);
+                return path;
+            }
 
             return path;
         }
@@ -189,8 +186,10 @@ std::deque<Coordinates> AI::findPath(Coordinates from, Coordinates to, bool ghos
 {
     // TODO: use effective algorithm (A*?) instead of this temporary processor burner!
 
-    std::deque<Coordinates> queue({from});
-    int scoreMap[_state->getWidth()*_state->getHeight()];
+    std::deque<Coordinates> queue;
+    queue.push_back(from);
+    //int scoreMap[_state->getWidth()*_state->getHeight()];
+    int *scoreMap = (int *) malloc(_state->getWidth()*_state->getHeight()*sizeof(int));
     Coordinates current;
 
     for (unsigned int i = 0; i < _state->getWidth()*_state->getHeight(); i++)
@@ -229,7 +228,8 @@ std::deque<Coordinates> AI::findPath(Coordinates from, Coordinates to, bool ghos
         }
     }
 
-    std::deque<Coordinates> path({to});
+    std::deque<Coordinates> path;
+    path.push_back(to);
     current = to;
     currentScore = scoreMap[to.y*_state->getWidth() + to.x];
 
@@ -293,7 +293,11 @@ std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float rang
         Coordinates spriteCoords = sprite->getCoords();
 
         if (from == spriteCoords)
-            return std::deque<Coordinates>({from});
+        {
+            std::deque<Coordinates> path;
+            path.push_back(from);
+            return path;
+        }
 
         distance = sqrt(pow(from.x - spriteCoords.x, 2) + pow(from.y - spriteCoords.y, 2));
 
