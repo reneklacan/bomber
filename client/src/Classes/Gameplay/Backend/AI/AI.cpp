@@ -29,7 +29,36 @@ void AI::init(GameStateUpdater *gameStateUpdater)
     _gameStateUpdater = gameStateUpdater;
 }
 
+bool AI::isCoordsCrossable(Coordinates coords)
+{
+    return this->isCoordsCrossable(coords, false);
+}
+
+bool AI::isCoordsCrossable(Coordinates coords, bool ghostMode)
+{
+    auto objects = _state->getObstacleLayer()->getObjectsAtCoords(coords);
+
+    if (objects.size() == 0)
+       return true;
+
+    if (!ghostMode)
+        return false;
+
+    for (auto obstacle : objects)
+    {
+        if (!obstacle->getToughness()) 
+            return false;
+    }
+
+    return true;
+}
+
 Coordinates AI::getRandomCoordsAround(Coordinates coords)
+{
+    return this->getRandomCoordsAround(coords, false);
+}
+
+Coordinates AI::getRandomCoordsAround(Coordinates coords, bool ghostMode)
 {
     std::list<Coordinates> around({
             Coordinates(coords.x, coords.y + 1),
@@ -41,7 +70,7 @@ Coordinates AI::getRandomCoordsAround(Coordinates coords)
 
     for (Coordinates c : around)
     {
-        if (this->isCoordsCrossable(c))
+        if (this->isCoordsCrossable(c, ghostMode))
         {
             candidates.push_back(c);
         }
@@ -55,14 +84,12 @@ Coordinates AI::getRandomCoordsAround(Coordinates coords)
     return candidates[std::rand() % candidates.size()];
 }
 
-bool AI::isCoordsCrossable(Coordinates coords)
+std::deque<Coordinates> AI::findDirectPath(Coordinates from, Coordinates to)
 {
-   if (_state->getObstacleLayer()->getObjectsAtCoords(coords).size() == 0)
-       return true;
-   return false;
+    return this->findDirectPath(from, to, false);
 }
 
-std::deque<Coordinates> AI::findDirectPath(Coordinates from, Coordinates to)
+std::deque<Coordinates> AI::findDirectPath(Coordinates from, Coordinates to, bool ghostMode)
 {
     int dx = fabs(to.x - from.x);
     int dy = fabs(to.y - from.y);
@@ -139,7 +166,7 @@ std::deque<Coordinates> AI::findDirectPath(Coordinates from, Coordinates to)
             sleep(10);
         }
 
-        if (!this->isCoordsCrossable(current))
+        if (!this->isCoordsCrossable(current, ghostMode))
         {
             if (path.size() == 0)
                 return std::deque<Coordinates>({from}); 
@@ -154,6 +181,11 @@ std::deque<Coordinates> AI::findDirectPath(Coordinates from, Coordinates to)
 }
 
 std::deque<Coordinates> AI::findPath(Coordinates from, Coordinates to)
+{
+    return this->findPath(from, to, false);
+}
+
+std::deque<Coordinates> AI::findPath(Coordinates from, Coordinates to, bool ghostMode)
 {
     // TODO: use effective algorithm (A*?) instead of this temporary processor burner!
 
@@ -186,7 +218,7 @@ std::deque<Coordinates> AI::findPath(Coordinates from, Coordinates to)
 
         for (auto coords : current.getCoordsAround())
         {
-            if (!this->isCoordsCrossable(coords))
+            if (!this->isCoordsCrossable(coords, ghostMode))
                 continue;
 
             if (scoreMap[coords.y*_state->getWidth() + coords.x] > currentScore + 1)
@@ -236,10 +268,15 @@ std::deque<Coordinates> AI::findPath(Coordinates from, Coordinates to)
 
 std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float range)
 {
-    return this->findPathToNearestPlayer(from, range, true);
+    return this->findPathToNearestPlayer(from, range, true, false);
 }
 
 std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float range, bool smart)
+{
+    return this->findPathToNearestPlayer(from, range, smart, false);
+}
+
+std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float range, bool smart, bool ghostMode)
 {
     float smallestDistance = range;
     float distance;
@@ -271,8 +308,8 @@ std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float rang
         return std::deque<Coordinates>();
 
     if (!smart)
-        return this->findDirectPath(from, nearestSprite->getCoords());
+        return this->findDirectPath(from, nearestSprite->getCoords(), ghostMode);
 
-    return this->findPath(from, nearestSprite->getCoords());
+    return this->findPath(from, nearestSprite->getCoords(), ghostMode);
 }
 

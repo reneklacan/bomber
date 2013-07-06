@@ -7,10 +7,11 @@ using namespace Bomber::Backend;
 
 FollowAI::FollowAI()
 : Sprite()
+, _state(STATE_NONE)
+, _aggroDistance(-1.0)
+, _smart(true)
 {
-    _state = STATE_NONE;
-    _aggroDistance = -1.0;
-    _smart = false;
+
 }
 
 void FollowAI::update(float dt)
@@ -26,7 +27,12 @@ void FollowAI::update(float dt)
     switch (_state)
     {
         case STATE_NONE:
-            path = AI::getInstance()->findPathToNearestPlayer(this->getCoords(), _aggroDistance, _smart);
+            path = AI::getInstance()->findPathToNearestPlayer(
+                    this->getCoords(),
+                    _aggroDistance,
+                    _smart,
+                    _attributes.getGhostMode()
+            );
             
             if (path.size() != 0)
             {
@@ -34,7 +40,10 @@ void FollowAI::update(float dt)
             }
             else
             {
-                goalCoords = AI::getInstance()->getRandomCoordsAround(this->getCoords());
+                goalCoords = AI::getInstance()->getRandomCoordsAround(
+                        this->getCoords(),
+                        _attributes.getGhostMode()
+                );
             }
 
             if (this->getCoords() == goalCoords)

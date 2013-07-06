@@ -21,11 +21,13 @@ namespace Bomber
                 void update(float dt);
                 inline virtual bool isAI() { return true; };
 
+            protected:
+                bool _smart; // if AI is able to find path if obstacles are in direct path
+                float _aggroDistance;
+
             private:
                 TFollowAIState _state;
                 Position _goal;
-                float _aggroDistance;
-                bool _smart; // if AI is able to find path if obstacles are in direct path
         };
     }
 }

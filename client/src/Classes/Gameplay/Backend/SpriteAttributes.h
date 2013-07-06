@@ -18,6 +18,7 @@ namespace Bomber
                     _health = 100;
                     _damageModifier = 1;
                     _portability = true;
+                    _ghostMode = false;
                 }
                 void increaseFlame() { _flame += 1; };
                 void decreaseFlame() { _flame -= 1; };
@@ -39,6 +40,7 @@ namespace Bomber
                 SYNTHESIZE(int, _health, Health);
                 SYNTHESIZE(float, _damageModifier, DamageModifier);
                 SYNTHESIZE(bool, _portability, Portability);
+                SYNTHESIZE(bool, _ghostMode, GhostMode);
         };
     }
 }
