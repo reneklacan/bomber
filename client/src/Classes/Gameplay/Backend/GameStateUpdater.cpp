@@ -41,7 +41,7 @@ bool GameStateUpdater::spawnBomb(Sprite *owner)
 
     auto *bombLayer = _state->getBombLayer();
 
-    Bomb *bomb = new Bomb();
+    BBomb *bomb = new BBomb();
     bomb->configure(owner);
     bomb->setId(this->getUniqueId());
 
@@ -53,7 +53,7 @@ bool GameStateUpdater::spawnBomb(Sprite *owner)
     return true;
 }
 
-void GameStateUpdater::destroyBomb(Bomb *bomb)
+void GameStateUpdater::destroyBomb(BBomb *bomb)
 {
     _state->getBombLayer()->removeObject(bomb);
     this->logBombDestroy(bomb);
@@ -160,7 +160,7 @@ void GameStateUpdater::logSpriteTeleport(GameObject *sprite, Position &to)
     _state->addChange(change);
 }
 
-void GameStateUpdater::logBombSpawn(Bomb *bomb)
+void GameStateUpdater::logBombSpawn(BBomb *bomb)
 {
     printf("logBombSpawn\n");
     GSCBombSpawn *change = new GSCBombSpawn();
@@ -169,7 +169,7 @@ void GameStateUpdater::logBombSpawn(Bomb *bomb)
     _state->addChange(change);
 }
 
-void GameStateUpdater::logBombDestroy(Bomb *bomb)
+void GameStateUpdater::logBombDestroy(BBomb *bomb)
 {
     printf("logBombDestroy\n");
     GSCBombDestroy *change = new GSCBombDestroy();

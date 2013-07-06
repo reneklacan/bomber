@@ -2,7 +2,7 @@
 #define __BOMBER_LOGICv2
 
 #include "GameState.h"
-#include "Bomb.h"
+#include "BBomb.h"
 #include "GameStateUpdater.h"
 
 namespace Bomber
@@ -28,7 +28,7 @@ namespace Bomber
                 void spawnExplosion(ExplodableObject *explObj);
 
                 void logSpriteMove(GameObject *sprite, Position &from, Position &to);
-                void logBombSpawn(Bomb *bomb);
+                void logBombSpawn(BBomb *bomb);
                 void logExplosionSpawn(ExplodableObject *explObj);
                 
                 void setControlledSprite(unsigned int id);

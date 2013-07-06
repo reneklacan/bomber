@@ -26,7 +26,7 @@ void StatisticsUpdater::resetLevelStatistics()
     _levelStatistics->reset();
 }
 
-void StatisticsUpdater::bombSpawned(unsigned int ownerId, Bomb *bomb)
+void StatisticsUpdater::bombSpawned(unsigned int ownerId, BBomb *bomb)
 {
     _levelStatistics->increaseBombSpawns();
     _gameStatistics->increaseBombSpawns();

@@ -38,11 +38,11 @@ void Logic::update(float dt)
 
     Coordinates epicentrum;
 
-    std::vector<Bomb *> bombsToDestroy;
+    std::vector<BBomb *> bombsToDestroy;
 
     for (auto pair : _state->getBombLayer()->getObjects())
     {
-        Bomb *bomb = pair.second;
+        BBomb *bomb = pair.second;
         bomb->update(dt);
 
         if (bomb->isDetonated())

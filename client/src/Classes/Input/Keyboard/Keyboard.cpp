@@ -1,5 +1,14 @@
 #include "Keyboard.h"
 
+Keyboard::Keyboard()
+: _upArrowPressed(false)
+, _rightArrowPressed(false)
+, _downArrowPressed(false)
+, _leftArrowPressed(false)
+{
+
+}
+
 bool Keyboard::init()
 {
     if (!Layer::init())

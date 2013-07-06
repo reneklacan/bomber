@@ -99,7 +99,7 @@ bool LevelLayer::init()
     
     _player->setPosition(
             ccp(
-                origin.x + _player->getContentSize().width/2 + 101,
+                origin.x + _player->getContentSize().width/2 + 101 + 50,
                 origin.y + visibleSize.height/2
             )
     );

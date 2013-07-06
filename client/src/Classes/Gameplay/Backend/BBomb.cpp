@@ -1,12 +1,12 @@
 
 #include <stdio.h>
 
-#include "Bomb.h"
+#include "BBomb.h"
 #include "../../Constants.h"
 
 using namespace Bomber::Backend;
 
-Bomb::Bomb()
+BBomb::BBomb()
 {
     _expired = 0.0f;
     _detonated = false;
@@ -16,7 +16,7 @@ Bomb::Bomb()
     _power = 2;
 }
 
-void Bomb::update(float dt)
+void BBomb::update(float dt)
 {
     if (_detonated)
     {
@@ -31,7 +31,7 @@ void Bomb::update(float dt)
     }
 }
 
-void Bomb::configure(GameObject *owner)
+void BBomb::configure(GameObject *owner)
 {
     // configure bomb by owner's attributes
 

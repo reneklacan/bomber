@@ -14,6 +14,8 @@ class Keyboard : public GameController
         //~Keyboard();
         CREATE_FUNC(Keyboard);
 
+        Keyboard();
+
         virtual bool init();
         virtual const char *getName() { return "Keyboard"; };
 

@@ -3,6 +3,8 @@
 #include "Explosion.h"
 #include "../../Constants.h"
 
+using namespace Bomber::Frontend;
+
 BombCache *BombCache::_instance = NULL;
 
 BombCache *BombCache::getInstance()

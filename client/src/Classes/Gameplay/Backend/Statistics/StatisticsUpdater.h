@@ -3,7 +3,7 @@
 
 #include "Statistics.h"
 #include "../Sprite.h"
-#include "../Bomb.h"
+#include "../BBomb.h"
 #include "../Effect.h"
 #include "../Obstacle.h"
 
@@ -17,7 +17,7 @@ namespace Bomber
                 static StatisticsUpdater *getInstance();
 
                 void resetLevelStatistics();
-                void bombSpawned(unsigned int ownerId, Bomb *bomb);
+                void bombSpawned(unsigned int ownerId, BBomb *bomb);
                 void effectTaken(unsigned int ownerId, Effect *effect);
                 void monsterKilled(unsigned int ownerId, Sprite *monster);
                 void obstacleDestroyed(unsigned int ownerId, Obstacle *obstacke);

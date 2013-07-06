@@ -6,7 +6,7 @@
 #include "Statistics.h"
 #include "../Macros.h"
 #include "../Sprite.h"
-#include "../Bomb.h"
+#include "../BBomb.h"
 #include "../Effect.h"
 #include "../Obstacle.h"
 

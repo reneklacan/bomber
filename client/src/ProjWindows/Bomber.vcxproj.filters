@@ -1,53 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Classes">
-      <UniqueIdentifier>{beec9d83-f825-44f6-8bc0-c5d8a5ffe0e8}</UniqueIdentifier>
+    <Filter Include="win32">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="ProjectWindows">
-      <UniqueIdentifier>{9085c9af-9e78-4aee-9310-17adf1abc12e}</UniqueIdentifier>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{532a2622-fb11-4cdd-96f4-1f7cc4fd7939}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Gameplay">
-      <UniqueIdentifier>{5ef26a1f-5848-48ae-b2c7-5880cfb75c47}</UniqueIdentifier>
+      <UniqueIdentifier>{4b4625a6-9863-49f4-9be4-84f60ea21b3e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Gameplay\Backend">
-      <UniqueIdentifier>{ee7ecbf5-1654-40df-a281-6b7a9342ec59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Frontend">
-      <UniqueIdentifier>{6251768b-d14e-48ec-8d82-971c47f37241}</UniqueIdentifier>
+      <UniqueIdentifier>{bed84d89-3e92-43cc-bf84-d8d2759cf960}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Gameplay\Backend\AI">
-      <UniqueIdentifier>{47c04cf4-9413-47a1-9ae0-4aaa5bbb5dd5}</UniqueIdentifier>
+      <UniqueIdentifier>{0e028fe2-7381-476a-a68a-e524e7f7b77e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Gameplay\Backend\Primitives">
-      <UniqueIdentifier>{39a714ee-a580-4516-af6e-b8e1bf749d53}</UniqueIdentifier>
+      <UniqueIdentifier>{af9cf17a-814b-4ddc-ad49-e47ca40f84d2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Gameplay\Backend\Statistics">
-      <UniqueIdentifier>{38adb9d4-4743-4ec3-80ee-bc9897f74f13}</UniqueIdentifier>
+      <UniqueIdentifier>{9b2d5a69-1ff8-4c97-9839-db68a3c13967}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Gameplay\Frontend">
+      <UniqueIdentifier>{6ad79e5f-bcb4-402b-83b6-1367d68422df}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Gameplay\Map">
-      <UniqueIdentifier>{5ced78ba-8eb4-4a33-a60e-e3836bc120b8}</UniqueIdentifier>
+      <UniqueIdentifier>{3017d29c-cc04-4ae1-873a-105c1bcc40d1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Gameplay\Sprites">
-      <UniqueIdentifier>{9477b384-a69e-4377-ab97-45f72e0103eb}</UniqueIdentifier>
+      <UniqueIdentifier>{df2d6f04-56c0-4ba8-93f2-56f194741493}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Input">
-      <UniqueIdentifier>{86c9d288-a798-44eb-93c0-d444ac3f2ebd}</UniqueIdentifier>
+      <UniqueIdentifier>{c416c11f-0864-4a22-9b9c-ac7e5e0f91d0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Input\Touch">
-      <UniqueIdentifier>{de87c1ed-13b8-4193-a589-9d84adaef722}</UniqueIdentifier>
+      <UniqueIdentifier>{0bf72723-e273-4fe6-a0ed-11ed107d7e26}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Input\Keyboard">
-      <UniqueIdentifier>{a95aa846-d7d5-47cf-9d3b-3e1f7e06afd8}</UniqueIdentifier>
+      <UniqueIdentifier>{5f73dec9-9cfc-4c69-b1de-d3f1b37f73d2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Menu">
-      <UniqueIdentifier>{eaf7dd7e-99e2-4278-8b0a-054670742f3f}</UniqueIdentifier>
+      <UniqueIdentifier>{99355734-8985-4ffe-95c0-1e720ee48cd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProjectWindows">
+      <UniqueIdentifier>{363f7ff4-1323-466d-ab88-8e1227ceed7b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>ProjectWindows</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
@@ -56,9 +57,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\GameplayScene.cpp">
       <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\Bomb.cpp">
-      <Filter>Classes\Gameplay\Backend</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Gameplay\Backend\GameObject.cpp">
       <Filter>Classes\Gameplay\Backend</Filter>
@@ -156,14 +154,14 @@
     <ClCompile Include="..\Classes\Menu\SettingsLayer.cpp">
       <Filter>Classes\Menu</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Backend\BBomb.cpp">
+      <Filter>Classes\Gameplay\Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ProjWindows\Main.cpp">
+      <Filter>ProjectWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Main.h">
-      <Filter>ProjectWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GameplayScene.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>Classes</Filter>
     </ClInclude>
@@ -173,10 +171,10 @@
     <ClInclude Include="..\Classes\GameOverScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\AISprite.h">
-      <Filter>Classes\Gameplay\Backend</Filter>
+    <ClInclude Include="..\Classes\GameplayScene.h">
+      <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Bomb.h">
+    <ClInclude Include="..\Classes\Gameplay\Backend\AISprite.h">
       <Filter>Classes\Gameplay\Backend</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Backend\Bomber.h">
@@ -319,6 +317,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Menu\SettingsLayer.h">
       <Filter>Classes\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Backend\BBomb.h">
+      <Filter>Classes\Gameplay\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ProjWindows\Main.h">
+      <Filter>ProjectWindows</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

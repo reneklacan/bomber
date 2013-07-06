@@ -6,7 +6,7 @@
 #include "GameStateLayer.h"
 #include "GameStateChange.h"
 #include "Sprite.h"
-#include "Bomb.h"
+#include "BBomb.h"
 #include "Obstacle.h"
 #include "Portal.h"
 #include "PortalExit.h"
@@ -38,7 +38,7 @@ namespace Bomber
                 SYNTHESIZE_READONLY(unsigned int, _height, Height);
                 SYNTHESIZE_READONLY(GameStateLayer<Sprite> *, _spriteLayer, SpriteLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<Obstacle> *, _obstacleLayer, ObstacleLayer);
-                SYNTHESIZE_READONLY(GameStateLayer<Bomb> *, _bombLayer, BombLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<BBomb> *, _bombLayer, BombLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<Portal> *, _portalLayer, PortalLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<PortalExit> *, _portalExitLayer, PortalExitLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<Effect> *, _effectLayer, EffectLayer);

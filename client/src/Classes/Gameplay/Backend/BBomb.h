@@ -7,10 +7,10 @@ namespace Bomber
 {
     namespace Backend
     {
-        class Bomb : public ExplodableObject
+        class BBomb : public ExplodableObject
         {
             public:
-                Bomb();
+                BBomb();
                 void configure(GameObject *owner);
                 void update(float dt);
                 bool isDetonated() { return _detonated; };

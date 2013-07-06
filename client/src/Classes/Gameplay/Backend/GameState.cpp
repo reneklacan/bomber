@@ -17,7 +17,7 @@ GameState::GameState(unsigned int width, unsigned int height)
 
     _spriteLayer = new GameStateLayer<Sprite>("Sprite Layer", _width, _height);
     _obstacleLayer = new GameStateLayer<Obstacle>("Obstacles Layer", _width, _height);
-    _bombLayer = new GameStateLayer<Bomb>("Bomb Layer", _width, _height);
+    _bombLayer = new GameStateLayer<BBomb>("Bomb Layer", _width, _height);
     _portalLayer = new GameStateLayer<Portal>("Portal Layer", _width, _height);
     _portalExitLayer = new GameStateLayer<PortalExit>("Portal Exit Layer", _width, _height);
     _effectLayer = new GameStateLayer<Effect>("Effect Layer", _width, _height);

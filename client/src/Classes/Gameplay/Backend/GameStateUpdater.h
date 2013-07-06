@@ -3,7 +3,7 @@
 
 #include "GameState.h"
 #include "Primitives/Position.h"
-#include "Bomb.h"
+#include "BBomb.h"
 #include "Obstacle.h"
 #include "Sprite.h"
 #include "Effect.h"
@@ -27,7 +27,7 @@ namespace Bomber
                 void teleportSprite(GameObject *sprite, Position position);
                 bool spawnBomb(Sprite* owner);
                 void spawnExplosion(ExplodableObject *explObji, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
-                void destroyBomb(Bomb *bomb);
+                void destroyBomb(BBomb *bomb);
                 bool makeBombImpact(unsigned int owner, int *penetration, unsigned int x, unsigned int y);
                 void updateSpriteAttributes(Sprite *sprite, Effect *effect);
                 void destroyEffect(Effect *effect);
@@ -35,8 +35,8 @@ namespace Bomber
 
                 void logSpriteMove(GameObject *sprite);
                 void logSpriteTeleport(GameObject *sprite, Position &to);
-                void logBombSpawn(Bomb *bomb);
-                void logBombDestroy(Bomb *bomb);
+                void logBombSpawn(BBomb *bomb);
+                void logBombDestroy(BBomb *bomb);
                 void logExplosionSpawn(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void logObstacleDestroy(Obstacle *obstacle);
                 void logSpriteAttributesUpdate(Sprite *sprite, Effect *effect);
