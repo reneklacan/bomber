@@ -45,6 +45,7 @@ bool LevelLayer::init()
     gameState->getSpriteLayer()->addObject(controlledSprite);
 
     _player->setID(19991);
+    _player->setVertexZ(0);
 
     Backend::Mediator::getInstance()->setControlledSprite(controlledSprite->getId());
     GUIUpdater::getInstance()->init(_map, _player, this);
@@ -198,7 +199,6 @@ void LevelLayer::updateGame(float dt)
 
     // Draw new state
     GUIUpdater::getInstance()->update(currentPos);
-    //this->updateFromGameState(currentPos);
     
 }
 

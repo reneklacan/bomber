@@ -41,7 +41,7 @@ Bomb* Bomb::create(Map* map, GameSprite *owner)
         sprite->setOwner(owner);
         sprite->setMap(map);
         map->addChild(sprite, 0);
-        sprite->setVertexZ(owner->getVertexZ()-1);
+        //sprite->setVertexZ(owner->getVertexZ()-1);
         sprite->autorelease();
         return sprite;
     }
