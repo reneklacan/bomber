@@ -1,18 +1,19 @@
 
-#include "CleverFollowAI.h"
+#include "FollowAI.h"
 #include "AI.h"
 #include "../../../Constants.h"
 
 using namespace Bomber::Backend;
 
-CleverFollowAI::CleverFollowAI()
+FollowAI::FollowAI()
 : Sprite()
 {
     _state = STATE_NONE;
     _aggroDistance = -1.0;
+    _smart = false;
 }
 
-void CleverFollowAI::update(float dt)
+void FollowAI::update(float dt)
 {
     // TODO in movement respect player's attributes like speed
     //      this->getAttributes()->getSpeed();
@@ -25,7 +26,7 @@ void CleverFollowAI::update(float dt)
     switch (_state)
     {
         case STATE_NONE:
-            path = AI::getInstance()->findPathToNearestPlayer(this->getCoords(), _aggroDistance);
+            path = AI::getInstance()->findPathToNearestPlayer(this->getCoords(), _aggroDistance, _smart);
             
             if (path.size() != 0)
             {

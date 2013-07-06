@@ -31,8 +31,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Backend/Statistics/AchievementContainer.cpp \
         ../Classes/Gameplay/Backend/Statistics/GameAchievements.cpp \
         ../Classes/Gameplay/Backend/AI/AI.cpp \
-        ../Classes/Gameplay/Backend/AI/RandomAI.cpp \
-        ../Classes/Gameplay/Backend/AI/CleverFollowAI.cpp \
+        ../Classes/Gameplay/Backend/AI/FollowAI.cpp \
         ../Classes/Gameplay/Frontend/LevelLayer.cpp \
         ../Classes/Gameplay/Frontend/ButtonLayer.cpp \
         ../Classes/Gameplay/Frontend/GameButton.cpp \

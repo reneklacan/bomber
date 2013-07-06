@@ -62,6 +62,97 @@ bool AI::isCoordsCrossable(Coordinates coords)
    return false;
 }
 
+std::deque<Coordinates> AI::findDirectPath(Coordinates from, Coordinates to)
+{
+    int dx = fabs(to.x - from.x);
+    int dy = fabs(to.y - from.y);
+    int goal;
+
+    int modifierX = 1;
+    int modifierY = 1;
+
+    if (to.x < from.x)
+    {
+        modifierX = -1;
+    }
+    if (to.y < from.y)
+    {
+        modifierY = -1;
+    }
+
+    float increaceX = 0.0f;
+    float increaceY = 0.0f;
+
+    float completenessX = 0.0f;
+    float completenessY = 0.0f;
+
+    if (dx == dy)
+    {
+        increaceX = 1;
+        increaceY = 1;
+        goal = dx;
+    }
+    else if (dx == 0.0f)
+    {
+        increaceY = 1.0f;
+        goal = dy;
+        completenessX = goal;
+    }
+    else if (dy == 0.0f)
+    {
+        increaceX = 1.0f;
+        goal = dx;
+        completenessY = goal;
+    }
+    else if (dx > dy)
+    {
+        increaceX = 1.0f;
+        increaceY = dx/dy;
+        goal = dx;
+    }
+    else if (dx < dy)
+    {
+        increaceX = dy/dx;
+        increaceY = 1.0f;
+        goal = dy;
+    }
+
+    Coordinates current = from;
+
+    std::deque<Coordinates> path;
+
+    while (current != to)
+    {
+        if (current.y != to.y && completenessX >= completenessY)
+        {
+            current = Coordinates(current.x, current.y + modifierY);
+            completenessY += increaceY;
+        }
+        else if (current.x != to.x)
+        {
+            current = Coordinates(current.x + modifierX, current.y);
+            completenessX += increaceX;
+        }
+        else
+        {
+            printf("WTF?????\n");
+            sleep(10);
+        }
+
+        if (!this->isCoordsCrossable(current))
+        {
+            if (path.size() == 0)
+                return std::deque<Coordinates>({from}); 
+
+            return path;
+        }
+
+        path.push_back(current);
+    }
+
+    return path;
+}
+
 std::deque<Coordinates> AI::findPath(Coordinates from, Coordinates to)
 {
     // TODO: use effective algorithm (A*?) instead of this temporary processor burner!
@@ -145,6 +236,11 @@ std::deque<Coordinates> AI::findPath(Coordinates from, Coordinates to)
 
 std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float range)
 {
+    return this->findPathToNearestPlayer(from, range, true);
+}
+
+std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float range, bool smart)
+{
     float smallestDistance = range;
     float distance;
 
@@ -173,6 +269,9 @@ std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float rang
 
     if (smallestDistance < 0.0)
         return std::deque<Coordinates>();
+
+    if (!smart)
+        return this->findDirectPath(from, nearestSprite->getCoords());
 
     return this->findPath(from, nearestSprite->getCoords());
 }

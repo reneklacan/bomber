@@ -1,6 +1,8 @@
 
 #include "Coordinates.h"
 
+using namespace Bomber::Backend;
+
 Coordinates::Coordinates()
 {
     this->x = 0;
@@ -29,4 +31,11 @@ bool Coordinates::operator==(const Coordinates &other) const
     if (this->x == other.x && this->y == other.y)
         return true;
     return false;
+}
+
+bool Coordinates::operator!=(const Coordinates &other) const
+{
+    if (this->x == other.x && this->y == other.y)
+        return false;
+    return true;
 }

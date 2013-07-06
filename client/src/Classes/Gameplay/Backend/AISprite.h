@@ -2,18 +2,18 @@
 #define __BOMBER_BACKEND_AI_SPRITE
 
 //#include "AI/RandomAI.h"
-#include "AI/CleverFollowAI.h"
+#include "AI/FollowAI.h"
 
 namespace Bomber
 {
     namespace Backend
     {
         //class AISprite : public RandomAI
-        class AISprite : public CleverFollowAI
+        class AISprite : public FollowAI
         {
             public:
                 //AISprite() : RandomAI()
-                AISprite() : CleverFollowAI()
+                AISprite() : FollowAI()
                 {
                     this->getAttributes().setPortability(true);
                 }

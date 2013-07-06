@@ -3,18 +3,24 @@
 
 #include <vector>
 
-class Coordinates
+namespace Bomber
 {
-    public:
-        int x;
-        int y;
+    namespace Backend
+    {
+        class Coordinates
+        {
+            public:
+                int x;
+                int y;
 
-        Coordinates();
-        Coordinates(unsigned int x, unsigned int y);
-        //Coordinates(unsigned int &x, unsigned int &y);
-        std::vector<Coordinates> getCoordsAround();
+                Coordinates();
+                Coordinates(unsigned int x, unsigned int y);
+                std::vector<Coordinates> getCoordsAround();
 
-        bool operator==(const Coordinates &other) const;
-};
+                bool operator==(const Coordinates &other) const;
+                bool operator!=(const Coordinates &other) const;
+        };
+    }
+}
 
 #endif

@@ -1,4 +1,4 @@
-#ifndef __BOMBER_BACKEND_RANDOM_AI
+#ifndef __BOMBER_BACKEND_smart_FOLLOW_AI
 #define __BOMBER_BACKEND_RANDOM_AI
 
 #include "../Sprite.h"
@@ -8,22 +8,24 @@ namespace Bomber
 {
     namespace Backend
     {
-        enum TRandomAIState
+        enum TFollowAIState
         {
             STATE_NONE,
             STATE_MOVING
         };
 
-        class RandomAI : public Sprite
+        class FollowAI : public Sprite
         {
             public:
-                RandomAI();
+                FollowAI();
                 void update(float dt);
                 inline virtual bool isAI() { return true; };
 
             private:
-                TRandomAIState _state;
+                TFollowAIState _state;
                 Position _goal;
+                float _aggroDistance;
+                bool _smart; // if AI is able to find path if obstacles are in direct path
         };
     }
 }
