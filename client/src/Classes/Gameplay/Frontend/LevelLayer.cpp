@@ -30,14 +30,22 @@ bool LevelLayer::init()
     if (!Layer::init())
         return false;
 
+    // Basic init
     _map = Map::create();
     _player = Human::create(_map, 0);
     _controlLayer = ControlLayer::create();
+    this->addChild(_map);
+    this->addChild(_controlLayer, 2);
 
+    // Frontend init
+    GUIUpdater::getInstance()->init(_map, _player, this);
+
+    // Game State init
     Backend::GameState *gameState = new Backend::GameState(_map->getWidth(), _map->getHeight());
     Backend::Mediator::getInstance()->setState(gameState);
     gameState->init(_map->getTiledMap());
     
+    // Backend init
     Backend::Bomber *controlledSprite = new Backend::Bomber();
     controlledSprite->setId(19991);
     controlledSprite->setPosition(_player->getPosition().x, _player->getPosition().y);
@@ -45,16 +53,10 @@ bool LevelLayer::init()
     gameState->getSpriteLayer()->addObject(controlledSprite);
 
     _player->setID(19991);
-    _player->setVertexZ(0);
 
     Backend::Mediator::getInstance()->setControlledSprite(controlledSprite->getId());
-    GUIUpdater::getInstance()->init(_map, _player, this);
 
-    _player->retain();
-
-    this->addChild(_map);
-    this->addChild(_controlLayer, 2);
-
+    // Button Layer
     /**
     */
 
@@ -77,34 +79,18 @@ bool LevelLayer::init()
     );
     ButtonLayer::getInstance()->addToControls(cbPause);
     this->addChild(cbPause->getGameButton(), 1);
+
     /**
     */
 
-    //_map->addChild(_player, 1);
-
-    Size visibleSize = Director::sharedDirector()->getVisibleSize();
-    Point origin = Director::sharedDirector()->getVisibleOrigin();
-    
-    //_player = (GameSprite *) layer->tileAt(ccp(0, 5));
-    //_player = GameSprite::gameSpriteWithFile("tiles/timmy.png");
-    //_player->setSpeed(1);
-    //_player->setPosition(CC_POINT_PIXELS_TO_POINTS(ccp(mapWidth/2,0)));
-    _player->setAnchorPoint(ccp(0.5f, 0.0f));
-
+    // Control Layer
     _controlLayer->setControlledSprite((GameSprite *)_player);
     _controlLayer->enableJoystick();
     _controlLayer->enableKeyboard();
     _controlLayer->setPauseGameDelegate(this);
     _controlLayer->setGameActionDelegate(_player);
     
-    _player->setPosition(
-            ccp(
-                origin.x + _player->getContentSize().width/2 + 101 + 50,
-                origin.y + visibleSize.height/2
-            )
-    );
-    _player->setNextPosition(_player->getPosition());
-
+    // Backend init
     Backend::Mediator::getInstance()->moveSprite(
             Position(
                 _player->getPosition().x,
@@ -112,82 +98,40 @@ bool LevelLayer::init()
             )
     );
 
-    _map->setPosition(
-            ccp(
-                visibleSize.width/2 - _player->getPosition().x,
-                0
-            )
-    );
 
     // use updateGame instead of update, otherwise it will conflit with SelectorProtocol::update
     // see http://www.cocos2d-x.org/boards/6/topics/1478
     this->schedule( schedule_selector(LevelLayer::updateGame) );
-    //this->schedule( schedule_selector(LevelLayer::repositionSprite) );
 
     //CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background-music-aac.wav", true);
 
     return true;
 }
 
-/*void LevelLayer::repositionSprite(float dt)
-{
-    //Point p = _player->getPosition();
-    //p = CC_POINT_POINTS_TO_PIXELS(p);
-    //int z = -( (p.y+100.5) /81 ) + 0;
-    //_player->setVertexZ( z );
-
-    //_player->setZOrder( (_map->getHeight()*TILE_HEIGHT - _player->getPosition().y) );
-}*/
-
 void LevelLayer::updateGame(float dt)
 {
-    Rect objRect;
-    bool collisionOccured = false;
-    bool collisionOccuredX = false;
-    bool collisionOccuredY = false;
-
+    // Get all information
     Point currentPos = _player->getPosition();
     Point nextPos = _player->getNextPosition();
     Point nextPosX = ccp(nextPos.x, currentPos.y);
     Point nextPosY = ccp(currentPos.x, nextPos.y);
 
-    Rect playerRect = _player->getCollisionBox();
-    Rect playerRectX = _player->getCollisionBox(nextPosX);
-    Rect playerRectY = _player->getCollisionBox(nextPosY);
+    // Count collisions
+    std::vector<bool> collisions;
+    collisions = GUIUpdater::getInstance()->evalCollisions(currentPos, nextPos);
 
-    TMXLayer *obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
-
-    Point tilemapPosition = _player->getTilemapPosition();
-
-    for (int iy = tilemapPosition.y - 1; iy <= tilemapPosition.y + 1; iy++)
-    {
-        for (int ix = tilemapPosition.x - 1; ix <= tilemapPosition.x + 1; ix++)
-        {
-            if (!obstaclesLayer->tileGIDAt(ccp(ix, _map->getHeight() - 1 - iy)))
-                continue;
-
-            objRect = CCRectMake(ix*TILE_WIDTH, iy*TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
-
-            if (!collisionOccured && playerRect.intersectsRect(objRect))
-                collisionOccured = true;
-            if (!collisionOccuredX && playerRectX.intersectsRect(objRect))
-                collisionOccuredX = true;
-            if (!collisionOccuredY && playerRectY.intersectsRect(objRect))
-                collisionOccuredY = true;
-        }
-    }
-
+    // Set whether player has moved
     bool move = true;
-
-    if (!collisionOccured)
+    if (!collisions[0])
         ;
-    else if (!collisionOccuredX)
+    else if (!collisions[1])
         nextPos = nextPosX;
-    else if (!collisionOccuredY)
+    else if (!collisions[2])
         nextPos = nextPosY;
     else
         move = false;
 
+    // Move player without backend
     if (move && (currentPos.x != nextPos.x || currentPos.y != nextPos.y))
     {
         _player->setPosition(nextPos);
@@ -195,6 +139,7 @@ void LevelLayer::updateGame(float dt)
         Backend::Mediator::getInstance()->moveSprite(Position(nextPos.x, nextPos.y));
     }
 
+    // Send action
     Backend::Mediator::getInstance()->update(dt);
 
     // Draw new state

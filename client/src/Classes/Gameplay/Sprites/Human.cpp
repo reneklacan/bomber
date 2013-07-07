@@ -19,21 +19,10 @@ Human* Human::create(Map *map, int type)
 {
     Human* sprite = new Human();
 
-    std::string image;
-    if(type == 0)
+    if(sprite)
     {
-        image = "tiles/timmy.png";
-    }
-    else
-    {
-        image = "tiles/timmy-evil.png";
-    }
-
-    if (sprite && sprite->initWithFile(image.c_str()))
-    {
-        sprite->setMap(map);
         sprite->autorelease();
-        return sprite;
+        return sprite; 
     }
 
     CC_SAFE_DELETE(sprite);

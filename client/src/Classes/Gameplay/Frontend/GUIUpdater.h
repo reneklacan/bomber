@@ -27,6 +27,7 @@ namespace Bomber
 
             void init( Map* map, Human* player, Layer* layer);
             void update(Point playerPosition);
+            std::vector<bool> evalCollisions(Point currentPoint, Point nextPoint);
 
         private:
             GUIUpdater(): _lastChangeID(0) {};
@@ -37,6 +38,7 @@ namespace Bomber
             void updateBombDestroy(Backend::GSCBombDestroy *bombDestroy);
             void updateObstacleDestroy(Backend::GSCObstacleDestroy *obstacleDestroy);
             void updateExplosionSpawn(Backend::GSCExplosionSpawn *explosionSpawn);
+            bool evalCollision(Point nextPoint);
 
             unsigned int _lastChangeID;
             Map* _map;
@@ -45,6 +47,7 @@ namespace Bomber
             std::map<unsigned int, Sprite *> _mobs;
             std::map<unsigned int, Node *> _obstacles;
             SpriteBatchNode* _batchNode;
+            TMXLayer *_obstaclesLayer;
         };
     }
 }

@@ -21,29 +21,27 @@ BombCache::BombCache()
 
     for (int i = 0; i < _cacheSize; i++)
     {
-        Bomb *bomb = Bomb::create(NULL, NULL);
+        Bomb *bomb = Bomb::create(NULL, NULL, NULL);
         _bombs[i] = bomb;
     }
 }
 
 Bomb *BombCache::getBomb()
 {
-    return Bomb::create(NULL, NULL);
+    return Bomb::create(NULL, NULL, NULL);
     _counter += 1;
     return _bombs[_counter % _cacheSize];
 }
 
-Bomb* Bomb::create(Map* map, GameSprite *owner)
+Bomb* Bomb::create(Map* map, SpriteBatchNode* batchNode, GameSprite *owner)
 {
     Bomb* sprite = new Bomb();
 
-    if (sprite && sprite->initWithFile("tiles/bomb.png"))
+    if (sprite && sprite->initWithTexture(batchNode->getTexture(), CCRectMake(6*120+15,10*60-20,80,110)) )
     {
-        sprite->setScale(0.1f);
         sprite->setOwner(owner);
         sprite->setMap(map);
-        map->addChild(sprite, 0);
-        //sprite->setVertexZ(owner->getVertexZ()-1);
+        batchNode->addChild(sprite, 0);
         sprite->autorelease();
         return sprite;
     }

@@ -15,7 +15,7 @@ namespace Bomber
             public:
                 Bomb() : _detonated(false) {}
 
-                static Bomb *create(Map *map, GameSprite *owner);
+                static Bomb *create(Map* map, SpriteBatchNode *batchNode, GameSprite *owner);
                 bool isDetonated() { return _detonated; };
                 void setDetonated() { _detonated = true; };
 
