@@ -16,7 +16,7 @@ namespace Bomber
 
             unsigned int getWidth();
             unsigned int getHeight();
-            Menu *getGameButton();
+            Node *getGameButton();
             void setButtonPosition(Point *position);
             Point *getButtonPosition();
 
@@ -28,7 +28,7 @@ namespace Bomber
             Point *_position;
             SEL_MenuHandler _handler;
             Object* _target;
-            Menu *_button;
+            Node *_button;
         };
 
     }

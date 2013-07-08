@@ -36,6 +36,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Frontend/ButtonLayer.cpp \
         ../Classes/Gameplay/Frontend/GameButton.cpp \
         ../Classes/Gameplay/Frontend/ControlButton.cpp \
+        ../Classes/Gameplay/Frontend/AchievementButton.cpp \
         ../Classes/Gameplay/Frontend/GUIUpdater.cpp \
         ../Classes/Gameplay/Map/Map.cpp \
         ../Classes/Gameplay/Map/Bomb.cpp \

@@ -138,6 +138,11 @@ void GUIUpdater::update(Point playerPosition)
                 
             }
             break;
+            case Backend::ACHIEVEMENT_UNLOCKED:
+            {
+                this->updateAchievementUnlocked( (Backend::GSCAchievementUnlocked *)GSChange );
+            }
+            break;
             // Nothing    
             default: {}
         }
@@ -254,6 +259,19 @@ void GUIUpdater::updateExplosionSpawn(Backend::GSCExplosionSpawn *explosionSpawn
     );
     explosion->autorelease();
     _map->addChild(explosion, 0);
+    return;
+}
+
+//
+void GUIUpdater::updateAchievementUnlocked(Backend::GSCAchievementUnlocked *achievementUnlocked)
+{
+
+    AchievementButton *ab = new AchievementButton(
+        achievementUnlocked->getTitle(),
+        achievementUnlocked->getDescription(),
+        ""
+    );
+    ButtonLayer::getInstance()->addToAchievements(ab);
     return;
 }
 

@@ -57,6 +57,7 @@ bool LevelLayer::init()
     Backend::Mediator::getInstance()->setControlledSprite(controlledSprite->getId());
 
     // Button Layer
+    ButtonLayer::getInstance()->setMainLayer(this);
     /**
     */
 
@@ -68,7 +69,6 @@ bool LevelLayer::init()
         menu_selector(LevelLayer::menuCloseCallback)
     );
     ButtonLayer::getInstance()->addToControls(cbQuit);
-    this->addChild(cbQuit->getGameButton(), 1);
 
     // Pause/Resume Button
     ControlButton *cbPause = new ControlButton(
@@ -78,7 +78,6 @@ bool LevelLayer::init()
         menu_selector(LevelLayer::menuPauseCallback)
     );
     ButtonLayer::getInstance()->addToControls(cbPause);
-    this->addChild(cbPause->getGameButton(), 1);
 
     /**
     */
@@ -144,6 +143,7 @@ void LevelLayer::updateGame(float dt)
 
     // Draw new state
     GUIUpdater::getInstance()->update(currentPos);
+    ButtonLayer::getInstance()->saveTime(dt);
     
 }
 

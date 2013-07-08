@@ -15,7 +15,7 @@ unsigned int GameButton::getHeight()
 }
 
 //
-Menu *GameButton::getGameButton()
+Node *GameButton::getGameButton()
 {
     return _button;
 }

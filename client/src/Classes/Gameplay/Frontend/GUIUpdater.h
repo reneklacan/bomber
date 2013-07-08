@@ -16,6 +16,9 @@
 
 #include "../../Constants.h"
 
+#include "AchievementButton.h"
+#include "ButtonLayer.h"
+
 namespace Bomber
 {
     namespace Frontend
@@ -38,6 +41,8 @@ namespace Bomber
             void updateBombDestroy(Backend::GSCBombDestroy *bombDestroy);
             void updateObstacleDestroy(Backend::GSCObstacleDestroy *obstacleDestroy);
             void updateExplosionSpawn(Backend::GSCExplosionSpawn *explosionSpawn);
+            void updateAchievementUnlocked(Backend::GSCAchievementUnlocked *achievementUnlocked);
+
             bool evalCollision(Point nextPoint);
 
             unsigned int _lastChangeID;

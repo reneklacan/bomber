@@ -10,6 +10,37 @@ ButtonLayer *ButtonLayer::getInstance()
 }
 
 //
+ButtonLayer::ButtonLayer()
+{
+    _skills.clear();
+    _achievements.clear();
+    _buffs.clear();
+    _controls.clear();
+    _saveTime = false;
+    _time = 0;
+}
+
+//
+void ButtonLayer::saveTime(float dt)
+{
+    if(_saveTime)
+    {
+        _time += dt;
+    }
+
+    if(_time >= 5)
+    {
+        this->removeAchievement();
+    }
+}
+
+//
+void ButtonLayer::setMainLayer(Layer *main)
+{
+    _mainLayer = main;
+}
+
+//
 void ButtonLayer::addToSkills(GameButton *skill)
 {
     _skills.push_back(skill);
@@ -22,9 +53,10 @@ void ButtonLayer::addToBuffs(GameButton *buff)
 }
 
 //
-void ButtonLayer::addToAchievementss(GameButton *achievement)
+void ButtonLayer::addToAchievements(GameButton *achievement)
 {
     _achievements.push_back(achievement);
+    this->addAchievement();
 }
 
 //
@@ -49,4 +81,30 @@ void ButtonLayer::addToControls(GameButton *control)
     control->setButtonPosition(next);
 
     _controls.push_back(control);
+    _mainLayer->addChild(control->getGameButton(), 1);
+}
+
+//
+void ButtonLayer::addAchievement()
+{
+    if(!_saveTime)
+    {
+        _mainLayer->addChild(_achievements[0]->getGameButton(), 1);
+        _saveTime = true;
+        _time = 0;
+    }
+}
+
+//
+void ButtonLayer::removeAchievement()
+{
+    GameButton* ac = _achievements[0];
+    _achievements.erase(_achievements.begin());
+    _mainLayer->removeChild(ac->getGameButton(), true);
+    _saveTime = false;
+    _time = 0;
+    if(_achievements.size() > 0)
+    {
+        this->addAchievement();
+    }
 }

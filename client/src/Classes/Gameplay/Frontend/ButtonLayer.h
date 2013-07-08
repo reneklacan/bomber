@@ -11,23 +11,31 @@ namespace Bomber
 {
     namespace Frontend
     {
-        class ButtonLayer
+        class ButtonLayer : public Layer
         {
         public:
             static ButtonLayer *getInstance();
 
             void addToSkills(GameButton *skill);
             void addToBuffs(GameButton *buff);
-            void addToAchievementss(GameButton *achievement);
+            void addToAchievements(GameButton *achievement);
             void addToControls(GameButton *control);
+            void setMainLayer(Layer* main);
+            void saveTime(float dt);
 
         private:
-            ButtonLayer() {};
+            ButtonLayer();
 
+            void addAchievement();
+            void removeAchievement();
+
+            Layer *_mainLayer;
             std::vector<GameButton *> _skills;
             std::vector<GameButton *> _buffs;
             std::vector<GameButton *> _achievements;
             std::vector<GameButton *> _controls;
+            float _time;
+            bool _saveTime;
         };
     }
 }
