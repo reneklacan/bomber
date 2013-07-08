@@ -39,87 +39,114 @@ void Logic::update(float dt)
     Coordinates epicentrum;
 
     std::vector<BBomb *> bombsToDestroy;
+    std::deque<BBomb *> bombsToDetonate;
+    BBomb *bomb;
 
     for (auto pair : _state->getBombLayer()->getObjects())
     {
-        BBomb *bomb = pair.second;
+        bomb = pair.second;
         bomb->update(dt);
 
         if (bomb->isDetonated())
         {
-            //_gameStateUpdater->getState()->getObstaclesLayer()->print();
+            bombsToDetonate.push_back(bomb);
+        }
+    }
 
-            power = bomb->getPower();
-            epicentrum = bomb->getCoords();
-            penetration = bomb->getPenetration();
-            owner = bomb->getOwnerId();
+    while (bombsToDetonate.size() > 0)
+    {
+        //_gameStateUpdater->getState()->getObstaclesLayer()->print();
+
+        bomb = bombsToDetonate.front();
+        bombsToDetonate.pop_front();
+
+        power = bomb->getPower();
+        epicentrum = bomb->getCoords();
+        penetration = bomb->getPenetration();
+        owner = bomb->getOwnerId();
             
-            //_gameStateUpdater->destroyBomb(bomb);
-            bombsToDestroy.push_back(bomb);
+        //_gameStateUpdater->destroyBomb(bomb);
+        bombsToDestroy.push_back(bomb);
 
-            penetrationTop = penetration;
-            penetrationBottom = penetration;
-            penetrationLeft = penetration;
-            penetrationRight = penetration;
+        penetrationTop = penetration;
+        penetrationBottom = penetration;
+        penetrationLeft = penetration;
+        penetrationRight = penetration;
 
-            topArmLength = 0;
-            bottomArmLength = 0;
-            leftArmLength = 0;
-            rightArmLength = 0;
+        topArmLength = 0;
+        bottomArmLength = 0;
+        leftArmLength = 0;
+        rightArmLength = 0;
 
-            for (int i = 0; i < power; i++)
+        for (int i = 0; i < power; i++)
+        {
+            for (auto object : _state->getBombLayer()->getObjectsAtCoords(epicentrum.x, epicentrum.y + i + 1))
             {
-                impact = _gameStateUpdater->makeBombImpact(
-                        owner,
-                        &penetrationTop,
-                        epicentrum.x,
-                        epicentrum.y + i + 1
-                );
-                if (impact)
-                {
-                    topArmLength++;
-                }
-                impact = _gameStateUpdater->makeBombImpact(
-                        owner,
-                        &penetrationBottom,
-                        epicentrum.x,
-                        epicentrum.y - i - 1
-                );
-                if (impact)
-                {
-                    bottomArmLength++;
-                }
-                impact = _gameStateUpdater->makeBombImpact(
-                        owner,
-                        &penetrationRight,
-                        epicentrum.x + i + 1,
-                        epicentrum.y
-                );
-                if (impact)
-                {
-                    rightArmLength++;
-                }
-                impact = _gameStateUpdater->makeBombImpact(
-                        owner,
-                        &penetrationLeft,
-                        epicentrum.x - i - 1,
-                        epicentrum.y
-                );
-                if (impact)
-                {
-                    leftArmLength++;
-                }
+                bombsToDetonate.push_back(object);
+            }
+            for (auto object : _state->getBombLayer()->getObjectsAtCoords(epicentrum.x, epicentrum.y - i - 1))
+            {
+                bombsToDetonate.push_back(object);
+            }
+            for (auto object : _state->getBombLayer()->getObjectsAtCoords(epicentrum.x + i + 1, epicentrum.y))
+            {
+                bombsToDetonate.push_back(object);
+            }
+            for (auto object : _state->getBombLayer()->getObjectsAtCoords(epicentrum.x - i - 1, epicentrum.y))
+            {
+                bombsToDetonate.push_back(object);
             }
 
-            _gameStateUpdater->spawnExplosion(
-                    bomb,
-                    topArmLength,
-                    bottomArmLength,
-                    leftArmLength,
-                    rightArmLength
+            impact = _gameStateUpdater->makeBombImpact(
+                    owner,
+                    &penetrationTop,
+                    epicentrum.x,
+                    epicentrum.y + i + 1
             );
-            //_gameStateUpdater->getState()->getObstaclesLayer()->print();
+            if (impact)
+            {
+                topArmLength++;
+            }
+            impact = _gameStateUpdater->makeBombImpact(
+                    owner,
+                    &penetrationBottom,
+                    epicentrum.x,
+                    epicentrum.y - i - 1
+            );
+            if (impact)
+            {
+                bottomArmLength++;
+            }
+            impact = _gameStateUpdater->makeBombImpact(
+                    owner,
+                    &penetrationRight,
+                    epicentrum.x + i + 1,
+                    epicentrum.y
+            );
+            if (impact)
+            {
+                rightArmLength++;
+            }
+            impact = _gameStateUpdater->makeBombImpact(
+                    owner,
+                    &penetrationLeft,
+                    epicentrum.x - i - 1,
+                    epicentrum.y
+            );
+            if (impact)
+            {
+                leftArmLength++;
+            }
         }
+
+        _gameStateUpdater->spawnExplosion(
+                bomb,
+                topArmLength,
+                bottomArmLength,
+                leftArmLength,
+                rightArmLength
+        );
+        //_gameStateUpdater->getState()->getObstaclesLayer()->print();
     }
 
     for (auto bomb : bombsToDestroy)
