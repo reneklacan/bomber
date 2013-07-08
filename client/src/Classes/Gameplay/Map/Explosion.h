@@ -1,21 +1,23 @@
 #ifndef __BOMBER_EXPLOSION
 #define __BOMBER_EXPLOSION
 
+#define EXPLOSION_CACHE_SIZE 16
+
 #include "cocos2d.h"
 
 using namespace cocos2d;
 
-class ExplosionCache
+class ExplosionEmitterCache
 {
     public:
         int _counter;
         int _cacheSize;
-        ParticleSun *_emitters[4];
-        static ExplosionCache *_instance;
+        ParticleSun *_emitters[EXPLOSION_CACHE_SIZE];
+        static ExplosionEmitterCache *_instance;
 
-        static ExplosionCache *getInstance();
+        static ExplosionEmitterCache *getInstance();
 
-        ExplosionCache();
+        ExplosionEmitterCache();
         ParticleSun *getEmitter();
 };
 

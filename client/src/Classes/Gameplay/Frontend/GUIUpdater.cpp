@@ -250,6 +250,21 @@ void GUIUpdater::updateObstacleDestroy(Backend::GSCObstacleDestroy *obstacleDest
 void GUIUpdater::updateExplosionSpawn(Backend::GSCExplosionSpawn *explosionSpawn)
 {
     Point epicentrum = ccp(explosionSpawn->getEpicentrum().x, explosionSpawn->getEpicentrum().y);
+    /*
+    printf("explostion\n");
+    printf(
+        " - epicentrum x:%g, y:%g\n",
+        explosionSpawn->getEpicentrum().x,
+        explosionSpawn->getEpicentrum().y
+    );
+    printf(
+        " - arms l:%d, r:%d, t:%d, b:%d\n", 
+        explosionSpawn->getLeftArmLength(),
+        explosionSpawn->getRightArmLength(),
+        explosionSpawn->getTopArmLength(),
+        explosionSpawn->getBottomArmLength()
+    );
+    */
     Explosion *explosion = new Explosion(
         epicentrum,
         explosionSpawn->getLeftArmLength(),

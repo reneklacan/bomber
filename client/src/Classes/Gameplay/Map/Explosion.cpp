@@ -1,20 +1,21 @@
 #include "Explosion.h"
 #include "../../Constants.h"
 
-ExplosionCache *ExplosionCache::_instance = NULL;
+ExplosionEmitterCache *ExplosionEmitterCache::_instance = NULL;
 
-ExplosionCache *ExplosionCache::getInstance()
+ExplosionEmitterCache *ExplosionEmitterCache::getInstance()
 {
     if (_instance == NULL)
-        _instance = new ExplosionCache();
+    {
+        _instance = new ExplosionEmitterCache();
+    }
     return _instance;
 }
 
-ExplosionCache::ExplosionCache()
+ExplosionEmitterCache::ExplosionEmitterCache()
+: _cacheSize(EXPLOSION_CACHE_SIZE)
+, _counter(-1)
 {
-    _cacheSize = 4;
-    _counter = -1;
-
     for (int i = 0; i < _cacheSize; i++)
     {
         ParticleSun *emitter = ParticleSun::create();
@@ -24,11 +25,11 @@ ExplosionCache::ExplosionCache()
         emitter->setStartSize(50.0f);
         emitter->setLife(1);
         emitter->setLifeVar(1);
-        //emitter->setSpeed(60);
-        //emitter->setSpeedVar(20);
         emitter->setDuration(0.5);
         emitter->setPositionType(kPositionTypeRelative);
         /*
+        emitter->setSpeed(60);
+        emitter->setSpeedVar(20);
         emitter->setAngleVar(0);
         emitter->setStartSpin(0);
         emitter->setStartSpinVar(0);
@@ -45,7 +46,7 @@ ExplosionCache::ExplosionCache()
     }
 }
 
-ParticleSun *ExplosionCache::getEmitter()
+ParticleSun *ExplosionEmitterCache::getEmitter()
 {
     _counter += 1;
     _emitters[_counter % _cacheSize]->resetSystem();
@@ -56,7 +57,7 @@ Explosion::Explosion(Point epicentrum, int powerLeft, int powerRight, int powerT
 {
     for (int i = 0; i < 4; i++)
     {
-        ParticleSun *emitter = ExplosionCache::getInstance()->getEmitter();
+        ParticleSun *emitter = ExplosionEmitterCache::getInstance()->getEmitter();
         emitter->setPosition(epicentrum);
         this->addChild(emitter, -5);
 

@@ -148,6 +148,7 @@
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\GameAchievements.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\Statistics.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\StatisticsUpdater.cpp" />
+    <ClCompile Include="..\Classes\Gameplay\Frontend\AchievementButton.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Frontend\ButtonLayer.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Frontend\ControlButton.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Frontend\GameButton.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\GameAchievements.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\Statistics.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\StatisticsUpdater.h" />
+    <ClInclude Include="..\Classes\Gameplay\Frontend\AchievementButton.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\ButtonLayer.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\ControlButton.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\GameButton.h" />

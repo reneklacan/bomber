@@ -34,7 +34,6 @@ static void openConsole()
     setvbuf( stdin, NULL, _IONBF, 0 );
 
     std::ios::sync_with_stdio();
-
 }
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
