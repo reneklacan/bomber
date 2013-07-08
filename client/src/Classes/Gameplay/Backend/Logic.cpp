@@ -29,12 +29,9 @@ void Logic::update(float dt)
 {
     int power,
         penetration, penetrationTop, penetrationBottom,
-        penetrationRight, penetrationLeft,
-        topArmLength, bottomArmLength,
-        leftArmLength, rightArmLength;
+        penetrationRight, penetrationLeft;
         
     unsigned int owner;
-    bool impact;
 
     Coordinates epicentrum;
 
@@ -59,6 +56,7 @@ void Logic::update(float dt)
 
         bomb = bombsToDetonate.front();
         bombsToDetonate.pop_front();
+        bomb->detonate();
 
         power = bomb->getPower();
         epicentrum = bomb->getCoords();
@@ -73,79 +71,46 @@ void Logic::update(float dt)
         penetrationLeft = penetration;
         penetrationRight = penetration;
 
-        topArmLength = 0;
-        bottomArmLength = 0;
-        leftArmLength = 0;
-        rightArmLength = 0;
+        int *penetrations[4] = {
+            &penetrationTop,
+            &penetrationBottom,
+            &penetrationLeft,
+            &penetrationRight
+        };
+
+        int armLengths[4] = {0};
 
         for (int i = 0; i < power; i++)
         {
-            for (auto object : _state->getBombLayer()->getObjectsAtCoords(epicentrum.x, epicentrum.y + i + 1))
-            {
-                bombsToDetonate.push_back(object);
-            }
-            for (auto object : _state->getBombLayer()->getObjectsAtCoords(epicentrum.x, epicentrum.y - i - 1))
-            {
-                bombsToDetonate.push_back(object);
-            }
-            for (auto object : _state->getBombLayer()->getObjectsAtCoords(epicentrum.x + i + 1, epicentrum.y))
-            {
-                bombsToDetonate.push_back(object);
-            }
-            for (auto object : _state->getBombLayer()->getObjectsAtCoords(epicentrum.x - i - 1, epicentrum.y))
-            {
-                bombsToDetonate.push_back(object);
-            }
+            auto around = epicentrum.getCoordsAround(i + 1);
 
-            impact = _gameStateUpdater->makeBombImpact(
-                    owner,
-                    &penetrationTop,
-                    epicentrum.x,
-                    epicentrum.y + i + 1
-            );
-            if (impact)
+            for (int j = 0; j < 4; j++)
             {
-                topArmLength++;
-            }
-            impact = _gameStateUpdater->makeBombImpact(
-                    owner,
-                    &penetrationBottom,
-                    epicentrum.x,
-                    epicentrum.y - i - 1
-            );
-            if (impact)
-            {
-                bottomArmLength++;
-            }
-            impact = _gameStateUpdater->makeBombImpact(
-                    owner,
-                    &penetrationRight,
-                    epicentrum.x + i + 1,
-                    epicentrum.y
-            );
-            if (impact)
-            {
-                rightArmLength++;
-            }
-            impact = _gameStateUpdater->makeBombImpact(
-                    owner,
-                    &penetrationLeft,
-                    epicentrum.x - i - 1,
-                    epicentrum.y
-            );
-            if (impact)
-            {
-                leftArmLength++;
+                auto coords = around[j];
+
+                for (auto bombObject : _state->getBombLayer()->getObjectsAtCoords(coords))
+                {
+                    if (!bombObject->isDetonated())
+                    {
+                        bombsToDetonate.push_back(bombObject);
+                    }
+                }
+
+                if (_gameStateUpdater->makeBombImpact(owner, penetrations[j], coords.x, coords.y))
+                {
+                    armLengths[j]++;
+                }
             }
         }
 
         _gameStateUpdater->spawnExplosion(
                 bomb,
-                topArmLength,
-                bottomArmLength,
-                leftArmLength,
-                rightArmLength
+                armLengths[0], // top
+                armLengths[1], // bottom
+                armLengths[2], // left
+                armLengths[3]  // right
         );
+
         //_gameStateUpdater->getState()->getObstaclesLayer()->print();
     }
 

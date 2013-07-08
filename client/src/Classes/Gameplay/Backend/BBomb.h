@@ -13,7 +13,6 @@ namespace Bomber
                 BBomb();
                 void configure(GameObject *owner);
                 void update(float dt);
-                bool isDetonated() { return _detonated; };
         };
     }
 }

@@ -10,11 +10,12 @@ namespace Bomber
         class ExplodableObject : public GameObject
         {
             public:
-                virtual bool isDetonated() { return false; };
+                virtual bool isDetonated() { return _detonated; };
                 virtual bool isExplodable() { return true; };
                 virtual unsigned int getOwnerId() { return _ownerId; };
                 virtual unsigned int getPower() { return _power; };
                 virtual unsigned int getPenetration() { return _penetration; };
+                virtual void detonate() { _detonated = true; };
 
             protected:
                 bool _detonated;
