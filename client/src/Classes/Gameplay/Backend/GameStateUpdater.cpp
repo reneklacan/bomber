@@ -33,9 +33,15 @@ bool GameStateUpdater::spawnBomb(Sprite *owner)
         return false;
     }
 
-    if (_state->getObstacleLayer()->getObjectsAtCoords(owner->getCoords()).size())
+    if (_state->getObstacleLayer()->getObjectsAtCoords(owner->getCoords()).size() != 0)
     {
         printf("bomb spawn failed, tile occupied by obstacle\n");
+        return false;
+    }
+
+    if (_state->getBombLayer()->getObjectsAtCoords(owner->getCoords()).size() != 0)
+    {
+        printf("bomb spawn failed, tile occupied by another bomb\n");
         return false;
     }
 
