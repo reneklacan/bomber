@@ -34,7 +34,7 @@ void Logic::update(float dt)
     unsigned int owner;
 
     Coordinates epicentrum;
-
+    
     std::vector<BBomb *> bombsToDestroy;
     std::deque<BBomb *> bombsToDetonate;
     BBomb *bomb;
@@ -88,6 +88,11 @@ void Logic::update(float dt)
 
             for (int j = 0; j < 4; j++)
             {
+                int *penetration = penetrations[j];
+
+                if (*penetration == 0)
+                    continue;
+
                 auto coords = around[j];
 
                 for (auto bombObject : _state->getBombLayer()->getObjectsAtCoords(coords))
@@ -95,7 +100,15 @@ void Logic::update(float dt)
                     if (!bombObject->isDetonated())
                     {
                         bombsToDetonate.push_back(bombObject);
+                        bombObject->detonate();
                     }
+                    *penetration = 0;
+                }
+
+                if (*penetration == 0)
+                {
+                    armLengths[j]++;
+                    continue;
                 }
 
                 if (_gameStateUpdater->makeBombImpact(bomb, penetrations[j], coords.x, coords.y))

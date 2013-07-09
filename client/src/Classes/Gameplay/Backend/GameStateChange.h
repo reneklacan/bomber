@@ -34,7 +34,12 @@ namespace Bomber
             SPECIAL_SPAWN,
             SPECIAL_DESTROY,
 
-            ACHIEVEMENT_UNLOCKED
+            ACHIEVEMENT_UNLOCKED,
+            
+            LEVER_SWITCH_ON,
+            LEVER_SWITCH_OFF,
+
+            LEVEL_FINISH
         };
 
         class GameStateChange
@@ -104,6 +109,7 @@ namespace Bomber
             public:
                 GSCBombDestroy() { _type = BOMB_DESTROY; };
                 virtual void update(unsigned int id) { _id = id; };
+
             private:
                 SYNTHESIZE(unsigned int, _id, Id);
         };
@@ -161,6 +167,7 @@ namespace Bomber
                     _title = title;
                     _description = description;
                 }
+
             private:
                 SYNTHESIZE(const char *, _title, Title);
                 SYNTHESIZE(const char *, _description, Description);
