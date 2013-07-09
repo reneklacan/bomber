@@ -64,7 +64,7 @@ namespace Bomber
         class GSCCoordinates : public GameStateChange
         {
             public:
-                virtual void update(Coordinates c) { _coordinates = c; };
+                virtual void update(Coordinates coords) { _coordinates = coords; };
 
             private:
                 SYNTHESIZE(Coordinates, _coordinates, Coordinates);
@@ -112,6 +112,22 @@ namespace Bomber
 
             private:
                 SYNTHESIZE(unsigned int, _id, Id);
+        };
+        
+        class GSCObstacleSpawn : public GSCCoordinates
+        {
+            public:
+                GSCObstacleSpawn() { _type = OBSTACLE_SPAWN; };
+                virtual void update(unsigned int gid, Coordinates coords, unsigned int spawnerId)
+                {
+                    _git = gid;
+                    _coordinates = coords;
+                    _spawnerId = spawnerId;
+                }
+
+            private:
+                SYNTHESIZE(unsigned int, _git, Gid);
+                SYNTHESIZE(unsigned int, _spawnerId, SpawnerId);
         };
 
         class GSCObstacleDestroy : public GSCCoordinates
@@ -171,6 +187,18 @@ namespace Bomber
             private:
                 SYNTHESIZE(const char *, _title, Title);
                 SYNTHESIZE(const char *, _description, Description);
+        };
+
+        class GSCLeverSwitchOn : public GameStateChange
+        {
+            public:
+                GSCLeverSwitchOn() { _type = LEVER_SWITCH_ON; };
+        };
+
+        class GSCLeverSwitchOff : public GameStateChange
+        {
+            public:
+                GSCLeverSwitchOff() { _type = LEVER_SWITCH_OFF; };
         };
     }
 }

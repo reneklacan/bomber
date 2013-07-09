@@ -1,6 +1,7 @@
 
 #include "GameStateUpdater.h"
 #include "Statistics/StatisticsUpdater.h"
+#include "../../Constants.h"
 
 using namespace Bomber::Backend;
 
@@ -9,7 +10,7 @@ GameStateUpdater::GameStateUpdater()
     _uniqueId = 1;
 }
 
-void GameStateUpdater::updateGrid()
+void GameStateUpdater::updateSpriteGrid()
 {
     _state->getSpriteLayer()->updateGrid();
 }
@@ -24,13 +25,6 @@ void GameStateUpdater::teleportSprite(Sprite *sprite, Position position)
 {
     this->logSpriteTeleport(sprite, position);
     sprite->setPosition(position);
-}
-
-void GameStateUpdater::destroySprite(Sprite *sprite)
-{
-    this->logSpriteDestroy(sprite);
-
-    _state->getSpriteLayer()->removeObject(sprite);
 }
 
 bool GameStateUpdater::spawnBomb(Sprite *owner)
@@ -66,13 +60,6 @@ bool GameStateUpdater::spawnBomb(Sprite *owner)
     return true;
 }
 
-void GameStateUpdater::destroyBomb(BBomb *bomb)
-{
-    _state->getBombLayer()->removeObject(bomb);
-    this->logBombDestroy(bomb);
-    //delete bomb;
-}
-
 void GameStateUpdater::spawnExplosion(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
 {
     this->logExplosionSpawn(
@@ -84,63 +71,18 @@ void GameStateUpdater::spawnExplosion(ExplodableObject *explObj, int topArmLengt
     );
 }
 
-bool GameStateUpdater::makeBombImpact(BBomb *bomb, int *penetration, unsigned int x, unsigned int y)
+void GameStateUpdater::spawnObstacle(unsigned int obstacleGid, Coordinates coords, unsigned int spawnerId)
 {
-    if (penetration != NULL && !(*penetration))
-        return false;
+    Obstacle *obstacle = new Obstacle();
+    obstacle->setId(coords.y*_state->getWidth() + coords.x);
+    obstacle->setPosition(coords.x*TILE_WIDTH, coords.y*TILE_HEIGHT);
+    obstacle->setSize(TILE_WIDTH, TILE_HEIGHT);
+    obstacle->configureFromGid(obstacleGid);
 
-    auto sprites = _state->getSpriteLayer()->getObjectsAtCoords(x, y);
+    _state->getObstacleLayer()->addObject(obstacle);
+    _state->getObstacleLayer()->updateGrid();
 
-    for (auto sprite : sprites)
-    {
-        if (!sprite->isAI()) continue; // temporary
-
-        this->logSpriteDamage(sprite, bomb->getDamage());
-        sprite->getAttributes()->decreaseHealth(bomb->getDamage());
-
-        if (sprite->getAttributes()->isDead())
-        {
-            this->destroySprite(sprite);
-        }
-    }
-
-    if (penetration == NULL)
-        return true;
-
-    auto obstacles = _state->getObstacleLayer()->getObjectsAtCoords(x, y);
-
-    if (obstacles.size() == 0)
-        return true;
-
-    bool somethingDamaged = false;
-
-    for (auto object : obstacles)
-    {
-        if (!(*penetration))
-            return somethingDamaged;
-
-        Obstacle *obstacle = (Obstacle *) object;
-
-        if (!obstacle->getToughness())
-        {
-            *penetration = 0;
-            continue;
-        }
-
-        (*penetration)--;
-
-        if (obstacle->decreaseToughness())
-            continue;
-
-        _state->getObstacleLayer()->removeObject(object);
-
-        StatisticsUpdater::getInstance()->obstacleDestroyed(bomb->getOwnerId(), obstacle);
-        this->logObstacleDestroy(obstacle);
-
-        somethingDamaged = true;
-    }
-
-    return somethingDamaged;
+    this->logObstacleSpawn(obstacleGid, obstacle, spawnerId);
 }
 
 void GameStateUpdater::updateSpriteAttributes(Sprite *sprite, Effect *effect)
@@ -149,13 +91,6 @@ void GameStateUpdater::updateSpriteAttributes(Sprite *sprite, Effect *effect)
     StatisticsUpdater::getInstance()->effectTaken(sprite->getId(), effect);
     this->logSpriteAttributesUpdate(sprite, effect);
 }
-
-void GameStateUpdater::destroyEffect(Effect *effect)
-{
-    _state->getEffectLayer()->removeObject(effect);
-    this->logEffectDestroy(effect);
-}
-
 void GameStateUpdater::updateAchievements()
 {
     if (!AchievementContainer::getInstance()->isNewQueueEmpty())
@@ -171,6 +106,64 @@ void GameStateUpdater::updateAchievements()
             this->logAchievementUnlocked(achievement);
         }
     }
+}
+
+void GameStateUpdater::switchLeverOn(GameObject *lever)
+{
+    this->logLeverSwitchOn(lever);
+}
+
+void GameStateUpdater::switchLeverOff(GameObject *lever)
+{
+    this->logLeverSwitchOff(lever);
+}
+
+void GameStateUpdater::damageSprite(Sprite *sprite, unsigned int causerId, int damage)
+{
+    this->logSpriteDamage(sprite, damage);
+    sprite->getAttributes()->decreaseHealth(damage);
+
+    if (sprite->getAttributes()->isDead())
+    {
+        this->destroySprite(sprite);
+    }
+}
+
+void GameStateUpdater::damageObstacle(Obstacle *obstacle, unsigned int destroyerId)
+{
+    obstacle->decreaseToughness();
+
+    if (obstacle->getToughness() > 0)
+        return;
+
+    this->destroyObstacle(obstacle, destroyerId);
+}
+
+void GameStateUpdater::destroySprite(Sprite *sprite)
+{
+    this->logSpriteDestroy(sprite);
+
+    _state->getSpriteLayer()->removeObject(sprite);
+}
+
+void GameStateUpdater::destroyBomb(BBomb *bomb)
+{
+    _state->getBombLayer()->removeObject(bomb);
+    this->logBombDestroy(bomb);
+    //delete bomb;
+}
+
+void GameStateUpdater::destroyEffect(Effect *effect)
+{
+    _state->getEffectLayer()->removeObject(effect);
+    this->logEffectDestroy(effect);
+}
+
+void GameStateUpdater::destroyObstacle(Obstacle *obstacle, unsigned int destroyerId)
+{
+    StatisticsUpdater::getInstance()->obstacleDestroyed(destroyerId, obstacle);
+    _state->getObstacleLayer()->removeObject(obstacle);
+    this->logObstacleDestroy(obstacle);
 }
 
 void GameStateUpdater::logSpriteMove(Sprite *sprite)
@@ -242,13 +235,24 @@ void GameStateUpdater::logExplosionSpawn(ExplodableObject *explObj, int topArmLe
     _state->addChange(change);
 }
 
+void GameStateUpdater::logObstacleSpawn(unsigned int obstacleGid, Obstacle *obstacle, unsigned int spawnerId)
+{
+    printf("logObstacleSpawn\n");
+    GSCObstacleSpawn* change = new GSCObstacleSpawn();
+    change->update(
+        obstacleGid,
+        obstacle->getCoords(),
+        spawnerId
+    );
+    change->setGameObjectId(obstacle->getId());
+    _state->addChange(change);
+}
+
 void GameStateUpdater::logObstacleDestroy(Obstacle *obstacle)
 {
     printf("logObstacleDestroy\n");
     GSCObstacleDestroy* change = new GSCObstacleDestroy();
-    change->update(
-            obstacle->getCoords()
-    );
+    change->update(obstacle->getCoords());
     change->setGameObjectId(obstacle->getId());
     _state->addChange(change);
 }
@@ -261,6 +265,22 @@ void GameStateUpdater::logSpriteAttributesUpdate(Sprite *sprite, Effect *effect)
             effect->getType()
     );
     change->setGameObjectId(sprite->getId());
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logLeverSwitchOn(GameObject *lever)
+{
+    printf("logLeverSwitchOn\n");
+    GSCLeverSwitchOn * change = new GSCLeverSwitchOn();
+    change->setGameObjectId(lever->getId());
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logLeverSwitchOff(GameObject *lever)
+{
+    printf("logLeverSwitchOff\n");
+    GSCLeverSwitchOff * change = new GSCLeverSwitchOff();
+    change->setGameObjectId(lever->getId());
     _state->addChange(change);
 }
 

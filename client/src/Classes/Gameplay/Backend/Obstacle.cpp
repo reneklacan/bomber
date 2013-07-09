@@ -12,12 +12,17 @@ void Obstacle::configureFromGid(unsigned int gid)
     if (gid == 20)
     {
         _name = "maze";
-        _toughness = 0;
+        _toughness = -1;
     }
     else if (gid == 42)
     {
         _name = "block";
         _toughness = 1;
+    }
+    else if (gid == 25)
+    {
+        _name = "lever";
+        _toughness = -1;
     }
 }
 

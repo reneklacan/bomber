@@ -18,32 +18,44 @@ namespace Bomber
             public:
                 GameStateUpdater();
 
-                void updateGrid();
+                void updateSpriteGrid();
                 void setState(GameState *state) { _state = state; };
                 GameState *getState() { return _state; };
                 unsigned int getUniqueId() { return _uniqueId++; };
 
                 void moveSprite(Sprite *sprite, Position position);
                 void teleportSprite(Sprite *sprite, Position position);
-                void destroySprite(Sprite *sprite);
 
                 bool spawnBomb(Sprite* owner);
                 void spawnExplosion(ExplodableObject *explObji, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
-                void destroyBomb(BBomb *bomb);
-                bool makeBombImpact(BBomb *bomb, int *penetration, unsigned int x, unsigned int y);
+                void spawnObstacle(unsigned int obstacleGid, Coordinates coords, unsigned int spawnerId);
+
                 void updateSpriteAttributes(Sprite *sprite, Effect *effect);
-                void destroyEffect(Effect *effect);
                 void updateAchievements();
+                
+                void switchLeverOn(GameObject *lever);
+                void switchLeverOff(GameObject *lever);
+                
+                void damageSprite(Sprite *sprite, unsigned int causerId, int damage);
+                void damageObstacle(Obstacle *obstacle, unsigned int causerId);
+
+                void destroyObstacle(Obstacle *obstacle, unsigned int destroyerId);
+                void destroySprite(Sprite *sprite);
+                void destroyBomb(BBomb *bomb);
+                void destroyEffect(Effect *effect);
 
                 void logSpriteMove(Sprite *sprite);
                 void logSpriteTeleport(Sprite *sprite, Position &to);
                 void logSpriteDamage(Sprite *sprite, int damage);
                 void logSpriteDestroy(Sprite *sprite);
                 void logBombSpawn(BBomb *bomb);
+                void logObstacleSpawn(unsigned int obstacleGid, Obstacle *obstacle, unsigned int spawnerId);
                 void logBombDestroy(BBomb *bomb);
                 void logExplosionSpawn(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void logObstacleDestroy(Obstacle *obstacle);
                 void logSpriteAttributesUpdate(Sprite *sprite, Effect *effect);
+                void logLeverSwitchOn(GameObject *lever);
+                void logLeverSwitchOff(GameObject *lever);
                 void logEffectDestroy(Effect *effect);
                 void logAchievementUnlocked(Achievement *achievement);
 

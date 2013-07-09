@@ -80,7 +80,7 @@ void Logic::update(float dt)
 
         int armLengths[4] = {0};
 
-        _gameStateUpdater->makeBombImpact(bomb, NULL, epicentrum.x, epicentrum.y);
+        this->makeBombImpact(bomb, NULL, epicentrum);
 
         for (int i = 0; i < power; i++)
         {
@@ -111,7 +111,7 @@ void Logic::update(float dt)
                     continue;
                 }
 
-                if (_gameStateUpdater->makeBombImpact(bomb, penetrations[j], coords.x, coords.y))
+                if (this->makeBombImpact(bomb, penetrations[j], coords))
                 {
                     armLengths[j]++;
                 }
@@ -161,11 +161,6 @@ void Logic::update(float dt)
             effectsToDestroy.push_back(effect);
         }
 
-        for (auto effect : effectsToDestroy)
-        {
-            _gameStateUpdater->destroyEffect(effect);
-        }
-
         if (sprite->getAttributes()->getPortability() == false)
         {
             continue;
@@ -186,11 +181,96 @@ void Logic::update(float dt)
         }
     }
 
-    _gameStateUpdater->updateGrid();
+    for (auto effect : effectsToDestroy)
+    {
+        _gameStateUpdater->destroyEffect(effect);
+    }
+
+    _gameStateUpdater->updateSpriteGrid();
     _gameStateUpdater->updateAchievements();
 
     //_state->getSpriteLayer()->print();
 }
+
+
+bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
+{
+    unsigned int x = coords.x;
+    unsigned int y = coords.y;
+
+    if (penetration != NULL && !(*penetration))
+        return false;
+
+    auto levers = _state->getLeverLayer()->getObjectsAtCoords(x, y);
+
+    for (auto lever : levers)
+    {
+        auto target = _state->getLeverTargetLayer()->getObject(lever->getId());
+        auto obstacles = _state->getObstacleLayer()->getObjectsAtCoords(target->getCoords());
+
+
+        if (obstacles.size() > 0)
+        {
+            // open "the bridge"
+            _gameStateUpdater->switchLeverOn(lever);
+
+            for (auto obstacle : obstacles)
+            {
+                _gameStateUpdater->destroyObstacle(obstacle, bomb->getId());
+            }
+        }
+        else
+        {
+            // close "the bridge"
+            _gameStateUpdater->switchLeverOff(lever);
+
+            unsigned int obstacleGid = 20;
+            _gameStateUpdater->spawnObstacle(obstacleGid, target->getCoords(), bomb->getId());
+        }
+    }
+
+    auto sprites = _state->getSpriteLayer()->getObjectsAtCoords(x, y);
+
+    for (auto sprite : sprites)
+    {
+        if (!sprite->isAI()) continue; // temporary
+
+        _gameStateUpdater->damageSprite(sprite, bomb->getId(), bomb->getDamage());
+    }
+
+    if (penetration == NULL)
+        return true;
+
+    auto obstacles = _state->getObstacleLayer()->getObjectsAtCoords(x, y);
+
+    if (obstacles.size() == 0)
+        return true;
+
+    bool somethingDamaged = false;
+
+    for (auto object : obstacles)
+    {
+        Obstacle *obstacle = (Obstacle *) object;
+
+        if (obstacle->getToughness() == -1)
+        {
+            *penetration = 0;
+            return false;
+        }
+        
+        _gameStateUpdater->damageObstacle(obstacle, bomb->getOwnerId());
+
+        somethingDamaged = true;
+    }
+
+    if (somethingDamaged)
+    {
+        (*penetration)--;
+    }
+
+    return somethingDamaged;
+}
+
 
 void Logic::setControlledSprite(unsigned int spriteId)
 {
