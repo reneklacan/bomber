@@ -49,7 +49,7 @@ namespace Bomber
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
-                    sprite->getAttributes().increaseFlame();
+                    sprite->getAttributes()->increaseFlame();
                 }
         };
 
@@ -63,7 +63,7 @@ namespace Bomber
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
-                    sprite->getAttributes().increaseBombCapacity();
+                    sprite->getAttributes()->increaseBombCapacity();
                 }
         };
 
@@ -77,7 +77,7 @@ namespace Bomber
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
-                    sprite->getAttributes().setPortability(true);
+                    sprite->getAttributes()->setPortability(true);
                 }
         };
 
@@ -91,7 +91,7 @@ namespace Bomber
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
-                    sprite->getAttributes().setPortability(false);
+                    sprite->getAttributes()->setPortability(false);
                 }
         };
 
@@ -105,7 +105,7 @@ namespace Bomber
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
-                    sprite->getAttributes().increaseHealth();
+                    sprite->getAttributes()->increaseHealth();
                 }
         };
 
@@ -119,7 +119,7 @@ namespace Bomber
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
-                    sprite->getAttributes().decreaseHealth();
+                    sprite->getAttributes()->decreaseHealth();
                 }
         };
     }

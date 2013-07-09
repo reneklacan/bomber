@@ -14,6 +14,7 @@ BBomb::BBomb()
     _penetration = 1;
     _ownerId = 0;
     _power = 2;
+    _damage = 70;
 }
 
 void BBomb::update(float dt)

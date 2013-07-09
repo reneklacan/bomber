@@ -14,16 +14,23 @@ void GameStateUpdater::updateGrid()
     _state->getSpriteLayer()->updateGrid();
 }
 
-void GameStateUpdater::moveSprite(GameObject *sprite, Position position)
+void GameStateUpdater::moveSprite(Sprite *sprite, Position position)
 {
     sprite->setPosition(position);
     this->logSpriteMove(sprite);
 }
 
-void GameStateUpdater::teleportSprite(GameObject *sprite, Position position)
+void GameStateUpdater::teleportSprite(Sprite *sprite, Position position)
 {
     this->logSpriteTeleport(sprite, position);
     sprite->setPosition(position);
+}
+
+void GameStateUpdater::destroySprite(Sprite *sprite)
+{
+    this->logSpriteDestroy(sprite);
+
+    _state->getSpriteLayer()->removeObject(sprite);
 }
 
 bool GameStateUpdater::spawnBomb(Sprite *owner)
@@ -77,19 +84,37 @@ void GameStateUpdater::spawnExplosion(ExplodableObject *explObj, int topArmLengt
     );
 }
 
-bool GameStateUpdater::makeBombImpact(unsigned int ownerId, int *penetration, unsigned int x, unsigned int y)
+bool GameStateUpdater::makeBombImpact(BBomb *bomb, int *penetration, unsigned int x, unsigned int y)
 {
-    if (!(*penetration))
+    if (penetration != NULL && !(*penetration))
         return false;
 
-    auto objects = _state->getObstacleLayer()->getObjectsAtCoords(x, y);
+    auto sprites = _state->getSpriteLayer()->getObjectsAtCoords(x, y);
 
-    if (objects.size() == 0)
+    for (auto sprite : sprites)
+    {
+        if (!sprite->isAI()) continue; // temporary
+
+        this->logSpriteDamage(sprite, bomb->getDamage());
+        sprite->getAttributes()->decreaseHealth(bomb->getDamage());
+
+        if (sprite->getAttributes()->isDead())
+        {
+            this->destroySprite(sprite);
+        }
+    }
+
+    if (penetration == NULL)
+        return true;
+
+    auto obstacles = _state->getObstacleLayer()->getObjectsAtCoords(x, y);
+
+    if (obstacles.size() == 0)
         return true;
 
     bool somethingDamaged = false;
 
-    for (auto object : objects)
+    for (auto object : obstacles)
     {
         if (!(*penetration))
             return somethingDamaged;
@@ -109,7 +134,7 @@ bool GameStateUpdater::makeBombImpact(unsigned int ownerId, int *penetration, un
 
         _state->getObstacleLayer()->removeObject(object);
 
-        StatisticsUpdater::getInstance()->obstacleDestroyed(ownerId, obstacle);
+        StatisticsUpdater::getInstance()->obstacleDestroyed(bomb->getOwnerId(), obstacle);
         this->logObstacleDestroy(obstacle);
 
         somethingDamaged = true;
@@ -148,7 +173,7 @@ void GameStateUpdater::updateAchievements()
     }
 }
 
-void GameStateUpdater::logSpriteMove(GameObject *sprite)
+void GameStateUpdater::logSpriteMove(Sprite *sprite)
 {
     //printf("logSpriteMove\n"); // spam
     GSCSpriteMove *change = new GSCSpriteMove();
@@ -157,11 +182,28 @@ void GameStateUpdater::logSpriteMove(GameObject *sprite)
     _state->addChange(change);
 }
 
-void GameStateUpdater::logSpriteTeleport(GameObject *sprite, Position &to)
+void GameStateUpdater::logSpriteTeleport(Sprite *sprite, Position &to)
 {
     printf("logSpriteTeleport\n");
     GSCSpriteTeleport *change = new GSCSpriteTeleport();
     change->update(to);
+    change->setGameObjectId(sprite->getId());
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logSpriteDamage(Sprite *sprite, int damage)
+{
+    printf("logSpriteDamage\n");
+    GSCSpriteDamage *change = new GSCSpriteDamage();
+    change->setGameObjectId(sprite->getId());
+    change->update(damage);
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logSpriteDestroy(Sprite *sprite)
+{
+    printf("logSpriteDestroy\n");
+    GSCSpriteDestroy *change = new GSCSpriteDestroy();
     change->setGameObjectId(sprite->getId());
     _state->addChange(change);
 }

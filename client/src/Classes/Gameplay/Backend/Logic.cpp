@@ -80,6 +80,8 @@ void Logic::update(float dt)
 
         int armLengths[4] = {0};
 
+        _gameStateUpdater->makeBombImpact(bomb, NULL, epicentrum.x, epicentrum.y);
+
         for (int i = 0; i < power; i++)
         {
             auto around = epicentrum.getCoordsAround(i + 1);
@@ -96,7 +98,7 @@ void Logic::update(float dt)
                     }
                 }
 
-                if (_gameStateUpdater->makeBombImpact(owner, penetrations[j], coords.x, coords.y))
+                if (_gameStateUpdater->makeBombImpact(bomb, penetrations[j], coords.x, coords.y))
                 {
                     armLengths[j]++;
                 }
@@ -154,7 +156,7 @@ void Logic::update(float dt)
             _gameStateUpdater->destroyEffect(effect);
         }
 
-        if (sprite->getAttributes().getPortability() == false)
+        if (sprite->getAttributes()->getPortability() == false)
         {
             continue;
         }

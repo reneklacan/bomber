@@ -15,6 +15,7 @@ namespace Bomber
             SPRITE_MOVE,
             SPRITE_TELEPORT,
             SPRITE_SPAWN,
+            SPRITE_DAMAGE,
             SPRITE_DESTROY,
             SPRITE_ATTR_UPDATE,
 
@@ -74,6 +75,22 @@ namespace Bomber
         {
             public:
                 GSCSpriteTeleport() { _type = SPRITE_TELEPORT; };
+        };
+
+        class GSCSpriteDamage : public GameStateChange
+        {
+            public:
+                GSCSpriteDamage() { _type = SPRITE_DAMAGE; };
+                virtual void update(int damage) { _damage = damage; };
+
+            private:
+                SYNTHESIZE(int, _damage, Damage);
+        };
+
+        class GSCSpriteDestroy : public GameStateChange
+        {
+            public:
+                GSCSpriteDestroy() { _type = SPRITE_DESTROY; };
         };
 
         class GSCBombSpawn : public GSCPosition

@@ -29,7 +29,7 @@ void FollowAI::update(float dt)
                     this->getCoords(),
                     _aggroDistance,
                     _smart,
-                    _attributes.getGhostMode()
+                    _attributes->getGhostMode()
             );
             
             if (path.size() != 0)
@@ -40,7 +40,7 @@ void FollowAI::update(float dt)
             {
                 goalCoords = AI::getInstance()->getRandomCoordsAround(
                         this->getCoords(),
-                        _attributes.getGhostMode()
+                        _attributes->getGhostMode()
                 );
             }
 
@@ -53,7 +53,7 @@ void FollowAI::update(float dt)
 
         case STATE_MOVING:
             delta = _goal - _position;
-            step = _attributes.getSpeed() * dt;
+            step = _attributes->getSpeed() * dt;
 
             if (delta.x > TILE_WIDTH + 2*step || delta.y > TILE_HEIGHT + 2*step)
             {

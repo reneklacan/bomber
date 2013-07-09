@@ -23,18 +23,22 @@ namespace Bomber
                 GameState *getState() { return _state; };
                 unsigned int getUniqueId() { return _uniqueId++; };
 
-                void moveSprite(GameObject *sprite, Position position);
-                void teleportSprite(GameObject *sprite, Position position);
+                void moveSprite(Sprite *sprite, Position position);
+                void teleportSprite(Sprite *sprite, Position position);
+                void destroySprite(Sprite *sprite);
+
                 bool spawnBomb(Sprite* owner);
                 void spawnExplosion(ExplodableObject *explObji, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void destroyBomb(BBomb *bomb);
-                bool makeBombImpact(unsigned int owner, int *penetration, unsigned int x, unsigned int y);
+                bool makeBombImpact(BBomb *bomb, int *penetration, unsigned int x, unsigned int y);
                 void updateSpriteAttributes(Sprite *sprite, Effect *effect);
                 void destroyEffect(Effect *effect);
                 void updateAchievements();
 
-                void logSpriteMove(GameObject *sprite);
-                void logSpriteTeleport(GameObject *sprite, Position &to);
+                void logSpriteMove(Sprite *sprite);
+                void logSpriteTeleport(Sprite *sprite, Position &to);
+                void logSpriteDamage(Sprite *sprite, int damage);
+                void logSpriteDestroy(Sprite *sprite);
                 void logBombSpawn(BBomb *bomb);
                 void logBombDestroy(BBomb *bomb);
                 void logExplosionSpawn(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);

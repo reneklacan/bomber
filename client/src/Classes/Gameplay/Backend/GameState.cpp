@@ -34,9 +34,9 @@ void GameState::init(TMXTiledMap *tiledMap)
     unsigned int gid;
     TMXLayer *obstacleLayer = tiledMap->layerNamed("obstacles");
 
-    for (int iy = 0; iy < _height; iy++)
+    for (unsigned iy = 0; iy < _height; iy++)
     {
-        for (int ix = 0; ix < _width; ix++)
+        for (unsigned int ix = 0; ix < _width; ix++)
         {
             gid = obstacleLayer->tileGIDAt(ccp(ix, _height - 1 - iy));
 
@@ -55,9 +55,9 @@ void GameState::init(TMXTiledMap *tiledMap)
 
     TMXLayer *spriteLayer = tiledMap->layerNamed("sprites");
 
-    for (int iy = 0; iy < _height; iy++)
+    for (unsigned int iy = 0; iy < _height; iy++)
     {
-        for (int ix = 0; ix < _width; ix++)
+        for (unsigned int ix = 0; ix < _width; ix++)
         {
             gid = spriteLayer->tileGIDAt(ccp(ix, _height - 1 - iy));
 
@@ -129,7 +129,7 @@ std::pair< unsigned int, std::vector<GameStateChange *> > GameState::getChangesF
     unsigned int fromId = id - _lastChangeIdOffset;
     unsigned int toId = _lastChangeId - _lastChangeIdOffset;
 
-    for (int i = fromId; i < toId; i++) 
+    for (unsigned int i = fromId; i < toId; i++) 
     {
         changes.push_back(_changes[i]);
     }

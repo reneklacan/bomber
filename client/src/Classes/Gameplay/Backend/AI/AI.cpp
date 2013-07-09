@@ -287,7 +287,7 @@ std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float rang
     {
         auto sprite = pair.second;
 
-        if (sprite->isAI() || sprite->getAttributes().isDead())
+        if (sprite->isAI() || sprite->getAttributes()->isDead())
             continue;
 
         Coordinates spriteCoords = sprite->getCoords();
