@@ -159,6 +159,9 @@
     <ClCompile Include="..\Classes\Gameplay\Frontend\AchievementButton.cpp">
       <Filter>Classes\Gameplay\Frontend</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Backend\Effect.cpp">
+      <Filter>Classes\Gameplay\Backend</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">

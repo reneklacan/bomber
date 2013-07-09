@@ -13,7 +13,7 @@ namespace Bomber
         {
             EFFECT_NONE,
 
-            EFFECT_FLAME_INC,
+            EFFECT_BOMB_POWER_INC,
             EFFECT_BOMB_CAPACITY_INC,
             EFFECT_PORTABILITY_ON,
             EFFECT_PORTABILITY_OFF,
@@ -24,6 +24,8 @@ namespace Bomber
         class Effect : public GameObject
         {
             public:
+                static Effect *getInstanceByGid(unsigned int gid);
+
                 Effect()
                 {
                     _name = "effect none";
@@ -39,17 +41,17 @@ namespace Bomber
                 SYNTHESIZE(TEffectType, _type, Type);
         };
 
-        class EffectFlameInc : public Effect
+        class EffectBombPowerInc : public Effect
         {
             public:
-                EffectFlameInc()
+                EffectBombPowerInc()
                 {
                     _name = "effect flame inc";
-                    _type = EFFECT_FLAME_INC;
+                    _type = EFFECT_BOMB_POWER_INC;
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
-                    sprite->getAttributes()->increaseFlame();
+                    sprite->getAttributes()->increaseBombPower();
                 }
         };
 

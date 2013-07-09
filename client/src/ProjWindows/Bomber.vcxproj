@@ -134,6 +134,7 @@
     <ClCompile Include="..\Classes\Gameplay\Backend\AI\AI.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\AI\FollowAI.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\BBomb.cpp" />
+    <ClCompile Include="..\Classes\Gameplay\Backend\Effect.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\GameObject.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\GameState.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\GameStateUpdater.cpp" />

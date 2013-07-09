@@ -22,6 +22,8 @@ GameState::GameState(unsigned int width, unsigned int height)
     _portalExitLayer = new GameStateLayer<PortalExit>("Portal Exit Layer", _width, _height);
     _effectLayer = new GameStateLayer<Effect>("Effect Layer", _width, _height);
     _specialLayer = new GameStateLayer<GameObject>("Special Layer", _width, _height);
+    _leverLayer = new GameStateLayer<GameObject>("Lever Layer", _width, _height);
+    _leverTargetLayer = new GameStateLayer<GameObject>("Lever Target Layer", _width, _height);
 }
 
 GameState::~GameState()
@@ -74,6 +76,26 @@ void GameState::init(TMXTiledMap *tiledMap)
         }
     }
 
+    TMXLayer *effectLayer = tiledMap->layerNamed("effects");
+
+    for (unsigned int iy = 0; iy < _height; iy++)
+    {
+        for (unsigned int ix = 0; ix < _width; ix++)
+        {
+            gid = effectLayer->tileGIDAt(ccp(ix, _height - 1 - iy));
+
+            if (gid == 0)
+                continue;
+
+            Effect *effect= Effect::getInstanceByGid(gid);
+            effect->setId(iy*_width + ix);
+            effect->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
+            effect->setSize(TILE_WIDTH, TILE_HEIGHT);
+
+            _effectLayer->addObject(effect);
+        }
+    }
+
     int id, x, y, width, height;
     Object *ccObject;
     Dictionary *dict;
@@ -119,6 +141,48 @@ void GameState::init(TMXTiledMap *tiledMap)
         portalExit->setSize(width, height);
 
         _portalExitLayer->addObject(portalExit);
+    }
+
+    objectGroup = tiledMap->objectGroupNamed("levers");
+    Array *levers = objectGroup->getObjects();
+
+    CCARRAY_FOREACH(levers, ccObject)
+    {
+        dict = (Dictionary*) ccObject;
+
+        id = ((String*)dict->objectForKey("name"))->intValue();
+        x = ((String*)dict->objectForKey("x"))->intValue();
+        y = ((String*)dict->objectForKey("y"))->intValue();
+        width = ((String*)dict->objectForKey("width"))->intValue();
+        height = ((String*)dict->objectForKey("height"))->intValue();         
+
+        GameObject *lever = new GameObject();
+        lever->setId(id);
+        lever->setPosition(x, y);
+        lever->setSize(width, height);
+
+        _leverLayer->addObject(lever);
+    }
+
+    objectGroup = tiledMap->objectGroupNamed("lever_targets");
+    Array *levelTargets = objectGroup->getObjects();
+
+    CCARRAY_FOREACH(levelTargets, ccObject)
+    {
+        dict = (Dictionary*) ccObject;
+
+        id = ((String*)dict->objectForKey("name"))->intValue();
+        x = ((String*)dict->objectForKey("x"))->intValue();
+        y = ((String*)dict->objectForKey("y"))->intValue();
+        width = ((String*)dict->objectForKey("width"))->intValue();
+        height = ((String*)dict->objectForKey("height"))->intValue();         
+
+        GameObject *leverTarget = new GameObject();
+        leverTarget->setId(id);
+        leverTarget->setPosition(x, y);
+        leverTarget->setSize(width, height);
+
+        _leverTargetLayer->addObject(leverTarget);
     }
 }
 

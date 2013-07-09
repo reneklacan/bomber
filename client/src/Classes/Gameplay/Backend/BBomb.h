@@ -2,6 +2,7 @@
 #define __BOMBER_BACKEND_BOMB
 
 #include "ExplodableObject.h"
+#include "Sprite.h"
 
 namespace Bomber
 {
@@ -11,7 +12,7 @@ namespace Bomber
         {
             public:
                 BBomb();
-                void configure(GameObject *owner);
+                void configure(Sprite *owner);
                 void update(float dt);
         };
     }

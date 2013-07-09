@@ -10,11 +10,7 @@ BBomb::BBomb()
 {
     _expired = 0.0f;
     _detonated = false;
-    _timeout = 2.0f;
-    _penetration = 1;
     _ownerId = 0;
-    _power = 2;
-    _damage = 70;
 }
 
 void BBomb::update(float dt)
@@ -32,9 +28,15 @@ void BBomb::update(float dt)
     }
 }
 
-void BBomb::configure(GameObject *owner)
+void BBomb::configure(Sprite *owner)
 {
     // configure bomb by owner's attributes
+
+    _ownerId = owner->getId();
+    _power = owner->getAttributes()->getBombPower();
+    _timeout = owner->getAttributes()->getBombTimeout();
+    _penetration = owner->getAttributes()->getBombPenetration();
+    _damage = owner->getAttributes()->getBombDamage();
 
     Coordinates coords = owner->getCoords();
 

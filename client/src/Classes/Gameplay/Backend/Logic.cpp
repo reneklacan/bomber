@@ -150,18 +150,15 @@ void Logic::update(float dt)
         {
             _gameStateUpdater->logSpriteMove(sprite);
         }
-
-        auto effects = effectLayer->getObjectsAroundCoords(sprite->getCoords());
+        
+        auto effects = effectLayer->getObjectsAtCoords(sprite->getCoords());
 
         for (auto object : effects)
         {
             Effect *effect = (Effect *) object;
 
-            if (sprite->collides(effect))
-            {
-                _gameStateUpdater->updateSpriteAttributes(sprite, effect);
-                effectsToDestroy.push_back(effect);
-            }
+            _gameStateUpdater->updateSpriteAttributes(sprite, effect);
+            effectsToDestroy.push_back(effect);
         }
 
         for (auto effect : effectsToDestroy)

@@ -12,7 +12,10 @@ namespace Bomber
             public:
                 SpriteAttributes()
                 {
-                    _flame = 2;
+                    _bombPower = 2;
+                    _bombTimeout = 2.0f;
+                    _bombPenetration = 1;
+                    _bombDamage = 70;
                     _bombCapacity = 1;
                     _speed = 100;
                     _health = 100;
@@ -20,8 +23,8 @@ namespace Bomber
                     _portability = true;
                     _ghostMode = false;
                 }
-                void increaseFlame() { _flame += 1; };
-                void decreaseFlame() { _flame -= 1; };
+                void increaseBombPower() { _bombPower += 1; };
+                void decreaseBombPower() { _bombPower -= 1; };
                 void increaseBombCapacity() { _bombCapacity += 1; };
                 void decreaseBombCapacity() { _bombCapacity -= 1; };
                 void increaseSpeed() { _speed += 30; };
@@ -34,7 +37,10 @@ namespace Bomber
                 bool isDead() { return _health <= 0; };
 
             private:
-                SYNTHESIZE(int, _flame, Flame);
+                SYNTHESIZE(int, _bombPower, BombPower);
+                SYNTHESIZE(float, _bombTimeout, BombTimeout);
+                SYNTHESIZE(int, _bombPenetration, BombPenetration);
+                SYNTHESIZE(int, _bombDamage, BombDamage);
                 SYNTHESIZE(int, _bombCapacity, BombCapacity);
                 SYNTHESIZE(int, _speed, Speed);
                 SYNTHESIZE(int, _health, Health);

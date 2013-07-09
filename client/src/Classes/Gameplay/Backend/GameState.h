@@ -36,6 +36,7 @@ namespace Bomber
 
                 SYNTHESIZE_READONLY(unsigned int, _width, Width);
                 SYNTHESIZE_READONLY(unsigned int, _height, Height);
+
                 SYNTHESIZE_READONLY(GameStateLayer<Sprite> *, _spriteLayer, SpriteLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<Obstacle> *, _obstacleLayer, ObstacleLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<BBomb> *, _bombLayer, BombLayer);
@@ -43,6 +44,8 @@ namespace Bomber
                 SYNTHESIZE_READONLY(GameStateLayer<PortalExit> *, _portalExitLayer, PortalExitLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<Effect> *, _effectLayer, EffectLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _specialLayer, SpecialLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _leverLayer, LeverLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _leverTargetLayer, LeverTargetLayer);
         };
     }
 }
