@@ -42,6 +42,10 @@ namespace Bomber
             void updateObstacleDestroy(Backend::GSCObstacleDestroy *obstacleDestroy);
             void updateExplosionSpawn(Backend::GSCExplosionSpawn *explosionSpawn);
             void updateAchievementUnlocked(Backend::GSCAchievementUnlocked *achievementUnlocked);
+            void updateObstacleSpawn(Backend::GSCObstacleSpawn *obstacleSpawn);
+            void updateSpriteDestroy( Backend::GSCSpriteDestroy *spriteDestroy );
+            void updateLeverSwitchOn( Backend::GSCLeverSwitchOn *leverSwitchOn );
+            void updateLeverSwitchOff( Backend::GSCLeverSwitchOff *leverSwitchOff );
 
             bool evalCollision(Point nextPoint);
 

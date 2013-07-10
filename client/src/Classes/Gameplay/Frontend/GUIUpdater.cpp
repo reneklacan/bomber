@@ -143,6 +143,26 @@ void GUIUpdater::update(Point playerPosition)
                 this->updateAchievementUnlocked( (Backend::GSCAchievementUnlocked *)GSChange );
             }
             break;
+            case Backend::OBSTACLE_SPAWN:
+            {
+                this->updateObstacleSpawn( (Backend::GSCObstacleSpawn *)GSChange );
+            }
+            break;
+            case Backend::SPRITE_DESTROY:
+            {
+                this->updateSpriteDestroy( (Backend::GSCSpriteDestroy *)GSChange );
+            }
+            break;
+            case Backend::LEVER_SWITCH_ON:
+            {
+                this->updateLeverSwitchOn( (Backend::GSCLeverSwitchOn *)GSChange );
+            }
+            break;
+            case Backend::LEVER_SWITCH_OFF:
+            {
+                this->updateLeverSwitchOff( (Backend::GSCLeverSwitchOff *)GSChange );
+            }
+            break;
             // Nothing    
             default: {}
         }
@@ -241,7 +261,7 @@ void GUIUpdater::updateObstacleDestroy(Backend::GSCObstacleDestroy *obstacleDest
                 * _map->getWidth()
                 + obstacleDestroy->getGameObjectId() % _map->getWidth();
     _obstacles[bombID]->setVisible(false);
-    _batchNode->removeChild(_obstacles[bombID], false); // WARNING
+    _batchNode->removeChild(_obstacles[bombID], true); // WARNING
     _obstacles.erase(bombID); // Collision detection
 
 }
@@ -250,21 +270,6 @@ void GUIUpdater::updateObstacleDestroy(Backend::GSCObstacleDestroy *obstacleDest
 void GUIUpdater::updateExplosionSpawn(Backend::GSCExplosionSpawn *explosionSpawn)
 {
     Point epicentrum = ccp(explosionSpawn->getEpicentrum().x, explosionSpawn->getEpicentrum().y);
-    /*
-    printf("explostion\n");
-    printf(
-        " - epicentrum x:%g, y:%g\n",
-        explosionSpawn->getEpicentrum().x,
-        explosionSpawn->getEpicentrum().y
-    );
-    printf(
-        " - arms l:%d, r:%d, t:%d, b:%d\n", 
-        explosionSpawn->getLeftArmLength(),
-        explosionSpawn->getRightArmLength(),
-        explosionSpawn->getTopArmLength(),
-        explosionSpawn->getBottomArmLength()
-    );
-    */
     Explosion *explosion = new Explosion(
         epicentrum,
         explosionSpawn->getLeftArmLength(),
@@ -290,6 +295,63 @@ void GUIUpdater::updateAchievementUnlocked(Backend::GSCAchievementUnlocked *achi
     return;
 }
 
+//
+void GUIUpdater::updateObstacleSpawn(Backend::GSCObstacleSpawn *obstacleSpawn)
+{
+    unsigned int ix = obstacleSpawn->getCoordinates().x;
+    unsigned int iy = obstacleSpawn->getCoordinates().y;
+    unsigned int transformed_iy = _map->getHeight() - iy - 1;
+    int position = _map->getWidth() * transformed_iy + ix;
+
+    // Init with texture of Batch Node
+    _obstacles[ position ] = Sprite::createWithTexture(
+        _batchNode->getTexture(), 
+        CCRectMake(
+            TEXTURE_TILE_WIDTH * ( obstacleSpawn->getGid() % TEXTURE_IMAGES_PER_LINE - 1),
+            TEXTURE_TILE_HEIGHT * ( obstacleSpawn->getGid() / TEXTURE_IMAGES_PER_LINE ),
+            TILE_WIDTH,
+            TILE_HEIGHT*2
+        )
+    );    // Maybe cache ?
+
+    // Add to Batch Node
+    _obstacles[ position ]->setPosition( ccp(ix*TILE_WIDTH, iy*TILE_HEIGHT ) );
+    _obstacles[ position ]->setAnchorPoint( ccp(0, 0) );
+    _batchNode->addChild(_obstacles[ position ], 0);
+    _batchNode->reorderChild(_obstacles[ position ], transformed_iy*TILE_HEIGHT+5);
+    _obstacles[ position ]->setVertexZ(0); // DO NOT CHANGE
+    return;
+}
+
+//
+void GUIUpdater::updateSpriteDestroy( Backend::GSCSpriteDestroy *spriteDestroy )
+{
+    unsigned int id = spriteDestroy->getGameObjectId();
+    _mobs[ id ]->setVisible(false);
+    _batchNode->removeChild(_mobs[id], true); // WARNING
+    _mobs.erase(id);
+}
+
+//
+void GUIUpdater::updateLeverSwitchOn( Backend::GSCLeverSwitchOn *leverSwitchOn )
+{
+    //std::cout << leverSwitchOn->getGameObjectId() << "\n";
+    return;
+}
+
+//
+void GUIUpdater::updateLeverSwitchOff( Backend::GSCLeverSwitchOff *leverSwitchOff )
+{
+    //std::cout << leverSwitchOff->getGameObjectId() << "\n";
+    return;
+}
+
+/*
+ * ========== 
+ * Collisions
+ * ==========
+ */
+ 
 //
 std::vector<bool> GUIUpdater::evalCollisions(Point currentPoint, Point nextPoint)
 {
