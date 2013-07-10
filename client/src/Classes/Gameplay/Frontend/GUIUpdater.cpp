@@ -17,6 +17,8 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     _player = player;
     _layer = layer;
     _mobs.clear();
+    _obstacles.clear();
+    _effects.clear();
 
     // Init Batch Node
     _batchNode = SpriteBatchNode::create("tiles/tileset.png");
@@ -49,7 +51,11 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     _obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
     _obstaclesLayer->setVisible(false);
 
-    // Init obstacles and mobs structure
+    // Hide effects
+    TMXLayer *effectsLayer = _map->getTiledMap()->layerNamed("effects");
+    effectsLayer->setVisible(false);
+
+    // Init obstacles, mobs and effects structure
     for(int ix = 0; ix < _map->getWidth(); ix++)
     {
         for(int iy = 0; iy < _map->getHeight(); iy++)
@@ -72,6 +78,15 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
                 _mobs[ position ]->setPosition( point );
                 _batchNode->reorderChild(_mobs[ position ], iy*TILE_HEIGHT+5);
                 _mobs[ position ]->setVertexZ(0); // DO NOT CHANGE
+            }
+
+            if(effectsLayer->tileGIDAt( point ) != 0)
+            {
+                int position = _map->getWidth() * iy + ix;
+                _effects[ position ] = effectsLayer->tileAt( point );
+                _batchNode->addChild(_effects[ position ], 0);
+                _batchNode->reorderChild(_effects[ position ], iy*TILE_HEIGHT+5);
+                _effects[ position ]->setVertexZ(0); // DO NOT CHANGE
             }
 
         }
@@ -161,6 +176,11 @@ void GUIUpdater::update(Point playerPosition)
             case Backend::LEVER_SWITCH_OFF:
             {
                 this->updateLeverSwitchOff( (Backend::GSCLeverSwitchOff *)GSChange );
+            }
+            break;
+            case Backend::SPRITE_DAMAGE:
+            {
+                this->updateSpriteDamage( (Backend::GSCSpriteDamage *)GSChange );
             }
             break;
             // Nothing    
@@ -343,6 +363,12 @@ void GUIUpdater::updateLeverSwitchOn( Backend::GSCLeverSwitchOn *leverSwitchOn )
 void GUIUpdater::updateLeverSwitchOff( Backend::GSCLeverSwitchOff *leverSwitchOff )
 {
     //std::cout << leverSwitchOff->getGameObjectId() << "\n";
+    return;
+}
+
+//
+void GUIUpdater::updateSpriteDamage( Backend::GSCSpriteDamage *spriteDamage )
+{
     return;
 }
 

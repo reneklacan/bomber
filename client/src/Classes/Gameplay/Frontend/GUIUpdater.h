@@ -46,6 +46,7 @@ namespace Bomber
             void updateSpriteDestroy( Backend::GSCSpriteDestroy *spriteDestroy );
             void updateLeverSwitchOn( Backend::GSCLeverSwitchOn *leverSwitchOn );
             void updateLeverSwitchOff( Backend::GSCLeverSwitchOff *leverSwitchOff );
+            void updateSpriteDamage( Backend::GSCSpriteDamage *spriteDamage );
 
             bool evalCollision(Point nextPoint);
 
@@ -53,8 +54,11 @@ namespace Bomber
             Map* _map;
             Human* _player;
             Layer * _layer;
+
             std::map<unsigned int, Sprite *> _mobs;
             std::map<unsigned int, Node *> _obstacles;
+            std::map<unsigned int, Node *> _effects;
+
             SpriteBatchNode* _batchNode;
             TMXLayer *_obstaclesLayer;
         };
