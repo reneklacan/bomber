@@ -5,11 +5,11 @@
 
 #include <vector>
 
-#include "../Map/Map.h"
-#include "../Map/Bomb.h"
-#include "../Map/Explosion.h"
+#include "Map/Map.h"
+#include "Map/Bomb.h"
+#include "Map/Explosion.h"
 
-#include "../Sprites/Human.h"
+#include "Sprites/Human.h"
 
 #include "../Backend/Mediator.h"
 #include "../Backend/Bomber.h"

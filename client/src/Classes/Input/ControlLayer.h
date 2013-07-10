@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "Touch/Joystick.h"
 #include "Keyboard/Keyboard.h"
-#include "../Gameplay/Sprites/GameSprite.h"
+#include "../Gameplay/Frontend/Sprites/GameSprite.h"
 #include "ActionDelegates.h"
 
 using namespace cocos2d;

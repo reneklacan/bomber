@@ -39,11 +39,11 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Frontend/ControlButton.cpp \
         ../Classes/Gameplay/Frontend/AchievementButton.cpp \
         ../Classes/Gameplay/Frontend/GUIUpdater.cpp \
-        ../Classes/Gameplay/Map/Map.cpp \
-        ../Classes/Gameplay/Map/Bomb.cpp \
-        ../Classes/Gameplay/Map/Explosion.cpp \
-        ../Classes/Gameplay/Sprites/GameSprite.cpp \
-        ../Classes/Gameplay/Sprites/Human.cpp \
+        ../Classes/Gameplay/Frontend/Map/Map.cpp \
+        ../Classes/Gameplay/Frontend/Map/Bomb.cpp \
+        ../Classes/Gameplay/Frontend/Map/Explosion.cpp \
+        ../Classes/Gameplay/Frontend/Sprites/GameSprite.cpp \
+        ../Classes/Gameplay/Frontend/Sprites/Human.cpp \
         ../Classes/Menu/MainMenuLayer.cpp \
         ../Classes/Menu/SettingsLayer.cpp \
         ../Classes/Menu/CreditsLayer.cpp \

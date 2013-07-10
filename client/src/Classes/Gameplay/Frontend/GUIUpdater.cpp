@@ -383,6 +383,8 @@ void GUIUpdater::updateSpriteDamage( Backend::GSCSpriteDamage *spriteDamage )
 //
 void GUIUpdater::updateSpriteAttrUpdate( Backend::GSCSpriteAttrUpdate *spriteAttrUpdate )
 {
+    //std::cout << spriteAttrUpdate->getGameObjectId() << "\n";
+    //std::cout << spriteAttrUpdate->getEffectType() << "\n";
     return;
 }
 
