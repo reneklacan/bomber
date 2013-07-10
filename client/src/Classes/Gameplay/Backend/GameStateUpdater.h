@@ -29,6 +29,7 @@ namespace Bomber
                 bool spawnBomb(Sprite* owner);
                 void spawnExplosion(ExplodableObject *explObji, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void spawnObstacle(unsigned int obstacleGid, Coordinates coords, unsigned int spawnerId);
+                void spawnEffect(unsigned int effectGid, Coordinates coords);
 
                 void updateSpriteAttributes(Sprite *sprite, Effect *effect);
                 void updateAchievements();
@@ -50,6 +51,7 @@ namespace Bomber
                 void logSpriteDestroy(Sprite *sprite);
                 void logBombSpawn(BBomb *bomb);
                 void logObstacleSpawn(unsigned int obstacleGid, Obstacle *obstacle, unsigned int spawnerId);
+                void logEffectSpawn(unsigned int effectGid, Effect *effect);
                 void logBombDestroy(BBomb *bomb);
                 void logExplosionSpawn(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void logObstacleDestroy(Obstacle *obstacle);

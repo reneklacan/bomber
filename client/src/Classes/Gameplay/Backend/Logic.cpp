@@ -260,6 +260,11 @@ bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
         
         _gameStateUpdater->damageObstacle(obstacle, bomb->getOwnerId());
 
+        if (obstacle->getToughness() == 0)
+        {
+            _gameStateUpdater->spawnEffect(18, obstacle->getCoords()); // temporary
+        }
+
         somethingDamaged = true;
     }
 

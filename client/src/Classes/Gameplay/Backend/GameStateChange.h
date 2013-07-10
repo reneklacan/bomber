@@ -129,6 +129,20 @@ namespace Bomber
                 SYNTHESIZE(unsigned int, _git, Gid);
                 SYNTHESIZE(unsigned int, _spawnerId, SpawnerId);
         };
+        
+        class GSCEffectSpawn : public GSCCoordinates
+        {
+            public:
+                GSCEffectSpawn() { _type = EFFECT_SPAWN; };
+                virtual void update(unsigned int gid, Coordinates coords)
+                {
+                    _git = gid;
+                    _coordinates = coords;
+                }
+
+            private:
+                SYNTHESIZE(unsigned int, _git, Gid);
+        };
 
         class GSCObstacleDestroy : public GSCCoordinates
         {
