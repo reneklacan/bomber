@@ -47,6 +47,8 @@ namespace Bomber
             void updateLeverSwitchOn( Backend::GSCLeverSwitchOn *leverSwitchOn );
             void updateLeverSwitchOff( Backend::GSCLeverSwitchOff *leverSwitchOff );
             void updateSpriteDamage( Backend::GSCSpriteDamage *spriteDamage );
+            void updateSpriteAttrUpdate( Backend::GSCSpriteAttrUpdate *spriteAttrUpdate );
+            void updateEffectDestroy( Backend::GSCEffectDestroy *effectDestroy );
 
             bool evalCollision(Point nextPoint);
 

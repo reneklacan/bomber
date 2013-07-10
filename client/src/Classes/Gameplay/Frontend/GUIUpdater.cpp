@@ -183,6 +183,16 @@ void GUIUpdater::update(Point playerPosition)
                 this->updateSpriteDamage( (Backend::GSCSpriteDamage *)GSChange );
             }
             break;
+            case Backend::SPRITE_ATTR_UPDATE:
+            {
+                this->updateSpriteAttrUpdate( (Backend::GSCSpriteAttrUpdate *)GSChange );
+            }
+            break;
+            case Backend::EFFECT_DESTROY:
+            {
+                this->updateEffectDestroy( (Backend::GSCEffectDestroy *)GSChange );
+            }
+            break;
             // Nothing    
             default: {}
         }
@@ -355,20 +365,36 @@ void GUIUpdater::updateSpriteDestroy( Backend::GSCSpriteDestroy *spriteDestroy )
 //
 void GUIUpdater::updateLeverSwitchOn( Backend::GSCLeverSwitchOn *leverSwitchOn )
 {
-    //std::cout << leverSwitchOn->getGameObjectId() << "\n";
-    return;
+    return; // TODO
 }
 
 //
 void GUIUpdater::updateLeverSwitchOff( Backend::GSCLeverSwitchOff *leverSwitchOff )
 {
-    //std::cout << leverSwitchOff->getGameObjectId() << "\n";
-    return;
+    return; // TODO
 }
 
 //
 void GUIUpdater::updateSpriteDamage( Backend::GSCSpriteDamage *spriteDamage )
 {
+    return; // TODO
+}
+
+//
+void GUIUpdater::updateSpriteAttrUpdate( Backend::GSCSpriteAttrUpdate *spriteAttrUpdate )
+{
+    return;
+}
+
+//
+void GUIUpdater::updateEffectDestroy( Backend::GSCEffectDestroy *effectDestroy )
+{
+    int id = (_map->getHeight() - ( effectDestroy->getGameObjectId() / _map->getWidth() ) - 1) 
+                * _map->getWidth()
+                + effectDestroy->getGameObjectId() % _map->getWidth();
+    _effects[id]->setVisible(false);
+    _batchNode->removeChild(_effects[id], true); // WARNING
+    _effects.erase(id);
     return;
 }
 
