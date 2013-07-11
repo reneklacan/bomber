@@ -156,19 +156,33 @@ std::deque<Coordinates> AI::findDirectPath(Coordinates from, Coordinates to, boo
         }
         else
         {
-            printf("WTF?????\n");
-            printf("diagnostic:\n");
-            printf(" - completenessX: %g\n", completenessX);
-            printf(" - completenessY: %g\n", completenessY);
-            printf(" - increaceX: %g\n", increaceX);
-            printf(" - increaceY: %g\n", increaceY);
-            printf(" - modifierX: %g\n", modifierX);
-            printf(" - modifierY: %g\n", modifierY);
-            printf(" - current.x: %g\n", current.x);
-            printf(" - current.y: %g\n", current.y);
-            printf(" - to.x: %g\n", to.x);
-            printf(" - to.y: %g\n", to.y);
-            return std::deque<Coordinates>();
+            if ((from.x < to.x && current.x < to.x) || (from.x > to.x && current.x > to.x))
+            {
+                current = Coordinates(current.x + modifierX, current.y);
+                completenessX += increaceX;
+            }
+            else if ((from.y < to.y && current.y < to.y) || (from.y > to.y && current.y > to.y))
+            {
+                current = Coordinates(current.x, current.y + modifierY);
+                completenessY += increaceY;
+            }
+            else
+            {
+                printf("WTF?????\n");
+                printf("diagnostics:\n");
+                printf(" - from.x: %g\n", to.x);
+                printf(" - from.y: %g\n", to.y);
+                printf(" - current.x: %g\n", current.x);
+                printf(" - current.y: %g\n", current.y);
+                printf(" - to.x: %g\n", to.x);
+                printf(" - to.y: %g\n", to.y);
+                printf(" - completenessX: %g\n", completenessX);
+                printf(" - completenessY: %g\n", completenessY);
+                printf(" - increaceX: %g\n", increaceX);
+                printf(" - increaceY: %g\n", increaceY);
+                printf(" - modifierX: %g\n", modifierX);
+                printf(" - modifierY: %g\n", modifierY);
+            }
         }
 
         if (!this->isCoordsCrossable(current, ghostMode))
