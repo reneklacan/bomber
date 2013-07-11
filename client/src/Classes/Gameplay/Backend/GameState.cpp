@@ -33,6 +33,8 @@ GameState::~GameState()
 
 void GameState::init(TMXTiledMap *tiledMap)
 {
+    _tiledMap = tiledMap;
+
     unsigned int gid;
     TMXLayer *obstacleLayer = tiledMap->layerNamed("obstacles");
 
