@@ -279,12 +279,12 @@
    <tile gid="42"/>
    <tile gid="42"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="20"/>
    <tile gid="0"/>
+   <tile gid="20"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -300,8 +300,8 @@
    <tile gid="42"/>
    <tile gid="42"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="20"/>
+   <tile gid="20"/>
    <tile gid="20"/>
    <tile gid="20"/>
    <tile gid="20"/>
@@ -993,7 +993,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="3"/>
    <tile gid="0"/>
    <tile gid="6"/>
    <tile gid="0"/>
@@ -1458,7 +1458,8 @@
   <object name="5" x="1045" y="268" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="lever_targets" width="21" height="11">
-  <object name="1" x="1339" y="176" width="45" height="38"/>
+  <object name="1" x="1340" y="181" width="45" height="38"/>
+  <object name="1" x="1139" y="177" width="45" height="38"/>
  </objectgroup>
  <objectgroup name="levers" width="21" height="11">
   <object name="1" x="1140" y="510" width="40" height="29"/>

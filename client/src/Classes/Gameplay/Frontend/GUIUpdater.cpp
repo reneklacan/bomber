@@ -416,7 +416,7 @@ void GUIUpdater::updateSpriteSpawn( Backend::GSCSpriteSpawn *spriteSpawn )
     // Init with texture of Batch Node
     _mobs[ id ] = Sprite::createWithTexture(
         _batchNode->getTexture(),
-        this->pickImageFromTexture( 4 )//spriteSpawn->getGid() ) 
+        this->pickImageFromTexture(spriteSpawn->getGid()) 
     );    // Maybe cache ?
 
     // Add to Batch Node

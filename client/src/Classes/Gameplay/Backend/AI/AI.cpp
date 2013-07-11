@@ -309,10 +309,8 @@ std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float rang
 
     Sprite *nearestSprite;
 
-    for (auto pair : _state->getSpriteLayer()->getObjects())
+    for (auto sprite : _state->getSpriteLayer()->getObjects())
     {
-        auto sprite = pair.second;
-
         if (sprite->isAI() || sprite->getAttributes()->isDead())
             continue;
 
