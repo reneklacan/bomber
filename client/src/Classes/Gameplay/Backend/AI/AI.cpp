@@ -170,18 +170,18 @@ std::deque<Coordinates> AI::findDirectPath(Coordinates from, Coordinates to, boo
             {
                 printf("WTF?????\n");
                 printf("diagnostics:\n");
-                printf(" - from.x: %g\n", to.x);
-                printf(" - from.y: %g\n", to.y);
-                printf(" - current.x: %g\n", current.x);
-                printf(" - current.y: %g\n", current.y);
-                printf(" - to.x: %g\n", to.x);
-                printf(" - to.y: %g\n", to.y);
+                printf(" - from.x: %d\n", to.x);
+                printf(" - from.y: %d\n", to.y);
+                printf(" - current.x: %d\n", current.x);
+                printf(" - current.y: %d\n", current.y);
+                printf(" - to.x: %d\n", to.x);
+                printf(" - to.y: %d\n", to.y);
                 printf(" - completenessX: %g\n", completenessX);
                 printf(" - completenessY: %g\n", completenessY);
                 printf(" - increaceX: %g\n", increaceX);
                 printf(" - increaceY: %g\n", increaceY);
-                printf(" - modifierX: %g\n", modifierX);
-                printf(" - modifierY: %g\n", modifierY);
+                printf(" - modifierX: %d\n", modifierX);
+                printf(" - modifierY: %d\n", modifierY);
             }
         }
 
