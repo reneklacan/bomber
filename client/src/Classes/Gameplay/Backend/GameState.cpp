@@ -65,12 +65,11 @@ void GameState::init(TMXTiledMap *tiledMap)
 
             if (gid == 0)
                 continue;
-
-            Sprite *sprite= new AISprite();
+            
+            Sprite *sprite= Sprite::getInstanceByGid(gid);
             sprite->setId(iy*_width + ix);
             sprite->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
             sprite->setSize(TILE_WIDTH, TILE_HEIGHT);
-            sprite->configureFromGid(gid);
 
             _spriteLayer->addObject(sprite);
         }

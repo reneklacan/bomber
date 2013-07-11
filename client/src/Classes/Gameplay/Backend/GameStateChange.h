@@ -98,6 +98,26 @@ namespace Bomber
                 GSCSpriteDestroy() { _type = SPRITE_DESTROY; };
         };
 
+        class GSCGidOnCoordinates : public GSCCoordinates
+        {
+            public:
+                GSCGidOnCoordinates() { _type = NONE; };
+                virtual void update(unsigned int gid, Coordinates coords)
+                {
+                    _git = gid;
+                    _coordinates = coords;
+                }
+
+            private:
+                SYNTHESIZE(unsigned int, _git, Gid);
+        };
+
+        class GSCSpriteSpawn : public GSCGidOnCoordinates
+        {
+            public:
+                GSCSpriteSpawn() { _type = SPRITE_SPAWN; };
+        };
+
         class GSCBombSpawn : public GSCPosition
         {
             public:
@@ -114,7 +134,7 @@ namespace Bomber
                 SYNTHESIZE(unsigned int, _id, Id);
         };
         
-        class GSCObstacleSpawn : public GSCCoordinates
+        class GSCObstacleSpawn : public GSCGidOnCoordinates
         {
             public:
                 GSCObstacleSpawn() { _type = OBSTACLE_SPAWN; };
@@ -126,22 +146,13 @@ namespace Bomber
                 }
 
             private:
-                SYNTHESIZE(unsigned int, _git, Gid);
                 SYNTHESIZE(unsigned int, _spawnerId, SpawnerId);
         };
         
-        class GSCEffectSpawn : public GSCCoordinates
+        class GSCEffectSpawn : public GSCGidOnCoordinates
         {
             public:
                 GSCEffectSpawn() { _type = EFFECT_SPAWN; };
-                virtual void update(unsigned int gid, Coordinates coords)
-                {
-                    _git = gid;
-                    _coordinates = coords;
-                }
-
-            private:
-                SYNTHESIZE(unsigned int, _git, Gid);
         };
 
         class GSCObstacleDestroy : public GSCCoordinates

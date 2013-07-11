@@ -23,8 +23,20 @@ void GameStateUpdater::moveSprite(Sprite *sprite, Position position)
 
 void GameStateUpdater::teleportSprite(Sprite *sprite, Position position)
 {
-    this->logSpriteTeleport(sprite, position);
     sprite->setPosition(position);
+    this->logSpriteTeleport(sprite, position);
+}
+
+void GameStateUpdater::spawnSprite(unsigned int spriteGid, Coordinates coords)
+{
+    Sprite *sprite = Sprite::getInstanceByGid(spriteGid);
+    sprite->setId(coords.y*_state->getWidth() + coords.x);
+    sprite->setPosition(coords.x*TILE_WIDTH, coords.y*TILE_HEIGHT);
+    sprite->setSize(TILE_WIDTH, TILE_HEIGHT);
+
+    _state->getSpriteLayer()->addObject(sprite);
+
+    this->logSpriteSpawn(spriteGid, sprite);
 }
 
 bool GameStateUpdater::spawnBomb(Sprite *owner)
@@ -210,6 +222,18 @@ void GameStateUpdater::logSpriteDestroy(Sprite *sprite)
 {
     printf("logSpriteDestroy\n");
     GSCSpriteDestroy *change = new GSCSpriteDestroy();
+    change->setGameObjectId(sprite->getId());
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logSpriteSpawn(unsigned int spriteGid, Sprite *sprite)
+{
+    printf("logSpriteSpawn\n");
+    GSCSpriteSpawn* change = new GSCSpriteSpawn();
+    change->update(
+        spriteGid,
+        sprite->getCoords()
+    );
     change->setGameObjectId(sprite->getId());
     _state->addChange(change);
 }

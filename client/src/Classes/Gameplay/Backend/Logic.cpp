@@ -262,7 +262,14 @@ bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
 
         if (obstacle->getToughness() == 0)
         {
-            _gameStateUpdater->spawnEffect(18, obstacle->getCoords()); // temporary
+            if (obstacle->getCoords().y % 2 == 0)
+            {
+                _gameStateUpdater->spawnEffect(18, obstacle->getCoords()); // temporary
+            }
+            else
+            {
+                _gameStateUpdater->spawnSprite(18, obstacle->getCoords()); // temporary
+            }
         }
 
         somethingDamaged = true;

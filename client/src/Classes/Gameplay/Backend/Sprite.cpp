@@ -1,7 +1,13 @@
 
 #include "Sprite.h"
+#include "AISprite.h"
 
 using namespace Bomber::Backend;
+
+Sprite *Sprite::getInstanceByGid(unsigned int gid)
+{
+    return new AISprite();
+}
 
 Sprite::Sprite()
 : GameObject()
@@ -13,9 +19,4 @@ Sprite::Sprite()
 Sprite::~Sprite()
 {
     delete _attributes;
-}
-
-void Sprite::configureFromGid(unsigned int gid)
-{
-
 }

@@ -12,10 +12,10 @@ namespace Bomber
         class Sprite : public GameObject
         {
             public:
+                static Sprite *getInstanceByGid(unsigned int gid);
                 Sprite();
                 ~Sprite();
 
-                virtual void configureFromGid(unsigned int gid);
                 inline virtual bool isAI() { return false; };
 
             private:
