@@ -1,4 +1,6 @@
 
+#include <stdio.h>
+
 #include "Portal.h"
 
 using namespace Bomber::Backend;
