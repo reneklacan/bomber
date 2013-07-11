@@ -76,7 +76,7 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
                 _mobs[ position ] = spritesLayer->tileAt( point );
                 _batchNode->addChild(_mobs[ position ], 0);
                 _mobs[ position ]->setPosition( point );
-                _batchNode->reorderChild(_mobs[ position ], iy*TILE_HEIGHT+5);
+                _batchNode->reorderChild(_mobs[ position ], iy*TILE_HEIGHT);
                 _mobs[ position ]->setVertexZ(0); // DO NOT CHANGE
             }
 
@@ -85,7 +85,7 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
                 int position = _map->getWidth() * iy + ix;
                 _effects[ position ] = effectsLayer->tileAt( point );
                 _batchNode->addChild(_effects[ position ], 0);
-                _batchNode->reorderChild(_effects[ position ], iy*TILE_HEIGHT+5);
+                _batchNode->reorderChild(_effects[ position ], iy*TILE_HEIGHT);
                 _effects[ position ]->setVertexZ(0); // DO NOT CHANGE
             }
 
@@ -193,6 +193,16 @@ void GUIUpdater::update(Point playerPosition)
                 this->updateEffectDestroy( (Backend::GSCEffectDestroy *)GSChange );
             }
             break;
+            case Backend::SPRITE_SPAWN:
+            {
+                this->updateSpriteSpawn( (Backend::GSCSpriteSpawn *)GSChange );
+            }
+            break;
+            case Backend::EFFECT_SPAWN:
+            {
+                this->updateEffectSpawn( (Backend::GSCEffectSpawn *)GSChange );
+            }
+            break;
             // Nothing    
             default: {}
         }
@@ -225,7 +235,7 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
                 );
         _batchNode->reorderChild(
             _mobs[spriteMove->getGameObjectId()],
-            _map->getHeight()*TILE_HEIGHT - spriteMove->getPosition().y - TILE_HEIGHT/6 // DO NOT CHANGE
+            _map->getHeight()*TILE_HEIGHT - spriteMove->getPosition().y - TILE_HEIGHT/4 // DO NOT CHANGE
         );
     }
     // First occurence of a sprite
@@ -335,13 +345,8 @@ void GUIUpdater::updateObstacleSpawn(Backend::GSCObstacleSpawn *obstacleSpawn)
 
     // Init with texture of Batch Node
     _obstacles[ position ] = Sprite::createWithTexture(
-        _batchNode->getTexture(), 
-        CCRectMake(
-            TEXTURE_TILE_WIDTH * ( obstacleSpawn->getGid() % TEXTURE_IMAGES_PER_LINE - 1),
-            TEXTURE_TILE_HEIGHT * ( obstacleSpawn->getGid() / TEXTURE_IMAGES_PER_LINE ),
-            TILE_WIDTH,
-            TILE_HEIGHT*2
-        )
+        _batchNode->getTexture(),
+        this->pickImageFromTexture( obstacleSpawn->getGid() ) 
     );    // Maybe cache ?
 
     // Add to Batch Node
@@ -399,6 +404,76 @@ void GUIUpdater::updateEffectDestroy( Backend::GSCEffectDestroy *effectDestroy )
     _effects.erase(id);
     return;
 }
+
+//
+void GUIUpdater::updateSpriteSpawn( Backend::GSCSpriteSpawn *spriteSpawn )
+{
+    unsigned int ix = spriteSpawn->getCoordinates().x;
+    unsigned int iy = spriteSpawn->getCoordinates().y;
+    unsigned int transformed_iy = _map->getHeight() - iy - 1;
+    unsigned int id = spriteSpawn->getGameObjectId();
+
+    // Init with texture of Batch Node
+    _mobs[ id ] = Sprite::createWithTexture(
+        _batchNode->getTexture(),
+        this->pickImageFromTexture( 4 )//spriteSpawn->getGid() ) 
+    );    // Maybe cache ?
+
+    // Add to Batch Node
+    _mobs[ id ]->setPosition( ccp(ix*TILE_WIDTH, iy*TILE_HEIGHT ) );
+    _mobs[ id ]->setAnchorPoint( ccp(0, 0) );
+    _batchNode->addChild(_mobs[ id ], 0);
+    _batchNode->reorderChild(_mobs[ id ], transformed_iy*TILE_HEIGHT);
+    _mobs[ id ]->setVertexZ(0); // DO NOT CHANGE
+    return;
+}
+
+//
+void GUIUpdater::updateEffectSpawn( Backend::GSCEffectSpawn *effectSpawn )
+{
+    unsigned int ix = effectSpawn->getCoordinates().x;
+    unsigned int iy = effectSpawn->getCoordinates().y;
+    unsigned int transformed_iy = _map->getHeight() - iy - 1;
+    int position = _map->getWidth() * transformed_iy + ix;
+
+    // Init with texture of Batch Node
+    _effects[ position ] = Sprite::createWithTexture(
+        _batchNode->getTexture(),
+        this->pickImageFromTexture( effectSpawn->getGid() ) 
+    );    // Maybe cache ?
+
+    // Add to Batch Node
+    _effects[ position ]->setPosition( ccp(ix*TILE_WIDTH, iy*TILE_HEIGHT ) );
+    _effects[ position ]->setAnchorPoint( ccp(0, 0) );
+    _batchNode->addChild(_effects[ position ], 0);
+    _batchNode->reorderChild(_effects[ position ], transformed_iy*TILE_HEIGHT+5);
+    _effects[ position ]->setVertexZ(0); // DO NOT CHANGE
+    return;
+}
+
+/*
+ * ========== 
+ *  General
+ * ==========
+ */
+
+Rect GUIUpdater::pickImageFromTexture(unsigned int id)
+{
+    int offset = id % TEXTURE_IMAGES_PER_LINE;
+    if( offset == 0 )
+    {
+        offset = 9;
+    }
+    offset--;
+
+    return CCRectMake(
+        TEXTURE_TILE_WIDTH * offset,
+        TEXTURE_TILE_HEIGHT * ( id / (TEXTURE_IMAGES_PER_LINE+1) ),
+        TILE_WIDTH,
+        TILE_HEIGHT*2
+    );
+}
+
 
 /*
  * ========== 

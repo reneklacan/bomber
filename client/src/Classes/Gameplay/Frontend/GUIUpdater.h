@@ -49,6 +49,10 @@ namespace Bomber
             void updateSpriteDamage( Backend::GSCSpriteDamage *spriteDamage );
             void updateSpriteAttrUpdate( Backend::GSCSpriteAttrUpdate *spriteAttrUpdate );
             void updateEffectDestroy( Backend::GSCEffectDestroy *effectDestroy );
+            void updateSpriteSpawn( Backend::GSCSpriteSpawn *spriteSpawn );
+            void updateEffectSpawn( Backend::GSCEffectSpawn *effectSpawn );
+
+            Rect pickImageFromTexture(unsigned int id);
 
             bool evalCollision(Point nextPoint);
 
