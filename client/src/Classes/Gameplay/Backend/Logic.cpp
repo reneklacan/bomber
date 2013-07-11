@@ -268,7 +268,7 @@ bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
             }
             else
             {
-                _gameStateUpdater->spawnSprite(18, obstacle->getCoords()); // temporary
+                _gameStateUpdater->spawnSprite(3, obstacle->getCoords()); // temporary
             }
         }
 

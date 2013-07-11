@@ -157,6 +157,17 @@ std::deque<Coordinates> AI::findDirectPath(Coordinates from, Coordinates to, boo
         else
         {
             printf("WTF?????\n");
+            printf("diagnostic:\n");
+            printf(" - completenessX: %g\n", completenessX);
+            printf(" - completenessY: %g\n", completenessY);
+            printf(" - increaceX: %g\n", increaceX);
+            printf(" - increaceY: %g\n", increaceY);
+            printf(" - modifierX: %g\n", modifierX);
+            printf(" - modifierY: %g\n", modifierY);
+            printf(" - current.x: %g\n", current.x);
+            printf(" - current.y: %g\n", current.y);
+            printf(" - to.x: %g\n", to.x);
+            printf(" - to.y: %g\n", to.y);
         }
 
         if (!this->isCoordsCrossable(current, ghostMode))
