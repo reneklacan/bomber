@@ -39,6 +39,7 @@ namespace Bomber
 
             private:
                 SYNTHESIZE(TEffectType, _type, Type);
+                SYNTHESIZE(int, _charges, Charges);
         };
 
         class EffectBombPowerInc : public Effect
@@ -48,10 +49,12 @@ namespace Bomber
                 {
                     _name = "effect flame inc";
                     _type = EFFECT_BOMB_POWER_INC;
+                    _charges = 1;
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->increaseBombPower();
+                    _charges -= 1;
                 }
         };
 
@@ -62,10 +65,12 @@ namespace Bomber
                 {
                     _name = "effect bomb cap inc";
                     _type = EFFECT_BOMB_CAPACITY_INC;
+                    _charges = 1;
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->increaseBombCapacity();
+                    _charges -= 1;
                 }
         };
 
@@ -76,10 +81,12 @@ namespace Bomber
                 {
                     _name = "effect portability on";
                     _type = EFFECT_PORTABILITY_ON;
+                    _charges = 1;
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->setPortability(true);
+                    _charges -= 1;
                 }
         };
 
@@ -90,10 +97,12 @@ namespace Bomber
                 {
                     _name = "effect portability off";
                     _type = EFFECT_PORTABILITY_OFF;
+                    _charges = 1;
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->setPortability(false);
+                    _charges -= 1;
                 }
         };
 
@@ -104,10 +113,12 @@ namespace Bomber
                 {
                     _name = "effect heath inc";
                     _type = EFFECT_HEALTH_INC;
+                    _charges = 1;
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->increaseHealth();
+                    _charges -= 1;
                 }
         };
 
@@ -118,10 +129,12 @@ namespace Bomber
                 {
                     _name = "effect heath dec";
                     _type = EFFECT_HEALTH_DEC;
+                    _charges = 1;
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->decreaseHealth();
+                    _charges -= 1;
                 }
         };
     }

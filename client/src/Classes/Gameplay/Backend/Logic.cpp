@@ -157,6 +157,9 @@ void Logic::update(float dt)
         {
             Effect *effect = (Effect *) object;
 
+            if (effect->getCharges() == 0)
+                continue;
+
             _gameStateUpdater->updateSpriteAttributes(sprite, effect);
             effectsToDestroy.push_back(effect);
         }
