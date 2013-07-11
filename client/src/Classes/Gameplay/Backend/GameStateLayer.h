@@ -73,7 +73,7 @@ namespace Bomber
             _objects.clear();
             _objectGridMap.clear();
 
-            for (int i = 0; i <_ gridSize; i++)
+            for (int i = 0; i < _gridSize; i++)
             {
                 std::set<ObjectType *> s;
                 _grid.push_back(s);
