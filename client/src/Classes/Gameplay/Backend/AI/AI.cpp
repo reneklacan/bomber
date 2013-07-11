@@ -168,6 +168,7 @@ std::deque<Coordinates> AI::findDirectPath(Coordinates from, Coordinates to, boo
             printf(" - current.y: %g\n", current.y);
             printf(" - to.x: %g\n", to.x);
             printf(" - to.y: %g\n", to.y);
+            return std::deque<Coordinates>();
         }
 
         if (!this->isCoordsCrossable(current, ghostMode))
