@@ -141,6 +141,7 @@
     <ClCompile Include="..\Classes\Gameplay\Backend\Logic.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Mediator.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Obstacle.cpp" />
+    <ClCompile Include="..\Classes\Gameplay\Backend\Portal.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Primitives\Coordinates.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Primitives\Rectangle.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Sprite.cpp" />

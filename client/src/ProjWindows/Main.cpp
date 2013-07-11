@@ -46,7 +46,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-#if DEBUG == 0
+#if DEBUG > 0
     openConsole();
 #endif
 

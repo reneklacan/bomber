@@ -162,6 +162,9 @@
     <ClCompile Include="..\Classes\Gameplay\Frontend\Sprites\Human.cpp">
       <Filter>Classes\Gameplay\Frontend\Sprites</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Backend\Portal.cpp">
+      <Filter>Classes\Gameplay\Backend</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">

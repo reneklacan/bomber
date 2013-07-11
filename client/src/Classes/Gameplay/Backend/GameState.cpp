@@ -114,11 +114,21 @@ void GameState::init(TMXTiledMap *tiledMap)
         y = ((String*)dict->objectForKey("y"))->intValue();
         width = ((String*)dict->objectForKey("width"))->intValue();
         height = ((String*)dict->objectForKey("height"))->intValue();
+        int top =  ((String*)dict->objectForKey("top"))->intValue();
+        int bottom =  ((String*)dict->objectForKey("bottom"))->intValue();
+        int left =  ((String*)dict->objectForKey("left"))->intValue();
+        int right =  ((String*)dict->objectForKey("right"))->intValue();
+        
+        printf("top:     %d\n", top);
+        printf("bottom:  %d\n", bottom);
+        printf("left:    %d\n", left);
+        printf("right:   %d\n", right);
 
         Portal *portal = new Portal();
         portal->setId(id);
-        portal->setPosition(x, y);
-        portal->setSize(width, height);
+        portal->setPosition(x - (x % TILE_WIDTH), y - (y % TILE_HEIGHT));
+        portal->setSize(TILE_WIDTH, TILE_HEIGHT);
+        portal->configure(top, bottom, left, right);
 
         _portalLayer->addObject(portal);
     }
@@ -138,8 +148,8 @@ void GameState::init(TMXTiledMap *tiledMap)
 
         PortalExit *portalExit = new PortalExit();
         portalExit->setId(id);
-        portalExit->setPosition(x, y);
-        portalExit->setSize(width, height);
+        portalExit->setPosition(x - (x % TILE_WIDTH), y - (y % TILE_HEIGHT));
+        portalExit->setSize(TILE_WIDTH, TILE_HEIGHT);
 
         _portalExitLayer->addObject(portalExit);
     }

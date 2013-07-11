@@ -150,9 +150,9 @@ namespace Bomber
         {
             std::vector<ObjectType *> objects;
 
-            for (int y = coords.y - range; y <= coords.y + range; y++)
+            for (unsigned int y = coords.y - range; y <= coords.y + range; y++)
             {
-                for (int x = coords.x - range; x <= coords.x + range; x++)
+                for (unsigned int x = coords.x - range; x <= coords.x + range; x++)
                 {
                     if (x < 0 || x >= _width || y < 0 || y >= _height)
                         continue;

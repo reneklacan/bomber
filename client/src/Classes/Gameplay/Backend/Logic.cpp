@@ -169,18 +169,14 @@ void Logic::update(float dt)
             continue;
         }
 
-        auto portals = portalLayer->getObjectsAroundCoords(sprite->getCoords());
+        auto portals = portalLayer->getObjectsAtCoords(sprite->getCoords());
 
         for (auto object : portals)
         {
             Portal *portal = (Portal *) object;
-            
-            if (sprite->collides(portal))
-            {
-                auto portalExit = portalExitLayer->getObject(portal->getId());
-                _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
-                break;
-            }
+
+            auto portalExit = portalExitLayer->getObject(portal->getPortalTarget(sprite->getPreviousCoords()));
+            _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
         }
     }
 
