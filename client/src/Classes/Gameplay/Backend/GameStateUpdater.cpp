@@ -10,6 +10,11 @@ GameStateUpdater::GameStateUpdater()
     _uniqueId = 1;
 }
 
+void GameStateUpdater::resetState()
+{
+    _state->reset();
+}
+
 void GameStateUpdater::updateSpriteGrid()
 {
     _state->getSpriteLayer()->updateGrid();

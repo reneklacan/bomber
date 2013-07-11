@@ -23,6 +23,7 @@ namespace Bomber
                 ~GameState();
 
                 void init(cocos2d::TMXTiledMap *tiledMap);
+                void reset();
 
                 std::pair< unsigned int, std::vector<GameStateChange *> > getChangesFromId(unsigned int id);
                 void deleteChangesToId(unsigned int id);
@@ -36,6 +37,8 @@ namespace Bomber
 
                 SYNTHESIZE_READONLY(unsigned int, _width, Width);
                 SYNTHESIZE_READONLY(unsigned int, _height, Height);
+
+                SYNTHESIZE_READONLY(cocos2d::TMXTiledMap *, _tiledMap, TiledMap);
 
                 SYNTHESIZE_READONLY(GameStateLayer<Sprite> *, _spriteLayer, SpriteLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<Obstacle> *, _obstacleLayer, ObstacleLayer);

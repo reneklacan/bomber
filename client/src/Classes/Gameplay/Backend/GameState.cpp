@@ -185,6 +185,17 @@ void GameState::init(TMXTiledMap *tiledMap)
     }
 }
 
+void GameState::reset()
+{
+    _changes.clear();
+    _lastChangeId = 0;
+    _lastChangeIdOffset = 0;
+
+
+
+    this->init(_tiledMap);
+}
+
 std::pair< unsigned int, std::vector<GameStateChange *> > GameState::getChangesFromId(unsigned int id)
 {
     std::vector<GameStateChange *> changes;

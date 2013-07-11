@@ -19,6 +19,11 @@ Mediator::Mediator()
     _gameStateUpdater = new GameStateUpdater();
 }
 
+void Mediator::resetState()
+{
+    _gameStateUpdater->resetState();
+}
+
 void Mediator::update(float dt)
 {
     Logic::getInstance()->update(dt);

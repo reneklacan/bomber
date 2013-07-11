@@ -14,6 +14,7 @@ namespace Bomber
                 static Mediator *getInstance();
 
                 void update(float dt);
+                void resetState();
                 void setState(GameState *state);
                 void setControlledSprite(unsigned int id);
                 void moveSprite(Position position);

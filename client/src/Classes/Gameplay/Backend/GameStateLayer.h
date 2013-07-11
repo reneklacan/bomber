@@ -20,6 +20,7 @@ namespace Bomber
             public:
                 GameStateLayer(const char *name, int width, int height);
                 void updateGrid();
+                void reset();
                 void addObject(ObjectType *object);
                 void addObject(unsigned int id, ObjectType *object);
                 ObjectType *getObject(unsigned int id);
@@ -34,8 +35,9 @@ namespace Bomber
 
             private:
                 const char *_name;
-                int _width;
-                int _height;
+                unsigned int _width;
+                unsigned int _height;
+                unsigned int _gridSize;
                 std::vector< std::set<ObjectType *> > _grid;
                 std::map<unsigned int, ObjectType *> _objects;
                 std::map<unsigned int, std::set<unsigned int> > _objectGridMap;
@@ -47,9 +49,31 @@ namespace Bomber
             _name = name;
             _width = width;
             _height = height;
-            int gridSize = width*height;
+            _gridSize = width*height;
 
-            for (int i = 0; i < gridSize; i++)
+            for (unsigned int i = 0; i < _gridSize; i++)
+            {
+                std::set<ObjectType *> s;
+                _grid.push_back(s);
+            }
+        }
+
+        template <class ObjectType>
+        void GameStateLayer<ObjectType>::reset()
+        {
+            // TODO: unallocate GameObjects that we are going to clear
+            /*
+            for (auto pair : this->getObjects())
+            {
+                delete pair.second;
+            }
+            */
+
+            _grid.clear();
+            _objects.clear();
+            _objectGridMap.clear();
+
+            for (int i = 0; i <_ gridSize; i++)
             {
                 std::set<ObjectType *> s;
                 _grid.push_back(s);

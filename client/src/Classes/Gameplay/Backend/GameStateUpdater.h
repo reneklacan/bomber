@@ -18,6 +18,8 @@ namespace Bomber
             public:
                 GameStateUpdater();
 
+                void resetState();
+
                 void updateSpriteGrid();
                 void setState(GameState *state) { _state = state; };
                 GameState *getState() { return _state; };
