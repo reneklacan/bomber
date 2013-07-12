@@ -2,10 +2,10 @@
 #include "../../Constants.h"
 #include "../Backend/Mediator.h"
 #include "../Backend/Bomber.h"
-#include "GameButton.h"
+#include "Buttons/GameButton.h"
 #include "GUIUpdater.h"
 #include "ButtonLayer.h"
-#include "ControlButton.h"
+#include "Buttons/ControlButton.h"
 
 using namespace Bomber;
 using namespace Bomber::Frontend;
@@ -78,6 +78,15 @@ bool LevelLayer::init()
         menu_selector(LevelLayer::menuPauseCallback)
     );
     ButtonLayer::getInstance()->addToControls(cbPause);
+
+    // Reset Button
+    ControlButton *cbReset = new ControlButton(
+        0,
+        "CloseNormal.png",
+        this,
+        menu_selector(LevelLayer::menuResetCallback)
+    );
+    ButtonLayer::getInstance()->addToControls(cbReset);
 
     /**
     */
@@ -168,4 +177,11 @@ void LevelLayer::menuPauseCallback(Object* pSender)
         Director::sharedDirector()->pause();
         _gamePaused = true;
     }
+}
+
+//
+void LevelLayer::menuResetCallback(Object* pSender)
+{
+    // "reset" menu item clicked
+    Backend::Mediator::getInstance()->resetState();
 }

@@ -35,9 +35,10 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Backend/AI/FollowAI.cpp \
         ../Classes/Gameplay/Frontend/LevelLayer.cpp \
         ../Classes/Gameplay/Frontend/ButtonLayer.cpp \
-        ../Classes/Gameplay/Frontend/GameButton.cpp \
-        ../Classes/Gameplay/Frontend/ControlButton.cpp \
-        ../Classes/Gameplay/Frontend/AchievementButton.cpp \
+        ../Classes/Gameplay/Frontend/Buttons/GameButton.cpp \
+        ../Classes/Gameplay/Frontend/Buttons/ControlButton.cpp \
+        ../Classes/Gameplay/Frontend/Buttons/AchievementButton.cpp \
+        ../Classes/Gameplay/Frontend/Buttons/EffectButton.cpp \
         ../Classes/Gameplay/Frontend/GUIUpdater.cpp \
         ../Classes/Gameplay/Frontend/Map/Map.cpp \
         ../Classes/Gameplay/Frontend/Map/Bomb.cpp \

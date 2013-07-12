@@ -85,7 +85,7 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
                 int position = _map->getWidth() * iy + ix;
                 _effects[ position ] = effectsLayer->tileAt( point );
                 _batchNode->addChild(_effects[ position ], 0);
-                _batchNode->reorderChild(_effects[ position ], iy*TILE_HEIGHT);
+                _batchNode->reorderChild(_effects[ position ], iy*TILE_HEIGHT+5);
                 _effects[ position ]->setVertexZ(0); // DO NOT CHANGE
             }
 
@@ -346,7 +346,7 @@ void GUIUpdater::updateObstacleSpawn(Backend::GSCObstacleSpawn *obstacleSpawn)
     // Init with texture of Batch Node
     _obstacles[ position ] = Sprite::createWithTexture(
         _batchNode->getTexture(),
-        this->pickImageFromTexture( obstacleSpawn->getGid() ) 
+        this->pickImageFromTexture( obstacleSpawn->getGid() )
     );    // Maybe cache ?
 
     // Add to Batch Node
@@ -388,8 +388,26 @@ void GUIUpdater::updateSpriteDamage( Backend::GSCSpriteDamage *spriteDamage )
 //
 void GUIUpdater::updateSpriteAttrUpdate( Backend::GSCSpriteAttrUpdate *spriteAttrUpdate )
 {
-    //std::cout << spriteAttrUpdate->getGameObjectId() << "\n";
-    //std::cout << spriteAttrUpdate->getEffectType() << "\n";
+    unsigned int imageID = 0;
+    switch(spriteAttrUpdate->getEffectType())
+    {
+        case Backend::EFFECT_BOMB_POWER_INC:
+            imageID = BOMB_POWER_INC_ETI;
+            break;
+        default:
+            std::cerr << "Unknown effect type: " << 
+                spriteAttrUpdate->getEffectType() << std::endl;
+            return; // Unknown effect type
+    }
+
+    // Maybe optimization ? :
+    // if stacking, only increment displayed number
+
+    EffectButton *eb = new EffectButton(
+        this->pickImageFromTexture( imageID ),
+        _batchNode->getTexture()
+    );
+    ButtonLayer::getInstance()->addToBuffs(eb);
     return;
 }
 
@@ -416,7 +434,7 @@ void GUIUpdater::updateSpriteSpawn( Backend::GSCSpriteSpawn *spriteSpawn )
     // Init with texture of Batch Node
     _mobs[ id ] = Sprite::createWithTexture(
         _batchNode->getTexture(),
-        this->pickImageFromTexture( 4 )//spriteSpawn->getGid() ) 
+        this->pickImageFromTexture( spriteSpawn->getGid() ) 
     );    // Maybe cache ?
 
     // Add to Batch Node

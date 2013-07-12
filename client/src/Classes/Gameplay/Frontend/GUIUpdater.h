@@ -13,10 +13,13 @@
 
 #include "../Backend/Mediator.h"
 #include "../Backend/Bomber.h"
+#include "../Backend/Effect.h"
 
 #include "../../Constants.h"
+#include "GUIConstants.h"
 
-#include "AchievementButton.h"
+#include "Buttons/AchievementButton.h"
+#include "Buttons/EffectButton.h"
 #include "ButtonLayer.h"
 
 namespace Bomber

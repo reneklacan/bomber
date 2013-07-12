@@ -1,0 +1,1 @@
+#define BOMB_POWER_INC_ETI 16

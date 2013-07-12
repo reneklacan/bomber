@@ -45,6 +45,7 @@ namespace Bomber
             // a selector callback
             virtual void menuCloseCallback(cocos2d::Object* pSender);
             virtual void menuPauseCallback(cocos2d::Object* pSender);
+            virtual void menuResetCallback(cocos2d::Object* pSender);
 
         protected:
             ControlLayer *_controlLayer;
