@@ -316,6 +316,13 @@ void GUIUpdater::updateSpriteDamage( Backend::GSCSpriteDamage *spriteDamage )
 //
 void GUIUpdater::updateSpriteAttrUpdate( Backend::GSCSpriteAttrUpdate *spriteAttrUpdate )
 {
+    // Show only players buff
+    if( spriteAttrUpdate->getGameObjectId() != _player->getID() )
+    {
+        return;
+    }
+
+    // Get buff image
     unsigned int imageID = 0;
     switch(spriteAttrUpdate->getEffectType())
     {
@@ -331,8 +338,7 @@ void GUIUpdater::updateSpriteAttrUpdate( Backend::GSCSpriteAttrUpdate *spriteAtt
             return; // Unknown effect type
     }
 
-    // Maybe optimization ? :
-    // if stacking, only increment displayed number
+    // Create or update buff button
     if( ButtonLayer::getInstance()->isInBuffs(imageID) )
     {
         ButtonLayer::getInstance()->incrementBuff(imageID);
