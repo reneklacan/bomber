@@ -24,7 +24,7 @@ namespace Bomber
             void setMainLayer(Layer* main);
             void saveTime(float dt);
             bool isInBuffs(unsigned int id);
-            bool incrementBuff(unsigned int id);
+            void incrementBuff(unsigned int id);
 
         private:
             ButtonLayer();

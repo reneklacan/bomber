@@ -52,13 +52,31 @@ void ButtonLayer::addToBuffs(GameButton *buff)
     Size visibleSize = Director::sharedDirector()->getVisibleSize();
     Point origin = Director::sharedDirector()->getVisibleOrigin();
 
-    Point *last = new Point();
-    last->x = origin.x + visibleSize.width/2;
-    last->y = origin.y + 20;
+    unsigned int gap = 0;   // Offset from other button, real offset is 2*gap
 
+    Point *last = new Point();
     Point *next = new Point();
-    next->x = last->x - 20;
-    next->y = origin.y + 20;    // Offset from bottom border
+
+    if(_buffs.size() > 0)
+    {
+        for(auto it : _buffs)
+        {
+            unsigned int ebWidth = it->getWidth();
+            Point *bp = it->getButtonPosition();
+            Point *new_bp = new Point();
+            new_bp->x = bp->x - ebWidth/2 - gap;
+            new_bp->y = bp->y;
+            it->setButtonPosition(new_bp);
+        }
+        last = _buffs.back()->getButtonPosition();
+        next->x = last->x + buff->getWidth() + 2*gap;
+        next->y = last->y;
+    }
+    else
+    {
+        next->x = origin.x + visibleSize.width/2 - buff->getWidth()/2;
+        next->y = origin.y + 20;    // Offset from bottom border
+    }
 
     buff->setButtonPosition(next);
 
@@ -138,7 +156,7 @@ bool ButtonLayer::isInBuffs(unsigned int id)
 }
 
 //
-bool ButtonLayer::incrementBuff(unsigned int id)
+void ButtonLayer::incrementBuff(unsigned int id)
 {
     for(auto it = _buffs.begin(); it != _buffs.end(); it++) // MUST be optimized
     {
