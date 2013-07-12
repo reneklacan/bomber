@@ -61,7 +61,7 @@ bool LevelLayer::init()
     // Quit Button
     ControlButton *cbQuit = new ControlButton(
         0,
-        "CloseNormal.png",
+        "buttons/button_black_power_64.png",
         this,
         menu_selector(LevelLayer::menuCloseCallback)
     );
@@ -70,7 +70,7 @@ bool LevelLayer::init()
     // Pause/Resume Button
     ControlButton *cbPause = new ControlButton(
         0,
-        "CloseNormal.png",
+        "buttons/button_black_pause_64.png",
         this,
         menu_selector(LevelLayer::menuPauseCallback)
     );
@@ -79,7 +79,7 @@ bool LevelLayer::init()
     // Reset Button
     ControlButton *cbReset = new ControlButton(
         0,
-        "CloseNormal.png",
+        "buttons/button_black_repeat_64.png",
         this,
         menu_selector(LevelLayer::menuResetCallback)
     );
