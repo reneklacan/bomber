@@ -13,20 +13,10 @@ GUIUpdater *GUIUpdater::getInstance()
 //
 void GUIUpdater::init( Map* map, Human* player, Layer* layer)
 {
-    // Reset handling
-    if(_batchNode != NULL)
-    {
-        _batchNode->removeAllChildrenWithCleanup(true);
-    }
-    else
-    {
-        _player = player;
-        _layer = layer;
-    }
+    // Init
     _map = map;
-    _mobs.clear();
-    _obstacles.clear();
-    _effects.clear();
+    _player = player;
+    _layer = layer;
 
     // Init Batch Node
     _batchNode = SpriteBatchNode::create("tiles/tileset.png");
@@ -35,78 +25,11 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     // Add BatchNode
     _map->addChild(_batchNode);
 
-    // Add player to Batch Node
-    _player->initWithTexture(_batchNode->getTexture(), CCRectMake(120,60,80,110));
-    _player->retain();
-    _player->setAnchorPoint(ccp(0.45f, 0.2f));
-    Size visibleSize = Director::sharedDirector()->getVisibleSize();
-    Point origin = Director::sharedDirector()->getVisibleOrigin();
-    _player->setPosition(
-            ccp(
-                origin.x + _player->getContentSize().width/2 + 101 + 50,
-                origin.y + visibleSize.height/2
-            )
-    );
-    _player->setNextPosition(_player->getPosition());
-    _player->setVertexZ(0);
-    _batchNode->addChild(_player, 0);
+    // Initialize player
+    this->initPlayer();
 
-    // Hide sprites
-    TMXLayer *spritesLayer = _map->getTiledMap()->layerNamed("sprites");
-    spritesLayer->setVisible(false);
-
-    // Hide obstacles
-    _obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
-    _obstaclesLayer->setVisible(false);
-
-    // Hide effects
-    TMXLayer *effectsLayer = _map->getTiledMap()->layerNamed("effects");
-    effectsLayer->setVisible(false);
-
-    // Init obstacles, mobs and effects structure
-    for(int ix = 0; ix < _map->getWidth(); ix++)
-    {
-        for(int iy = 0; iy < _map->getHeight(); iy++)
-        {
-            Point point = ccp(ix, iy);
-            if(_obstaclesLayer->tileGIDAt( point ) != 0)
-            {
-                int position = _map->getWidth() * iy + ix;
-                _obstacles[ position ] = _obstaclesLayer->tileAt( point );
-                _batchNode->addChild(_obstacles[ position ], 0);
-                _batchNode->reorderChild(_obstacles[ position ], iy*TILE_HEIGHT+5);
-                _obstacles[ position ]->setVertexZ(0); // DO NOT CHANGE
-            }
-
-            if(spritesLayer->tileGIDAt( point ) != 0)
-            {
-                int position = _map->getWidth() * (_map->getHeight() - iy - 1) + ix;
-                _mobs[ position ] = spritesLayer->tileAt( point );
-                _batchNode->addChild(_mobs[ position ], 0);
-                _batchNode->reorderChild(_mobs[ position ], iy*TILE_HEIGHT);
-                _mobs[ position ]->setVertexZ(0); // DO NOT CHANGE
-            }
-
-            if(effectsLayer->tileGIDAt( point ) != 0)
-            {
-                int position = _map->getWidth() * iy + ix;
-                _effects[ position ] = effectsLayer->tileAt( point );
-                _batchNode->addChild(_effects[ position ], 0);
-                _batchNode->reorderChild(_effects[ position ], iy*TILE_HEIGHT+5);
-                _effects[ position ]->setVertexZ(0); // DO NOT CHANGE
-            }
-
-        }
-    }
-
-    // Set map view
-    _map->setPosition(
-            ccp(
-                visibleSize.width/2 - _player->getPosition().x,
-                0
-            )
-    );
-
+    // Initialize all important layers
+    this->initLayers();
 }
 
 //
@@ -580,5 +503,127 @@ bool GUIUpdater::evalCollision(Point nextPoint)
     }
 
     return result;
+}
 
+/*
+ * ========== 
+ *    Init
+ * ==========
+ */
+
+//
+void GUIUpdater::initPlayer()
+{
+    // All initialization
+    _player->initWithTexture(_batchNode->getTexture(), CCRectMake(120,60,80,110));
+    _player->retain();
+    _player->setAnchorPoint(ccp(0.45f, 0.2f));
+    Size visibleSize = Director::sharedDirector()->getVisibleSize();
+    Point origin = Director::sharedDirector()->getVisibleOrigin();
+    _player->setPosition(
+            ccp(
+                origin.x + _player->getContentSize().width/2 + 101 + 50,
+                origin.y + visibleSize.height/2
+            )
+    );
+    _player->setNextPosition(_player->getPosition());
+    _player->setVertexZ(0);
+    
+    // Add player to Batch Node
+    _batchNode->addChild(_player, 0);
+
+    // Set map view
+    _map->setPosition(
+            ccp(
+                visibleSize.width/2 - _player->getPosition().x,
+                0
+            )
+    );
+
+    return;
+}
+
+//
+void GUIUpdater::initLayers()
+{
+    // Clear
+    _mobs.clear();
+    _obstacles.clear();
+    _effects.clear();
+
+    // Hide sprites
+    TMXLayer *spritesLayer = _map->getTiledMap()->layerNamed("sprites");
+    spritesLayer->setVisible(false);
+
+    // Hide obstacles
+    _obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
+    _obstaclesLayer->setVisible(false);
+
+    // Hide effects
+    TMXLayer *effectsLayer = _map->getTiledMap()->layerNamed("effects");
+    effectsLayer->setVisible(false);
+
+    // Init obstacles, mobs and effects structure
+    for(int ix = 0; ix < _map->getWidth(); ix++)
+    {
+        for(int iy = 0; iy < _map->getHeight(); iy++)
+        {
+            Point point = ccp(ix, iy);
+            if(_obstaclesLayer->tileGIDAt( point ) != 0)
+            {
+                int position = _map->getWidth() * iy + ix;
+                _obstacles[ position ] = _obstaclesLayer->tileAt( point );
+                _batchNode->addChild(_obstacles[ position ], 0);
+                _batchNode->reorderChild(_obstacles[ position ], iy*TILE_HEIGHT+5);
+                _obstacles[ position ]->setVertexZ(0); // DO NOT CHANGE
+            }
+
+            if(spritesLayer->tileGIDAt( point ) != 0)
+            {
+                int position = _map->getWidth() * (_map->getHeight() - iy - 1) + ix;
+                _mobs[ position ] = spritesLayer->tileAt( point );
+                _batchNode->addChild(_mobs[ position ], 0);
+                _batchNode->reorderChild(_mobs[ position ], iy*TILE_HEIGHT);
+                _mobs[ position ]->setVertexZ(0); // DO NOT CHANGE
+            }
+
+            if(effectsLayer->tileGIDAt( point ) != 0)
+            {
+                int position = _map->getWidth() * iy + ix;
+                _effects[ position ] = effectsLayer->tileAt( point );
+                _batchNode->addChild(_effects[ position ], 0);
+                _batchNode->reorderChild(_effects[ position ], iy*TILE_HEIGHT+5);
+                _effects[ position ]->setVertexZ(0); // DO NOT CHANGE
+            }
+
+        }
+    }
+
+    return;
+}
+
+/*
+ * ========== 
+ *   Reset
+ * ==========
+ */
+
+//
+void GUIUpdater::resetGUI()
+{
+    // Buffs and Achievements
+    ButtonLayer::getInstance()->reset();
+
+    // Map
+    _map->reset();
+    _map->addChild(_batchNode);
+
+    // Batch Node
+    _batchNode->removeAllChildrenWithCleanup(true);
+    this->initLayers();
+
+    // Player
+    this->initPlayer();
+
+    return;
 }

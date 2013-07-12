@@ -15,6 +15,7 @@ LevelLayer::LevelLayer()
 ,_map(NULL)
 ,_gamePaused(false)
 ,_lastChangeID(0)
+,_controlledSprite(NULL)
 {
 }
 
@@ -32,8 +33,12 @@ bool LevelLayer::init()
 
     // Basic init
     _map = Map::create();
+
     _player = Human::create(_map, 0);
+    _player->setID(19991);
+
     _controlLayer = ControlLayer::create();
+
     this->addChild(_map);
     this->addChild(_controlLayer, 2);
 
@@ -46,15 +51,7 @@ bool LevelLayer::init()
     _gameState->init(_map->getTiledMap());
     
     // Backend init
-    Backend::Bomber *controlledSprite = new Backend::Bomber();
-    controlledSprite->setId(19991);
-    controlledSprite->setPosition(_player->getPosition().x, _player->getPosition().y);
-    controlledSprite->setSize(10, 10);
-    _gameState->getSpriteLayer()->addObject(controlledSprite);
-
-    _player->setID(19991);
-
-    Backend::Mediator::getInstance()->setControlledSprite(controlledSprite->getId());
+    this->initControlledSprite();
 
     // Button Layer
     ButtonLayer::getInstance()->setMainLayer(this);
@@ -92,11 +89,7 @@ bool LevelLayer::init()
     */
 
     // Control Layer
-    _controlLayer->setControlledSprite((GameSprite *)_player);
-    _controlLayer->enableJoystick();
-    _controlLayer->enableKeyboard();
-    _controlLayer->setPauseGameDelegate(this);
-    _controlLayer->setGameActionDelegate(_player);
+    this->initControlLayer();
     
     // Backend init
     Backend::Mediator::getInstance()->moveSprite(
@@ -183,18 +176,34 @@ void LevelLayer::menuPauseCallback(Object* pSender)
 void LevelLayer::menuResetCallback(Object* pSender)
 {
     // "reset" menu item clicked
-    _map->reset();
+    GUIUpdater::getInstance()->resetGUI();
     Backend::Mediator::getInstance()->resetState();
-    GUIUpdater::getInstance()->init(_map, _player, this);
 
     // Backend init
-    Backend::Bomber *controlledSprite = new Backend::Bomber();
-    controlledSprite->setId(19991);
-    controlledSprite->setPosition(_player->getPosition().x, _player->getPosition().y);
-    controlledSprite->setSize(10, 10);
-    _gameState->getSpriteLayer()->addObject(controlledSprite);
+    this->initControlledSprite();
+    
+}
 
-    _player->setID(19991);
+//
+void LevelLayer::initControlledSprite()
+{
+    if(_controlledSprite == NULL)
+    {
+       _controlledSprite = new Backend::Bomber(); 
+    }
+    _controlledSprite->setId(19991);
+    _controlledSprite->setPosition(_player->getPosition().x, _player->getPosition().y);
+    _controlledSprite->setSize(10, 10);
+    _gameState->getSpriteLayer()->addObject(_controlledSprite);
+    Backend::Mediator::getInstance()->setControlledSprite(_controlledSprite->getId());
+}
 
-    Backend::Mediator::getInstance()->setControlledSprite(controlledSprite->getId());
+//
+void LevelLayer::initControlLayer()
+{
+    _controlLayer->setControlledSprite((GameSprite *)_player);
+    _controlLayer->enableJoystick();
+    _controlLayer->enableKeyboard();
+    _controlLayer->setPauseGameDelegate(this);
+    _controlLayer->setGameActionDelegate(_player);
 }

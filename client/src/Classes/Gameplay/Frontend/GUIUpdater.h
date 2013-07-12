@@ -34,6 +34,7 @@ namespace Bomber
             void init( Map* map, Human* player, Layer* layer);
             void update(Point playerPosition);
             std::vector<bool> evalCollisions(Point currentPoint, Point nextPoint);
+            void resetGUI();
 
         private:
             GUIUpdater(): _lastChangeID(0), _batchNode(NULL) {};
@@ -55,8 +56,9 @@ namespace Bomber
             void updateSpriteSpawn( Backend::GSCSpriteSpawn *spriteSpawn );
             void updateEffectSpawn( Backend::GSCEffectSpawn *effectSpawn );
 
+            void initLayers();
+            void initPlayer();
             Rect pickImageFromTexture(unsigned int id);
-
             bool evalCollision(Point nextPoint);
 
             unsigned int _lastChangeID;

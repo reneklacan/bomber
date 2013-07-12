@@ -26,6 +26,8 @@ namespace Bomber
             bool isInBuffs(unsigned int id);
             void incrementBuff(unsigned int id);
 
+            void reset();
+
         private:
             ButtonLayer();
 

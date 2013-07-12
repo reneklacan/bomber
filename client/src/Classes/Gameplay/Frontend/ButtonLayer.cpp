@@ -144,9 +144,9 @@ void ButtonLayer::removeAchievement()
 //
 bool ButtonLayer::isInBuffs(unsigned int id)
 {
-    for(auto it = _buffs.begin(); it != _buffs.end(); it++)
+    for(auto it : _buffs)
     {
-        EffectButton *eb = (EffectButton *)(*it);
+        EffectButton *eb = (EffectButton *)it;
         if(eb->getID() == id)
         {
             return true;
@@ -158,12 +158,31 @@ bool ButtonLayer::isInBuffs(unsigned int id)
 //
 void ButtonLayer::incrementBuff(unsigned int id)
 {
-    for(auto it = _buffs.begin(); it != _buffs.end(); it++) // MUST be optimized
+    for(auto it : _buffs) // MUST be optimized
     {
-        EffectButton *eb = (EffectButton *)(*it);
+        EffectButton *eb = (EffectButton *)it;
         if(eb->getID() == id)
         {
             eb->incrementLabel();
         }
     }
+}
+
+//
+void ButtonLayer::reset()
+{
+    // Reset buffs
+    for(auto it : _buffs)
+    {
+        _mainLayer->removeChild(it->getGameButton());
+    }
+    _buffs.clear();
+    // Reset achievements
+    _saveTime = false;
+    _time = 0;
+    for(auto it : _achievements)
+    {
+        _mainLayer->removeChild(it->getGameButton());
+    }
+    _achievements.clear();
 }
