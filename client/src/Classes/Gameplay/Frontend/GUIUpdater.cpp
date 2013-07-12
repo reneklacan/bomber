@@ -13,9 +13,17 @@ GUIUpdater *GUIUpdater::getInstance()
 //
 void GUIUpdater::init( Map* map, Human* player, Layer* layer)
 {
+    // Reset handling
+    if(_batchNode != NULL)
+    {
+        _batchNode->removeAllChildrenWithCleanup(true);
+    }
+    else
+    {
+        _player = player;
+        _layer = layer;
+    }
     _map = map;
-    _player = player;
-    _layer = layer;
     _mobs.clear();
     _obstacles.clear();
     _effects.clear();
@@ -75,7 +83,6 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
                 int position = _map->getWidth() * (_map->getHeight() - iy - 1) + ix;
                 _mobs[ position ] = spritesLayer->tileAt( point );
                 _batchNode->addChild(_mobs[ position ], 0);
-                _mobs[ position ]->setPosition( point );
                 _batchNode->reorderChild(_mobs[ position ], iy*TILE_HEIGHT);
                 _mobs[ position ]->setVertexZ(0); // DO NOT CHANGE
             }
@@ -300,7 +307,6 @@ void GUIUpdater::updateObstacleDestroy(Backend::GSCObstacleDestroy *obstacleDest
     int bombID = (_map->getHeight() - ( obstacleDestroy->getGameObjectId() / _map->getWidth() ) - 1) 
                 * _map->getWidth()
                 + obstacleDestroy->getGameObjectId() % _map->getWidth();
-    _obstacles[bombID]->setVisible(false);
     _batchNode->removeChild(_obstacles[bombID], true); // WARNING
     _obstacles.erase(bombID); // Collision detection
 
@@ -362,7 +368,6 @@ void GUIUpdater::updateObstacleSpawn(Backend::GSCObstacleSpawn *obstacleSpawn)
 void GUIUpdater::updateSpriteDestroy( Backend::GSCSpriteDestroy *spriteDestroy )
 {
     unsigned int id = spriteDestroy->getGameObjectId();
-    _mobs[ id ]->setVisible(false);
     _batchNode->removeChild(_mobs[id], true); // WARNING
     _mobs.erase(id);
 }
@@ -417,7 +422,6 @@ void GUIUpdater::updateEffectDestroy( Backend::GSCEffectDestroy *effectDestroy )
     int id = (_map->getHeight() - ( effectDestroy->getGameObjectId() / _map->getWidth() ) - 1) 
                 * _map->getWidth()
                 + effectDestroy->getGameObjectId() % _map->getWidth();
-    _effects[id]->setVisible(false);
     _batchNode->removeChild(_effects[id], true); // WARNING
     _effects.erase(id);
     return;

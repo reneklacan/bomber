@@ -50,3 +50,11 @@ void Map::removeBomb(unsigned int key)
 {
     _spawnedBombs.erase(key);
 }
+
+//
+//
+void Map::reset()
+{
+    _tiledMap->removeAllChildren();
+    _tiledMap->initWithTMXFile("tiles/level_name.tmx");
+}

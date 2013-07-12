@@ -36,7 +36,7 @@ namespace Bomber
             std::vector<bool> evalCollisions(Point currentPoint, Point nextPoint);
 
         private:
-            GUIUpdater(): _lastChangeID(0) {};
+            GUIUpdater(): _lastChangeID(0), _batchNode(NULL) {};
 
             void updateSpriteMove(Backend::GSCSpriteMove *spriteMove);
             void updateSpriteTeleport(Backend::GSCSpriteTeleport *spriteTeleport, Point playerPosition);

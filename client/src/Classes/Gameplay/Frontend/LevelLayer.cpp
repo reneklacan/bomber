@@ -41,16 +41,16 @@ bool LevelLayer::init()
     GUIUpdater::getInstance()->init(_map, _player, this);
 
     // Game State init
-    Backend::GameState *gameState = new Backend::GameState(_map->getWidth(), _map->getHeight());
-    Backend::Mediator::getInstance()->setState(gameState);
-    gameState->init(_map->getTiledMap());
+    _gameState = new Backend::GameState(_map->getWidth(), _map->getHeight());
+    Backend::Mediator::getInstance()->setState(_gameState);
+    _gameState->init(_map->getTiledMap());
     
     // Backend init
     Backend::Bomber *controlledSprite = new Backend::Bomber();
     controlledSprite->setId(19991);
     controlledSprite->setPosition(_player->getPosition().x, _player->getPosition().y);
     controlledSprite->setSize(10, 10);
-    gameState->getSpriteLayer()->addObject(controlledSprite);
+    _gameState->getSpriteLayer()->addObject(controlledSprite);
 
     _player->setID(19991);
 
@@ -183,5 +183,18 @@ void LevelLayer::menuPauseCallback(Object* pSender)
 void LevelLayer::menuResetCallback(Object* pSender)
 {
     // "reset" menu item clicked
+    _map->reset();
     Backend::Mediator::getInstance()->resetState();
+    GUIUpdater::getInstance()->init(_map, _player, this);
+
+    // Backend init
+    Backend::Bomber *controlledSprite = new Backend::Bomber();
+    controlledSprite->setId(19991);
+    controlledSprite->setPosition(_player->getPosition().x, _player->getPosition().y);
+    controlledSprite->setSize(10, 10);
+    _gameState->getSpriteLayer()->addObject(controlledSprite);
+
+    _player->setID(19991);
+
+    Backend::Mediator::getInstance()->setControlledSprite(controlledSprite->getId());
 }

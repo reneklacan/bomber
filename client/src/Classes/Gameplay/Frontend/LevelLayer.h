@@ -12,6 +12,9 @@
 #include "../../Input/ControlLayer.h"
 #include "../../Input/ActionDelegates.h"
 
+#include "../Backend/Mediator.h"
+#include "../Backend/Bomber.h"
+
 namespace Bomber
 {
     namespace Frontend
@@ -53,6 +56,7 @@ namespace Bomber
             Human *_player;
             bool _gamePaused;
             unsigned int _lastChangeID;
+            Bomber::Backend::GameState *_gameState;
         };
     }
 }

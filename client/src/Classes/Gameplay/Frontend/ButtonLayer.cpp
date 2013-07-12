@@ -49,7 +49,21 @@ void ButtonLayer::addToSkills(GameButton *skill)
 //
 void ButtonLayer::addToBuffs(GameButton *buff)
 {
+    Size visibleSize = Director::sharedDirector()->getVisibleSize();
+    Point origin = Director::sharedDirector()->getVisibleOrigin();
+
+    Point *last = new Point();
+    last->x = origin.x + visibleSize.width/2;
+    last->y = origin.y + 500;
+
+    Point *next = new Point();
+    next->x = last->x - 20;
+    next->y = origin.y + 200;
+
+    buff->setButtonPosition(next);
+
     _buffs.push_back(buff);
+    _mainLayer->addChild(buff->getGameButton(), 1);
 }
 
 //

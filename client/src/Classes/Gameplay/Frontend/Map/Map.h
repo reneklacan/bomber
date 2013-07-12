@@ -23,6 +23,8 @@ class Map : public Layer
         
         void addToPosition(Point point);
 
+        void reset();
+
         void addBomb(unsigned int key, Object* bomb);
         Object *getBomb(unsigned int key);
         void removeBomb(unsigned int key);

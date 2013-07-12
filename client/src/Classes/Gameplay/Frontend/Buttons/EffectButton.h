@@ -14,6 +14,9 @@ namespace Bomber
             EffectButton(Rect imageRect, Texture2D *texture);
 
         private:
+            unsigned int _textWidth;
+            unsigned int _textHeight;
+            float _imageScale;
         };
 
     }
