@@ -407,12 +407,19 @@ void GUIUpdater::updateSpriteAttrUpdate( Backend::GSCSpriteAttrUpdate *spriteAtt
 
     // Maybe optimization ? :
     // if stacking, only increment displayed number
-
-    EffectButton *eb = new EffectButton(
-        this->pickImageFromTexture( imageID ),
-        _batchNode->getTexture()
-    );
-    ButtonLayer::getInstance()->addToBuffs(eb);
+    if( ButtonLayer::getInstance()->isInBuffs(imageID) )
+    {
+        ButtonLayer::getInstance()->incrementBuff(imageID);
+    }
+    else
+    {
+        EffectButton *eb = new EffectButton(
+            imageID,
+            this->pickImageFromTexture( imageID ),
+            _batchNode->getTexture()
+        );
+        ButtonLayer::getInstance()->addToBuffs(eb);
+    }
     return;
 }
 

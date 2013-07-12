@@ -54,11 +54,11 @@ void ButtonLayer::addToBuffs(GameButton *buff)
 
     Point *last = new Point();
     last->x = origin.x + visibleSize.width/2;
-    last->y = origin.y + 500;
+    last->y = origin.y + 20;
 
     Point *next = new Point();
     next->x = last->x - 20;
-    next->y = origin.y + 200;
+    next->y = origin.y + 20;    // Offset from bottom border
 
     buff->setButtonPosition(next);
 
@@ -120,5 +120,32 @@ void ButtonLayer::removeAchievement()
     if(_achievements.size() > 0)
     {
         this->addAchievement();
+    }
+}
+
+//
+bool ButtonLayer::isInBuffs(unsigned int id)
+{
+    for(auto it = _buffs.begin(); it != _buffs.end(); it++)
+    {
+        EffectButton *eb = (EffectButton *)(*it);
+        if(eb->getID() == id)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+//
+bool ButtonLayer::incrementBuff(unsigned int id)
+{
+    for(auto it = _buffs.begin(); it != _buffs.end(); it++) // MUST be optimized
+    {
+        EffectButton *eb = (EffectButton *)(*it);
+        if(eb->getID() == id)
+        {
+            eb->incrementLabel();
+        }
     }
 }

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Buttons/GameButton.h"
+#include "Buttons/EffectButton.h"
 
 namespace Bomber
 {
@@ -22,6 +23,8 @@ namespace Bomber
             void addToControls(GameButton *control);
             void setMainLayer(Layer* main);
             void saveTime(float dt);
+            bool isInBuffs(unsigned int id);
+            bool incrementBuff(unsigned int id);
 
         private:
             ButtonLayer();
