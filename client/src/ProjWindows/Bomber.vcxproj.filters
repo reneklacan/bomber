@@ -43,6 +43,9 @@
     <Filter Include="Classes\Gameplay\Frontend\Sprites">
       <UniqueIdentifier>{5b313cb0-d052-4769-ad78-269a140e7aed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Gameplay\Frontend\Buttons">
+      <UniqueIdentifier>{06a7ea3c-f80c-4bcc-b755-e59395be57d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -102,21 +105,6 @@
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\StatisticsUpdater.cpp">
       <Filter>Classes\Gameplay\Backend\Statistics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\ButtonLayer.cpp">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\ControlButton.cpp">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\GameButton.cpp">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\GUIUpdater.cpp">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\LevelLayer.cpp">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Input\ControlLayer.cpp">
       <Filter>Classes\Input</Filter>
     </ClCompile>
@@ -141,9 +129,6 @@
     <ClCompile Include="..\ProjWindows\Main.cpp">
       <Filter>ProjectWindows</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\AchievementButton.cpp">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Gameplay\Backend\Effect.cpp">
       <Filter>Classes\Gameplay\Backend</Filter>
     </ClCompile>
@@ -164,6 +149,27 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Gameplay\Backend\Portal.cpp">
       <Filter>Classes\Gameplay\Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Frontend\Buttons\AchievementButton.cpp">
+      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Frontend\Buttons\ControlButton.cpp">
+      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Frontend\Buttons\EffectButton.cpp">
+      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Frontend\Buttons\GameButton.cpp">
+      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Frontend\ButtonLayer.cpp">
+      <Filter>Classes\Gameplay\Frontend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Frontend\GUIUpdater.cpp">
+      <Filter>Classes\Gameplay\Frontend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Frontend\LevelLayer.cpp">
+      <Filter>Classes\Gameplay\Frontend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,21 +272,6 @@
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\StatisticsUpdater.h">
       <Filter>Classes\Gameplay\Backend\Statistics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\ButtonLayer.h">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\ControlButton.h">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\GameButton.h">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\GUIUpdater.h">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\LevelLayer.h">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Input\ActionDelegates.h">
       <Filter>Classes\Input</Filter>
     </ClInclude>
@@ -314,9 +305,6 @@
     <ClInclude Include="..\ProjWindows\Main.h">
       <Filter>ProjectWindows</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\AchievementButton.h">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Frontend\Map\Bomb.h">
       <Filter>Classes\Gameplay\Frontend\Map</Filter>
     </ClInclude>
@@ -331,6 +319,30 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\Human.h">
       <Filter>Classes\Gameplay\Frontend\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Buttons\AchievementButton.h">
+      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Buttons\ControlButton.h">
+      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Buttons\EffectButton.h">
+      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Buttons\GameButton.h">
+      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Frontend\ButtonLayer.h">
+      <Filter>Classes\Gameplay\Frontend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Frontend\GUIConstants.h">
+      <Filter>Classes\Gameplay\Frontend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Frontend\GUIUpdater.h">
+      <Filter>Classes\Gameplay\Frontend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Frontend\LevelLayer.h">
+      <Filter>Classes\Gameplay\Frontend</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

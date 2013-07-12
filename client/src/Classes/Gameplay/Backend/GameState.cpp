@@ -214,7 +214,15 @@ void GameState::reset()
     _lastChangeId = 0;
     _lastChangeIdOffset = 0;
 
-
+    _spriteLayer->reset();
+    _obstacleLayer->reset();
+    _bombLayer->reset();
+    _portalLayer->reset();
+    _portalExitLayer->reset();
+    _effectLayer->reset();
+    _specialLayer->reset();
+    _leverLayer->reset();
+    _leverTargetLayer->reset();
 
     this->init(_tiledMap);
 }
