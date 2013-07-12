@@ -12,7 +12,7 @@ namespace Bomber
             public:
                 AISprite() : FollowAI()
                 {
-                    _smart = false;
+                    _smart = true;
                     _attributes->setSpeed(50);
                     //_attributes.setGhostMode(true);
                 }

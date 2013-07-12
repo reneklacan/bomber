@@ -39,9 +39,8 @@ void Logic::update(float dt)
     std::deque<BBomb *> bombsToDetonate;
     BBomb *bomb;
 
-    for (auto pair : _state->getBombLayer()->getObjects())
+    for (auto bomb : _state->getBombLayer()->getObjects())
     {
-        bomb = pair.second;
         bomb->update(dt);
 
         if (bomb->isDetonated())
@@ -141,9 +140,8 @@ void Logic::update(float dt)
 
     std::vector<Effect *> effectsToDestroy;
 
-    for (auto pair : spriteLayer->getObjects())
+    for (auto sprite : spriteLayer->getObjects())
     {
-        Sprite *sprite = pair.second;
         sprite->update(dt);
 
         if (sprite->isAI() && sprite->isDirty())
@@ -157,6 +155,9 @@ void Logic::update(float dt)
         {
             Effect *effect = (Effect *) object;
 
+            if (effect->getCharges() == 0)
+                continue;
+
             _gameStateUpdater->updateSpriteAttributes(sprite, effect);
             effectsToDestroy.push_back(effect);
         }
@@ -166,18 +167,14 @@ void Logic::update(float dt)
             continue;
         }
 
-        auto portals = portalLayer->getObjectsAroundCoords(sprite->getCoords());
+        auto portals = portalLayer->getObjectsAtCoords(sprite->getCoords());
 
         for (auto object : portals)
         {
             Portal *portal = (Portal *) object;
-            
-            if (sprite->collides(portal))
-            {
-                auto portalExit = portalExitLayer->getObject(portal->getId());
-                _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
-                break;
-            }
+
+            auto portalExit = portalExitLayer->getObject(portal->getPortalTarget(sprite->getPreviousCoords()));
+            _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
         }
     }
 
@@ -205,27 +202,30 @@ bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
 
     for (auto lever : levers)
     {
-        auto target = _state->getLeverTargetLayer()->getObject(lever->getId());
-        auto obstacles = _state->getObstacleLayer()->getObjectsAtCoords(target->getCoords());
+        auto targets = _state->getLeverTargetLayer()->getObjects(lever->getId());
 
-
-        if (obstacles.size() > 0)
+        for (auto target : targets)
         {
-            // open "the bridge"
-            _gameStateUpdater->switchLeverOn(lever);
+            auto obstacles = _state->getObstacleLayer()->getObjectsAtCoords(target->getCoords());
 
-            for (auto obstacle : obstacles)
+            if (obstacles.size() > 0)
             {
-                _gameStateUpdater->destroyObstacle(obstacle, bomb->getId());
-            }
-        }
-        else
-        {
-            // close "the bridge"
-            _gameStateUpdater->switchLeverOff(lever);
+                // open "the bridge"
+                _gameStateUpdater->switchLeverOn(lever);
 
-            unsigned int obstacleGid = 20;
-            _gameStateUpdater->spawnObstacle(obstacleGid, target->getCoords(), bomb->getId());
+                for (auto obstacle : obstacles)
+                {
+                    _gameStateUpdater->destroyObstacle(obstacle, bomb->getId());
+                }
+            }
+            else
+            {
+                // close "the bridge"
+                _gameStateUpdater->switchLeverOff(lever);
+
+                unsigned int obstacleGid = 20;
+                _gameStateUpdater->spawnObstacle(obstacleGid, target->getCoords(), bomb->getId());
+            }
         }
     }
 

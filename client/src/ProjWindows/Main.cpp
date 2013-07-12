@@ -7,6 +7,8 @@
 
 USING_NS_CC;
 
+#define BOMBER_MAIN_DEBUG 1
+
 static void openConsole()
 {
     int outHandle, errHandle, inHandle;
@@ -44,7 +46,9 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
+#if BOMBER_MAIN_DEBUG > 0
     openConsole();
+#endif
 
     AppDelegate app;
 

@@ -37,10 +37,18 @@ Coordinates GameObject::getCoords()
 {
     Position center = this->getCollisionRect().getCenterPosition();
 
-    return Coordinates(
+    Coordinates currentCoords = Coordinates(
             center.x/TILE_WIDTH,
             center.y/TILE_HEIGHT
     );
+
+    if (currentCoords != _currentCoords)
+    {
+        _previousCoords = _currentCoords;
+        _currentCoords = currentCoords;
+    }
+
+    return currentCoords;
 }
 
 bool GameObject::collides(GameObject *object)

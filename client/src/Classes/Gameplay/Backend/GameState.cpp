@@ -33,6 +33,24 @@ GameState::~GameState()
 
 void GameState::init(TMXTiledMap *tiledMap)
 {
+    _tiledMap = tiledMap;
+    
+    Object *ccObject;
+
+    auto properties = tiledMap->getProperties();
+    auto propertiesKeys = properties->allKeys();
+
+    CCARRAY_FOREACH(propertiesKeys, ccObject)
+    {
+        auto key = ((String *) ccObject)->getCString();
+        auto value = properties->valueForKey(key)->getCString();
+
+        if (strncmp("goal", key, 4) == 0)
+        {
+            printf("%s = %s\n", key, value);
+        }
+    }
+
     unsigned int gid;
     TMXLayer *obstacleLayer = tiledMap->layerNamed("obstacles");
 
@@ -96,7 +114,6 @@ void GameState::init(TMXTiledMap *tiledMap)
     }
 
     int id, x, y, width, height;
-    Object *ccObject;
     Dictionary *dict;
     TMXObjectGroup *objectGroup;
 
@@ -113,10 +130,16 @@ void GameState::init(TMXTiledMap *tiledMap)
         width = ((String*)dict->objectForKey("width"))->intValue();
         height = ((String*)dict->objectForKey("height"))->intValue();
 
+        int top =  ((String*)dict->objectForKey("top"))->intValue();
+        int bottom =  ((String*)dict->objectForKey("bottom"))->intValue();
+        int left =  ((String*)dict->objectForKey("left"))->intValue();
+        int right =  ((String*)dict->objectForKey("right"))->intValue();
+
         Portal *portal = new Portal();
         portal->setId(id);
-        portal->setPosition(x, y);
-        portal->setSize(width, height);
+        portal->setPosition(x - (x % TILE_WIDTH), y - (y % TILE_HEIGHT));
+        portal->setSize(TILE_WIDTH, TILE_HEIGHT);
+        portal->configure(top, bottom, left, right);
 
         _portalLayer->addObject(portal);
     }
@@ -136,8 +159,8 @@ void GameState::init(TMXTiledMap *tiledMap)
 
         PortalExit *portalExit = new PortalExit();
         portalExit->setId(id);
-        portalExit->setPosition(x, y);
-        portalExit->setSize(width, height);
+        portalExit->setPosition(x - (x % TILE_WIDTH), y - (y % TILE_HEIGHT));
+        portalExit->setSize(TILE_WIDTH, TILE_HEIGHT);
 
         _portalExitLayer->addObject(portalExit);
     }

@@ -30,7 +30,8 @@ namespace Bomber
                 std::vector<ObjectType *> getObjectsAroundCoords(Coordinates coords);
                 std::vector<ObjectType *> getObjectsAtCoords(Coordinates coords);
                 std::vector<ObjectType *> getObjectsAtCoords(unsigned int x, unsigned int y);
-                std::map<unsigned int, ObjectType *> &getObjects() { return _objects; };
+                std::set<ObjectType *> &getObjects() { return _objects; };
+                std::set<ObjectType *> &getObjects(unsigned int id);
                 void print();
 
             private:
@@ -39,7 +40,8 @@ namespace Bomber
                 unsigned int _height;
                 unsigned int _gridSize;
                 std::vector< std::set<ObjectType *> > _grid;
-                std::map<unsigned int, ObjectType *> _objects;
+                std::set<ObjectType *> _objects;
+                std::map<unsigned int, std::set<ObjectType *> > _objectIdMap;
                 std::map<unsigned int, std::set<unsigned int> > _objectGridMap;
         };
 
@@ -71,6 +73,7 @@ namespace Bomber
 
             _grid.clear();
             _objects.clear();
+            _objectIdMap.clear();
             _objectGridMap.clear();
 
             for (int i = 0; i < _gridSize; i++)
@@ -83,10 +86,8 @@ namespace Bomber
         template <class ObjectType>
         void GameStateLayer<ObjectType>::updateGrid()
         {
-            for (auto pair : _objects)
+            for (auto object : _objects)
             {
-                auto object = pair.second;
-
                 if (object->isDirty())
                 {
                     object->setDirty(false);
@@ -116,7 +117,14 @@ namespace Bomber
         template <class ObjectType>
         void GameStateLayer<ObjectType>::addObject(unsigned int id, ObjectType *object)
         {
-            _objects[id] = object;
+            if (_objectIdMap.find(id) == _objectIdMap.end())
+            {
+                _objectIdMap[id] = std::set<ObjectType *>();
+            }
+
+            _objectIdMap[id].insert(object);
+
+            _objects.insert(object);
 
             Coordinates coords = object->getCoords();
             //printf("addObject at x:%d y:%d with id %d\n", coords.x, coords.y, id);
@@ -127,7 +135,11 @@ namespace Bomber
         template <class ObjectType>
         ObjectType *GameStateLayer<ObjectType>::getObject(unsigned int id)
         {
-            return _objects[id];
+            for (auto object : _objectIdMap[id])
+            {
+                return object;
+            }
+            return nullptr;
         }
 
         template <class ObjectType>
@@ -135,14 +147,25 @@ namespace Bomber
         {
             Coordinates coords = object->getCoords();
             _grid[coords.y*_width + coords.x].erase(object);
-            _objects.erase(_objects.find(object->getId()));
+            //_objects.erase(_objects.find(object->getId()));
+            _objectIdMap[object->getId()].erase(object);
+            if (_objectIdMap[object->getId()].size() == 0)
+            {
+                _objectIdMap.erase(_objectIdMap.find(object->getId()));
+            }
+
+            _objects.erase(object);
         }
 
         template <class ObjectType>
         void GameStateLayer<ObjectType>::removeObject(unsigned int id)
         {
-            //printf("xxxxxxxxx remove object with id %d\n", id);
-            _objects.erase(_objects.find(id));
+            printf("xxxxxxxxx remove object with id %d\n", id);
+            printf("xxxxxxxxx remove object with id %d\n", id);
+            printf("xxxxxxxxx remove object with id %d\n", id);
+            printf("xxxxxxxxx remove object with id %d\n", id);
+            printf("xxxxxxxxx remove object with id %d\n", id);
+
         }
 
         template <class ObjectType>
@@ -154,7 +177,7 @@ namespace Bomber
             {
                 for (int x = coords.x - range; x <= coords.x + range; x++)
                 {
-                    if (x < 0 || x >= _width || y < 0 || y >= _height)
+                    if (x < 0 || x >= (int) _width || y < 0 || y >= (int) _height)
                         continue;
 
                     for (ObjectType *object : _grid[y*_width + x])
@@ -201,7 +224,13 @@ namespace Bomber
             }
 
             printf("----------\n");
-}
+        }
+        
+        template <class ObjectType>
+        std::set<ObjectType *> &GameStateLayer<ObjectType>::getObjects(unsigned int id)
+        {
+            return _objectIdMap[id];
+        }
     }
 }
 

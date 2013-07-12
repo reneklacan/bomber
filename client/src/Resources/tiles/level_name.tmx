@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="21" height="11" tilewidth="101" tileheight="81">
+ <properties>
+  <property name="goal_kills" value="all"/>
+ </properties>
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer name="floor" width="21" height="11">
   <properties>
@@ -276,12 +279,12 @@
    <tile gid="42"/>
    <tile gid="42"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="20"/>
    <tile gid="0"/>
+   <tile gid="20"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -297,8 +300,8 @@
    <tile gid="42"/>
    <tile gid="42"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="20"/>
+   <tile gid="20"/>
    <tile gid="20"/>
    <tile gid="20"/>
    <tile gid="20"/>
@@ -990,7 +993,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="3"/>
    <tile gid="0"/>
    <tile gid="6"/>
    <tile gid="0"/>
@@ -1430,14 +1433,22 @@
   <object name="spawnpoint" x="439" y="430" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="portals" width="21" height="11">
-  <object name="3" x="1515" y="268" width="30" height="30"/>
-  <object name="4" x="1586" y="268" width="30" height="30"/>
-  <object name="1" x="1550" y="243" width="30" height="30"/>
-  <object name="2" x="1550" y="294" width="30" height="30"/>
-  <object name="5" x="1515" y="592" width="30" height="30"/>
-  <object name="5" x="1586" y="592" width="30" height="30"/>
-  <object name="5" x="1550" y="567" width="30" height="30"/>
-  <object name="5" x="1550" y="618" width="30" height="30"/>
+  <object name="portal" x="1527" y="257" width="73" height="49">
+   <properties>
+    <property name="bottom" value="2"/>
+    <property name="left" value="3"/>
+    <property name="right" value="4"/>
+    <property name="top" value="1"/>
+   </properties>
+  </object>
+  <object name="portal" x="1530" y="579" width="73" height="49">
+   <properties>
+    <property name="bottom" value="5"/>
+    <property name="left" value="5"/>
+    <property name="right" value="5"/>
+    <property name="top" value="5"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="portal_exits" width="21" height="11">
   <object name="1" x="1550" y="673" width="30" height="30"/>
@@ -1447,7 +1458,8 @@
   <object name="5" x="1045" y="268" width="30" height="30"/>
  </objectgroup>
  <objectgroup name="lever_targets" width="21" height="11">
-  <object name="1" x="1339" y="176" width="45" height="38"/>
+  <object name="1" x="1340" y="181" width="45" height="38"/>
+  <object name="1" x="1139" y="177" width="45" height="38"/>
  </objectgroup>
  <objectgroup name="levers" width="21" height="11">
   <object name="1" x="1140" y="510" width="40" height="29"/>
