@@ -9,6 +9,10 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
     {
         return new EffectBombPowerInc();
     }
+    else if (gid == 13)
+    {
+        return new EffectBombCapacityInc();
+    }
 
     printf("Effect::getInstanceByGid - unknown effect gid %u\n", gid);
     return NULL;
