@@ -396,6 +396,9 @@ void GUIUpdater::updateSpriteAttrUpdate( Backend::GSCSpriteAttrUpdate *spriteAtt
     unsigned int imageID = 0;
     switch(spriteAttrUpdate->getEffectType())
     {
+        case Backend::EFFECT_BOMB_CAPACITY_INC:
+            imageID = BOMB_CAPACITY_INC_ETI;
+            break;
         case Backend::EFFECT_BOMB_POWER_INC:
             imageID = BOMB_POWER_INC_ETI;
             break;
