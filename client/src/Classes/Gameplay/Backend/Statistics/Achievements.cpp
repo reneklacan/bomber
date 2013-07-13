@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <stdarg.h>
 
 #include "Achievements.h"
 
@@ -56,7 +57,42 @@ Achievement::Achievement(
     _evalOnEnd = evalOnEnd;
 }
 
-void Achievement::addCondition(AchievementCondition condition)
+Achievement::Achievement(
+        const char *act,
+        const char *level,
+        const char *title,
+        const char *description,
+        bool evalOnEnd,
+        AchievementCondition *condition,
+        ...
+)
+{
+    _unlocked = false;
+    _act = act;
+    _level = level;
+    _title = title;
+    _description = description;
+    _evalOnEnd = evalOnEnd;
+
+    this->addCondition(condition);
+
+    va_list list;
+    va_start(list, condition);
+
+    while (true)
+    {
+        AchievementCondition *c = va_arg(list, AchievementCondition *);
+
+        if (c == nullptr)
+            break;
+
+        this->addCondition(c);
+    }
+
+    va_end(list);
+}
+
+void Achievement::addCondition(AchievementCondition *condition)
 {
     _conditions.push_back(condition);
 }
@@ -65,7 +101,7 @@ bool Achievement::isComplete(Statistics *statistics)
 {
     for (auto condition : _conditions)
     {
-        if (!condition.evaluate(statistics))
+        if (!condition->evaluate(statistics))
         {
             return false;
         }
@@ -79,12 +115,27 @@ AchievementGroup::AchievementGroup()
 
 }
 
-AchievementGroup::AchievementGroup(std::list<AchievementObject *> achievements)
+AchievementGroup::AchievementGroup(Achievement *achievement, ...)
 {
-    _achievements = achievements;
+    this->add(achievement);
+
+    va_list list;
+    va_start(list, achievement);
+
+    while (true)
+    {
+        Achievement *a = va_arg(list, Achievement *);
+
+        if (a == nullptr)
+            break;
+
+        this->add(a);
+    }
+
+    va_end(list);
 }
 
-void AchievementGroup::add(AchievementObject *object)
+void AchievementGroup::add(Achievement *achievement)
 {
-    _achievements.push_back(object);
+    _achievements.push_back(achievement);
 }

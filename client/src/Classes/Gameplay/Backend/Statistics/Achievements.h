@@ -34,13 +34,7 @@ namespace Bomber
                 unsigned int _timeLimit;
         };
 
-        class AchievementObject
-        {
-            public:
-                inline virtual bool isGroup() { return false; }
-        };
-
-        class Achievement : public AchievementObject
+        class Achievement
         {
             public:
                 Achievement(
@@ -50,7 +44,16 @@ namespace Bomber
                         const char *description,
                         bool evalOnEnd
                 );
-                void addCondition(AchievementCondition condition);
+                Achievement(
+                        const char *act,
+                        const char *level,
+                        const char *title,
+                        const char *description,
+                        bool evalOnEnd,
+                        AchievementCondition *condition,
+                        ...
+                );
+                void addCondition(AchievementCondition *condition);
                 bool isComplete(Statistics *statistics);
                 inline virtual bool isGroup() { return false; }
                 inline virtual bool isUnlocked() { return _unlocked; }
@@ -62,19 +65,18 @@ namespace Bomber
                 SYNTHESIZE(const char *, _title, Title);
                 SYNTHESIZE(const char *, _description, Description);
                 bool _evalOnEnd;
-                std::list<AchievementCondition> _conditions;
+                std::list<AchievementCondition *> _conditions;
         };
 
-        class AchievementGroup : public AchievementObject
+        class AchievementGroup
         {
             public:
                 AchievementGroup();
-                AchievementGroup(std::list<AchievementObject *> achievements);
-                void add(AchievementObject *object);
-                inline virtual bool isGroup() { return true; }
+                AchievementGroup(Achievement *object, ...);
+                void add(Achievement *object);
 
             private:
-                SYNTHESIZE_READONLY(std::list<AchievementObject *>, _achievements, Achievements);
+                SYNTHESIZE_READONLY(std::list<Achievement *>, _achievements, Achievements);
         };
     }
 }

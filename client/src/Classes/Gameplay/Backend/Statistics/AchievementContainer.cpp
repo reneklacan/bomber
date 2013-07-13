@@ -18,41 +18,25 @@ AchievementContainer* AchievementContainer::getInstance()
 
 AchievementContainer::AchievementContainer()
 {
-    _allAchievements = getGameAchievements();
+    _allAchievementGroups = getGameAchievements();
 }
 
 void AchievementContainer::checkAll(Statistics *statistics)
 {
-    for (auto object : _allAchievements)
+    for (AchievementGroup *group : _allAchievementGroups)
     {
-        if (object->isGroup())
+        for (Achievement *achievement : group->getAchievements())
         {
-            auto group = (AchievementGroup *) object;
-
-            for (AchievementObject *object : group->getAchievements())
-            {
-                auto achievement = (Achievement *) object;
-
-                if (achievement->isUnlocked())
-                    continue;
-
-                if (achievement->isComplete(statistics))
-                {
-                    _newUnlocked.push_back(achievement);
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
-        else
-        {
-            auto achievement = (Achievement *) object;
+            if (achievement->isUnlocked())
+                continue;
 
             if (achievement->isComplete(statistics))
             {
                 _newUnlocked.push_back(achievement);
+            }
+            else
+            {
+                break;
             }
         }
     }

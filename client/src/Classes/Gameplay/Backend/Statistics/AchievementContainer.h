@@ -22,7 +22,7 @@ namespace Bomber
             private:
                 static AchievementContainer *_instance;
                 AchievementContainer();
-                std::list<AchievementObject *> _allAchievements;
+                std::list<AchievementGroup *> _allAchievementGroups;
                 std::deque<Achievement *> _newUnlocked;
         };
     }
