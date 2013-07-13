@@ -18,6 +18,14 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     _player = player;
     _layer = layer;
 
+    // Hide sprites, obstacles, effects
+    TMXLayer *spritesLayer = _map->getTiledMap()->layerNamed("sprites");
+    spritesLayer->setVisible(false);
+    _obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
+    _obstaclesLayer->setVisible(false);
+    TMXLayer *effectsLayer = _map->getTiledMap()->layerNamed("effects");
+    effectsLayer->setVisible(false);
+
     // Init Batch Node
     _batchNode = SpriteBatchNode::create("tiles/tileset.png");
     _batchNode->setTag(0);
@@ -27,6 +35,9 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
 
     // Initialize player
     this->initPlayer();
+
+    // Cache data from tiled map layers
+    GUICache::getInstance()->cacheAllLayers(_map);
 
     // Initialize all important layers
     this->initLayers();
@@ -557,52 +568,46 @@ void GUIUpdater::initLayers()
     _obstacles.clear();
     _effects.clear();
 
-    // Hide sprites
-    TMXLayer *spritesLayer = _map->getTiledMap()->layerNamed("sprites");
-    spritesLayer->setVisible(false);
-
-    // Hide obstacles
-    _obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
-    _obstaclesLayer->setVisible(false);
-
-    // Hide effects
-    TMXLayer *effectsLayer = _map->getTiledMap()->layerNamed("effects");
-    effectsLayer->setVisible(false);
-
     // Init obstacles, mobs and effects structure
-    for(int ix = 0; ix < _map->getWidth(); ix++)
+    GUICache* gc = GUICache::getInstance();
+    for(auto it : *(gc->getObstacles()) )
     {
-        for(int iy = 0; iy < _map->getHeight(); iy++)
-        {
-            Point point = ccp(ix, iy);
-            if(_obstaclesLayer->tileGIDAt( point ) != 0)
-            {
-                int position = _map->getWidth() * iy + ix;
-                _obstacles[ position ] = _obstaclesLayer->tileAt( point );
-                _batchNode->addChild(_obstacles[ position ], 0);
-                _batchNode->reorderChild(_obstacles[ position ], iy*TILE_HEIGHT+5);
-                _obstacles[ position ]->setVertexZ(0); // DO NOT CHANGE
-            }
+        unsigned int id = it.first;
+        Sprite *sp = it.second;
 
-            if(spritesLayer->tileGIDAt( point ) != 0)
-            {
-                int position = _map->getWidth() * (_map->getHeight() - iy - 1) + ix;
-                _mobs[ position ] = spritesLayer->tileAt( point );
-                _batchNode->addChild(_mobs[ position ], 0);
-                _batchNode->reorderChild(_mobs[ position ], iy*TILE_HEIGHT);
-                _mobs[ position ]->setVertexZ(0); // DO NOT CHANGE
-            }
+        _obstacles[ id ] = Sprite::createWithTexture( sp->getTexture(), sp->getTextureRect() );
+        _obstacles[ id ]->setPosition( sp->getPosition() );
+        _obstacles[ id ]->setAnchorPoint( ccp(0, 0) );
+        _obstacles[ id ]->setVertexZ(0); // DO NOT CHANGE
 
-            if(effectsLayer->tileGIDAt( point ) != 0)
-            {
-                int position = _map->getWidth() * iy + ix;
-                _effects[ position ] = effectsLayer->tileAt( point );
-                _batchNode->addChild(_effects[ position ], 0);
-                _batchNode->reorderChild(_effects[ position ], iy*TILE_HEIGHT+5);
-                _effects[ position ]->setVertexZ(0); // DO NOT CHANGE
-            }
+        _batchNode->addChild(_obstacles[ id ], 0);
+        _batchNode->reorderChild(_obstacles[ id ], (id/_map->getWidth())*TILE_HEIGHT+5);
+    }
+    for(auto it : *(gc->getMobs()) )
+    {
+        unsigned int id = it.first;
+        Sprite *sp = it.second;
 
-        }
+        _mobs[ id ] = Sprite::createWithTexture( sp->getTexture(), sp->getTextureRect() );
+        _mobs[ id ]->setPosition( sp->getPosition() );
+        _mobs[ id ]->setAnchorPoint( ccp(0, 0) );
+        _mobs[ id ]->setVertexZ(0); // DO NOT CHANGE
+
+        _batchNode->addChild(_mobs[ id ], 0);
+        _batchNode->reorderChild(_mobs[ id ], (id/_map->getWidth())*TILE_HEIGHT);
+    }
+    for(auto it : *(gc->getEffects()) )
+    {
+        unsigned int id = it.first;
+        Sprite *sp = it.second;
+
+        _effects[ id ] = Sprite::createWithTexture( sp->getTexture(), sp->getTextureRect() );
+        _effects[ id ]->setPosition( sp->getPosition() );
+        _effects[ id ]->setAnchorPoint( ccp(0, 0) );
+        _effects[ id ]->setVertexZ(0); // DO NOT CHANGE
+
+        _batchNode->addChild(_effects[ id ], 0);
+        _batchNode->reorderChild(_effects[ id ], (id/_map->getWidth())*TILE_HEIGHT+5);
     }
 
     return;
@@ -619,10 +624,6 @@ void GUIUpdater::resetGUI()
 {
     // Buffs and Achievements
     ButtonLayer::getInstance()->reset();
-
-    // Map
-    _map->reset();
-    _map->addChild(_batchNode);
 
     // Batch Node
     _batchNode->removeAllChildrenWithCleanup(true);

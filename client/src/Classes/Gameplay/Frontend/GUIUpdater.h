@@ -22,6 +22,8 @@
 #include "Buttons/EffectButton.h"
 #include "ButtonLayer.h"
 
+#include "Cache/GUICache.h"
+
 namespace Bomber
 {
     namespace Frontend
@@ -67,8 +69,8 @@ namespace Bomber
             Layer * _layer;
 
             std::map<unsigned int, Sprite *> _mobs;
-            std::map<unsigned int, Node *> _obstacles;
-            std::map<unsigned int, Node *> _effects;
+            std::map<unsigned int, Sprite *> _obstacles;
+            std::map<unsigned int, Sprite *> _effects;
 
             SpriteBatchNode* _batchNode;
             TMXLayer *_obstaclesLayer;

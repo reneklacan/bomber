@@ -181,7 +181,6 @@ void LevelLayer::menuResetCallback(Object* pSender)
 
     // Backend init
     this->initControlledSprite();
-    
 }
 
 //
