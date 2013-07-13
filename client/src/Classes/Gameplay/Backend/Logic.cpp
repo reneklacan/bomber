@@ -233,9 +233,17 @@ bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
 
     for (auto sprite : sprites)
     {
-        if (!sprite->isAI()) continue; // temporary
+        if (sprite->getAttributes()->isDead())
+            continue;
+
+        //if (!sprite->isAI()) continue; // temporary
 
         _gameStateUpdater->damageSprite(sprite, bomb->getId(), bomb->getDamage());
+
+        if (sprite == _controlledSprite && sprite->getAttributes()->isDead())
+        {
+            _gameStateUpdater->resetLevel();
+        }
     }
 
     if (penetration == NULL)

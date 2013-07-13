@@ -17,8 +17,9 @@ namespace Bomber
         {
             public:
                 GameStateUpdater();
-
+                
                 void resetState();
+                void resetLevel();
 
                 void updateSpriteGrid();
                 void setState(GameState *state) { _state = state; };
@@ -65,6 +66,7 @@ namespace Bomber
                 void logEffectDestroy(Effect *effect);
                 void logAchievementUnlocked(Achievement *achievement);
                 void logLevelFinish();
+                void logLevelReset();
 
             private:
                 GameState *_state;

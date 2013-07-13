@@ -39,7 +39,8 @@ namespace Bomber
             LEVER_SWITCH_ON,
             LEVER_SWITCH_OFF,
 
-            LEVEL_FINISH
+            LEVEL_FINISH,
+            LEVEL_RESET,
         };
 
         class GameStateChange
@@ -230,6 +231,12 @@ namespace Bomber
         {
             public:
                 GSCLevelFinish() { _type = LEVEL_FINISH; };
+        };
+
+        class GSCLevelReset : public GameStateChange
+        {
+            public:
+                GSCLevelReset() { _type = LEVEL_RESET; };
         };
     }
 }

@@ -15,6 +15,11 @@ void GameStateUpdater::resetState()
     _state->reset();
 }
 
+void GameStateUpdater::resetLevel()
+{
+    this->logLevelReset();
+}
+
 void GameStateUpdater::updateSpriteGrid()
 {
     _state->getSpriteLayer()->updateGrid();
@@ -411,5 +416,12 @@ void GameStateUpdater::logLevelFinish()
 {   
     printf("logLevelFinish\n");
     GSCLevelFinish *change = new GSCLevelFinish();
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logLevelReset()
+{   
+    printf("logLevelReset\n");
+    GSCLevelReset *change = new GSCLevelReset();
     _state->addChange(change);
 }
