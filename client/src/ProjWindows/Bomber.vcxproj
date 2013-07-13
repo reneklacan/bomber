@@ -155,6 +155,7 @@
     <ClCompile Include="..\Classes\Gameplay\Frontend\Buttons\ControlButton.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Frontend\Buttons\EffectButton.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Frontend\Buttons\GameButton.cpp" />
+    <ClCompile Include="..\Classes\Gameplay\Frontend\Cache\GUICache.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Frontend\GUIUpdater.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Frontend\LevelLayer.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Frontend\Map\Bomb.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="..\Classes\Gameplay\Frontend\Buttons\ControlButton.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Buttons\EffectButton.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Buttons\GameButton.h" />
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Cache\GUICache.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\GUIConstants.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\GUIUpdater.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\LevelLayer.h" />
