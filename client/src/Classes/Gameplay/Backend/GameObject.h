@@ -16,10 +16,10 @@ namespace Bomber
         {
             public:
                 GameObject();
-                inline const char *getName() { return _name; };
-                virtual void setId(unsigned int id) { _id = id; };
-                virtual unsigned int getId() { return _id; };
                 virtual void update(float dt) {};
+                bool collides(GameObject *object);
+                
+                inline const char *getName() { return _name; };
                 virtual void setPosition(int x, int y);
                 virtual void setPosition(Position position);
                 virtual void setSize(int width, int height);
@@ -30,7 +30,8 @@ namespace Bomber
                 virtual bool isExplodable() { return false; };
                 bool isDirty() { return _dirty; };
                 void setDirty(bool dirty) { _dirty = dirty; };
-                bool collides(GameObject *object);
+                bool isActive() { return _active; };
+                void setActive(bool active) { _active = active; };
 
                 virtual Rectangle getCollisionRect() { return Rectangle(_position, _size); };
                 virtual Circle getCollisionCircle() { return Circle(_position, _size); };
@@ -41,9 +42,10 @@ namespace Bomber
                 Position _position;
                 Size _size;
                 bool _circleCollider;
-                //Position _nextPosition;
-                unsigned int _id;
                 bool _dirty;
+                bool _active;
+                SYNTHESIZE(unsigned int, _id, Id);
+                SYNTHESIZE(unsigned int, _gid, Gid);
                 SYNTHESIZE(Coordinates, _currentCoords, CurrentCoords);
                 SYNTHESIZE(Coordinates, _previousCoords, PreviousCoords);
         };

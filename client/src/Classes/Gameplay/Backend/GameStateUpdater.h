@@ -53,10 +53,10 @@ namespace Bomber
                 void logSpriteTeleport(Sprite *sprite, Position &to);
                 void logSpriteDamage(Sprite *sprite, int damage);
                 void logSpriteDestroy(Sprite *sprite);
-                void logSpriteSpawn(unsigned int spriteGid, Sprite *sprite);
+                void logSpriteSpawn(Sprite *sprite);
                 void logBombSpawn(BBomb *bomb);
                 void logObstacleSpawn(unsigned int obstacleGid, Obstacle *obstacle, unsigned int spawnerId);
-                void logEffectSpawn(unsigned int effectGid, Effect *effect);
+                void logEffectSpawn(Effect *effect);
                 void logBombDestroy(BBomb *bomb);
                 void logExplosionSpawn(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void logObstacleDestroy(Obstacle *obstacle);

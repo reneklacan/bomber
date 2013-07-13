@@ -26,7 +26,7 @@ namespace Bomber
             public:
                 static Effect *getInstanceByGid(unsigned int gid);
 
-                Effect()
+                Effect() : GameObject()
                 {
                     _name = "effect none";
                     _type = EFFECT_NONE;
@@ -45,7 +45,7 @@ namespace Bomber
         class EffectBombPowerInc : public Effect
         {
             public:
-                EffectBombPowerInc()
+                EffectBombPowerInc() : Effect()
                 {
                     _name = "effect flame inc";
                     _type = EFFECT_BOMB_POWER_INC;
@@ -61,7 +61,7 @@ namespace Bomber
         class EffectBombCapacityInc : public Effect
         {
             public:
-                EffectBombCapacityInc()
+                EffectBombCapacityInc() : Effect()
                 {
                     _name = "effect bomb cap inc";
                     _type = EFFECT_BOMB_CAPACITY_INC;
@@ -77,7 +77,7 @@ namespace Bomber
         class EffectPortabilityOn : public Effect
         {
             public:
-                EffectPortabilityOn()
+                EffectPortabilityOn() : Effect()
                 {
                     _name = "effect portability on";
                     _type = EFFECT_PORTABILITY_ON;
@@ -93,7 +93,7 @@ namespace Bomber
         class EffectPortabilityOff : public Effect
         {
             public:
-                EffectPortabilityOff()
+                EffectPortabilityOff() : Effect()
                 {
                     _name = "effect portability off";
                     _type = EFFECT_PORTABILITY_OFF;
@@ -109,7 +109,7 @@ namespace Bomber
         class EffectHealthInc : public Effect
         {
             public:
-                EffectHealthInc()
+                EffectHealthInc() : Effect()
                 {
                     _name = "effect heath inc";
                     _type = EFFECT_HEALTH_INC;
@@ -125,7 +125,7 @@ namespace Bomber
         class EffectHealthDec : public Effect
         {
             public:
-                EffectHealthDec()
+                EffectHealthDec() : Effect()
                 {
                     _name = "effect heath dec";
                     _type = EFFECT_HEALTH_DEC;

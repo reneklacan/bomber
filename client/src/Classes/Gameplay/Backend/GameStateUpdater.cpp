@@ -46,7 +46,7 @@ void GameStateUpdater::spawnSprite(unsigned int spriteGid, Coordinates coords)
 
     _state->getSpriteLayer()->addObject(sprite);
 
-    this->logSpriteSpawn(spriteGid, sprite);
+    this->logSpriteSpawn(sprite);
 }
 
 bool GameStateUpdater::spawnBomb(Sprite *owner)
@@ -115,9 +115,8 @@ void GameStateUpdater::spawnEffect(unsigned int effectGid, Coordinates coords)
     effect->setSize(TILE_WIDTH, TILE_HEIGHT);
 
     _state->getEffectLayer()->addObject(effect);
-    _state->getEffectLayer()->updateGrid();
 
-    this->logEffectSpawn(effectGid, effect);
+    this->logEffectSpawn(effect);
 }
 
 void GameStateUpdater::updateSpriteAttributes(Sprite *sprite, Effect *effect)
@@ -282,12 +281,12 @@ void GameStateUpdater::logSpriteDestroy(Sprite *sprite)
     _state->addChange(change);
 }
 
-void GameStateUpdater::logSpriteSpawn(unsigned int spriteGid, Sprite *sprite)
+void GameStateUpdater::logSpriteSpawn(Sprite *sprite)
 {
     printf("logSpriteSpawn\n");
     GSCSpriteSpawn* change = new GSCSpriteSpawn();
     change->update(
-        spriteGid,
+        sprite->getGid(),
         sprite->getCoords()
     );
     change->setGameObjectId(sprite->getId());
@@ -341,12 +340,12 @@ void GameStateUpdater::logObstacleSpawn(unsigned int obstacleGid, Obstacle *obst
     _state->addChange(change);
 }
 
-void GameStateUpdater::logEffectSpawn(unsigned int effectGid, Effect *effect)
+void GameStateUpdater::logEffectSpawn(Effect *effect)
 {
     printf("logEffectSpawn\n");
     GSCEffectSpawn* change = new GSCEffectSpawn();
     change->update(
-        effectGid,
+        effect->getGid(),
         effect->getCoords()
     );
     change->setGameObjectId(effect->getId());

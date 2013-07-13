@@ -142,6 +142,9 @@ void Logic::update(float dt)
 
     for (auto sprite : spriteLayer->getObjects())
     {
+        if (!sprite->isActive())
+            continue;
+
         sprite->update(dt);
 
         if (sprite->isAI() && sprite->isDirty())
@@ -151,9 +154,10 @@ void Logic::update(float dt)
         
         auto effects = effectLayer->getObjectsAtCoords(sprite->getCoords());
 
-        for (auto object : effects)
+        for (Effect *effect : effects)
         {
-            Effect *effect = (Effect *) object;
+            if (!effect->isActive())
+                continue;
 
             if (effect->getCharges() == 0)
                 continue;
@@ -169,10 +173,8 @@ void Logic::update(float dt)
 
         auto portals = portalLayer->getObjectsAtCoords(sprite->getCoords());
 
-        for (auto object : portals)
+        for (Portal *portal : portals)
         {
-            Portal *portal = (Portal *) object;
-
             auto portalExit = portalExitLayer->getObject(portal->getPortalTarget(sprite->getPreviousCoords()));
             _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
         }
@@ -233,6 +235,9 @@ bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
 
     for (auto sprite : sprites)
     {
+        if (!sprite->isActive())
+            continue;
+
         if (sprite->getAttributes()->isDead())
             continue;
 
@@ -270,13 +275,26 @@ bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
 
         if (obstacle->getToughness() == 0)
         {
-            if (obstacle->getCoords().y % 2 == 0)
+            auto effectsToSpawn = _state->getEffectLayer()->getObjectsAtCoords(obstacle->getCoords());
+
+            for (Effect *effect : effectsToSpawn)
             {
-                _gameStateUpdater->spawnEffect(18, obstacle->getCoords()); // temporary
+                if (effect->isActive())
+                    continue;
+
+                effect->setActive(true);
+                _gameStateUpdater->logEffectSpawn(effect);
             }
-            else
+                        
+            auto spritesToSpawn = _state->getSpriteLayer()->getObjectsAtCoords(obstacle->getCoords());
+
+            for (Sprite *sprite : spritesToSpawn)
             {
-                _gameStateUpdater->spawnSprite(3, obstacle->getCoords()); // temporary
+                if (sprite->isActive())
+                    continue;
+
+                sprite->setActive(true);
+                _gameStateUpdater->logSpriteSpawn(sprite);
             }
         }
 

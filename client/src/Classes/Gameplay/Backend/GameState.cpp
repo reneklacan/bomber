@@ -77,7 +77,7 @@ void GameState::init(TMXTiledMap *tiledMap)
             _obstacleLayer->addObject(obstacle);
         }
     }
-
+    
     TMXLayer *spriteLayer = tiledMap->layerNamed("sprites");
 
     for (unsigned int iy = 0; iy < _height; iy++)
@@ -98,6 +98,27 @@ void GameState::init(TMXTiledMap *tiledMap)
         }
     }
 
+    TMXLayer *spriteToSpawnLayer = tiledMap->layerNamed("sprites2spawn");
+
+    for (unsigned int iy = 0; iy < _height; iy++)
+    {
+        for (unsigned int ix = 0; ix < _width; ix++)
+        {
+            gid = spriteToSpawnLayer->tileGIDAt(ccp(ix, _height - 1 - iy));
+
+            if (gid == 0)
+                continue;
+            
+            Sprite *sprite= Sprite::getInstanceByGid(gid);
+            sprite->setId(iy*_width + ix);
+            sprite->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
+            sprite->setSize(TILE_WIDTH, TILE_HEIGHT);
+            sprite->setActive(false);
+
+            _spriteLayer->addObject(sprite);
+        }
+    }
+    
     TMXLayer *effectLayer = tiledMap->layerNamed("effects");
 
     for (unsigned int iy = 0; iy < _height; iy++)
@@ -113,6 +134,27 @@ void GameState::init(TMXTiledMap *tiledMap)
             effect->setId(iy*_width + ix);
             effect->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
             effect->setSize(TILE_WIDTH, TILE_HEIGHT);
+
+            _effectLayer->addObject(effect);
+        }
+    }    
+    
+    TMXLayer *effectToSpawnLayer = tiledMap->layerNamed("effects2spawn");
+
+    for (unsigned int iy = 0; iy < _height; iy++)
+    {
+        for (unsigned int ix = 0; ix < _width; ix++)
+        {
+            gid = effectToSpawnLayer->tileGIDAt(ccp(ix, _height - 1 - iy));
+
+            if (gid == 0)
+                continue;
+
+            Effect *effect= Effect::getInstanceByGid(gid);
+            effect->setId(iy*_width + ix);
+            effect->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
+            effect->setSize(TILE_WIDTH, TILE_HEIGHT);
+            effect->setActive(false);
 
             _effectLayer->addObject(effect);
         }

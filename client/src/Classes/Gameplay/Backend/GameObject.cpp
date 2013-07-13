@@ -7,8 +7,13 @@
 using namespace Bomber::Backend;
 
 GameObject::GameObject()
+:_active(true)
+,_dirty(false)
+,_circleCollider(false)
+,_id(0)
+,_gid(0)
 {
-    _circleCollider = false;
+
 }
 
 void GameObject::setPosition(int x, int y)

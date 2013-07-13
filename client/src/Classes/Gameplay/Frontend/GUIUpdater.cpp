@@ -18,6 +18,10 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     _player = player;
     _layer = layer;
 
+    // Ignore items which will be spawned, backend will take care of them
+    _map->getTiledMap()->layerNamed("sprites2spawn")->setVisible(false);
+    _map->getTiledMap()->layerNamed("effects2spawn")->setVisible(false);
+
     // Hide sprites, obstacles, effects
     TMXLayer *spritesLayer = _map->getTiledMap()->layerNamed("sprites");
     spritesLayer->setVisible(false);

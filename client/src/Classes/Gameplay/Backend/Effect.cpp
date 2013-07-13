@@ -5,15 +5,23 @@ using namespace Bomber::Backend;
 
 Effect *Effect::getInstanceByGid(unsigned int gid)
 {
+    Effect *effect = nullptr;
+
     if (gid == 18)
     {
-        return new EffectBombPowerInc();
+        effect = new EffectBombPowerInc();
     }
     else if (gid == 13)
     {
-        return new EffectBombCapacityInc();
+        effect = new EffectBombCapacityInc();
+    }
+    else
+    {
+        printf("Effect::getInstanceByGid - unknown effect gid %u\n", gid);
+        printf("Segfault comiiiiiing...\n");
     }
 
-    printf("Effect::getInstanceByGid - unknown effect gid %u\n", gid);
-    return NULL;
+    effect->setGid(gid);
+
+    return effect;
 }

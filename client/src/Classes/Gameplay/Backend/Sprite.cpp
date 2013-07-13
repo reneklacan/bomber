@@ -6,7 +6,9 @@ using namespace Bomber::Backend;
 
 Sprite *Sprite::getInstanceByGid(unsigned int gid)
 {
-    return new AISprite();
+    AISprite *sprite = new AISprite();
+    sprite->setGid(gid);
+    return sprite;
 }
 
 Sprite::Sprite()
