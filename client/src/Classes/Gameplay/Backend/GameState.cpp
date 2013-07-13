@@ -12,6 +12,8 @@ GameState::GameState(unsigned int width, unsigned int height)
     _lastChangeId = 0;
     _lastChangeIdOffset = 0;
 
+    _goalReached = false;
+
     _width = width;
     _height = height;
 
@@ -43,11 +45,14 @@ void GameState::init(TMXTiledMap *tiledMap)
     CCARRAY_FOREACH(propertiesKeys, ccObject)
     {
         auto key = ((String *) ccObject)->getCString();
-        auto value = properties->valueForKey(key)->getCString();
+        auto value = properties->valueForKey(key)->intValue();
 
         if (strncmp("goal", key, 4) == 0)
         {
-            printf("%s = %s\n", key, value);
+            if (strcmp(key, "goal_mobs_alive") == 0)
+            {
+                _goalConditions[CONDITION_MOBS_ALIVE] = value;
+            }
         }
     }
 
@@ -213,6 +218,7 @@ void GameState::reset()
     _changes.clear();
     _lastChangeId = 0;
     _lastChangeIdOffset = 0;
+    _goalReached = false;
 
     _spriteLayer->reset();
     _obstacleLayer->reset();
@@ -223,6 +229,8 @@ void GameState::reset()
     _specialLayer->reset();
     _leverLayer->reset();
     _leverTargetLayer->reset();
+
+    _goalConditions.clear();
 
     this->init(_tiledMap);
 }

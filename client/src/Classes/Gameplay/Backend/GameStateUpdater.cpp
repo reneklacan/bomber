@@ -121,8 +121,21 @@ void GameStateUpdater::updateSpriteAttributes(Sprite *sprite, Effect *effect)
     StatisticsUpdater::getInstance()->effectTaken(sprite->getId(), effect);
     this->logSpriteAttributesUpdate(sprite, effect);
 }
-void GameStateUpdater::updateAchievements()
+
+void GameStateUpdater::update()
 {
+    int mobsAlive = 0;
+
+    for (auto sprite : _state->getSpriteLayer()->getObjects())
+    {
+        if (sprite->isAI() && sprite->getAttributes()->isAlive())
+        {
+            mobsAlive += 1;
+        }
+    }
+
+    StatisticsUpdater::getInstance()->updateMobsAlive(mobsAlive);
+
     if (!AchievementContainer::getInstance()->isNewQueueEmpty())
     {
         for (Achievement *achievement : AchievementContainer::getInstance()->getNewUnlocked())
@@ -135,6 +148,38 @@ void GameStateUpdater::updateAchievements()
 
             this->logAchievementUnlocked(achievement);
         }
+    }
+
+    if (_state->getGoalReached())
+        return;
+
+    bool goalComplete = true;
+
+    for (auto condition : _state->getGoalConditions())
+    {
+        auto type = condition.first;
+        auto value = condition.second;
+
+        if (type == CONDITION_MOBS_ALIVE)
+        {
+            if (StatisticsUpdater::getInstance()->getLevelStatistics()->getMobsAlive() != value)
+            {
+                goalComplete = false;
+                break;
+            }
+        }
+        else
+        {
+            printf("unknown condition type '%d'", type);
+            goalComplete = false;
+        }
+    }
+
+    if (goalComplete)
+    {
+        // allow player proceed to the next level
+        this->logLevelFinish();
+        _state->setGoalReached(true);
     }
 }
 
@@ -155,6 +200,7 @@ void GameStateUpdater::damageSprite(Sprite *sprite, unsigned int causerId, int d
 
     if (sprite->getAttributes()->isDead())
     {
+        StatisticsUpdater::getInstance()->monsterKilled(causerId, sprite);
         this->destroySprite(sprite);
     }
 }
@@ -358,5 +404,12 @@ void GameStateUpdater::logAchievementUnlocked(Achievement *achievement)
             achievement->getDescription()
     );
     change->setGameObjectId(0);
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logLevelFinish()
+{   
+    printf("logLevelFinish\n");
+    GSCLevelFinish *change = new GSCLevelFinish();
     _state->addChange(change);
 }

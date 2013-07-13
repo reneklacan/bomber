@@ -225,6 +225,12 @@ namespace Bomber
             public:
                 GSCLeverSwitchOff() { _type = LEVER_SWITCH_OFF; };
         };
+
+        class GSCLevelFinish : public GameStateChange
+        {
+            public:
+                GSCLevelFinish() { _type = LEVEL_FINISH; };
+        };
     }
 }
 

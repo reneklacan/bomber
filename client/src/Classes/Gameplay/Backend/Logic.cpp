@@ -184,7 +184,7 @@ void Logic::update(float dt)
     }
 
     _gameStateUpdater->updateSpriteGrid();
-    _gameStateUpdater->updateAchievements();
+    _gameStateUpdater->update();
 
     //_state->getSpriteLayer()->print();
 }

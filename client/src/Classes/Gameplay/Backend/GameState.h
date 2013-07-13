@@ -16,6 +16,13 @@ namespace Bomber
 {
     namespace Backend
     {
+        enum TGoalConditionsTypes
+        {
+            CONDITION_MOBS_ALIVE,
+        };
+
+        typedef std::map<TGoalConditionsTypes, int> TGoalConditions;
+
         class GameState
         {
             public:
@@ -34,6 +41,9 @@ namespace Bomber
                 std::deque<GameStateChange *> _changes;
                 unsigned int _lastChangeId; // id of latest change
                 unsigned int _lastChangeIdOffset; // offset needed when old changes are deleted
+
+                SYNTHESIZE(bool, _goalReached, GoalReached);
+                SYNTHESIZE(TGoalConditions, _goalConditions, GoalConditions);
 
                 SYNTHESIZE_READONLY(unsigned int, _width, Width);
                 SYNTHESIZE_READONLY(unsigned int, _height, Height);

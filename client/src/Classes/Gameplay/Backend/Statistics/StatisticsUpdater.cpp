@@ -26,6 +26,11 @@ void StatisticsUpdater::resetLevelStatistics()
     _levelStatistics->reset();
 }
 
+void StatisticsUpdater::updateMobsAlive(int mobsAlive)
+{
+    _levelStatistics->setMobsAlive(mobsAlive);
+}
+
 void StatisticsUpdater::bombSpawned(unsigned int ownerId, BBomb *bomb)
 {
     _levelStatistics->increaseBombSpawns();

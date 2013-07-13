@@ -33,9 +33,9 @@ namespace Bomber
                 void spawnExplosion(ExplodableObject *explObji, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void spawnObstacle(unsigned int obstacleGid, Coordinates coords, unsigned int spawnerId);
                 void spawnEffect(unsigned int effectGid, Coordinates coords);
-
+                
+                void update();
                 void updateSpriteAttributes(Sprite *sprite, Effect *effect);
-                void updateAchievements();
                 
                 void switchLeverOn(GameObject *lever);
                 void switchLeverOff(GameObject *lever);
@@ -64,6 +64,7 @@ namespace Bomber
                 void logLeverSwitchOff(GameObject *lever);
                 void logEffectDestroy(Effect *effect);
                 void logAchievementUnlocked(Achievement *achievement);
+                void logLevelFinish();
 
             private:
                 GameState *_state;

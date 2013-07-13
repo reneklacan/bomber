@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="21" height="11" tilewidth="101" tileheight="81">
  <properties>
-  <property name="goal_kills" value="all"/>
+  <property name="goal_mobs_alive" value="0"/>
  </properties>
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer name="floor" width="21" height="11">

@@ -38,6 +38,7 @@ namespace Bomber
                 SYNTHESIZE(TStatsDict, _effects, Effects);
                 SYNTHESIZE(unsigned int, _totalObstacles, TotalObstacles);
                 SYNTHESIZE(TStatsDict, _obstacles, Obstacles);
+                SYNTHESIZE(int, _mobsAlive, MobsAlive);
         };
     }
 }

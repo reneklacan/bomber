@@ -17,6 +17,8 @@ namespace Bomber
                 static StatisticsUpdater *getInstance();
 
                 void resetLevelStatistics();
+
+                void updateMobsAlive(int mobsAlive);
                 void bombSpawned(unsigned int ownerId, BBomb *bomb);
                 void effectTaken(unsigned int ownerId, Effect *effect);
                 void monsterKilled(unsigned int ownerId, Sprite *monster);
@@ -27,8 +29,8 @@ namespace Bomber
 
                 static StatisticsUpdater *_instance;
 
-                Statistics *_levelStatistics;
-                Statistics *_gameStatistics;
+                SYNTHESIZE_READONLY(Statistics *, _levelStatistics, LevelStatistics);
+                SYNTHESIZE_READONLY(Statistics *, _gameStatistics, GameStatistics);
         };
     }
 }
