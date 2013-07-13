@@ -581,7 +581,10 @@ void GUIUpdater::initLayers()
         _obstacles[ id ]->setVertexZ(0); // DO NOT CHANGE
 
         _batchNode->addChild(_obstacles[ id ], 0);
-        _batchNode->reorderChild(_obstacles[ id ], (id/_map->getWidth())*TILE_HEIGHT+5);
+        _batchNode->reorderChild(
+            _obstacles[ id ],
+            _map->getHeight()*TILE_HEIGHT - sp->getPosition().y + 5
+        );
     }
     for(auto it : *(gc->getMobs()) )
     {
@@ -594,7 +597,10 @@ void GUIUpdater::initLayers()
         _mobs[ id ]->setVertexZ(0); // DO NOT CHANGE
 
         _batchNode->addChild(_mobs[ id ], 0);
-        _batchNode->reorderChild(_mobs[ id ], (id/_map->getWidth())*TILE_HEIGHT);
+        _batchNode->reorderChild(
+            _mobs[ id ],
+            _map->getHeight()*TILE_HEIGHT - sp->getPosition().y - TILE_HEIGHT/4
+        );
     }
     for(auto it : *(gc->getEffects()) )
     {
@@ -607,7 +613,10 @@ void GUIUpdater::initLayers()
         _effects[ id ]->setVertexZ(0); // DO NOT CHANGE
 
         _batchNode->addChild(_effects[ id ], 0);
-        _batchNode->reorderChild(_effects[ id ], (id/_map->getWidth())*TILE_HEIGHT+5);
+        _batchNode->reorderChild(
+            _effects[ id ],
+            _map->getHeight()*TILE_HEIGHT - sp->getPosition().y + 5
+        );
     }
 
     return;
