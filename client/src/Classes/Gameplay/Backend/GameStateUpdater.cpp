@@ -49,25 +49,8 @@ void GameStateUpdater::spawnSprite(unsigned int spriteGid, Coordinates coords)
     this->logSpriteSpawn(sprite);
 }
 
-bool GameStateUpdater::spawnBomb(Sprite *owner)
+void GameStateUpdater::spawnBomb(Sprite *owner)
 {
-    if (!owner->isBombPotent())
-    {
-        return false;
-    }
-
-    if (_state->getObstacleLayer()->getObjectsAtCoords(owner->getCoords()).size() != 0)
-    {
-        printf("bomb spawn failed, tile occupied by obstacle\n");
-        return false;
-    }
-
-    if (_state->getBombLayer()->getObjectsAtCoords(owner->getCoords()).size() != 0)
-    {
-        printf("bomb spawn failed, tile occupied by another bomb\n");
-        return false;
-    }
-
     auto *bombLayer = _state->getBombLayer();
 
     BBomb *bomb = new BBomb();
@@ -78,8 +61,6 @@ bool GameStateUpdater::spawnBomb(Sprite *owner)
 
     StatisticsUpdater::getInstance()->bombSpawned(owner->getId(), bomb);
     this->logBombSpawn(bomb);
-
-    return true;
 }
 
 void GameStateUpdater::spawnExplosion(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)

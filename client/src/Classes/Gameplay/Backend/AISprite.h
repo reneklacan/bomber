@@ -14,7 +14,8 @@ namespace Bomber
                 {
                     _smart = true;
                     _attributes->setSpeed(50);
-                    //_attributes.setGhostMode(true);
+                    //_attributes->setBombCapacity(2);
+                    //_attributes->setGhostMode(true);
                 }
         };
     }

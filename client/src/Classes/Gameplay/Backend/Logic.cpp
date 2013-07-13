@@ -31,7 +31,8 @@ void Logic::update(float dt)
         penetration, penetrationTop, penetrationBottom,
         penetrationRight, penetrationLeft;
         
-    unsigned int owner;
+    unsigned int ownerId;
+    Sprite *owner;
 
     Coordinates epicentrum;
     
@@ -60,7 +61,10 @@ void Logic::update(float dt)
         power = bomb->getPower();
         epicentrum = bomb->getCoords();
         penetration = bomb->getPenetration();
-        owner = bomb->getOwnerId();
+        ownerId = bomb->getOwnerId();
+
+        owner = _state->getSpriteLayer()->getObject(ownerId);
+        owner->getAttributes()->increaseBombCapacity();
             
         //_gameStateUpdater->destroyBomb(bomb);
         bombsToDestroy.push_back(bomb);
@@ -261,10 +265,8 @@ bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
 
     bool somethingDamaged = false;
 
-    for (auto object : obstacles)
+    for (auto obstacle : obstacles)
     {
-        Obstacle *obstacle = (Obstacle *) object;
-
         if (obstacle->getToughness() == -1)
         {
             *penetration = 0;
@@ -312,7 +314,8 @@ bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
 
 void Logic::setControlledSprite(unsigned int spriteId)
 {
-    _controlledSprite = (Sprite *) _state->getSpriteLayer()->getObject(spriteId);
+    _controlledSprite = _state->getSpriteLayer()->getObject(spriteId);
+    _controlledSprite->getAttributes()->reset();
 }
 
 void Logic::setGameStateUpdater(GameStateUpdater *updater)
@@ -345,14 +348,36 @@ bool Logic::spawnBomb()
         return false;
     }
 
-    bool ok = _gameStateUpdater->spawnBomb(_controlledSprite);
-    //_gameStateUpdater->getState()->getBombLayer()->print();
-    return ok;
+    return this->spawnBomb(_controlledSprite);
 }
 
 bool Logic::spawnBomb(unsigned int spriteId)
 {
-    bool ok = _gameStateUpdater->spawnBomb((Sprite *) _state->getSpriteLayer()->getObject(spriteId));
-    //_gameStateUpdater->getState()->getBombLayer()->print();
-    return ok;
+    return this->spawnBomb(_state->getSpriteLayer()->getObject(spriteId));
+}
+
+bool Logic::spawnBomb(Sprite *owner)
+{
+    if (owner->getAttributes()->getBombCapacity() <= 0)
+    {
+        return false;
+    }
+
+    if (_state->getObstacleLayer()->getObjectsAtCoords(owner->getCoords()).size() != 0)
+    {
+        printf("bomb spawn failed, tile occupied by obstacle\n");
+        return false;
+    }
+
+    if (_state->getBombLayer()->getObjectsAtCoords(owner->getCoords()).size() != 0)
+    {
+        printf("bomb spawn failed, tile occupied by another bomb\n");
+        return false;
+    }
+    
+    owner->getAttributes()->decreaseBombCapacity();
+
+    _gameStateUpdater->spawnBomb(owner);
+
+    return true;
 }

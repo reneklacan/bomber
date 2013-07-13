@@ -30,7 +30,7 @@ namespace Bomber
                 void teleportSprite(Sprite *sprite, Position position);
                 
                 void spawnSprite(unsigned int spriteGid, Coordinates coords);
-                bool spawnBomb(Sprite* owner);
+                void spawnBomb(Sprite* owner);
                 void spawnExplosion(ExplodableObject *explObji, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void spawnObstacle(unsigned int obstacleGid, Coordinates coords, unsigned int spawnerId);
                 void spawnEffect(unsigned int effectGid, Coordinates coords);
