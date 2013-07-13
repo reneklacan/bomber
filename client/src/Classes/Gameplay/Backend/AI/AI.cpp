@@ -36,15 +36,16 @@ bool AI::isCoordsCrossable(Coordinates coords)
 
 bool AI::isCoordsCrossable(Coordinates coords, bool ghostMode)
 {
-    auto objects = _state->getObstacleLayer()->getObjectsAtCoords(coords);
+    auto obstacles = _state->getObstacleLayer()->getObjectsAtCoords(coords);
+    auto bombs = _state->getBombLayer()->getObjectsAtCoords(coords);
 
-    if (objects.size() == 0)
+    if (obstacles.size() == 0 && bombs.size() == 0)
        return true;
 
     if (!ghostMode)
         return false;
 
-    for (auto obstacle : objects)
+    for (auto obstacle : obstacles)
     {
         if (!obstacle->getToughness()) 
             return false;
