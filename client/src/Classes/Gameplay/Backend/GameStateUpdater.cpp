@@ -127,11 +127,13 @@ void GameStateUpdater::update()
     {
         for (Achievement *achievement : AchievementContainer::getInstance()->getNewUnlocked())
         {
+            /*
             printf("----------!\n");
             printf("Achievement unlocked!\n");
             printf("%s!\n", achievement->getTitle());
             printf(" - %s!\n", achievement->getDescription());
             printf("----------!\n");
+            */
 
             this->logAchievementUnlocked(achievement);
         }

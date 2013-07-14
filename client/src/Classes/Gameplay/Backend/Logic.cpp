@@ -6,6 +6,7 @@
 #include "Portal.h"
 #include "Effect.h"
 #include "AI/AI.h"
+#include "Statistics/StatisticsUpdater.h"
 
 using namespace Bomber::Backend;
 
@@ -32,7 +33,8 @@ void Logic::update(float dt)
 {
     int power,
         penetration, penetrationTop, penetrationBottom,
-        penetrationRight, penetrationLeft;
+        penetrationRight, penetrationLeft,
+        spritesKilled = 0;
         
     unsigned int ownerId;
     Sprite *owner;
@@ -86,7 +88,7 @@ void Logic::update(float dt)
 
         int armLengths[4] = {0};
 
-        this->makeBombImpact(bomb, NULL, epicentrum);
+        this->makeBombImpact(bomb, epicentrum, NULL, &spritesKilled);
 
         for (int i = 0; i < power; i++)
         {
@@ -117,7 +119,7 @@ void Logic::update(float dt)
                     continue;
                 }
 
-                if (this->makeBombImpact(bomb, penetrations[j], coords))
+                if (this->makeBombImpact(bomb, coords, penetrations[j], &spritesKilled))
                 {
                     armLengths[j]++;
                 }
@@ -138,6 +140,11 @@ void Logic::update(float dt)
     for (auto bomb : bombsToDestroy)
     {
         _gameStateUpdater->destroyBomb(bomb);
+    }
+
+    if (spritesKilled > 0)
+    {
+        StatisticsUpdater::getInstance()->updateKillStreaks(spritesKilled);
     }
 
     auto spriteLayer = _state->getSpriteLayer();
@@ -216,7 +223,7 @@ void Logic::scheduleLevelReset(float delay)
     _timeToRestart = delay;
 }
 
-bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
+bool Logic::makeBombImpact(BBomb *bomb, Coordinates coords, int *penetration, int *spritesKilled)
 {
     unsigned int x = coords.x;
     unsigned int y = coords.y;
@@ -268,6 +275,12 @@ bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
         //if (!sprite->isAI()) continue; // temporary
 
         _gameStateUpdater->damageSprite(sprite, bomb->getOwnerId(), bomb->getDamage());
+
+        
+        if (sprite->getAttributes()->isDead())
+        {
+            *spritesKilled = *spritesKilled + 1;
+        }
 
         if (sprite == _controlledSprite && sprite->getAttributes()->isDead())
         {

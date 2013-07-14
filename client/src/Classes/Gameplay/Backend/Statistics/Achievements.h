@@ -12,6 +12,7 @@ namespace Bomber
         {
             BOMBS,
             KILLS,
+            KILL_STREAKS,
             EFFECTS,
             SKILL,
         };
@@ -37,13 +38,6 @@ namespace Bomber
         class Achievement
         {
             public:
-                Achievement(
-                        const char *act,
-                        const char *level,
-                        const char *title,
-                        const char *description,
-                        bool evalOnEnd
-                );
                 Achievement(
                         const char *act,
                         const char *level,

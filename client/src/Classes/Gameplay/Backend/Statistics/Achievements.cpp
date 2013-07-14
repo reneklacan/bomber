@@ -31,6 +31,24 @@ bool AchievementCondition::evaluate(Statistics *statistics)
             break;
 
         case KILLS:
+            if (statistics->getTotalKills() == _amount)
+            {
+                return true;
+            }
+            return false;
+
+        case EFFECTS:
+            if (statistics->getTotalEffects() == _amount)
+            {
+                return true;
+            }
+            return false;
+
+        case KILL_STREAKS:
+            if (statistics->getKillStreaks() == _amount)
+            {
+                return true;
+            }
             return false;
 
         default:
@@ -39,22 +57,6 @@ bool AchievementCondition::evaluate(Statistics *statistics)
     }
 
     return false;
-}
-
-Achievement::Achievement(
-        const char *act,
-        const char *level,
-        const char *title,
-        const char *description,
-        bool evalOnEnd
-)
-{
-    _unlocked = false;
-    _act = act;
-    _level = level;
-    _title = title;
-    _description = description;
-    _evalOnEnd = evalOnEnd;
 }
 
 Achievement::Achievement(

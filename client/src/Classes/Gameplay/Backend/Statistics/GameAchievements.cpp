@@ -13,6 +13,75 @@ std::list<AchievementGroup *> Bomber::Backend::getGameAchievements()
             new Achievement(
                 None, // act
                 None, // level
+                "Newcomer", // title
+                "Kill your first mob", // descriptopn
+                false, // evaluate on the end of the game/act/level
+
+                new AchievementCondition(
+                    KILLS, // type
+                    None, // kind
+                    1, // amount
+                    0 // time limit
+                ),
+                nullptr
+            ),
+            nullptr
+        ),
+        new AchievementGroup(
+            new Achievement(
+                None, // act
+                None, // level
+                "Pump it", // title
+                "Get your first buff", // descriptopn
+                false, // evaluate on the end of the game/act/level
+
+                new AchievementCondition(
+                    EFFECTS, // type
+                    None, // kind
+                    1, // amount
+                    0 // time limit
+                ),
+                nullptr
+            ),
+            nullptr
+        ),
+        new AchievementGroup(
+            new Achievement(
+                None, // act
+                None, // level
+                "Double kill", // title
+                "Kill two mobs with one bomb", // descriptopn
+                false, // evaluate on the end of the game/act/level
+
+                new AchievementCondition(
+                    KILL_STREAKS, // type
+                    None, // kind
+                    2, // amount
+                    0 // time limit
+                ),
+                nullptr
+            ),
+            new Achievement(
+                None, // act
+                None, // level
+                "Triple kill", // title
+                "Kill three mobs with one bomb", // descriptopn
+                false, // evaluate on the end of the game/act/level
+
+                new AchievementCondition(
+                    KILL_STREAKS, // type
+                    None, // kind
+                    3, // amount
+                    0 // time limit
+                ),
+                nullptr
+            ),
+            nullptr
+        ),
+        new AchievementGroup(
+            new Achievement(
+                None, // act
+                None, // level
                 "Bombeeeer", // title
                 "Plant 5 bomb in overall", // descriptopn
                 false, // evaluate on the end of the game/act/level

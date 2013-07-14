@@ -19,7 +19,7 @@ namespace Bomber
                     _bombPower = 2;
                     _bombTimeout = 2.0f;
                     _bombPenetration = 1;
-                    _bombDamage = 70;
+                    _bombDamage = 110;
                     _bombCapacity = 2;
                     _speed = 100;
                     _health = 100;

@@ -29,7 +29,7 @@ namespace Bomber
 
                 void spawnExplosion(ExplodableObject *explObj);
 
-                bool makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords);
+                bool makeBombImpact(BBomb *bomb, Coordinates coords, int *penetration, int *spritesKilled);
 
                 void logSpriteMove(GameObject *sprite, Position &from, Position &to);
                 void logBombSpawn(BBomb *bomb);
