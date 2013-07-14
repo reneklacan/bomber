@@ -7,7 +7,7 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
 {
     Effect *effect = nullptr;
 
-    if (gid == 18)
+    if (gid == 18 || gid == 46)
     {
         effect = new EffectBombPowerInc();
     }
