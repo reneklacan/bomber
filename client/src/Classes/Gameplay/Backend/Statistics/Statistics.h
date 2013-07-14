@@ -27,6 +27,10 @@ namespace Bomber
                 void increaseKills(const char *name);
                 void increaseEffects(const char *name);
                 void increaseObstacles(const char *name);
+                void increaseTeleportUses();
+                void increaseLeverUses();
+
+                unsigned int getKills(const char *name);
 
                 void print();
 
@@ -40,6 +44,8 @@ namespace Bomber
                 SYNTHESIZE(TStatsDict, _obstacles, Obstacles);
                 SYNTHESIZE(int, _mobsAlive, MobsAlive);
                 SYNTHESIZE(int, _killStreaks, KillStreaks);
+                SYNTHESIZE(unsigned int, _teleportUses, TeleportUses);
+                SYNTHESIZE(unsigned int, _leverUses, LeverUses);
         };
     }
 }

@@ -14,7 +14,10 @@ namespace Bomber
             KILLS,
             KILL_STREAKS,
             EFFECTS,
-            SKILL,
+            SKILLS,
+            OBSTACLES,
+            TELEPORTS,
+            LEVERS,
         };
 
         class AchievementCondition

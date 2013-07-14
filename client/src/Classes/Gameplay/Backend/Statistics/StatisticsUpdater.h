@@ -24,11 +24,15 @@ namespace Bomber
                 void effectTaken(unsigned int ownerId, Effect *effect);
                 void monsterKilled(unsigned int ownerId, Sprite *monster);
                 void obstacleDestroyed(unsigned int ownerId, Obstacle *obstacke);
+                void teleportUsed(unsigned int ownerId);
+                void leverUsed(unsigned int ownerId);
 
             private:
                 StatisticsUpdater();
 
                 static StatisticsUpdater *_instance;
+
+                SYNTHESIZE(unsigned int, _relevantSpriteId, RelevantSpriteId);
 
                 SYNTHESIZE_READONLY(Statistics *, _levelStatistics, LevelStatistics);
                 SYNTHESIZE_READONLY(Statistics *, _gameStatistics, GameStatistics);

@@ -244,7 +244,7 @@ bool Logic::makeBombImpact(BBomb *bomb, Coordinates coords, int *penetration, in
             if (obstacles.size() > 0)
             {
                 // open "the bridge"
-                _gameStateUpdater->switchLeverOn(lever);
+                _gameStateUpdater->switchLeverOn(lever, bomb->getOwnerId());
 
                 for (auto obstacle : obstacles)
                 {
@@ -254,7 +254,7 @@ bool Logic::makeBombImpact(BBomb *bomb, Coordinates coords, int *penetration, in
             else
             {
                 // close "the bridge"
-                _gameStateUpdater->switchLeverOff(lever);
+                _gameStateUpdater->switchLeverOff(lever, bomb->getOwnerId());
 
                 unsigned int obstacleGid = 20;
                 _gameStateUpdater->spawnObstacle(obstacleGid, target->getCoords(), bomb->getId());
@@ -349,6 +349,7 @@ void Logic::setControlledSprite(unsigned int spriteId)
 {
     _controlledSprite = _state->getSpriteLayer()->getObject(spriteId);
     _controlledSprite->getAttributes()->reset();
+    StatisticsUpdater::getInstance()->setRelevantSpriteId(spriteId);
 }
 
 void Logic::setGameStateUpdater(GameStateUpdater *updater)

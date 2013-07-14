@@ -13,12 +13,20 @@ Statistics::Statistics()
 void Statistics::reset()
 {
     _bombSpawns = 0;
+
     _totalKills = 0;
     _kills.clear();
+
     _totalEffects = 0;
     _effects.clear();
+
     _totalObstacles = 0;
     _obstacles.clear();
+
+    _mobsAlive = 7;
+    _killStreaks = 0;
+    _teleportUses = 0;
+    _leverUses = 0;
 }
 
 void Statistics::increaseBombSpawns()
@@ -42,6 +50,24 @@ void Statistics::increaseObstacles(const char *name)
 {
     _totalObstacles += 1;
     _obstacles[name] += 1;
+}
+
+void Statistics::increaseTeleportUses()
+{
+    _teleportUses += 1;
+}
+
+void Statistics::increaseLeverUses()
+{
+    _leverUses += 1;
+}
+
+unsigned int Statistics::getKills(const char *name)
+{
+    if (name == nullptr)
+        return _totalKills;
+
+    return _kills[name];
 }
 
 void Statistics::print()
