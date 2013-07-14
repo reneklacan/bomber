@@ -2,14 +2,6 @@
 #include "Bomb.h"
 #include "../../../Constants.h"
 
-Map::Map()
-{
-}
-
-Map::~Map()
-{
-}
-
 //
 bool Map::init()
 {
@@ -31,29 +23,4 @@ bool Map::init()
 void Map::addToPosition(Point point)
 {
     this->setPosition(ccpAdd(this->getPosition(), point));
-}
-
-//
-void Map::addBomb(unsigned int key, Object* bomb)
-{
-    _spawnedBombs[key] = bomb;
-}
-
-//
-Object *Map::getBomb(unsigned int key)
-{
-    return _spawnedBombs[key];
-}
-
-//
-void Map::removeBomb(unsigned int key)
-{
-    _spawnedBombs.erase(key);
-}
-
-//
-//
-void Map::reset()
-{
-    return;
 }

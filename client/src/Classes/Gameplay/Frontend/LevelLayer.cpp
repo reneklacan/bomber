@@ -146,6 +146,12 @@ void LevelLayer::updateGame(float dt)
     // Draw new state
     GUIUpdater::getInstance()->update(currentPos);
     ButtonLayer::getInstance()->saveTime(dt);
+
+    // Reset level if needed
+    if( GUIUpdater::getInstance()->isResetSet() )
+    {
+        this->resetLevel();
+    }
     
 }
 
@@ -174,6 +180,12 @@ void LevelLayer::menuPauseCallback(Object* pSender)
 
 //
 void LevelLayer::menuResetCallback(Object* pSender)
+{
+    this->resetLevel();
+}
+
+//
+void LevelLayer::resetLevel()
 {
     // "reset" menu item clicked
     GUIUpdater::getInstance()->resetGUI();

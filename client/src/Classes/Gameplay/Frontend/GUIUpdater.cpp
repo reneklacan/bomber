@@ -17,18 +17,16 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     _map = map;
     _player = player;
     _layer = layer;
+    _resetNow = false;
 
     // Ignore items which will be spawned, backend will take care of them
     _map->getTiledMap()->layerNamed("sprites2spawn")->setVisible(false);
     _map->getTiledMap()->layerNamed("effects2spawn")->setVisible(false);
 
     // Hide sprites, obstacles, effects
-    TMXLayer *spritesLayer = _map->getTiledMap()->layerNamed("sprites");
-    spritesLayer->setVisible(false);
-    _obstaclesLayer = _map->getTiledMap()->layerNamed("obstacles");
-    _obstaclesLayer->setVisible(false);
-    TMXLayer *effectsLayer = _map->getTiledMap()->layerNamed("effects");
-    effectsLayer->setVisible(false);
+    _map->getTiledMap()->layerNamed("sprites")->setVisible(false);
+    _map->getTiledMap()->layerNamed("obstacles")->setVisible(false);
+    _map->getTiledMap()->layerNamed("effects")->setVisible(false);
 
     // Init Batch Node
     _batchNode = SpriteBatchNode::create("tiles/tileset.png");
@@ -148,6 +146,16 @@ void GUIUpdater::update(Point playerPosition)
                 this->updateEffectSpawn( (Backend::GSCEffectSpawn *)GSChange );
             }
             break;
+            case Backend::LEVEL_RESET:
+            {
+                this->updateLevelReset( (Backend::GSCLevelReset *)GSChange );
+            }
+            break;
+            case Backend::LEVEL_FINISH:
+            {
+                this->updateLevelFinish( (Backend::GSCLevelFinish *)GSChange );
+            }
+            break;
             // Nothing    
             default: {}
         }
@@ -219,24 +227,29 @@ void GUIUpdater::updateSpriteTeleport(Backend::GSCSpriteTeleport *spriteTeleport
 //
 void GUIUpdater::updateBombSpawn(Backend::GSCBombSpawn *bombSpawn)
 {
+
+    unsigned int id = bombSpawn->getGameObjectId();
     Point bombSpawnPosition = ccp( bombSpawn->getPosition().x, bombSpawn->getPosition().y);
-    Point tilemapPosition = _player->getTilemapPosition(); // WARNING
-    Bomb *bomb = Bomb::create(_map, _batchNode, _player);
-    _batchNode->reorderChild(bomb, _map->getHeight()*TILE_HEIGHT - tilemapPosition.y*TILE_HEIGHT - TILE_HEIGHT);
-    bomb->setPosition(bombSpawnPosition);
-    bomb->setTilemapPosition( ccp(tilemapPosition.x, tilemapPosition.y) );
-    _map->addBomb(bombSpawn->getGameObjectId(), bomb);
+
+    _bombs[ id ] = Sprite::createWithTexture(
+        _batchNode->getTexture(),
+        this->pickImageFromTexture(BOMB_IMAGE_ID)
+    );
+    _bombs[ id ]->setPosition(bombSpawnPosition);
+    _bombs[ id ]->setAnchorPoint( ccp(0.5, 0.35) ); // WARNING
+    _bombs[ id ]->setVertexZ(0); // DO NOT CHANGE
+    
+    _batchNode->addChild(_bombs[ id ], 0);
+    _batchNode->reorderChild(_bombs[ id ], _map->getHeight()*TILE_HEIGHT - bombSpawnPosition.y);
     return;
 }
 
 //
 void GUIUpdater::updateBombDestroy(Backend::GSCBombDestroy *bombDestroy)
 {
-    Bomb *bomb = (Bomb *)_map->getBomb( bombDestroy->getGameObjectId() );
-    bomb->setVisible(false);
-    bomb->setDetonated();
-    _map->removeBomb(bombDestroy->getGameObjectId());
-    _batchNode->removeChild(bomb, true); // WARNING
+    unsigned int id = bombDestroy->getGameObjectId();
+    _batchNode->removeChild(_bombs[ id ], true);
+    _bombs.erase(id);
 }
 
 //
@@ -305,6 +318,11 @@ void GUIUpdater::updateObstacleSpawn(Backend::GSCObstacleSpawn *obstacleSpawn)
 //
 void GUIUpdater::updateSpriteDestroy( Backend::GSCSpriteDestroy *spriteDestroy )
 {
+    if(spriteDestroy->getGameObjectId() == _player->getID())
+    {
+        _batchNode->removeChild(_player, true); // WARNING
+        _playerDestroyed = true;
+    }
     unsigned int id = spriteDestroy->getGameObjectId();
     _batchNode->removeChild(_mobs[id], true); // WARNING
     _mobs.erase(id);
@@ -427,6 +445,20 @@ void GUIUpdater::updateEffectSpawn( Backend::GSCEffectSpawn *effectSpawn )
     return;
 }
 
+//
+void GUIUpdater::updateLevelReset( Backend::GSCLevelReset *levelReset )
+{
+    _resetNow = true; 
+    return;
+}
+
+//
+void GUIUpdater::updateLevelFinish( Backend::GSCLevelFinish *levelFinish )
+{
+    _resetNow = true; 
+    return;
+}
+
 /*
  * ========== 
  *  General
@@ -443,10 +475,10 @@ Rect GUIUpdater::pickImageFromTexture(unsigned int id)
     offset--;
 
     return CCRectMake(
-        TEXTURE_TILE_WIDTH * offset,
-        TEXTURE_TILE_HEIGHT * ( id / (TEXTURE_IMAGES_PER_LINE+1) ),
-        TILE_WIDTH,
-        TILE_HEIGHT*2
+        TEXTURE_SPACING + (TEXTURE_TILE_WIDTH + TEXTURE_SPACING) * offset,
+        TEXTURE_SPACING + (TEXTURE_TILE_HEIGHT + TEXTURE_SPACING) * ( id / (TEXTURE_IMAGES_PER_LINE + 1) ),
+        TEXTURE_TILE_WIDTH,
+        TEXTURE_TILE_HEIGHT
     );
 }
 
@@ -485,6 +517,12 @@ bool GUIUpdater::evalCollision(Point nextPoint)
 {
     // Init
     bool result = false;
+
+    // After defeat player is able to view map
+    if(_playerDestroyed)
+    {
+        return result;
+    }
 
     // Constants
     int widthLeft = 30;
@@ -535,6 +573,9 @@ bool GUIUpdater::evalCollision(Point nextPoint)
 //
 void GUIUpdater::initPlayer()
 {
+    // Eval collisions
+    _playerDestroyed = false;
+
     // All initialization
     _player->initWithTexture(_batchNode->getTexture(), CCRectMake(120,60,80,110));
     _player->retain();
@@ -571,6 +612,7 @@ void GUIUpdater::initLayers()
     _mobs.clear();
     _obstacles.clear();
     _effects.clear();
+    _bombs.clear();
 
     // Init obstacles, mobs and effects structure
     GUICache* gc = GUICache::getInstance();
@@ -644,6 +686,9 @@ void GUIUpdater::resetGUI()
 
     // Player
     this->initPlayer();
+
+    // Init instance variable
+    _resetNow = false;
 
     return;
 }

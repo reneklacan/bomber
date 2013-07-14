@@ -62,6 +62,7 @@ namespace Bomber
         private:
             void initControlledSprite();
             void initControlLayer();
+            void resetLevel();
         };
     }
 }

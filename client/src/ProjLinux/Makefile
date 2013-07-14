@@ -42,7 +42,6 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Frontend/Buttons/EffectButton.cpp \
         ../Classes/Gameplay/Frontend/GUIUpdater.cpp \
         ../Classes/Gameplay/Frontend/Map/Map.cpp \
-        ../Classes/Gameplay/Frontend/Map/Bomb.cpp \
         ../Classes/Gameplay/Frontend/Map/Explosion.cpp \
         ../Classes/Gameplay/Frontend/Sprites/GameSprite.cpp \
         ../Classes/Gameplay/Frontend/Sprites/Human.cpp \

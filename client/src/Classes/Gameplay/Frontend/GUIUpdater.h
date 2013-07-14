@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "Map/Map.h"
-#include "Map/Bomb.h"
 #include "Map/Explosion.h"
 
 #include "Sprites/Human.h"
@@ -37,6 +36,7 @@ namespace Bomber
             void update(Point playerPosition);
             std::vector<bool> evalCollisions(Point currentPoint, Point nextPoint);
             void resetGUI();
+            bool isResetSet() {return _resetNow; }
 
         private:
             GUIUpdater(): _lastChangeID(0), _batchNode(NULL) {};
@@ -57,6 +57,8 @@ namespace Bomber
             void updateEffectDestroy( Backend::GSCEffectDestroy *effectDestroy );
             void updateSpriteSpawn( Backend::GSCSpriteSpawn *spriteSpawn );
             void updateEffectSpawn( Backend::GSCEffectSpawn *effectSpawn );
+            void updateLevelReset( Backend::GSCLevelReset *levelReset );
+            void updateLevelFinish( Backend::GSCLevelFinish *levelFinish );
 
             void initLayers();
             void initPlayer();
@@ -67,13 +69,15 @@ namespace Bomber
             Map* _map;
             Human* _player;
             Layer * _layer;
+            bool _playerDestroyed;
 
             std::map<unsigned int, Sprite *> _mobs;
             std::map<unsigned int, Sprite *> _obstacles;
             std::map<unsigned int, Sprite *> _effects;
+            std::map<unsigned int, Sprite *> _bombs;
 
             SpriteBatchNode* _batchNode;
-            TMXLayer *_obstaclesLayer;
+            bool _resetNow;
         };
     }
 }
