@@ -2450,6 +2450,7 @@
             <filename>images/test_49.png</filename>
             <filename>images/test_50.png</filename>
             <filename>images/test_51.png</filename>
+            <filename>images/test_52.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
