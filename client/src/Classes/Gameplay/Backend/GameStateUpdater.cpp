@@ -6,8 +6,9 @@
 using namespace Bomber::Backend;
 
 GameStateUpdater::GameStateUpdater()
+:_uniqueId(1)
 {
-    _uniqueId = 1;
+
 }
 
 void GameStateUpdater::resetState()
@@ -18,6 +19,7 @@ void GameStateUpdater::resetState()
 void GameStateUpdater::resetLevel()
 {
     this->logLevelReset();
+    StatisticsUpdater::getInstance()->resetLevelStatistics();
 }
 
 void GameStateUpdater::updateSpriteGrid()

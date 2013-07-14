@@ -21,8 +21,11 @@ Logic *Logic::getInstance()
 }
 
 Logic::Logic()
+:_controlledSprite(nullptr)
+,_restartScheduled(false)
+,_timeToRestart(0.0f)
 {
-    _controlledSprite = nullptr;
+
 }
 
 void Logic::update(float dt)
@@ -192,9 +195,26 @@ void Logic::update(float dt)
     _gameStateUpdater->updateSpriteGrid();
     _gameStateUpdater->update();
 
+    if (_restartScheduled)
+    {
+        _timeToRestart -= dt;
+
+        if (_timeToRestart <= 0.0f)
+        {
+            _restartScheduled = false;
+            _gameStateUpdater->resetLevel();
+        }
+    }
+
     //_state->getSpriteLayer()->print();
 }
 
+
+void Logic::scheduleLevelReset(float delay)
+{
+    _restartScheduled = true;
+    _timeToRestart = delay;
+}
 
 bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
 {
@@ -251,7 +271,7 @@ bool Logic::makeBombImpact(BBomb *bomb, int *penetration, Coordinates coords)
 
         if (sprite == _controlledSprite && sprite->getAttributes()->isDead())
         {
-            _gameStateUpdater->resetLevel();
+            this->scheduleLevelReset(2.0f);
         }
     }
 

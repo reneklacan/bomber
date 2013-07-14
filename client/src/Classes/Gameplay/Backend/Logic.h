@@ -17,6 +17,8 @@ namespace Bomber
                 void update(float dt);
                 void setState(GameState *state) { _state = state; };
 
+                void scheduleLevelReset(float delay);
+
                 void moveSprite(Position position);
                 void moveSprite(unsigned int id, Position position);
                 void moveSprite(GameObject *sprite, Position position);
@@ -43,6 +45,8 @@ namespace Bomber
                 GameState *_state;
                 GameStateUpdater *_gameStateUpdater;
                 Sprite *_controlledSprite;
+                bool _restartScheduled;
+                float _timeToRestart;
         };
     }
 }
