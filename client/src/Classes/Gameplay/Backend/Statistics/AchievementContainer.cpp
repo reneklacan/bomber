@@ -19,6 +19,38 @@ AchievementContainer* AchievementContainer::getInstance()
 AchievementContainer::AchievementContainer()
 {
     _allAchievementGroups = getGameAchievements();
+
+    for (auto group : _allAchievementGroups)
+    {
+        for (auto achievement : group->getAchievements())
+        {
+            for (auto condition : achievement->getConditions())
+            {
+                _achievementGroupMap[condition->getType()].insert(group);
+            }
+        }
+    }
+}
+
+void AchievementContainer::checkType(TAchievConditionType type, Statistics *statistics)
+{
+    for (AchievementGroup *group : _achievementGroupMap[type])
+    {
+        for (Achievement *achievement : group->getAchievements())
+        {
+            if (achievement->isUnlocked())
+                continue;
+
+            if (achievement->isComplete(statistics))
+            {
+                _newUnlocked.push_back(achievement);
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
 }
 
 void AchievementContainer::checkAll(Statistics *statistics)
