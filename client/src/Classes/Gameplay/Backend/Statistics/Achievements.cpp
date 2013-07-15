@@ -12,11 +12,12 @@ AchievementCondition::AchievementCondition(
         unsigned int amount,
         unsigned int timeLimit
 )
+:_type(type)
+,_kind(kind)
+,_amount(amount)
+,_timeLimit(timeLimit)
 {
-    _type = type;
-    _kind = kind;
-    _amount = amount;
-    _timeLimit = timeLimit;
+
 }
 
 bool AchievementCondition::evaluate(Statistics *statistics)
