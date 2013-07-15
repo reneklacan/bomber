@@ -322,6 +322,7 @@ void GUIUpdater::updateSpriteDestroy( Backend::GSCSpriteDestroy *spriteDestroy )
     {
         _batchNode->removeChild(_player, true); // WARNING
         _playerDestroyed = true;
+        return;
     }
     unsigned int id = spriteDestroy->getGameObjectId();
     _batchNode->removeChild(_mobs[id], true); // WARNING
