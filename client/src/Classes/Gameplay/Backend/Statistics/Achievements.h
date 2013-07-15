@@ -14,7 +14,10 @@ namespace Bomber
             KILLS,
             KILL_STREAKS,
             EFFECTS,
-            SKILL,
+            SKILLS,
+            OBSTACLES,
+            TELEPORTS,
+            LEVERS,
         };
 
         class AchievementCondition
@@ -27,6 +30,7 @@ namespace Bomber
                         unsigned int timeLimit
                 );
                 bool evaluate(Statistics *statistics);
+                inline TAchievConditionType getType() { return _type; };
 
             private:
                 TAchievConditionType _type;
@@ -56,10 +60,10 @@ namespace Bomber
                 bool _unlocked;
                 const char *_act;
                 const char *_level;
+                bool _evalOnEnd;
+                SYNTHESIZE(std::list<AchievementCondition *>, _conditions, Conditions);
                 SYNTHESIZE(const char *, _title, Title);
                 SYNTHESIZE(const char *, _description, Description);
-                bool _evalOnEnd;
-                std::list<AchievementCondition *> _conditions;
         };
 
         class AchievementGroup

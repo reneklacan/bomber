@@ -244,7 +244,7 @@ bool Logic::makeBombImpact(BBomb *bomb, Coordinates coords, int *penetration, in
             if (obstacles.size() > 0)
             {
                 // open "the bridge"
-                _gameStateUpdater->switchLeverOn(lever);
+                _gameStateUpdater->switchLeverOn(lever, bomb->getOwnerId());
 
                 for (auto obstacle : obstacles)
                 {
@@ -254,7 +254,7 @@ bool Logic::makeBombImpact(BBomb *bomb, Coordinates coords, int *penetration, in
             else
             {
                 // close "the bridge"
-                _gameStateUpdater->switchLeverOff(lever);
+                _gameStateUpdater->switchLeverOff(lever, bomb->getOwnerId());
 
                 unsigned int obstacleGid = 20;
                 _gameStateUpdater->spawnObstacle(obstacleGid, target->getCoords(), bomb->getId());
@@ -349,6 +349,7 @@ void Logic::setControlledSprite(unsigned int spriteId)
 {
     _controlledSprite = _state->getSpriteLayer()->getObject(spriteId);
     _controlledSprite->getAttributes()->reset();
+    StatisticsUpdater::getInstance()->setRelevantSpriteId(spriteId);
 }
 
 void Logic::setGameStateUpdater(GameStateUpdater *updater)
@@ -413,4 +414,33 @@ bool Logic::spawnBomb(Sprite *owner)
     _gameStateUpdater->spawnBomb(owner);
 
     return true;
+}
+
+void Logic::kickBomb(Coordinates coords, int direction)
+{
+
+}
+
+void Logic::pushBlock(Coordinates coords, int direction)
+{
+    if (!_controlledSprite->getAttributes()->getBlockPushing())
+        return;
+
+    auto blocks = _state->getObstacleLayer()->getObjectsAtCoords(coords);
+
+    if (blocks.size() > 1)
+        return;
+
+    auto block = blocks[0];
+
+    if (block->getToughness() < 0)
+        return;
+
+    Coordinates nextCoords = coords.getNext(direction);
+
+    if (_state->getObstacleLayer()->getObjectsAtCoords(nextCoords).size() > 0)
+        return;
+
+    _gameStateUpdater->destroyObstacle(block, _controlledSprite->getId());
+    _gameStateUpdater->spawnObstacle(block->getGid(), nextCoords, _controlledSprite->getId());
 }

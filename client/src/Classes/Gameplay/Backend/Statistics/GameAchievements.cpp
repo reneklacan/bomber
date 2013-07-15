@@ -9,6 +9,95 @@ using namespace Bomber::Backend;
 std::list<AchievementGroup *> Bomber::Backend::getGameAchievements()
 {
     GameAchievements *gameAchievements = new GameAchievements(
+        
+        /****************************
+        **   bomb achievements     **
+        *****************************/
+
+        new AchievementGroup(
+            new Achievement(
+                None, // act
+                None, // level
+                "Bombeeeer", // title
+                "Plant 5 bomb in overall", // descriptopn
+                false, // evaluate on the end of the game/act/level
+
+                new AchievementCondition(
+                    BOMBS, // type
+                    None, // kind
+                    5, // amount
+                    0 // time limit
+                ),
+                nullptr
+            ),
+            new Achievement(
+                None, // act
+                None, // level
+                "Bombeeeer 2", // title
+                "Plant 10 bomb in overall", // descriptopn
+                false, // evaluate on the end of the game/act/level
+
+                new AchievementCondition(
+                    BOMBS, // type
+                    None, // kind
+                    10, // amount
+                    0 // time limit
+                ),
+                nullptr
+            ),
+            nullptr
+        ),
+
+        /****************************
+        **   effect achievements   **
+        *****************************/
+
+        new AchievementGroup(
+            new Achievement(
+                None, // act
+                None, // level
+                "Pump it", // title
+                "Get your first buff", // descriptopn
+                false, // evaluate on the end of the game/act/level
+
+                new AchievementCondition(
+                    EFFECTS, // type
+                    None, // kind
+                    1, // amount
+                    0 // time limit
+                ),
+                nullptr
+            ),
+            nullptr
+        ),
+
+        /****************************
+        **    block achievements   **
+        *****************************/
+
+        new AchievementGroup(
+            new Achievement(
+                None, // act
+                None, // level
+                "Newbie destroyer", // title
+                "Destroy your first obstacle", // descriptopn
+                false, // evaluate on the end of the game/act/level
+
+                new AchievementCondition(
+                    OBSTACLES, // type
+                    None, // kind
+                    1, // amount
+                    0 // time limit
+                ),
+                nullptr
+            ),
+            nullptr
+        ),
+
+        /****************************
+        **    kill achievements    **
+        *****************************/
+
         new AchievementGroup(
             new Achievement(
                 None, // act
@@ -31,13 +120,13 @@ std::list<AchievementGroup *> Bomber::Backend::getGameAchievements()
             new Achievement(
                 None, // act
                 None, // level
-                "Pump it", // title
-                "Get your first buff", // descriptopn
+                "I dont like Fluffy", // title
+                "Kill Fluffy", // descriptopn
                 false, // evaluate on the end of the game/act/level
 
                 new AchievementCondition(
-                    EFFECTS, // type
-                    None, // kind
+                    KILLS, // type
+                    "Fluffy", // kind
                     1, // amount
                     0 // time limit
                 ),
@@ -78,52 +167,47 @@ std::list<AchievementGroup *> Bomber::Backend::getGameAchievements()
             ),
             nullptr
         ),
+
+        /****************************
+        **  teleport achievements  **
+        *****************************/
+
         new AchievementGroup(
             new Achievement(
                 None, // act
                 None, // level
-                "Bombeeeer", // title
-                "Plant 5 bomb in overall", // descriptopn
+                "I can teleport!", // title
+                "Use teleport for the first time", // descriptopn
                 false, // evaluate on the end of the game/act/level
 
                 new AchievementCondition(
-                    BOMBS, // type
+                    TELEPORTS, // type
                     None, // kind
-                    5, // amount
-                    0 // time limit
-                ),
-                nullptr
-            ),
-            new Achievement(
-                None, // act
-                None, // level
-                "Bombeeeer 2", // title
-                "Plant 10 bomb in overall", // descriptopn
-                false, // evaluate on the end of the game/act/level
-
-                new AchievementCondition(
-                    BOMBS, // type
-                    None, // kind
-                    10, // amount
+                    1, // amount
                     0 // time limit
                 ),
                 nullptr
             ),
             nullptr
         ),
+
+        /****************************
+        **  lever achievements  **
+        *****************************/
+
         new AchievementGroup(
             new Achievement(
-                "Act 1", // act
-                "Level 1", // level
-                "Fast Ghost killer", // title
-                "Kill 10 ghost in a one minute", // descriptopn
-                true, // evaluate on the end of the game/act/level
+                None, // act
+                None, // level
+                "Levering...", // title
+                "Use lever for the first time", // descriptopn
+                false, // evaluate on the end of the game/act/level
 
                 new AchievementCondition(
-                    KILLS, // type
-                    "Ghost", // kind
-                    10, // amount
-                    60 // time limit
+                    LEVERS, // type
+                    None, // kind
+                    1, // amount
+                    0 // time limit
                 ),
                 nullptr
             ),

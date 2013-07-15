@@ -36,6 +36,7 @@ void GameStateUpdater::moveSprite(Sprite *sprite, Position position)
 void GameStateUpdater::teleportSprite(Sprite *sprite, Position position)
 {
     sprite->setPosition(position);
+    StatisticsUpdater::getInstance()->teleportUsed(sprite->getId());
     this->logSpriteTeleport(sprite, position);
 }
 
@@ -172,13 +173,15 @@ void GameStateUpdater::update()
     }
 }
 
-void GameStateUpdater::switchLeverOn(GameObject *lever)
+void GameStateUpdater::switchLeverOn(GameObject *lever, unsigned int causerId)
 {
+    StatisticsUpdater::getInstance()->leverUsed(causerId);
     this->logLeverSwitchOn(lever);
 }
 
-void GameStateUpdater::switchLeverOff(GameObject *lever)
+void GameStateUpdater::switchLeverOff(GameObject *lever, unsigned int causerId)
 {
+    StatisticsUpdater::getInstance()->leverUsed(causerId);
     this->logLeverSwitchOff(lever);
 }
 

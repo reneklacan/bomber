@@ -44,12 +44,21 @@ void Keyboard::keyPressed(int keyCode)
         case KEY_ArrowLeft:
             _leftArrowPressed = true;
             break;
-
+            
         case KEY_Space:
             _gameActionDelefate->actionOne();
             break;
 
+        case KEY_E:
+            _gameActionDelefate->actionTwo();
+            break;
+
+        case KEY_Q:
+            _gameActionDelefate->actionThree();
+            break;
+
         default:
+            printf("unknown key %d\n", keyCode);
             return;
     }
 

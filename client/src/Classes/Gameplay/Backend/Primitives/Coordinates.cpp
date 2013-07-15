@@ -15,6 +15,20 @@ Coordinates::Coordinates(unsigned int x, unsigned int y)
     this->y = y;
 }
 
+bool Coordinates::operator==(const Coordinates &other) const
+{
+    if (this->x == other.x && this->y == other.y)
+        return true;
+    return false;
+}
+
+bool Coordinates::operator!=(const Coordinates &other) const
+{
+    if (this->x == other.x && this->y == other.y)
+        return false;
+    return true;
+}
+
 std::vector<Coordinates> Coordinates::getCoordsAround()
 {
     return this->getCoordsAround(1);
@@ -30,16 +44,19 @@ std::vector<Coordinates> Coordinates::getCoordsAround(unsigned int range)
     return around;
 }
 
-bool Coordinates::operator==(const Coordinates &other) const
+Coordinates Coordinates::getNext(int direction)
 {
-    if (this->x == other.x && this->y == other.y)
-        return true;
-    return false;
-}
+    if (direction == UP)
+        return Coordinates(this->x, this->y + 1);
 
-bool Coordinates::operator!=(const Coordinates &other) const
-{
-    if (this->x == other.x && this->y == other.y)
-        return false;
-    return true;
+    else if (direction == DOWN)
+        return Coordinates(this->x, this->y - 1);
+
+    else if (direction == LEFT)
+        return Coordinates(this->x - 1, this->y);
+
+    else if (direction == RIGHT)
+        return Coordinates(this->x + 1, this->y);
+
+    return *this;
 }

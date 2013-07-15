@@ -31,9 +31,8 @@ namespace Bomber
 
                 bool makeBombImpact(BBomb *bomb, Coordinates coords, int *penetration, int *spritesKilled);
 
-                void logSpriteMove(GameObject *sprite, Position &from, Position &to);
-                void logBombSpawn(BBomb *bomb);
-                void logExplosionSpawn(ExplodableObject *explObj);
+                void kickBomb(Coordinates coords, int direction);
+                void pushBlock(Coordinates coords, int direction);
                 
                 void setControlledSprite(unsigned int id);
                 void setGameStateUpdater(GameStateUpdater *updater);

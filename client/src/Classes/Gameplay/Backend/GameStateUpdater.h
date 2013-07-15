@@ -38,8 +38,8 @@ namespace Bomber
                 void update();
                 void updateSpriteAttributes(Sprite *sprite, Effect *effect);
                 
-                void switchLeverOn(GameObject *lever);
-                void switchLeverOff(GameObject *lever);
+                void switchLeverOn(GameObject *lever, unsigned int causerId);
+                void switchLeverOff(GameObject *lever, unsigned int causerId);
                 
                 void damageSprite(Sprite *sprite, unsigned int causerId, int damage);
                 void damageObstacle(Obstacle *obstacle, unsigned int causerId);

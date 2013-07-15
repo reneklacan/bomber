@@ -24,28 +24,53 @@ bool AchievementCondition::evaluate(Statistics *statistics)
     switch (_type)
     {
         case BOMBS:
-            if (statistics->getBombSpawns() == _amount)
+            if (_kind == nullptr && statistics->getBombSpawns() >= _amount)
             {
                 return true;
             }
             break;
 
         case KILLS:
-            if (statistics->getTotalKills() == _amount)
+            if (statistics->getKills(_kind) >= _amount)
             {
                 return true;
             }
+
             return false;
 
         case EFFECTS:
-            if (statistics->getTotalEffects() == _amount)
+            if (_kind == nullptr && statistics->getTotalEffects() >= _amount)
             {
                 return true;
             }
             return false;
 
         case KILL_STREAKS:
-            if (statistics->getKillStreaks() == _amount)
+            if (_kind == nullptr && statistics->getKillStreaks() >= _amount)
+            {
+                return true;
+            }
+            return false;
+
+        case SKILLS:
+            return false;
+
+        case OBSTACLES:
+            if (_kind == nullptr && statistics->getTotalObstacles() >= _amount)
+            {
+                return true;
+            }
+            return false;
+
+        case TELEPORTS:
+            if (statistics->getTeleportUses() >= _amount)
+            {
+                return true;
+            }
+            return false;
+
+        case LEVERS:
+            if (statistics->getLeverUses() >= _amount)
             {
                 return true;
             }

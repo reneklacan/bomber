@@ -1,6 +1,7 @@
 #ifndef __BOMBER_BACKEND_ACHIEVEMENT_CONTAINER
 #define __BOMBER_BACKEND_ACHIEVEMENT_CONTAINER
 
+#include <set>
 #include <list>
 #include <deque>
 #include "Statistics.h"
@@ -15,14 +16,19 @@ namespace Bomber
         {
             public:
                 static AchievementContainer *getInstance();
-                void checkAll(Statistics *);
+
+                void checkType(TAchievConditionType type, Statistics *statistics);
+                void checkAll(Statistics *statistics);
                 std::list<Achievement *> getNewUnlocked();
                 bool isNewQueueEmpty() { return !_newUnlocked.size(); };
 
             private:
                 static AchievementContainer *_instance;
+
                 AchievementContainer();
+
                 std::list<AchievementGroup *> _allAchievementGroups;
+                std::map<TAchievConditionType, std::set<AchievementGroup *> > _achievementGroupMap;
                 std::deque<Achievement *> _newUnlocked;
         };
     }

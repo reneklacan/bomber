@@ -19,6 +19,7 @@ StatisticsUpdater::StatisticsUpdater()
 {
     _levelStatistics = new Statistics();
     _gameStatistics = new Statistics();
+    _relevantSpriteId = 0;
 }
 
 void StatisticsUpdater::resetLevelStatistics()
@@ -37,40 +38,72 @@ void StatisticsUpdater::updateKillStreaks(int mobKills)
         return;
 
     _gameStatistics->setKillStreaks(mobKills);
-
-    AchievementContainer::getInstance()->checkAll(_gameStatistics); // TODO: check only related groups
+    
+    AchievementContainer::getInstance()->checkType(KILL_STREAKS, _gameStatistics);
 }
 
 void StatisticsUpdater::bombSpawned(unsigned int ownerId, BBomb *bomb)
 {
+    if (ownerId != _relevantSpriteId)
+        return;
+
     _levelStatistics->increaseBombSpawns();
     _gameStatistics->increaseBombSpawns();
-
-    AchievementContainer::getInstance()->checkAll(_gameStatistics); // TODO: check only related groups
+    
+    AchievementContainer::getInstance()->checkType(BOMBS, _gameStatistics);
 }
 
 void StatisticsUpdater::effectTaken(unsigned int ownerId, Effect *effect)
 {
+    if (ownerId != _relevantSpriteId)
+        return;
+
     _levelStatistics->increaseEffects(effect->getName());
     _gameStatistics->increaseEffects(effect->getName());
-
-    AchievementContainer::getInstance()->checkAll(_gameStatistics); // TODO: check only related groups
+    
+    AchievementContainer::getInstance()->checkType(EFFECTS, _gameStatistics);
 }
 
 void StatisticsUpdater::monsterKilled(unsigned int ownerId, Sprite *monster)
 {
+    if (ownerId != _relevantSpriteId)
+        return;
+
     _levelStatistics->increaseKills(monster->getName());
     _gameStatistics->increaseKills(monster->getName());
-
-    AchievementContainer::getInstance()->checkAll(_gameStatistics); // TODO: check only related groups
+    
+    AchievementContainer::getInstance()->checkType(KILLS, _gameStatistics);
 }
 
 void StatisticsUpdater::obstacleDestroyed(unsigned int ownerId, Obstacle *obstacle)
 {
+    if (ownerId != _relevantSpriteId)
+        return;
+
     _levelStatistics->increaseObstacles(obstacle->getName());
     _gameStatistics->increaseObstacles(obstacle->getName());
+    
+    AchievementContainer::getInstance()->checkType(OBSTACLES, _gameStatistics);
+}
 
-    AchievementContainer::getInstance()->checkAll(_gameStatistics); // TODO: check only related groups
+void StatisticsUpdater::teleportUsed(unsigned int ownerId)
+{
+    if (ownerId != _relevantSpriteId)
+        return;
 
-    _levelStatistics->print();
+    _levelStatistics->increaseTeleportUses();
+    _gameStatistics->increaseTeleportUses();
+    
+    AchievementContainer::getInstance()->checkType(TELEPORTS, _gameStatistics);
+}
+
+void StatisticsUpdater::leverUsed(unsigned int ownerId)
+{
+    if (ownerId != _relevantSpriteId)
+        return;
+
+    _levelStatistics->increaseLeverUses();
+    _gameStatistics->increaseLeverUses();
+    
+    AchievementContainer::getInstance()->checkType(LEVERS, _gameStatistics);
 }

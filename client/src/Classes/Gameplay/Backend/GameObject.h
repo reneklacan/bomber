@@ -19,7 +19,6 @@ namespace Bomber
                 virtual void update(float dt) {};
                 bool collides(GameObject *object);
                 
-                inline const char *getName() { return _name; };
                 virtual void setPosition(int x, int y);
                 virtual void setPosition(Position position);
                 virtual void setSize(int width, int height);
@@ -38,12 +37,12 @@ namespace Bomber
                 virtual bool hasCircleCollider() { return _circleCollider; };
 
             protected:
-                const char *_name;
                 Position _position;
                 Size _size;
                 bool _circleCollider;
                 bool _dirty;
                 bool _active;
+                SYNTHESIZE(const char *, _name, Name);
                 SYNTHESIZE(unsigned int, _id, Id);
                 SYNTHESIZE(unsigned int, _gid, Gid);
                 SYNTHESIZE(Coordinates, _currentCoords, CurrentCoords);

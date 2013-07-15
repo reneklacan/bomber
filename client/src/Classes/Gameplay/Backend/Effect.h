@@ -19,6 +19,8 @@ namespace Bomber
             EFFECT_PORTABILITY_OFF,
             EFFECT_HEALTH_INC,
             EFFECT_HEALTH_DEC,
+            EFFECT_SPEED_INC,
+            EFFECT_SPEED_DEC,
         };
 
         class Effect : public GameObject
@@ -30,6 +32,7 @@ namespace Bomber
                 {
                     _name = "effect none";
                     _type = EFFECT_NONE;
+                    _charges = 1;
                 };
                 virtual void applyToSprite(Sprite *sprite) = 0;
                 virtual void log()
@@ -49,7 +52,6 @@ namespace Bomber
                 {
                     _name = "effect flame inc";
                     _type = EFFECT_BOMB_POWER_INC;
-                    _charges = 1;
                 };
                 virtual void applyToSprite(Sprite *sprite)
                 {
@@ -134,6 +136,38 @@ namespace Bomber
                 virtual void applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->decreaseHealth();
+                    _charges -= 1;
+                }
+        };
+
+        class EffectSpeedInc : public Effect
+        {
+            public:
+                EffectSpeedInc() : Effect()
+                {
+                    _name = "effect speed inc";
+                    _type = EFFECT_SPEED_INC;
+                    _charges = 1;
+                };
+                virtual void applyToSprite(Sprite *sprite)
+                {
+                    sprite->getAttributes()->increaseSpeed();
+                    _charges -= 1;
+                }
+        };
+
+        class EffectSpeedDec : public Effect
+        {
+            public:
+                EffectSpeedDec() : Effect()
+                {
+                    _name = "effect speed inc";
+                    _type = EFFECT_SPEED_DEC;
+                    _charges = 1;
+                };
+                virtual void applyToSprite(Sprite *sprite)
+                {
+                    sprite->getAttributes()->decreaseSpeed();
                     _charges -= 1;
                 }
         };
