@@ -26,6 +26,8 @@ namespace Bomber
                     _damageModifier = 1;
                     _portability = true;
                     _ghostMode = false;
+                    _bombKicking = true;
+                    _blockPushing = true;
                 }
                 void increaseBombPower() { _bombPower += 1; };
                 void decreaseBombPower() { _bombPower -= 1; };
@@ -51,6 +53,8 @@ namespace Bomber
                 SYNTHESIZE(float, _damageModifier, DamageModifier);
                 SYNTHESIZE(bool, _portability, Portability);
                 SYNTHESIZE(bool, _ghostMode, GhostMode);
+                SYNTHESIZE(bool, _bombKicking, BombKicking);
+                SYNTHESIZE(bool, _blockPushing, BlockPushing);
         };
     }
 }

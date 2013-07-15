@@ -415,3 +415,32 @@ bool Logic::spawnBomb(Sprite *owner)
 
     return true;
 }
+
+void Logic::kickBomb(Coordinates coords, int direction)
+{
+
+}
+
+void Logic::pushBlock(Coordinates coords, int direction)
+{
+    if (!_controlledSprite->getAttributes()->getBlockPushing())
+        return;
+
+    auto blocks = _state->getObstacleLayer()->getObjectsAtCoords(coords);
+
+    if (blocks.size() > 1)
+        return;
+
+    auto block = blocks[0];
+
+    if (block->getToughness() < 0)
+        return;
+
+    Coordinates nextCoords = coords.getNext(direction);
+
+    if (_state->getObstacleLayer()->getObjectsAtCoords(nextCoords).size() > 0)
+        return;
+
+    _gameStateUpdater->destroyObstacle(block, _controlledSprite->getId());
+    _gameStateUpdater->spawnObstacle(block->getGid(), nextCoords, _controlledSprite->getId());
+}

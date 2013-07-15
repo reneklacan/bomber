@@ -8,6 +8,7 @@ using namespace Bomber::Backend;
 void Obstacle::configureFromGid(unsigned int gid)
 {
     _name = "wut";
+    _gid = gid;
 
     if (gid == 20)
     {
