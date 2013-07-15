@@ -2,7 +2,6 @@
 #define __BOMBER_BACKEND_MOVEMENT
 
 #include "Macros.h"
-#include "Primitives\Position.h"
 #include "GameObject.h"
 
 namespace Bomber
