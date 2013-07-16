@@ -447,6 +447,9 @@ void Logic::kickBomb(Coordinates coords, int direction)
     if (!_controlledSprite->getAttributes()->getBombKicking())
         return;
 
+    if(_state->getBombLayer()->getObjectsAtCoords(coords).size() == 0)
+        return;
+
     Coordinates goalCoords = coords;
     Coordinates nextCoords = coords;
 

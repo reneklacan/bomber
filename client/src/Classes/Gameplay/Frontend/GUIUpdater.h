@@ -61,11 +61,13 @@ namespace Bomber
             void updateEffectSpawn( Backend::GSCEffectSpawn *effectSpawn );
             void updateLevelReset( Backend::GSCLevelReset *levelReset );
             void updateLevelFinish( Backend::GSCLevelFinish *levelFinish );
+            void updateBombMove( Backend::GSCBombMove *bombMove );
 
             void initLayers();
             void initPlayer();
             Rect pickImageFromTexture(unsigned int id);
             bool evalCollision(Point nextPoint, Backend::TDirection direction);
+            Sprite *getBombAtPosition(int x, int y);
 
             unsigned int _lastChangeID;
             Map* _map;
@@ -78,6 +80,7 @@ namespace Bomber
             std::map<unsigned int, Sprite *> _effects;
             std::map<unsigned int, Sprite *> _bombs;
 
+            std::map<unsigned int, Point> _collisionFreeAreas;
             SpriteBatchNode* _batchNode;
             bool _resetNow;
             GUICache *_cache;

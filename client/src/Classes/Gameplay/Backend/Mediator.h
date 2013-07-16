@@ -23,6 +23,7 @@ namespace Bomber
                 GameState *getState() { return _state; }
 
                 void pushObstacle(Coordinates coords, TDirection direction);
+                void kickBomb(Coordinates coords, TDirection direction);
 
             private:
                 Mediator();
