@@ -164,6 +164,7 @@
     <ClCompile Include="..\Classes\Gameplay\Frontend\Map\Map.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Frontend\Sprites\GameSprite.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Frontend\Sprites\Human.cpp" />
+    <ClCompile Include="..\Classes\Gameplay\Frontend\Sprites\SpriteCreator.cpp" />
     <ClCompile Include="..\Classes\Input\ControlLayer.cpp" />
     <ClCompile Include="..\Classes\Input\Keyboard\Keyboard.cpp" />
     <ClCompile Include="..\Classes\Input\Touch\Joystick.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="..\Classes\Gameplay\Frontend\Map\Map.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\GameSprite.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\Human.h" />
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\SpriteCreator.h" />
     <ClInclude Include="..\Classes\Input\ActionDelegates.h" />
     <ClInclude Include="..\Classes\Input\ActionDispatcher.h" />
     <ClInclude Include="..\Classes\Input\ControlLayer.h" />
