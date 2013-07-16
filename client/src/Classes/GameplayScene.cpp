@@ -40,33 +40,7 @@ bool GameplayScene::init()
     _levelLayer = LevelLayer::create();
     this->addChild(_levelLayer);
 
-    // Create a "close" menu item with close icon, it's an auto release object.
-    MenuItemImage *pCloseItem = MenuItemImage::create(
-            "CloseNormal.png",
-            "CloseSelected.png",
-            this,
-            menu_selector(GameplayScene::menuCloseCallback)
-    );
-    if (!pCloseItem)
-        return false;
-
-    Size visibleSize = Director::sharedDirector()->getVisibleSize();
-    Point origin = Director::sharedDirector()->getVisibleOrigin();
-    
-    pCloseItem->setPosition(
-            ccp(
-                origin.x + visibleSize.width - pCloseItem->getContentSize().width/2,
-                origin.y + pCloseItem->getContentSize().height/2
-            )
-    );
-
-    // Create a menu with the "close" menu item, it's an auto release object.
-    Menu* pMenu = Menu::create(pCloseItem, NULL);
-    pMenu->setPosition(PointZero);
-    if (!pMenu)
-        return false;
-
-    // Add the menu to GameplayScene layer as a child layer.
+    return true;
 }
 
 void GameplayScene::menuCloseCallback(Object* pSender)

@@ -11,6 +11,7 @@ namespace Bomber
         class ExplodableObject : public GameObject
         {
             public:
+                ExplodableObject() : GameObject() {};
                 virtual bool isDetonated() { return _detonated; };
                 virtual bool isExplodable() { return true; };
                 virtual void detonate() { _detonated = true; };

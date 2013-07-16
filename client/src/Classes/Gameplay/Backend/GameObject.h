@@ -27,6 +27,7 @@ namespace Bomber
                 virtual Coordinates getCoords();
                 virtual bool isBombPotent() { return false; };
                 virtual bool isExplodable() { return false; };
+                bool isInMovement() { return _inMovement; };
                 bool isDirty() { return _dirty; };
                 void setDirty(bool dirty) { _dirty = dirty; };
                 bool isActive() { return _active; };
@@ -42,6 +43,7 @@ namespace Bomber
                 bool _circleCollider;
                 bool _dirty;
                 bool _active;
+                SYNTHESIZE(bool, _inMovement, InMovement);
                 SYNTHESIZE(const char *, _name, Name);
                 SYNTHESIZE(unsigned int, _id, Id);
                 SYNTHESIZE(unsigned int, _gid, Gid);

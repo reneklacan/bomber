@@ -214,9 +214,9 @@ namespace Bomber
             printf("%s\n", _name);
             printf("----------\n");
             
-            for (int iy = _height - 1; iy >= 0; iy--)
+            for (unsigned int iy = _height - 1; iy >= 0; iy--)
             {
-                for (int ix = 0; ix < _width; ix++)
+                for (unsigned int ix = 0; ix < _width; ix++)
                 {
                     printf("%lu ", this->getObjectsAtCoords(ix, iy).size());
                 }

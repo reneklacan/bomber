@@ -183,6 +183,9 @@
     <ClCompile Include="..\Classes\Gameplay\Frontend\Sprites\SpriteCreator.cpp">
       <Filter>Classes\Gameplay\Frontend\Sprites</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Frontend\Collisions.cpp">
+      <Filter>Classes\Gameplay\Frontend</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -367,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\SpriteCreator.h">
       <Filter>Classes\Gameplay\Frontend\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Collisions.h">
+      <Filter>Classes\Gameplay\Frontend</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

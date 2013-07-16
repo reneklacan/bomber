@@ -66,16 +66,16 @@ namespace Bomber
                 Position getNext(float step, int direction)
                 {
                     if (direction == UP)
-                        return Position(this->x, this->x + step);
+                        return Position(this->x, this->y + step);
 
                     if (direction == DOWN)
-                        return Position(this->x, this->x - step);
+                        return Position(this->x, this->y - step);
 
                     if (direction == LEFT)
-                        return Position(this->x - step, this->x);
+                        return Position(this->x - step, this->y);
 
                     if (direction == RIGHT)
-                        return Position(this->x + step, this->x);
+                        return Position(this->x + step, this->y);
 
                     return *this;
                 }

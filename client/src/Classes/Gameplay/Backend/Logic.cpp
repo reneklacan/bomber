@@ -36,6 +36,7 @@ void Logic::update(float dt)
     this->updateSprites(dt);
 
     _gameStateUpdater->updateSpriteGrid();
+    _state->getBombLayer()->updateGrid();
     _gameStateUpdater->update();
 
     if (_restartScheduled)
@@ -457,8 +458,11 @@ void Logic::kickBomb(Coordinates coords, int direction)
     while (true)
     {
         nextCoords = nextCoords.getNext(direction);
-
+        
         if (_state->getObstacleLayer()->getObjectsAtCoords(nextCoords).size() > 0)
+            break;
+
+        if (_state->getBombLayer()->getObjectsAtCoords(nextCoords).size() > 0)
             break;
 
         goalCoords = nextCoords;
@@ -468,6 +472,10 @@ void Logic::kickBomb(Coordinates coords, int direction)
         return;
 
     BBomb *bomb = _state->getBombLayer()->getObjectsAtCoords(coords)[0];
+
+    if (bomb->isInMovement())
+        return;
+
     Movement *movement = new Movement(bomb, goalCoords, direction, 200);
     _movements.insert(movement);
 }

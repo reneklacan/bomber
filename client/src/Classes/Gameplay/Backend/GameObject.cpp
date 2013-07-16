@@ -8,6 +8,7 @@ using namespace Bomber::Backend;
 
 GameObject::GameObject()
 :_active(true)
+,_inMovement(false)
 ,_dirty(false)
 ,_circleCollider(false)
 ,_id(0)

@@ -19,7 +19,7 @@ namespace Bomber
                 void resetLevelStatistics();
 
                 void updateMobsAlive(int mobsAlive);
-                void updateKillStreaks(int mobKills);
+                void updateKillStreaks(unsigned int mobKills);
                 void bombSpawned(unsigned int ownerId, BBomb *bomb);
                 void effectTaken(unsigned int ownerId, Effect *effect);
                 void monsterKilled(unsigned int ownerId, Sprite *monster);

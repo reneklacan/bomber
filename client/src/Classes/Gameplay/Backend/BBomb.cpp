@@ -6,7 +6,7 @@
 
 using namespace Bomber::Backend;
 
-BBomb::BBomb()
+BBomb::BBomb() : ExplodableObject()
 {
     _expired = 0.0f;
     _detonated = false;

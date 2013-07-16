@@ -21,11 +21,15 @@ Movement::Movement(GameObject *object, Coordinates goalCoords, int direction, in
 ,_object(object)
 ,_start(object->getPosition())
 ,_current(_start)
-,_goal(Position(goalCoords.x*TILE_WIDTH, goalCoords.y*TILE_HEIGHT))
 ,_direction(direction)
 ,_speed(speed)
 {
+    _object->setInMovement(true);
 
+    _goal = Position(
+        _start.x + (goalCoords.x - _object->getCoords().x)*TILE_WIDTH,
+        _start.y + (goalCoords.y - _object->getCoords().y)*TILE_HEIGHT
+    );
 }
 
 void Movement::update(float dt)
@@ -37,11 +41,14 @@ void Movement::update(float dt)
     _current = _current.getNext(step, _direction);
     _object->setPosition(_current);
 
+    //printf("Movement::Movement _current pos x=%g, y=%g\n", _current.x, _current.y);
+
     Position delta = _goal - _current;
 
-    if (delta < 2*step && delta > -2*step)
+    if (((_direction == UP || _direction == DOWN) && fabs(delta.y) < 2*step) || ((_direction == LEFT || _direction == RIGHT) && fabs(delta.x) < 2*step))
     {
-        _object->setPosition(_goal);
+        //_object->setPosition(_goal);
+        _object->setInMovement(false);
         _finished = true;
     }
 }

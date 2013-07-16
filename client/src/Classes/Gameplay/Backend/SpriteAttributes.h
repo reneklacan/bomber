@@ -17,7 +17,7 @@ namespace Bomber
                 void reset()
                 {
                     _bombPower = 2;
-                    _bombTimeout = 2.0f;
+                    _bombTimeout = 3.0f;
                     _bombPenetration = 1;
                     _bombDamage = 110;
                     _bombCapacity = 2;

@@ -32,7 +32,7 @@ void StatisticsUpdater::updateMobsAlive(int mobsAlive)
     _levelStatistics->setMobsAlive(mobsAlive);
 }
 
-void StatisticsUpdater::updateKillStreaks(int mobKills)
+void StatisticsUpdater::updateKillStreaks(unsigned int mobKills)
 {
     if (mobKills <= _gameStatistics->getKillStreaks())
         return;

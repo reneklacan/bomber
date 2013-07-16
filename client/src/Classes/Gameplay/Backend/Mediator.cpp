@@ -59,6 +59,6 @@ void Mediator::pushObstacle(Coordinates coords, TDirection direction)
 
 void Mediator::kickBomb(Coordinates coords, TDirection direction)
 {
-    std::cout << "KICK: [" << coords.x << ", " << coords.y << "] direction = " << direction << "\n";
+    //std::cout << "KICK: [" << coords.x << ", " << coords.y << "] direction = " << direction << "\n";
     Logic::getInstance()->kickBomb(coords, direction);
 }
