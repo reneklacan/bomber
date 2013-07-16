@@ -159,6 +159,11 @@ void GUIUpdater::update(Point playerPosition)
                 this->updateLevelFinish( (Backend::GSCLevelFinish *)GSChange );
             }
             break;
+            case Backend::BOMB_MOVE:
+            {
+                this->updateBombMove( (Backend::GSCBombMove *)GSChange );
+            }
+            break;
             // Nothing    
             default: {}
         }
@@ -244,6 +249,9 @@ void GUIUpdater::updateBombSpawn(Backend::GSCBombSpawn *bombSpawn)
     
     _batchNode->addChild(_bombs[ id ], 0);
     _batchNode->reorderChild(_bombs[ id ], _map->getHeight()*TILE_HEIGHT - bombSpawnPosition.y);
+
+    // for kicking
+    _collisionFreeAreas[id] = bombSpawnPosition;
     return;
 }
 
@@ -457,7 +465,7 @@ void GUIUpdater::updateEffectSpawn( Backend::GSCEffectSpawn *effectSpawn )
 //
 void GUIUpdater::updateLevelReset( Backend::GSCLevelReset *levelReset )
 {
-    _resetNow = true; 
+    _resetNow = true;
     return;
 }
 
@@ -465,6 +473,14 @@ void GUIUpdater::updateLevelReset( Backend::GSCLevelReset *levelReset )
 void GUIUpdater::updateLevelFinish( Backend::GSCLevelFinish *levelFinish )
 {
     _resetNow = true; 
+    return;
+}
+
+//
+void GUIUpdater::updateBombMove( Backend::GSCBombMove *bombMove )
+{
+    unsigned int id = bombMove->getGameObjectId();
+    _bombs[ id ]->setPosition( ccp( bombMove->getPosition().x, bombMove->getPosition().y) );
     return;
 }
 
@@ -495,6 +511,24 @@ bool GUIUpdater::obstacleExists(unsigned int id)
         return true;
     }
     return false;
+}
+
+Sprite *GUIUpdater::getBombAtPosition(int x, int y)
+{
+    Sprite *result = NULL;
+    for(auto bomb : _bombs)
+    {
+        Point pos = bomb.second->getPosition();
+        if( ((int)pos.x/TILE_WIDTH == x) && ((int)pos.y/TILE_HEIGHT == y) )
+        {
+            if(_collisionFreeAreas.find(bomb.first) == _collisionFreeAreas.end())
+            {
+                result = dynamic_cast<Sprite *>(bomb.second);
+                return result;
+            }
+        }
+    }
+    return result;
 }
 
 
@@ -537,6 +571,19 @@ std::vector<bool> GUIUpdater::evalCollisions(Point currentPoint, Point nextPoint
         directionY = Backend::DOWN;
     }
 
+    std::vector<unsigned int> toRemove;
+    for(auto freeArea : _collisionFreeAreas)
+    {
+        if( abs(currentPoint.x - freeArea.second.x) > 80 ||
+            abs(currentPoint.y - freeArea.second.y) > 50 )
+        {
+            toRemove.push_back(freeArea.first);
+        }
+    }
+    for(auto idToRemove : toRemove)
+    {
+        _collisionFreeAreas.erase(idToRemove);
+    } 
 
     // Evaluation
     result[1] = this->evalCollision(nextPointX, directionX);
@@ -619,6 +666,65 @@ bool GUIUpdater::evalCollision(Point nextPoint, Backend::TDirection direction)
         );
         _mediator->pushObstacle(coords, direction);
         result = true;
+    }
+
+    // FOR BOMBS - will be in new class !!!
+
+    // Collision area
+    widthLeft = 28;
+    widthRight = 30;
+    heightTop = 7;
+    heightBottom = 0;
+    offsetX = 0;
+    offsetY = 0;
+
+    // Top Left
+    offsetX = (nextPoint.x - widthLeft) / TILE_WIDTH;
+    offsetY = (nextPoint.y + heightTop) / TILE_HEIGHT;
+    auto bomb = this->getBombAtPosition(offsetX, offsetY);
+    if( bomb != NULL)
+    {
+        Backend::Coordinates coords = Backend::Coordinates(
+            bomb->getPosition().x / TILE_WIDTH,
+            bomb->getPosition().y / TILE_HEIGHT
+        );
+        _mediator->kickBomb(coords, direction);
+    }
+    // Top Right
+    offsetX = (nextPoint.x + widthRight) / TILE_WIDTH;
+    bomb = this->getBombAtPosition(offsetX, offsetY);
+    if( bomb != NULL)
+    {
+        Backend::Coordinates coords = Backend::Coordinates(
+            bomb->getPosition().x / TILE_WIDTH,
+            bomb->getPosition().y / TILE_HEIGHT
+        );
+        _mediator->kickBomb(coords, direction);
+    }
+
+    // Bottom Left
+    offsetX = (nextPoint.x - widthLeft) / TILE_WIDTH;
+    offsetY = (nextPoint.y - heightBottom) / TILE_HEIGHT;
+    bomb = this->getBombAtPosition(offsetX, offsetY);
+    if( bomb != NULL)
+    {
+        Backend::Coordinates coords = Backend::Coordinates(
+            bomb->getPosition().x / TILE_WIDTH,
+            bomb->getPosition().y / TILE_HEIGHT
+        );
+        _mediator->kickBomb(coords, direction);
+    }
+
+    // Bottom Right
+    offsetX = (nextPoint.x + widthRight) / TILE_WIDTH;
+    bomb = this->getBombAtPosition(offsetX, offsetY);
+    if( bomb != NULL)
+    {
+        Backend::Coordinates coords = Backend::Coordinates(
+            bomb->getPosition().x / TILE_WIDTH,
+            bomb->getPosition().y / TILE_HEIGHT
+        );
+        _mediator->kickBomb(coords, direction);
     }
 
     return result;
