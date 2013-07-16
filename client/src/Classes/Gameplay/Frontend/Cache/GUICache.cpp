@@ -55,13 +55,139 @@ void GUICache::cacheAllLayers(Map* map)
 }
 
 //
-void GUICache::cacheObstacle()
+void GUICache::cacheObstacle(Sprite * sprite)
 {
+    if( _obstacleCache.size() < MAX_CACHED_ITEMS )
+    {
+        _obstacleCache.push_back(sprite);
+    }
+    else
+    {
+        delete sprite;
+    }
     return;
 }
 
 //
-void GUICache::cacheSprite()
+void GUICache::cacheSprite(Sprite *sprite)
 {
+    if( _mobCache.size() < MAX_CACHED_ITEMS )
+    {
+        _mobCache.push_back(sprite);
+    }
+    else
+    {
+        delete sprite;
+    }
     return;
+}
+
+//
+bool GUICache::cacheEffect(Sprite *sprite)
+{
+    if( _effectCache.size() < MAX_CACHED_ITEMS )
+    {
+        sprite->setVisible(false);
+        sprite->setPosition( ccp(0, 0) );
+        _effectCache.push_back(sprite);
+        return true;
+    }
+    return false;
+}
+
+
+//
+void GUICache::cacheBomb(Sprite *sprite)
+{
+    if( _bombCache.size() < MAX_CACHED_ITEMS )
+    {
+        _bombCache.push_back(sprite);
+    }
+    else
+    {
+        delete sprite;
+    }
+    return;
+}
+
+//
+Sprite *GUICache::getObstacle()
+{
+    Sprite *result;
+    if( !_obstacleCache.empty() )
+    {
+        result = _obstacleCache.back();
+        _obstacleCache.pop_back();
+    }
+    else
+    {
+        result = _creator->createObstacle();
+    }
+    return result;
+}
+
+//
+Sprite *GUICache::getSprite()
+{
+    Sprite *result;
+    if( !_mobCache.empty() )
+    {
+        result = _mobCache.back();
+        _mobCache.pop_back();
+    }
+    else
+    {
+        result = _creator->createSprite();
+    }
+    return result;
+}
+
+//
+Sprite *GUICache::getEffect(Texture2D *texture, Rect rect)
+{
+    Sprite *effect;
+    if( !_effectCache.empty() )
+    {
+        effect = _effectCache.back();
+        _effectCache.pop_back();
+        effect->setTextureRect( rect );
+        effect->setVisible(true);
+    }
+    else
+    {
+        effect = _creator->createEffect(texture, rect);
+        // Add to Batch Node
+        _batchNode->addChild(effect);
+    }
+    return effect;   
+}
+
+//
+Sprite *GUICache::getBomb()
+{
+    Sprite *result;
+    if( !_bombCache.empty() )
+    {
+        result = _bombCache.back();
+        _bombCache.pop_back();
+    }
+    else
+    {
+        result = _creator->createBomb();
+    }
+    return result;
+}
+
+void GUICache::resetSprites()
+{
+    _obstacleCache.clear();
+    _mobCache.clear();
+    _effectCache.clear();
+    _bombCache.clear();
+}
+
+//
+void GUICache::setBatchNode(SpriteBatchNode* batchNode)
+{
+    _batchNode = batchNode;
 }

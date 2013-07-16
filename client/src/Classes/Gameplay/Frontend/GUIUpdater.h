@@ -13,6 +13,7 @@
 #include "../Backend/Mediator.h"
 #include "../Backend/Bomber.h"
 #include "../Backend/Effect.h"
+#include "../Backend/Primitives/Direction.h"
 
 #include "../../Constants.h"
 #include "GUIConstants.h"
@@ -37,6 +38,7 @@ namespace Bomber
             std::vector<bool> evalCollisions(Point currentPoint, Point nextPoint);
             void resetGUI();
             bool isResetSet() {return _resetNow; }
+            bool obstacleExists(unsigned int id);
 
         private:
             GUIUpdater(): _lastChangeID(0), _batchNode(NULL) {};
@@ -63,7 +65,7 @@ namespace Bomber
             void initLayers();
             void initPlayer();
             Rect pickImageFromTexture(unsigned int id);
-            bool evalCollision(Point nextPoint);
+            bool evalCollision(Point nextPoint, Backend::TDirection direction);
 
             unsigned int _lastChangeID;
             Map* _map;
@@ -78,6 +80,8 @@ namespace Bomber
 
             SpriteBatchNode* _batchNode;
             bool _resetNow;
+            GUICache *_cache;
+            Backend::Mediator *_mediator;
         };
     }
 }

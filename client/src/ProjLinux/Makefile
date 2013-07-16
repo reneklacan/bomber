@@ -46,6 +46,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Frontend/Map/Explosion.cpp \
         ../Classes/Gameplay/Frontend/Sprites/GameSprite.cpp \
         ../Classes/Gameplay/Frontend/Sprites/Human.cpp \
+        ../Classes/Gameplay/Frontend/Sprites/SpriteCreator.cpp \
         ../Classes/Gameplay/Frontend/Cache/GUICache.cpp \
         ../Classes/Menu/MainMenuLayer.cpp \
         ../Classes/Menu/SettingsLayer.cpp \

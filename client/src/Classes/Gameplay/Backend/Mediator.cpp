@@ -51,3 +51,9 @@ void Mediator::spawnBomb()
 {
     Logic::getInstance()->spawnBomb();
 }
+
+void Mediator::pushObstacle(Coordinates coords, TDirection direction)
+{
+    std::cout << "PUSH: [" << coords.x << ", " << coords.y << "] direction = " << direction << "\n";
+    Logic::getInstance()->pushBlock(coords, direction);
+}

@@ -18,6 +18,8 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     _player = player;
     _layer = layer;
     _resetNow = false;
+    _cache = GUICache::getInstance();
+    _mediator = Backend::Mediator::getInstance();
 
     // Ignore items which will be spawned, backend will take care of them
     _map->getTiledMap()->layerNamed("sprites2spawn")->setVisible(false);
@@ -39,7 +41,8 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     this->initPlayer();
 
     // Cache data from tiled map layers
-    GUICache::getInstance()->cacheAllLayers(_map);
+    _cache->setBatchNode(_batchNode);
+    _cache->cacheAllLayers(_map);
 
     // Initialize all important layers
     this->initLayers();
@@ -48,7 +51,7 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
 //
 void GUIUpdater::update(Point playerPosition)
 {
-    Backend::GameState* state = Backend::Mediator::getInstance()->getState();
+    Backend::GameState* state = _mediator->getState();
     auto changes = state->getChangesFromId(_lastChangeID);
 
     _lastChangeID = changes.first;
@@ -395,7 +398,11 @@ void GUIUpdater::updateEffectDestroy( Backend::GSCEffectDestroy *effectDestroy )
     int id = (_map->getHeight() - ( effectDestroy->getGameObjectId() / _map->getWidth() ) - 1) 
                 * _map->getWidth()
                 + effectDestroy->getGameObjectId() % _map->getWidth();
-    _batchNode->removeChild(_effects[id], true); // WARNING
+    // Cache or remove         
+    if ( !_cache->cacheEffect(_effects[id]) )
+    {
+        _batchNode->removeChild(_effects[id], true);
+    }
     _effects.erase(id);
     return;
 }
@@ -432,17 +439,15 @@ void GUIUpdater::updateEffectSpawn( Backend::GSCEffectSpawn *effectSpawn )
     int position = _map->getWidth() * transformed_iy + ix;
 
     // Init with texture of Batch Node
-    _effects[ position ] = Sprite::createWithTexture(
+    _effects[ position ] = _cache->getEffect(
         _batchNode->getTexture(),
         this->pickImageFromTexture( effectSpawn->getGid() ) 
-    );    // Maybe cache ?
+    );
 
-    // Add to Batch Node
+    // Position and Batch node Z order
     _effects[ position ]->setPosition( ccp(ix*TILE_WIDTH, iy*TILE_HEIGHT ) );
-    _effects[ position ]->setAnchorPoint( ccp(0, 0) );
-    _batchNode->addChild(_effects[ position ], 0);
     _batchNode->reorderChild(_effects[ position ], transformed_iy*TILE_HEIGHT+5);
-    _effects[ position ]->setVertexZ(0); // DO NOT CHANGE
+
     return;
 }
 
@@ -480,6 +485,15 @@ Rect GUIUpdater::pickImageFromTexture(unsigned int id)
     );
 }
 
+bool GUIUpdater::obstacleExists(unsigned int id)
+{
+    if( _obstacles[ id ] != NULL )
+    {
+        return true;
+    }
+    return false;
+}
+
 
 /*
  * ========== 
@@ -500,9 +514,30 @@ std::vector<bool> GUIUpdater::evalCollisions(Point currentPoint, Point nextPoint
     Point nextPointX = ccp(nextPoint.x, currentPoint.y);
     Point nextPointY = ccp(currentPoint.x, nextPoint.y);
 
+    // Get move direction
+    Backend::TDirection directionX;
+    Backend::TDirection directionY;
+    if(nextPoint.x - currentPoint.x >= 0)
+    {
+        directionX = Backend::RIGHT;
+    }
+    else
+    {
+        directionX = Backend::LEFT;
+    }
+    if(nextPoint.y - currentPoint.y >= 0)
+    {
+        directionY = Backend::UP;
+    }
+    else
+    {
+        directionY = Backend::DOWN;
+    }
+
+
     // Evaluation
-    result[1] = this->evalCollision(nextPointX);
-    result[2] = this->evalCollision(nextPointY);
+    result[1] = this->evalCollision(nextPointX, directionX);
+    result[2] = this->evalCollision(nextPointY, directionY);
     result[0] = result[1] || result[2];
 
     // Return
@@ -511,7 +546,7 @@ std::vector<bool> GUIUpdater::evalCollisions(Point currentPoint, Point nextPoint
 }
 
 //
-bool GUIUpdater::evalCollision(Point nextPoint)
+bool GUIUpdater::evalCollision(Point nextPoint, Backend::TDirection direction)
 {
     // Init
     bool result = false;
@@ -522,10 +557,10 @@ bool GUIUpdater::evalCollision(Point nextPoint)
         return result;
     }
 
-    // Constants
-    int widthLeft = 30;
-    int widthRight = 30;
-    int heightTop = 20;
+    // Collision area
+    int widthLeft = 33;
+    int widthRight = 36;
+    int heightTop = 10;
     int heightBottom = 0;
     int offsetX = 0;
     int offsetY = 0;
@@ -533,29 +568,53 @@ bool GUIUpdater::evalCollision(Point nextPoint)
     // Top Left
     offsetX = (nextPoint.x - widthLeft) / TILE_WIDTH;
     offsetY = (nextPoint.y + heightTop) / TILE_HEIGHT;
-    if(_obstacles.find(_map->getWidth() * (_map->getHeight() - offsetY -1) + offsetX) != _obstacles.end())
+    auto obstacle = _obstacles.find(_map->getWidth() * (_map->getHeight() - offsetY -1) + offsetX);
+    if( obstacle != _obstacles.end())
     {
+        Backend::Coordinates coords = Backend::Coordinates(
+            obstacle->second->getPosition().x / TILE_WIDTH,
+            obstacle->second->getPosition().y / TILE_HEIGHT
+        );
+        _mediator->pushObstacle(coords, direction);
         result = true;
     }
     // Top Right
     offsetX = (nextPoint.x + widthRight) / TILE_WIDTH;
-    if(_obstacles.find(_map->getWidth() * (_map->getHeight() - offsetY -1) + offsetX) != _obstacles.end())
+    obstacle = _obstacles.find(_map->getWidth() * (_map->getHeight() - offsetY -1) + offsetX);
+    if( obstacle != _obstacles.end())
     {
+        Backend::Coordinates coords = Backend::Coordinates(
+            obstacle->second->getPosition().x / TILE_WIDTH,
+            obstacle->second->getPosition().y / TILE_HEIGHT
+        );
+        _mediator->pushObstacle(coords, direction);
         result = true;
     }
 
     // Bottom Left
     offsetX = (nextPoint.x - widthLeft) / TILE_WIDTH;
     offsetY = (nextPoint.y - heightBottom) / TILE_HEIGHT;
-    if(_obstacles.find(_map->getWidth() * (_map->getHeight() - offsetY -1) + offsetX) != _obstacles.end())
+    obstacle = _obstacles.find(_map->getWidth() * (_map->getHeight() - offsetY -1) + offsetX);
+    if( obstacle != _obstacles.end())
     {
+        Backend::Coordinates coords = Backend::Coordinates(
+            obstacle->second->getPosition().x / TILE_WIDTH,
+            obstacle->second->getPosition().y / TILE_HEIGHT
+        );
+        _mediator->pushObstacle(coords, direction);
         result = true;
     }
 
     // Bottom Right
     offsetX = (nextPoint.x + widthRight) / TILE_WIDTH;
-    if(_obstacles.find(_map->getWidth() * (_map->getHeight() - offsetY -1) + offsetX) != _obstacles.end())
+    obstacle = _obstacles.find(_map->getWidth() * (_map->getHeight() - offsetY -1) + offsetX);
+    if( obstacle != _obstacles.end())
     {
+        Backend::Coordinates coords = Backend::Coordinates(
+            obstacle->second->getPosition().x / TILE_WIDTH,
+            obstacle->second->getPosition().y / TILE_HEIGHT
+        );
+        _mediator->pushObstacle(coords, direction);
         result = true;
     }
 
@@ -613,8 +672,7 @@ void GUIUpdater::initLayers()
     _bombs.clear();
 
     // Init obstacles, mobs and effects structure
-    GUICache* gc = GUICache::getInstance();
-    for(auto it : *(gc->getObstacles()) )
+    for(auto it : *(_cache->getObstacles()) )
     {
         unsigned int id = it.first;
         Sprite *sp = it.second;
@@ -630,7 +688,7 @@ void GUIUpdater::initLayers()
             _map->getHeight()*TILE_HEIGHT - sp->getPosition().y + 5
         );
     }
-    for(auto it : *(gc->getMobs()) )
+    for(auto it : *(_cache->getMobs()) )
     {
         unsigned int id = it.first;
         Sprite *sp = it.second;
@@ -646,7 +704,7 @@ void GUIUpdater::initLayers()
             _map->getHeight()*TILE_HEIGHT - sp->getPosition().y - TILE_HEIGHT/4
         );
     }
-    for(auto it : *(gc->getEffects()) )
+    for(auto it : *(_cache->getEffects()) )
     {
         unsigned int id = it.first;
         Sprite *sp = it.second;
@@ -677,6 +735,9 @@ void GUIUpdater::resetGUI()
 {
     // Buffs and Achievements
     ButtonLayer::getInstance()->reset();
+
+    // Cache
+    _cache->resetSprites();
 
     // Batch Node
     _batchNode->removeAllChildrenWithCleanup(true);

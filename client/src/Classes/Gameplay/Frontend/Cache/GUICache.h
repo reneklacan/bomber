@@ -6,6 +6,9 @@
 #include "../../../Input/ControlLayer.h"
 
 #include "../Map/Map.h"
+#include "../Sprites/SpriteCreator.h"
+
+#define MAX_CACHED_ITEMS  5
 
 namespace Bomber
 {
@@ -17,19 +20,37 @@ namespace Bomber
             static GUICache *getInstance();
 
             void cacheAllLayers(Map* map);
-            void cacheObstacle();
-            void cacheSprite();
+            void cacheObstacle(Sprite *);
+            void cacheSprite(Sprite * sprite);
+            bool cacheEffect(Sprite * sprite);
+            void cacheBomb(Sprite * sprite);
+            Sprite *getObstacle();
+            Sprite *getSprite();
+            Sprite *getEffect(Texture2D *texture, Rect rect);
+            Sprite *getBomb();
+            void resetSprites();
+            void setBatchNode(SpriteBatchNode* batchNode);
+
 
             std::map<unsigned int, Sprite *> *getMobs() { return &_mobs; }
             std::map<unsigned int, Sprite *> *getObstacles() { return &_obstacles; }
             std::map<unsigned int, Sprite *> *getEffects() { return &_effects; }
 
         private:
-            GUICache() {};
+            GUICache() : _creator( SpriteCreator::getInstance() ) {};
+
+            SpriteCreator *_creator;
+            SpriteBatchNode* _batchNode;
 
             std::map<unsigned int, Sprite *> _mobs;
             std::map<unsigned int, Sprite *> _obstacles;
             std::map<unsigned int, Sprite *> _effects;
+
+
+            std::vector<Sprite *> _bombCache;
+            std::vector<Sprite *> _obstacleCache;
+            std::vector<Sprite *> _mobCache;
+            std::vector<Sprite *> _effectCache;
         };
     }
 }

@@ -475,7 +475,7 @@ void Logic::pushBlock(Coordinates coords, int direction)
 
     auto blocks = _state->getObstacleLayer()->getObjectsAtCoords(coords);
 
-    if (blocks.size() > 1)
+    if (blocks.size() > 1 || blocks.size() == 0)
         return;
 
     auto block = blocks[0];
