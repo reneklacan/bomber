@@ -4,6 +4,7 @@
 #include "GameState.h"
 #include "BBomb.h"
 #include "GameStateUpdater.h"
+#include "Movement.h"
 
 namespace Bomber
 {
@@ -15,6 +16,10 @@ namespace Bomber
                 static Logic* getInstance();
 
                 void update(float dt);
+                void updateBombs(float dt);
+                void updateMovements(float dt);
+                void updateSprites(float dt);
+
                 void setState(GameState *state) { _state = state; };
 
                 void scheduleLevelReset(float delay);
@@ -46,6 +51,7 @@ namespace Bomber
                 Sprite *_controlledSprite;
                 bool _restartScheduled;
                 float _timeToRestart;
+                std::set<Movement *> _movements;
         };
     }
 }

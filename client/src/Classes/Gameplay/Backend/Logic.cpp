@@ -31,6 +31,27 @@ Logic::Logic()
 
 void Logic::update(float dt)
 {
+    this->updateMovements(dt);
+    this->updateBombs(dt);
+    this->updateSprites(dt);
+
+    _gameStateUpdater->updateSpriteGrid();
+    _gameStateUpdater->update();
+
+    if (_restartScheduled)
+    {
+        _timeToRestart -= dt;
+
+        if (_timeToRestart <= 0.0f)
+        {
+            _restartScheduled = false;
+            _gameStateUpdater->resetLevel();
+        }
+    }
+}
+
+void Logic::updateBombs(float dt)
+{    
     int power,
         penetration, penetrationTop, penetrationBottom,
         penetrationRight, penetrationLeft,
@@ -53,12 +74,14 @@ void Logic::update(float dt)
         {
             bombsToDetonate.push_back(bomb);
         }
+        else if (bomb->isDirty())
+        {
+            _gameStateUpdater->logBombMove(bomb);
+        }
     }
 
     while (bombsToDetonate.size() > 0)
     {
-        //_gameStateUpdater->getState()->getObstaclesLayer()->print();
-
         bomb = bombsToDetonate.front();
         bombsToDetonate.pop_front();
         bomb->detonate();
@@ -71,7 +94,6 @@ void Logic::update(float dt)
         owner = _state->getSpriteLayer()->getObject(ownerId);
         owner->getAttributes()->increaseBombCapacity();
             
-        //_gameStateUpdater->destroyBomb(bomb);
         bombsToDestroy.push_back(bomb);
 
         penetrationTop = penetration;
@@ -133,8 +155,6 @@ void Logic::update(float dt)
                 armLengths[2], // left
                 armLengths[3]  // right
         );
-
-        //_gameStateUpdater->getState()->getObstaclesLayer()->print();
     }
 
     for (auto bomb : bombsToDestroy)
@@ -146,7 +166,30 @@ void Logic::update(float dt)
     {
         StatisticsUpdater::getInstance()->updateKillStreaks(spritesKilled);
     }
+}
 
+void Logic::updateMovements(float dt)
+{
+    std::set<Movement *> movementsToDestroy;
+
+    for (auto movement : _movements)
+    {
+        movement->update(dt);
+        if (movement->isFinished())
+        {
+            movementsToDestroy.insert(movement);
+        }
+        //_gameStateUpdater->logGameObjectMove(movement->getObject());
+    }
+
+    for (auto movement : movementsToDestroy)
+    {
+        _movements.erase(movement);
+    }
+}
+
+void Logic::updateSprites(float dt)
+{
     auto spriteLayer = _state->getSpriteLayer();
     auto portalLayer = _state->getPortalLayer();
     auto portalExitLayer = _state->getPortalExitLayer();
@@ -198,24 +241,7 @@ void Logic::update(float dt)
     {
         _gameStateUpdater->destroyEffect(effect);
     }
-
-    _gameStateUpdater->updateSpriteGrid();
-    _gameStateUpdater->update();
-
-    if (_restartScheduled)
-    {
-        _timeToRestart -= dt;
-
-        if (_timeToRestart <= 0.0f)
-        {
-            _restartScheduled = false;
-            _gameStateUpdater->resetLevel();
-        }
-    }
-
-    //_state->getSpriteLayer()->print();
 }
-
 
 void Logic::scheduleLevelReset(float delay)
 {
@@ -418,7 +444,28 @@ bool Logic::spawnBomb(Sprite *owner)
 
 void Logic::kickBomb(Coordinates coords, int direction)
 {
+    if (!_controlledSprite->getAttributes()->getBombKicking())
+        return;
 
+    Coordinates goalCoords = coords;
+    Coordinates nextCoords = coords;
+
+    while (true)
+    {
+        nextCoords = nextCoords.getNext(direction);
+
+        if (_state->getObstacleLayer()->getObjectsAtCoords(nextCoords).size() > 0)
+            break;
+
+        goalCoords = nextCoords;
+    }
+
+    if (goalCoords == coords)
+        return;
+
+    BBomb *bomb = _state->getBombLayer()->getObjectsAtCoords(coords)[0];
+    Movement *movement = new Movement(bomb, goalCoords, direction, 200);
+    _movements.insert(movement);
 }
 
 void Logic::pushBlock(Coordinates coords, int direction)

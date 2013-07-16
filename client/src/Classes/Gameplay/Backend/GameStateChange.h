@@ -24,6 +24,7 @@ namespace Bomber
 
             BOMB_SPAWN,
             BOMB_DESTROY,
+            BOMB_MOVE,
 
             EXPLOSION_SPAWN,
             EXPLOSION_DESTROY,
@@ -75,6 +76,12 @@ namespace Bomber
         {
             public:
                 GSCSpriteMove() { _type = SPRITE_MOVE; };
+        };
+
+        class GSCBombMove : public GSCPosition
+        {
+            public:
+                GSCBombMove() { _type = BOMB_MOVE; };
         };
 
         class GSCSpriteTeleport : public GSCPosition

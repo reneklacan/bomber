@@ -140,6 +140,7 @@
     <ClCompile Include="..\Classes\Gameplay\Backend\GameStateUpdater.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Logic.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Mediator.cpp" />
+    <ClCompile Include="..\Classes\Gameplay\Backend\Movement.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Obstacle.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Portal.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Primitives\Coordinates.cpp" />
@@ -191,11 +192,13 @@
     <ClInclude Include="..\Classes\Gameplay\Backend\Logic.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Macros.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Mediator.h" />
+    <ClInclude Include="..\Classes\Gameplay\Backend\Movement.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Obstacle.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Portal.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\PortalExit.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Circle.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Coordinates.h" />
+    <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Direction.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Position.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Rectangle.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Size.h" />

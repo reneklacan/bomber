@@ -243,6 +243,15 @@ void GameStateUpdater::logSpriteMove(Sprite *sprite)
     _state->addChange(change);
 }
 
+void GameStateUpdater::logBombMove(BBomb *bomb)
+{
+    //printf("logSpriteMove\n"); // spam
+    GSCBombMove *change = new GSCBombMove();
+    change->update(bomb->getPosition());
+    change->setGameObjectId(bomb->getId());
+    _state->addChange(change);
+} 
+
 void GameStateUpdater::logSpriteTeleport(Sprite *sprite, Position &to)
 {
     printf("logSpriteTeleport\n");

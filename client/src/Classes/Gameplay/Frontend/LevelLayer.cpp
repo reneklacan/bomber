@@ -93,7 +93,7 @@ bool LevelLayer::init()
     
     // Backend init
     Backend::Mediator::getInstance()->moveSprite(
-            Position(
+            Backend::Position(
                 _player->getPosition().x,
                 _player->getPosition().y
             )
@@ -137,7 +137,7 @@ void LevelLayer::updateGame(float dt)
     {
         _player->setPosition(nextPos);
         _map->addToPosition(ccpSub(currentPos, nextPos));
-        Backend::Mediator::getInstance()->moveSprite(Position(nextPos.x, nextPos.y));
+        Backend::Mediator::getInstance()->moveSprite(Backend::Position(nextPos.x, nextPos.y));
     }
 
     // Send action
