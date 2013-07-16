@@ -85,6 +85,7 @@ void Logic::updateBombs(float dt)
         bomb = bombsToDetonate.front();
         bombsToDetonate.pop_front();
         bomb->detonate();
+        bomb->setActive(false);
 
         power = bomb->getPower();
         epicentrum = bomb->getCoords();
@@ -175,11 +176,11 @@ void Logic::updateMovements(float dt)
     for (auto movement : _movements)
     {
         movement->update(dt);
-        if (movement->isFinished())
+
+        if (!movement->getObject()->isActive() || movement->isFinished())
         {
             movementsToDestroy.insert(movement);
         }
-        //_gameStateUpdater->logGameObjectMove(movement->getObject());
     }
 
     for (auto movement : movementsToDestroy)
@@ -474,18 +475,19 @@ void Logic::pushBlock(Coordinates coords, int direction)
         return;
 
     auto blocks = _state->getObstacleLayer()->getObjectsAtCoords(coords);
-
     if (blocks.size() > 1 || blocks.size() == 0)
         return;
 
     auto block = blocks[0];
-
     if (block->getToughness() < 0)
         return;
 
     Coordinates nextCoords = coords.getNext(direction);
 
     if (_state->getObstacleLayer()->getObjectsAtCoords(nextCoords).size() > 0)
+        return;
+
+    if (_state->getSpriteLayer()->getObjectsAtCoords(nextCoords).size() > 0)
         return;
 
     _gameStateUpdater->destroyObstacle(block, 0);
