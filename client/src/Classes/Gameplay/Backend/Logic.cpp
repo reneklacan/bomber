@@ -66,10 +66,27 @@ void Logic::updateBombs(float dt)
     std::vector<BBomb *> bombsToDestroy;
     std::deque<BBomb *> bombsToDetonate;
     BBomb *bomb;
+    /*
+    // TODO: bomb teleporting
+    auto portalLayer = _state->getPortalLayer();
+    auto portalExitLayer = _state->getPortalExitLayer();
+    */
 
     for (auto bomb : _state->getBombLayer()->getObjects())
     {
         bomb->update(dt);
+
+        /*
+        // TODO: bomb teleporting
+        auto portals = portalLayer->getObjectsAtCoords(bomb->getCoords());
+
+        for (Portal *portal : portals)
+        {
+            auto portalExit = portalExitLayer->getObject(portal->getPortalTarget(bomb->getPreviousCoords()));
+            bomb->setPosition(portalExit->getPosition());
+            break;
+        }
+        */
 
         if (bomb->isDetonated())
         {
@@ -236,6 +253,7 @@ void Logic::updateSprites(float dt)
         {
             auto portalExit = portalExitLayer->getObject(portal->getPortalTarget(sprite->getPreviousCoords()));
             _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
+            break;
         }
     }
 
