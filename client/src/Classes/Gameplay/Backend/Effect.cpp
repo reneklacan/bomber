@@ -7,13 +7,17 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
 {
     Effect *effect = nullptr;
 
-    if (gid == 18 || gid == 46)
+    if (gid == 18)
     {
-        effect = new EffectBombPowerInc();
+        effect = new EffectSpeedInc();
     }
     else if (gid == 13)
     {
         effect = new EffectBombCapacityInc();
+    }
+    else if (gid == 46)
+    {
+        effect = new EffectBombPowerInc();
     }
     else
     {

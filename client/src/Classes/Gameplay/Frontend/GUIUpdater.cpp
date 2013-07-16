@@ -369,6 +369,9 @@ void GUIUpdater::updateSpriteAttrUpdate( Backend::GSCSpriteAttrUpdate *spriteAtt
         case Backend::EFFECT_BOMB_POWER_INC:
             imageID = BOMB_POWER_INC_ETI;
             break;
+        case Backend::EFFECT_SPEED_INC:
+            imageID = SPEED_INC_ETI;
+            break;
         default:
             std::cerr << "Unknown effect type: " << 
                 spriteAttrUpdate->getEffectType() << std::endl;
