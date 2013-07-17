@@ -17,15 +17,15 @@ SOURCES = Main.cpp \
         ../Classes/Input/ControlLayer.cpp \
         ../Classes/Gameplay/Backend/Mediator.cpp \
         ../Classes/Gameplay/Backend/Logic.cpp \
-        ../Classes/Gameplay/Backend/GameStateUpdater.cpp \
-        ../Classes/Gameplay/Backend/GameState.cpp \
-        ../Classes/Gameplay/Backend/GameObject.cpp \
-        ../Classes/Gameplay/Backend/Sprite.cpp \
-        ../Classes/Gameplay/Backend/BBomb.cpp \
-        ../Classes/Gameplay/Backend/Obstacle.cpp \
-        ../Classes/Gameplay/Backend/Effect.cpp \
-        ../Classes/Gameplay/Backend/Portal.cpp \
-        ../Classes/Gameplay/Backend/Movement.cpp \
+        ../Classes/Gameplay/Backend/State/GameStateUpdater.cpp \
+        ../Classes/Gameplay/Backend/State/GameState.cpp \
+        ../Classes/Gameplay/Backend/GameObjects/GameObject.cpp \
+        ../Classes/Gameplay/Backend/GameObjects/Sprites/Sprite.cpp \
+        ../Classes/Gameplay/Backend/GameObjects/BBomb.cpp \
+        ../Classes/Gameplay/Backend/GameObjects/Obstacle.cpp \
+        ../Classes/Gameplay/Backend/GameObjects/Effect.cpp \
+        ../Classes/Gameplay/Backend/GameObjects/Portal.cpp \
+        ../Classes/Gameplay/Backend/Interactions/Movement.cpp \
         ../Classes/Gameplay/Backend/Primitives/Coordinates.cpp \
         ../Classes/Gameplay/Backend/Primitives/Rectangle.cpp \
         ../Classes/Gameplay/Backend/Statistics/Statistics.cpp \
