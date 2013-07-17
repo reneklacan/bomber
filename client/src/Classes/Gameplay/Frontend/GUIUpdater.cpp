@@ -552,21 +552,21 @@ std::vector<bool> GUIUpdater::evalCollisions(Point currentPoint, Point nextPoint
     Point nextPointY = ccp(currentPoint.x, nextPoint.y);
 
     // Get move direction
-    Backend::TDirection directionX;
-    Backend::TDirection directionY;
-    if(nextPoint.x - currentPoint.x >= 0)
+    Backend::TDirection directionX = Backend::CALM;
+    Backend::TDirection directionY = Backend::CALM;
+    if(nextPoint.x - currentPoint.x > 0)
     {
         directionX = Backend::RIGHT;
     }
-    else
+    else if(nextPoint.x - currentPoint.x < 0)
     {
         directionX = Backend::LEFT;
     }
-    if(nextPoint.y - currentPoint.y >= 0)
+    if(nextPoint.y - currentPoint.y > 0)
     {
         directionY = Backend::UP;
     }
-    else
+    else if(nextPoint.x - currentPoint.x < 0)
     {
         directionY = Backend::DOWN;
     }
@@ -689,6 +689,7 @@ bool GUIUpdater::evalCollision(Point nextPoint, Backend::TDirection direction)
             bomb->getPosition().y / TILE_HEIGHT
         );
         _mediator->kickBomb(coords, direction);
+        result = true;
     }
     // Top Right
     offsetX = (nextPoint.x + widthRight) / TILE_WIDTH;
@@ -700,6 +701,7 @@ bool GUIUpdater::evalCollision(Point nextPoint, Backend::TDirection direction)
             bomb->getPosition().y / TILE_HEIGHT
         );
         _mediator->kickBomb(coords, direction);
+        result = true;
     }
 
     // Bottom Left
@@ -713,6 +715,7 @@ bool GUIUpdater::evalCollision(Point nextPoint, Backend::TDirection direction)
             bomb->getPosition().y / TILE_HEIGHT
         );
         _mediator->kickBomb(coords, direction);
+        result = true;
     }
 
     // Bottom Right
@@ -725,6 +728,7 @@ bool GUIUpdater::evalCollision(Point nextPoint, Backend::TDirection direction)
             bomb->getPosition().y / TILE_HEIGHT
         );
         _mediator->kickBomb(coords, direction);
+        result = true;
     }
 
     return result;
