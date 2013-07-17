@@ -562,11 +562,12 @@ std::vector<bool> GUIUpdater::evalCollisions(Point currentPoint, Point nextPoint
     {
         directionX = Backend::LEFT;
     }
+
     if(nextPoint.y - currentPoint.y > 0)
     {
         directionY = Backend::UP;
     }
-    else if(nextPoint.x - currentPoint.x < 0)
+    else if(nextPoint.y - currentPoint.y < 0)
     {
         directionY = Backend::DOWN;
     }
