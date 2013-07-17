@@ -11,9 +11,8 @@
 #include "Sprites/Human.h"
 #include "../../Input/ControlLayer.h"
 #include "../../Input/ActionDelegates.h"
-
 #include "../Backend/Mediator.h"
-#include "../Backend/Bomber.h"
+#include "../Backend/GameObjects/Sprites/Bomber.h"
 
 namespace Bomber
 {

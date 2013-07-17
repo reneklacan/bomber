@@ -1,8 +1,8 @@
 #ifndef __BOMBER_BACKEND_MOVEMENT
 #define __BOMBER_BACKEND_MOVEMENT
 
-#include "Macros.h"
-#include "GameObject.h"
+#include "../Macros.h"
+#include "../GameObjects/GameObject.h"
 
 namespace Bomber
 {

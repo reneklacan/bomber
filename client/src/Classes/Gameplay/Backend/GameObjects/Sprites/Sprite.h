@@ -1,9 +1,9 @@
 #ifndef __BOMBER_BACKEND_SPRITE
 #define __BOMBER_BACKEND_SPRITE
 
-#include "GameObject.h"
+#include "../GameObject.h"
 #include "SpriteAttributes.h"
-#include "Macros.h"
+#include "../../Macros.h"
 
 namespace Bomber
 {

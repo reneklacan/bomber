@@ -7,7 +7,7 @@
 #include <set>
 #include <map>
 
-#include "ExplodableObject.h"
+#include "../GameObjects/ExplodableObject.h"
 #include "GameStateChange.h"
 
 namespace Bomber

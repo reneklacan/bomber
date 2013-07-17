@@ -1,7 +1,7 @@
 
 #include "GameStateUpdater.h"
-#include "Statistics/StatisticsUpdater.h"
-#include "../../Constants.h"
+#include "../Statistics/StatisticsUpdater.h"
+#include "../../../Constants.h"
 
 using namespace Bomber::Backend;
 
@@ -56,7 +56,7 @@ void GameStateUpdater::spawnBomb(Sprite *owner)
 {
     auto *bombLayer = _state->getBombLayer();
 
-    BBomb *bomb = new BBomb();
+    Bomb *bomb = new Bomb();
     bomb->configure(owner);
     bomb->setId(this->getUniqueId());
 
@@ -79,11 +79,10 @@ void GameStateUpdater::spawnExplosion(ExplodableObject *explObj, int topArmLengt
 
 void GameStateUpdater::spawnObstacle(unsigned int obstacleGid, Coordinates coords, unsigned int spawnerId)
 {
-    Obstacle *obstacle = new Obstacle();
+    Obstacle *obstacle = Obstacle::getInstanceByGid(obstacleGid);
     obstacle->setId(coords.y*_state->getWidth() + coords.x);
     obstacle->setPosition(coords.x*TILE_WIDTH, coords.y*TILE_HEIGHT);
     obstacle->setSize(TILE_WIDTH, TILE_HEIGHT);
-    obstacle->configureFromGid(obstacleGid);
 
     _state->getObstacleLayer()->addObject(obstacle);
     _state->getObstacleLayer()->updateGrid();
@@ -214,7 +213,7 @@ void GameStateUpdater::destroySprite(Sprite *sprite)
     _state->getSpriteLayer()->removeObject(sprite);
 }
 
-void GameStateUpdater::destroyBomb(BBomb *bomb)
+void GameStateUpdater::destroyBomb(Bomb *bomb)
 {
     _state->getBombLayer()->removeObject(bomb);
     this->logBombDestroy(bomb);
@@ -243,7 +242,7 @@ void GameStateUpdater::logSpriteMove(Sprite *sprite)
     _state->addChange(change);
 }
 
-void GameStateUpdater::logBombMove(BBomb *bomb)
+void GameStateUpdater::logBombMove(Bomb *bomb)
 {
     //printf("logSpriteMove\n"); // spam
     GSCBombMove *change = new GSCBombMove();
@@ -290,7 +289,7 @@ void GameStateUpdater::logSpriteSpawn(Sprite *sprite)
     _state->addChange(change);
 }
 
-void GameStateUpdater::logBombSpawn(BBomb *bomb)
+void GameStateUpdater::logBombSpawn(Bomb *bomb)
 {
     printf("logBombSpawn\n");
     GSCBombSpawn *change = new GSCBombSpawn();
@@ -299,7 +298,7 @@ void GameStateUpdater::logBombSpawn(BBomb *bomb)
     _state->addChange(change);
 }
 
-void GameStateUpdater::logBombDestroy(BBomb *bomb)
+void GameStateUpdater::logBombDestroy(Bomb *bomb)
 {
     printf("logBombDestroy\n");
     GSCBombDestroy *change = new GSCBombDestroy();

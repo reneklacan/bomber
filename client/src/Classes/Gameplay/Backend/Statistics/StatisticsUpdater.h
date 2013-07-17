@@ -2,10 +2,10 @@
 #define __BOMBER_BACKEND_STATISTICS_UPDATER
 
 #include "Statistics.h"
-#include "../Sprite.h"
-#include "../BBomb.h"
-#include "../Effect.h"
-#include "../Obstacle.h"
+#include "../GameObjects/Sprites/Sprite.h"
+#include "../GameObjects/BBomb.h"
+#include "../GameObjects/Effect.h"
+#include "../GameObjects/Obstacle.h"
 
 namespace Bomber
 {
@@ -20,7 +20,7 @@ namespace Bomber
 
                 void updateMobsAlive(int mobsAlive);
                 void updateKillStreaks(unsigned int mobKills);
-                void bombSpawned(unsigned int ownerId, BBomb *bomb);
+                void bombSpawned(unsigned int ownerId, Bomb *bomb);
                 void effectTaken(unsigned int ownerId, Effect *effect);
                 void monsterKilled(unsigned int ownerId, Sprite *monster);
                 void obstacleDestroyed(unsigned int ownerId, Obstacle *obstacke);

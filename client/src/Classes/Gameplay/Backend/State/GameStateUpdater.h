@@ -2,12 +2,12 @@
 #define __BOMBER_BACKEND_GAME_STATE_UPDATER
 
 #include "GameState.h"
-#include "Primitives/Position.h"
-#include "BBomb.h"
-#include "Obstacle.h"
-#include "Sprite.h"
-#include "Effect.h"
-#include "Statistics/AchievementContainer.h"
+#include "../Primitives/Position.h"
+#include "../GameObjects/BBomb.h"
+#include "../GameObjects/Obstacle.h"
+#include "../GameObjects/Sprites/Sprite.h"
+#include "../GameObjects/Effect.h"
+#include "../Statistics/AchievementContainer.h"
 
 namespace Bomber
 {
@@ -46,7 +46,7 @@ namespace Bomber
 
                 void destroyObstacle(Obstacle *obstacle, unsigned int destroyerId);
                 void destroySprite(Sprite *sprite);
-                void destroyBomb(BBomb *bomb);
+                void destroyBomb(Bomb *bomb);
                 void destroyEffect(Effect *effect);
 
                 void logSpriteMove(Sprite *sprite);
@@ -54,11 +54,11 @@ namespace Bomber
                 void logSpriteDamage(Sprite *sprite, int damage);
                 void logSpriteDestroy(Sprite *sprite);
                 void logSpriteSpawn(Sprite *sprite);
-                void logBombSpawn(BBomb *bomb);
-                void logBombMove(BBomb *bomb);
+                void logBombSpawn(Bomb *bomb);
+                void logBombMove(Bomb *bomb);
                 void logObstacleSpawn(unsigned int obstacleGid, Obstacle *obstacle, unsigned int spawnerId);
                 void logEffectSpawn(Effect *effect);
-                void logBombDestroy(BBomb *bomb);
+                void logBombDestroy(Bomb *bomb);
                 void logExplosionSpawn(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void logObstacleDestroy(Obstacle *obstacle);
                 void logSpriteAttributesUpdate(Sprite *sprite, Effect *effect);

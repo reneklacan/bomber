@@ -2,18 +2,18 @@
 #include <stdio.h>
 
 #include "BBomb.h"
-#include "../../Constants.h"
+#include "../../../Constants.h"
 
 using namespace Bomber::Backend;
 
-BBomb::BBomb() : ExplodableObject()
+Bomb::Bomb() : ExplodableObject()
 {
     _expired = 0.0f;
     _detonated = false;
     _ownerId = 0;
 }
 
-void BBomb::update(float dt)
+void Bomb::update(float dt)
 {
     if (_detonated)
     {
@@ -28,7 +28,7 @@ void BBomb::update(float dt)
     }
 }
 
-void BBomb::configure(Sprite *owner)
+void Bomb::configure(Sprite *owner)
 {
     // configure bomb by owner's attributes
 

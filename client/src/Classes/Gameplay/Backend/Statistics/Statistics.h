@@ -5,10 +5,10 @@
 
 #include "Statistics.h"
 #include "../Macros.h"
-#include "../Sprite.h"
-#include "../BBomb.h"
-#include "../Effect.h"
-#include "../Obstacle.h"
+#include "../GameObjects/Sprites/Sprite.h"
+#include "../GameObjects/BBomb.h"
+#include "../GameObjects/Effect.h"
+#include "../GameObjects/Obstacle.h"
 
 namespace Bomber
 {

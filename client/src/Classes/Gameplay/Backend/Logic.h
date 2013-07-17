@@ -1,10 +1,10 @@
 #ifndef __BOMBER_LOGICv2
 #define __BOMBER_LOGICv2
 
-#include "GameState.h"
-#include "BBomb.h"
-#include "GameStateUpdater.h"
-#include "Movement.h"
+#include "State/GameState.h"
+#include "State/GameStateUpdater.h"
+#include "GameObjects/BBomb.h"
+#include "Interactions/Movement.h"
 
 namespace Bomber
 {
@@ -34,7 +34,7 @@ namespace Bomber
 
                 void spawnExplosion(ExplodableObject *explObj);
 
-                bool makeBombImpact(BBomb *bomb, Coordinates coords, int *penetration, int *spritesKilled);
+                bool makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int *spritesKilled);
 
                 void kickBomb(Coordinates coords, int direction);
                 void pushBlock(Coordinates coords, int direction);

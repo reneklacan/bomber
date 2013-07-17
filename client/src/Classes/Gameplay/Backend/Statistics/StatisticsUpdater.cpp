@@ -42,7 +42,7 @@ void StatisticsUpdater::updateKillStreaks(unsigned int mobKills)
     AchievementContainer::getInstance()->checkType(KILL_STREAKS, _gameStatistics);
 }
 
-void StatisticsUpdater::bombSpawned(unsigned int ownerId, BBomb *bomb)
+void StatisticsUpdater::bombSpawned(unsigned int ownerId, Bomb *bomb)
 {
     if (ownerId != _relevantSpriteId)
         return;

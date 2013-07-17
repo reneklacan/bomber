@@ -2,9 +2,9 @@
 #include <iostream>
 
 #include "Logic.h"
-#include "Obstacle.h"
-#include "Portal.h"
-#include "Effect.h"
+#include "GameObjects/Obstacle.h"
+#include "GameObjects/Portal.h"
+#include "GameObjects/Effect.h"
 #include "AI/AI.h"
 #include "Statistics/StatisticsUpdater.h"
 
@@ -63,9 +63,9 @@ void Logic::updateBombs(float dt)
 
     Coordinates epicentrum;
     
-    std::vector<BBomb *> bombsToDestroy;
-    std::deque<BBomb *> bombsToDetonate;
-    BBomb *bomb;
+    std::vector<Bomb *> bombsToDestroy;
+    std::deque<Bomb *> bombsToDetonate;
+    Bomb *bomb;
     /*
     // TODO: bomb teleporting
     auto portalLayer = _state->getPortalLayer();
@@ -273,7 +273,7 @@ void Logic::scheduleLevelReset(float delay)
     _timeToRestart = delay;
 }
 
-bool Logic::makeBombImpact(BBomb *bomb, Coordinates coords, int *penetration, int *spritesKilled)
+bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int *spritesKilled)
 {
     unsigned int x = coords.x;
     unsigned int y = coords.y;
@@ -493,7 +493,7 @@ void Logic::kickBomb(Coordinates coords, int direction)
     if (goalCoords == coords)
         return;
 
-    BBomb *bomb = _state->getBombLayer()->getObjectsAtCoords(coords)[0];
+    Bomb *bomb = _state->getBombLayer()->getObjectsAtCoords(coords)[0];
 
     if (bomb->isInMovement())
         return;
@@ -512,7 +512,7 @@ void Logic::pushBlock(Coordinates coords, int direction)
         return;
 
     auto block = blocks[0];
-    if (block->getToughness() < 0)
+    if (!block->isPushable())
         return;
 
     Coordinates nextCoords = coords.getNext(direction);

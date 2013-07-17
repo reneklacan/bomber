@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#include "Sprite.h"
+#include "Sprites/Sprite.h"
 
 namespace Bomber
 {

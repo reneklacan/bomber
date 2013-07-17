@@ -1,7 +1,7 @@
 #ifndef __BOMBER_BACKEND_AI_SPRITE
 #define __BOMBER_BACKEND_AI_SPRITE
 
-#include "AI/FollowAI.h"
+#include "../../AI/FollowAI.h"
 
 namespace Bomber
 {

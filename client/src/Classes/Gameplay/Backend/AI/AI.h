@@ -1,8 +1,8 @@
 #ifndef __BOMBER_BACKEND_AI
 #define __BOMBER_BACKEND_AI
 
-#include "../GameState.h"
-#include "../GameStateUpdater.h"
+#include "../State/GameState.h"
+#include "../State/GameStateUpdater.h"
 
 namespace Bomber
 {

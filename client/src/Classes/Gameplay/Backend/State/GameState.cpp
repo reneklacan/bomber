@@ -1,8 +1,8 @@
 
 #include "GameState.h"
-#include "Bomber.h"
-#include "AISprite.h"
-#include "../../Constants.h"
+#include "../GameObjects/Sprites/Bomber.h"
+#include "../GameObjects/Sprites/AISprite.h"
+#include "../../../Constants.h"
 
 using namespace Bomber::Backend;
 using namespace cocos2d;
@@ -19,7 +19,7 @@ GameState::GameState(unsigned int width, unsigned int height)
 
     _spriteLayer = new GameStateLayer<Sprite>("Sprite Layer", _width, _height);
     _obstacleLayer = new GameStateLayer<Obstacle>("Obstacles Layer", _width, _height);
-    _bombLayer = new GameStateLayer<BBomb>("Bomb Layer", _width, _height);
+    _bombLayer = new GameStateLayer<Bomb>("Bomb Layer", _width, _height);
     _portalLayer = new GameStateLayer<Portal>("Portal Layer", _width, _height);
     _portalExitLayer = new GameStateLayer<PortalExit>("Portal Exit Layer", _width, _height);
     _effectLayer = new GameStateLayer<Effect>("Effect Layer", _width, _height);
@@ -67,12 +67,11 @@ void GameState::init(TMXTiledMap *tiledMap)
 
             if (gid == 0)
                 continue;
-
-            Obstacle *obstacle = new Obstacle();
+            
+            Obstacle *obstacle = Obstacle::getInstanceByGid(gid);
             obstacle->setId(iy*_width + ix);
             obstacle->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
             obstacle->setSize(TILE_WIDTH, TILE_HEIGHT);
-            obstacle->configureFromGid(gid);
 
             _obstacleLayer->addObject(obstacle);
         }
@@ -89,7 +88,7 @@ void GameState::init(TMXTiledMap *tiledMap)
             if (gid == 0)
                 continue;
             
-            Sprite *sprite= Sprite::getInstanceByGid(gid);
+            Sprite *sprite = Sprite::getInstanceByGid(gid);
             sprite->setId(iy*_width + ix);
             sprite->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
             sprite->setSize(TILE_WIDTH, TILE_HEIGHT);
@@ -109,7 +108,7 @@ void GameState::init(TMXTiledMap *tiledMap)
             if (gid == 0)
                 continue;
             
-            Sprite *sprite= Sprite::getInstanceByGid(gid);
+            Sprite *sprite = Sprite::getInstanceByGid(gid);
             sprite->setId(iy*_width + ix);
             sprite->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
             sprite->setSize(TILE_WIDTH, TILE_HEIGHT);
@@ -130,7 +129,7 @@ void GameState::init(TMXTiledMap *tiledMap)
             if (gid == 0)
                 continue;
 
-            Effect *effect= Effect::getInstanceByGid(gid);
+            Effect *effect = Effect::getInstanceByGid(gid);
             effect->setId(iy*_width + ix);
             effect->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
             effect->setSize(TILE_WIDTH, TILE_HEIGHT);
@@ -150,7 +149,7 @@ void GameState::init(TMXTiledMap *tiledMap)
             if (gid == 0)
                 continue;
 
-            Effect *effect= Effect::getInstanceByGid(gid);
+            Effect *effect = Effect::getInstanceByGid(gid);
             effect->setId(iy*_width + ix);
             effect->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
             effect->setSize(TILE_WIDTH, TILE_HEIGHT);
@@ -171,16 +170,16 @@ void GameState::init(TMXTiledMap *tiledMap)
     {
         dict = (Dictionary*) ccObject;
 
-        id = ((String*)dict->objectForKey("name"))->intValue();
-        x = ((String*)dict->objectForKey("x"))->intValue();
-        y = ((String*)dict->objectForKey("y"))->intValue();
-        width = ((String*)dict->objectForKey("width"))->intValue();
-        height = ((String*)dict->objectForKey("height"))->intValue();
+        id = ((String*) dict->objectForKey("name"))->intValue();
+        x = ((String*) dict->objectForKey("x"))->intValue();
+        y = ((String*) dict->objectForKey("y"))->intValue();
+        width = ((String*) dict->objectForKey("width"))->intValue();
+        height = ((String*) dict->objectForKey("height"))->intValue();
 
-        int top =  ((String*)dict->objectForKey("top"))->intValue();
-        int bottom =  ((String*)dict->objectForKey("bottom"))->intValue();
-        int left =  ((String*)dict->objectForKey("left"))->intValue();
-        int right =  ((String*)dict->objectForKey("right"))->intValue();
+        int top =  ((String*) dict->objectForKey("top"))->intValue();
+        int bottom =  ((String*) dict->objectForKey("bottom"))->intValue();
+        int left =  ((String*) dict->objectForKey("left"))->intValue();
+        int right =  ((String*) dict->objectForKey("right"))->intValue();
 
         Portal *portal = new Portal();
         portal->setId(id);
@@ -197,12 +196,12 @@ void GameState::init(TMXTiledMap *tiledMap)
     CCARRAY_FOREACH(portalExits, ccObject)
     {
         dict = (Dictionary*) ccObject;
-
-        id = ((String*)dict->objectForKey("name"))->intValue();
-        x = ((String*)dict->objectForKey("x"))->intValue();
-        y = ((String*)dict->objectForKey("y"))->intValue();
-        width = ((String*)dict->objectForKey("width"))->intValue();
-        height = ((String*)dict->objectForKey("height"))->intValue();         
+        
+        id = ((String*) dict->objectForKey("name"))->intValue();
+        x = ((String*) dict->objectForKey("x"))->intValue();
+        y = ((String*) dict->objectForKey("y"))->intValue();
+        width = ((String*) dict->objectForKey("width"))->intValue();
+        height = ((String*) dict->objectForKey("height"))->intValue();   
 
         PortalExit *portalExit = new PortalExit();
         portalExit->setId(id);
@@ -219,11 +218,11 @@ void GameState::init(TMXTiledMap *tiledMap)
     {
         dict = (Dictionary*) ccObject;
 
-        id = ((String*)dict->objectForKey("name"))->intValue();
-        x = ((String*)dict->objectForKey("x"))->intValue();
-        y = ((String*)dict->objectForKey("y"))->intValue();
-        width = ((String*)dict->objectForKey("width"))->intValue();
-        height = ((String*)dict->objectForKey("height"))->intValue();         
+        id = ((String*) dict->objectForKey("name"))->intValue();
+        x = ((String*) dict->objectForKey("x"))->intValue();
+        y = ((String*) dict->objectForKey("y"))->intValue();
+        width = ((String*) dict->objectForKey("width"))->intValue();
+        height = ((String*) dict->objectForKey("height"))->intValue();         
 
         GameObject *lever = new GameObject();
         lever->setId(id);
@@ -234,17 +233,17 @@ void GameState::init(TMXTiledMap *tiledMap)
     }
 
     objectGroup = tiledMap->objectGroupNamed("lever_targets");
-    Array *levelTargets = objectGroup->getObjects();
+    Array *leverTargets = objectGroup->getObjects();
 
-    CCARRAY_FOREACH(levelTargets, ccObject)
+    CCARRAY_FOREACH(leverTargets, ccObject)
     {
         dict = (Dictionary*) ccObject;
 
-        id = ((String*)dict->objectForKey("name"))->intValue();
-        x = ((String*)dict->objectForKey("x"))->intValue();
-        y = ((String*)dict->objectForKey("y"))->intValue();
-        width = ((String*)dict->objectForKey("width"))->intValue();
-        height = ((String*)dict->objectForKey("height"))->intValue();         
+        id = ((String*) dict->objectForKey("name"))->intValue();
+        x = ((String*) dict->objectForKey("x"))->intValue();
+        y = ((String*) dict->objectForKey("y"))->intValue();
+        width = ((String*) dict->objectForKey("width"))->intValue();
+        height = ((String*) dict->objectForKey("height"))->intValue();         
 
         GameObject *leverTarget = new GameObject();
         leverTarget->setId(id);

@@ -1,7 +1,7 @@
-#ifndef __BOMBER_BACKEND_smart_FOLLOW_AI
-#define __BOMBER_BACKEND_RANDOM_AI
+#ifndef __BOMBER_BACKEND_FOLLOW_AI
+#define __BOMBER_BACKEND_FOLLOW_AI
 
-#include "../Sprite.h"
+#include "../GameObjects/Sprites/Sprite.h"
 #include "../Primitives/Position.h"
 
 namespace Bomber

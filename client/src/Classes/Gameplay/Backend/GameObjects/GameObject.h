@@ -1,12 +1,12 @@
 #ifndef __BOMBER_GAMEOBJECT
 #define __BOMBER_GAMEOBJECT
 
-#include "Macros.h"
-#include "Primitives/Position.h"
-#include "Primitives/Coordinates.h"
-#include "Primitives/Size.h"
-#include "Primitives/Rectangle.h"
-#include "Primitives/Circle.h"
+#include "../Macros.h"
+#include "../Primitives/Position.h"
+#include "../Primitives/Coordinates.h"
+#include "../Primitives/Size.h"
+#include "../Primitives/Rectangle.h"
+#include "../Primitives/Circle.h"
 
 namespace Bomber
 {

@@ -1,7 +1,7 @@
 #include "LevelLayer.h"
 #include "../../Constants.h"
 #include "../Backend/Mediator.h"
-#include "../Backend/Bomber.h"
+#include "../Backend/GameObjects/Sprites/Bomber.h"
 #include "Buttons/GameButton.h"
 #include "GUIUpdater.h"
 #include "ButtonLayer.h"

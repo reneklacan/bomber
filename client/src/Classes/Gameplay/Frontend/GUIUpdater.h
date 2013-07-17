@@ -11,8 +11,8 @@
 #include "Sprites/Human.h"
 
 #include "../Backend/Mediator.h"
-#include "../Backend/Bomber.h"
-#include "../Backend/Effect.h"
+#include "../Backend/GameObjects/Sprites/Bomber.h"
+#include "../Backend/GameObjects/Effect.h"
 #include "../Backend/Primitives/Direction.h"
 
 #include "../../Constants.h"

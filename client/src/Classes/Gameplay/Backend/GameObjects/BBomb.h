@@ -2,16 +2,16 @@
 #define __BOMBER_BACKEND_BOMB
 
 #include "ExplodableObject.h"
-#include "Sprite.h"
+#include "Sprites/Sprite.h"
 
 namespace Bomber
 {
     namespace Backend
     {
-        class BBomb : public ExplodableObject
+        class Bomb : public ExplodableObject
         {
             public:
-                BBomb();
+                Bomb();
                 void configure(Sprite *owner);
                 void update(float dt);
         };

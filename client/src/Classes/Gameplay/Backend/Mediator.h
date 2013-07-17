@@ -2,7 +2,7 @@
 #define __BOMBER_BACKEND_MEDIATOR
 
 #include "Logic.h"
-#include "GameStateUpdater.h"
+#include "State/GameStateUpdater.h"
 #include "Primitives/Direction.h"
 
 namespace Bomber

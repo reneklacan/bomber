@@ -2,7 +2,7 @@
 #define __BOMBER_BACKEND_EXPLODABLE_OBJECT
 
 #include "GameObject.h"
-#include "Macros.h"
+#include "../Macros.h"
 
 namespace Bomber
 {
