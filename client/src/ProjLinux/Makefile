@@ -37,6 +37,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Backend/AI/FollowAI.cpp \
         ../Classes/Gameplay/Frontend/LevelLayer.cpp \
         ../Classes/Gameplay/Frontend/ButtonLayer.cpp \
+        ../Classes/Gameplay/Frontend/Collisions.cpp \
         ../Classes/Gameplay/Frontend/Buttons/GameButton.cpp \
         ../Classes/Gameplay/Frontend/Buttons/ControlButton.cpp \
         ../Classes/Gameplay/Frontend/Buttons/AchievementButton.cpp \

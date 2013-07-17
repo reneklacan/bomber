@@ -17,6 +17,7 @@
 
 #include "../../Constants.h"
 #include "GUIConstants.h"
+#include "Collisions.h"
 
 #include "Buttons/AchievementButton.h"
 #include "Buttons/EffectButton.h"
@@ -66,7 +67,7 @@ namespace Bomber
             void initLayers();
             void initPlayer();
             Rect pickImageFromTexture(unsigned int id);
-            bool evalCollision(Point nextPoint, Backend::TDirection direction);
+            //bool evalCollision(Point nextPoint, Backend::TDirection direction);
             Sprite *getBombAtPosition(int x, int y);
 
             unsigned int _lastChangeID;
@@ -80,11 +81,11 @@ namespace Bomber
             std::map<unsigned int, Sprite *> _effects;
             std::map<unsigned int, Sprite *> _bombs;
 
-            std::map<unsigned int, Point> _collisionFreeAreas;
             SpriteBatchNode* _batchNode;
             bool _resetNow;
             GUICache *_cache;
             Backend::Mediator *_mediator;
+            Collisions *_collisionDetector;
         };
     }
 }

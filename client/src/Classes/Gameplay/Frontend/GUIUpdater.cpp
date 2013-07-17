@@ -20,6 +20,7 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     _resetNow = false;
     _cache = GUICache::getInstance();
     _mediator = Backend::Mediator::getInstance();
+    _collisionDetector = new Collisions();
 
     // Ignore items which will be spawned, backend will take care of them
     _map->getTiledMap()->layerNamed("sprites2spawn")->setVisible(false);
@@ -46,6 +47,11 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
 
     // Initialize all important layers
     this->initLayers();
+
+    // Init Collision Detector
+    _collisionDetector->setMapDimensions(_map->getWidth(), _map->getHeight());
+    _collisionDetector->setObstacles(&_obstacles);
+    _collisionDetector->setBombs(&_bombs);
 }
 
 //
@@ -251,7 +257,8 @@ void GUIUpdater::updateBombSpawn(Backend::GSCBombSpawn *bombSpawn)
     _batchNode->reorderChild(_bombs[ id ], _map->getHeight()*TILE_HEIGHT - bombSpawnPosition.y);
 
     // for kicking
-    _collisionFreeAreas[id] = bombSpawnPosition;
+    _collisionDetector->setCFA(id, bombSpawnPosition);
+    //_collisionFreeAreas[id] = bombSpawnPosition;
     return;
 }
 
@@ -333,6 +340,7 @@ void GUIUpdater::updateSpriteDestroy( Backend::GSCSpriteDestroy *spriteDestroy )
     {
         _batchNode->removeChild(_player, true); // WARNING
         _playerDestroyed = true;
+        _collisionDetector->skipEval(true);
         return;
     }
     unsigned int id = spriteDestroy->getGameObjectId();
@@ -513,25 +521,6 @@ bool GUIUpdater::obstacleExists(unsigned int id)
     return false;
 }
 
-Sprite *GUIUpdater::getBombAtPosition(int x, int y)
-{
-    Sprite *result = NULL;
-    for(auto bomb : _bombs)
-    {
-        Point pos = bomb.second->getPosition();
-        if( ((int)pos.x/TILE_WIDTH == x) && ((int)pos.y/TILE_HEIGHT == y) )
-        {
-            if(_collisionFreeAreas.find(bomb.first) == _collisionFreeAreas.end())
-            {
-                result = dynamic_cast<Sprite *>(bomb.second);
-                return result;
-            }
-        }
-    }
-    return result;
-}
-
-
 /*
  * ========== 
  * Collisions
@@ -541,198 +530,7 @@ Sprite *GUIUpdater::getBombAtPosition(int x, int y)
 //
 std::vector<bool> GUIUpdater::evalCollisions(Point currentPoint, Point nextPoint)
 {
-    // Init
-    std::vector<bool> result;
-    result.push_back(false);  // Collision occured
-    result.push_back(false);  // Collision on X
-    result.push_back(false);  // Collision on Y
-
-    // Partial moves
-    Point nextPointX = ccp(nextPoint.x, currentPoint.y);
-    Point nextPointY = ccp(currentPoint.x, nextPoint.y);
-
-    // Get move direction
-    Backend::TDirection directionX = Backend::CALM;
-    Backend::TDirection directionY = Backend::CALM;
-    if(nextPoint.x - currentPoint.x > 0)
-    {
-        directionX = Backend::RIGHT;
-    }
-    else if(nextPoint.x - currentPoint.x < 0)
-    {
-        directionX = Backend::LEFT;
-    }
-
-    if(nextPoint.y - currentPoint.y > 0)
-    {
-        directionY = Backend::UP;
-    }
-    else if(nextPoint.y - currentPoint.y < 0)
-    {
-        directionY = Backend::DOWN;
-    }
-
-    std::vector<unsigned int> toRemove;
-    for(auto freeArea : _collisionFreeAreas)
-    {
-        if( abs(currentPoint.x - freeArea.second.x) > 80 ||
-            abs(currentPoint.y - freeArea.second.y) > 50 )
-        {
-            toRemove.push_back(freeArea.first);
-        }
-    }
-    for(auto idToRemove : toRemove)
-    {
-        _collisionFreeAreas.erase(idToRemove);
-    } 
-
-    // Evaluation
-    result[1] = this->evalCollision(nextPointX, directionX);
-    result[2] = this->evalCollision(nextPointY, directionY);
-    result[0] = result[1] || result[2];
-
-    // Return
-    return result;
-
-}
-
-//
-bool GUIUpdater::evalCollision(Point nextPoint, Backend::TDirection direction)
-{
-    // Init
-    bool result = false;
-
-    // After defeat player is able to view map
-    if(_playerDestroyed)
-    {
-        return result;
-    }
-
-    // Collision area
-    int widthLeft = 33;
-    int widthRight = 36;
-    int heightTop = 10;
-    int heightBottom = 0;
-    int offsetX = 0;
-    int offsetY = 0;
-
-    // Top Left
-    offsetX = (nextPoint.x - widthLeft) / TILE_WIDTH;
-    offsetY = (nextPoint.y + heightTop) / TILE_HEIGHT;
-    auto obstacle = _obstacles.find(_map->getWidth() * (_map->getHeight() - offsetY -1) + offsetX);
-    if( obstacle != _obstacles.end())
-    {
-        Backend::Coordinates coords = Backend::Coordinates(
-            obstacle->second->getPosition().x / TILE_WIDTH,
-            obstacle->second->getPosition().y / TILE_HEIGHT
-        );
-        _mediator->pushObstacle(coords, direction);
-        result = true;
-    }
-    // Top Right
-    offsetX = (nextPoint.x + widthRight) / TILE_WIDTH;
-    obstacle = _obstacles.find(_map->getWidth() * (_map->getHeight() - offsetY -1) + offsetX);
-    if( obstacle != _obstacles.end())
-    {
-        Backend::Coordinates coords = Backend::Coordinates(
-            obstacle->second->getPosition().x / TILE_WIDTH,
-            obstacle->second->getPosition().y / TILE_HEIGHT
-        );
-        _mediator->pushObstacle(coords, direction);
-        result = true;
-    }
-
-    // Bottom Left
-    offsetX = (nextPoint.x - widthLeft) / TILE_WIDTH;
-    offsetY = (nextPoint.y - heightBottom) / TILE_HEIGHT;
-    obstacle = _obstacles.find(_map->getWidth() * (_map->getHeight() - offsetY -1) + offsetX);
-    if( obstacle != _obstacles.end())
-    {
-        Backend::Coordinates coords = Backend::Coordinates(
-            obstacle->second->getPosition().x / TILE_WIDTH,
-            obstacle->second->getPosition().y / TILE_HEIGHT
-        );
-        _mediator->pushObstacle(coords, direction);
-        result = true;
-    }
-
-    // Bottom Right
-    offsetX = (nextPoint.x + widthRight) / TILE_WIDTH;
-    obstacle = _obstacles.find(_map->getWidth() * (_map->getHeight() - offsetY -1) + offsetX);
-    if( obstacle != _obstacles.end())
-    {
-        Backend::Coordinates coords = Backend::Coordinates(
-            obstacle->second->getPosition().x / TILE_WIDTH,
-            obstacle->second->getPosition().y / TILE_HEIGHT
-        );
-        _mediator->pushObstacle(coords, direction);
-        result = true;
-    }
-
-    // FOR BOMBS - will be in new class !!!
-
-    // Collision area
-    widthLeft = 28;
-    widthRight = 30;
-    heightTop = 7;
-    heightBottom = 0;
-    offsetX = 0;
-    offsetY = 0;
-
-    // Top Left
-    offsetX = (nextPoint.x - widthLeft) / TILE_WIDTH;
-    offsetY = (nextPoint.y + heightTop) / TILE_HEIGHT;
-    auto bomb = this->getBombAtPosition(offsetX, offsetY);
-    if( bomb != NULL)
-    {
-        Backend::Coordinates coords = Backend::Coordinates(
-            bomb->getPosition().x / TILE_WIDTH,
-            bomb->getPosition().y / TILE_HEIGHT
-        );
-        _mediator->kickBomb(coords, direction);
-        result = true;
-    }
-    // Top Right
-    offsetX = (nextPoint.x + widthRight) / TILE_WIDTH;
-    bomb = this->getBombAtPosition(offsetX, offsetY);
-    if( bomb != NULL)
-    {
-        Backend::Coordinates coords = Backend::Coordinates(
-            bomb->getPosition().x / TILE_WIDTH,
-            bomb->getPosition().y / TILE_HEIGHT
-        );
-        _mediator->kickBomb(coords, direction);
-        result = true;
-    }
-
-    // Bottom Left
-    offsetX = (nextPoint.x - widthLeft) / TILE_WIDTH;
-    offsetY = (nextPoint.y - heightBottom) / TILE_HEIGHT;
-    bomb = this->getBombAtPosition(offsetX, offsetY);
-    if( bomb != NULL)
-    {
-        Backend::Coordinates coords = Backend::Coordinates(
-            bomb->getPosition().x / TILE_WIDTH,
-            bomb->getPosition().y / TILE_HEIGHT
-        );
-        _mediator->kickBomb(coords, direction);
-        result = true;
-    }
-
-    // Bottom Right
-    offsetX = (nextPoint.x + widthRight) / TILE_WIDTH;
-    bomb = this->getBombAtPosition(offsetX, offsetY);
-    if( bomb != NULL)
-    {
-        Backend::Coordinates coords = Backend::Coordinates(
-            bomb->getPosition().x / TILE_WIDTH,
-            bomb->getPosition().y / TILE_HEIGHT
-        );
-        _mediator->kickBomb(coords, direction);
-        result = true;
-    }
-
-    return result;
+    return _collisionDetector->eval(currentPoint, nextPoint);
 }
 
 /*
@@ -859,6 +657,9 @@ void GUIUpdater::resetGUI()
 
     // Player
     this->initPlayer();
+
+    // Collisions
+    _collisionDetector->reset();
 
     // Init instance variable
     _resetNow = false;
