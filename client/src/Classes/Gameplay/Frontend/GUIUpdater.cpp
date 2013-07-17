@@ -489,6 +489,7 @@ void GUIUpdater::updateBombMove( Backend::GSCBombMove *bombMove )
 {
     unsigned int id = bombMove->getGameObjectId();
     _bombs[ id ]->setPosition( ccp( bombMove->getPosition().x, bombMove->getPosition().y) );
+    _batchNode->reorderChild(_bombs[ id ], _map->getHeight()*TILE_HEIGHT - bombMove->getPosition().y);
     return;
 }
 

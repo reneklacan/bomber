@@ -10,9 +10,9 @@ _OWLeft(33),
 _OWRight(36),
 _OHTop(10),
 _OHBottom(0),
-_BWLeft(28),
-_BWRight(30),
-_BHTop(7),
+_BWLeft(0),
+_BWRight(0),
+_BHTop(0),
 _BHBottom(0)
 {
 	_mediator = Backend::Mediator::getInstance();
@@ -80,8 +80,10 @@ std::vector<bool> Collisions::eval(Point currentPoint, Point nextPoint)
     std::vector<unsigned int> toRemove;
     for(auto freeArea : _collisionFreeAreas)
     {
-        if( abs(currentPoint.x - freeArea.second.x) > 80 ||
-            abs(currentPoint.y - freeArea.second.y) > 50 )
+        if( (currentPoint.x - freeArea.second.x) > 50 ||	// Push left
+            (currentPoint.y - freeArea.second.y) > 40 ||	// Push up
+            (freeArea.second.x - currentPoint.x) > 60 ||	// Push right
+            (freeArea.second.y - currentPoint.y) > 50 )		// Push down
         {
             toRemove.push_back(freeArea.first);
         }
