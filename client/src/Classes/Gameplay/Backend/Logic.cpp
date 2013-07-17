@@ -111,7 +111,11 @@ void Logic::updateBombs(float dt)
         ownerId = bomb->getOwnerId();
 
         owner = _state->getSpriteLayer()->getObject(ownerId);
-        owner->getAttributes()->increaseBombCapacity();
+
+        if (owner != nullptr)
+        {
+            owner->getAttributes()->increaseBombCapacity();
+        }
             
         bombsToDestroy.push_back(bomb);
 

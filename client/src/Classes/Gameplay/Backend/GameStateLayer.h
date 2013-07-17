@@ -135,6 +135,9 @@ namespace Bomber
         template <class ObjectType>
         ObjectType *GameStateLayer<ObjectType>::getObject(unsigned int id)
         {
+            if (_objectGridMap.find(id) == _objectGridMap.end())
+                return nullptr;
+
             for (auto object : _objectIdMap[id])
             {
                 return object;
