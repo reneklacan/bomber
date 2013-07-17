@@ -21,6 +21,7 @@ namespace Bomber
                 void updateSprites(float dt);
 
                 void setState(GameState *state) { _state = state; };
+                inline GameState *getState() { return _state; };
 
                 void scheduleLevelReset(float delay);
 

@@ -12,7 +12,7 @@
 #include "../../Input/ControlLayer.h"
 #include "../../Input/ActionDelegates.h"
 #include "../Backend/Mediator.h"
-#include "../Backend/GameObjects/Sprites/Bomber.h"
+#include "../Backend/GameObjects/Sprites/Sprite.h"
 
 namespace Bomber
 {
@@ -56,7 +56,7 @@ namespace Bomber
             bool _gamePaused;
             unsigned int _lastChangeID;
             Bomber::Backend::GameState *_gameState;
-            Bomber::Backend::Bomber *_controlledSprite;
+            Bomber::Backend::Sprite *_controlledSprite;
 
         private:
             void initControlledSprite();

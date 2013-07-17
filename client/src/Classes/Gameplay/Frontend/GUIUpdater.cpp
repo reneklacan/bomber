@@ -550,29 +550,10 @@ void GUIUpdater::initPlayer()
     _player->initWithTexture(_batchNode->getTexture(), CCRectMake(120,60,80,110));
     _player->retain();
     _player->setAnchorPoint(ccp(0.45f, 0.2f));
-    Size visibleSize = Director::sharedDirector()->getVisibleSize();
-    Point origin = Director::sharedDirector()->getVisibleOrigin();
-    _player->setPosition(
-            ccp(
-                origin.x + _player->getContentSize().width/2 + 101 + 50,
-                origin.y + visibleSize.height/2
-            )
-    );
-    _player->setNextPosition(_player->getPosition());
     _player->setVertexZ(0);
     
     // Add player to Batch Node
     _batchNode->addChild(_player, 0);
-
-    // Set map view
-    _map->setPosition(
-            ccp(
-                visibleSize.width/2 - _player->getPosition().x,
-                0
-            )
-    );
-
-    return;
 }
 
 //

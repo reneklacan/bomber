@@ -198,15 +198,24 @@ void LevelLayer::resetLevel()
 //
 void LevelLayer::initControlledSprite()
 {
-    if(_controlledSprite == NULL)
-    {
-       _controlledSprite = new Backend::Bomber(); 
-    }
-    _controlledSprite->setId(19991);
-    _controlledSprite->setPosition(_player->getPosition().x, _player->getPosition().y);
-    _controlledSprite->setSize(10, 10);
-    _gameState->getSpriteLayer()->addObject(_controlledSprite);
-    Backend::Mediator::getInstance()->setControlledSprite(_controlledSprite->getId());
+    // spawnpoint is calculated on backend
+    _controlledSprite = Backend::Mediator::getInstance()->getControlledSprite();
+    _player->setPosition(
+        ccp(
+            _controlledSprite->getPosition().x,
+            _controlledSprite->getPosition().y
+        )
+    );
+    _player->setNextPosition(_player->getPosition());
+
+    // set view that timmy is in the center of it
+    Size visibleSize = Director::sharedDirector()->getVisibleSize();
+    _map->setPosition(
+        ccp(
+            visibleSize.width/2 - _player->getPosition().x,
+            visibleSize.height/2 - _player->getPosition().y,
+        )
+    );
 }
 
 //

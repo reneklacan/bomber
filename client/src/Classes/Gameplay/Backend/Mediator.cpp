@@ -1,5 +1,6 @@
 
 #include "Mediator.h"
+#include "GameObjects\Sprites\Bomber.h"
 
 using namespace Bomber::Backend;
 
@@ -40,6 +41,24 @@ void Mediator::setState(GameState *state)
 void Mediator::setControlledSprite(unsigned int id)
 {
     Logic::getInstance()->setControlledSprite(id);
+}
+
+Sprite *Mediator::getControlledSprite()
+{
+    // TODO:
+    // - set spawn position by position in tilemap
+    // - dont create new sprite each call of this method
+    // - this method should be maybe called with id as argument?
+
+    Sprite *controlledSprite = new Bomber(); 
+    controlledSprite->setId(19991);
+    controlledSprite->setSize(10, 10);
+    controlledSprite->setPosition(200, 200);
+
+    Logic::getInstance()->getState()->getSpriteLayer()->addObject(controlledSprite);
+    Logic::getInstance()->setControlledSprite(controlledSprite->getId());
+
+    return controlledSprite;
 }
 
 void Mediator::moveSprite(Position position)
