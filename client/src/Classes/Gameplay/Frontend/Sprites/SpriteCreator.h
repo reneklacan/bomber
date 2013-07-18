@@ -14,10 +14,10 @@ namespace Bomber
     	public:
             static SpriteCreator *getInstance();
 
-            Sprite* createObstacle();
-            Sprite* createSprite();
+            Sprite* createObstacle(Texture2D *texture, Rect rect);
+            Sprite* createSprite(Texture2D *texture, Rect rect);
             Sprite* createEffect(Texture2D *texture, Rect rect);
-            Sprite* createBomb();
+            Sprite* createBomb(Texture2D *texture, Rect rect);
 
         private:
         	SpriteCreator() {}

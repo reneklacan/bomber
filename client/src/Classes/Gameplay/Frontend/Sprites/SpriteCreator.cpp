@@ -10,15 +10,27 @@ SpriteCreator *SpriteCreator::getInstance()
 }
 
 //
-Sprite* SpriteCreator::createObstacle()
+Sprite* SpriteCreator::createObstacle(Texture2D *texture, Rect rect)
 {
-	return NULL;
+	Sprite *effect = Sprite::createWithTexture(
+        texture,
+        rect 
+    );
+    effect->setAnchorPoint( ccp(0, 0) );
+    effect->setVertexZ(0);
+    return effect;
 }
 
 //
-Sprite* SpriteCreator::createSprite()
+Sprite* SpriteCreator::createSprite(Texture2D *texture, Rect rect)
 {
-	return NULL;
+	Sprite *effect = Sprite::createWithTexture(
+        texture,
+        rect 
+    );
+    effect->setAnchorPoint( ccp(0, 0) );
+    effect->setVertexZ(0);
+    return effect;
 }
 
 //
@@ -34,7 +46,13 @@ Sprite* SpriteCreator::createEffect(Texture2D *texture, Rect rect)
 }
 
 //
-Sprite* SpriteCreator::createBomb()
+Sprite* SpriteCreator::createBomb(Texture2D *texture, Rect rect)
 {
-	return NULL;
+	Sprite *effect = Sprite::createWithTexture(
+        texture,
+        rect 
+    );
+    effect->setAnchorPoint( ccp(0.5, 0.35) );
+    effect->setVertexZ(0);
+    return effect;
 }

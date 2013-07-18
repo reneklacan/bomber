@@ -10,6 +10,86 @@ GUICache *GUICache::getInstance()
 }
 
 //
+void GUICache::initCaches(Map* map)
+{
+    int i;
+    _sprites2Spawn = 0;
+    _effects2Spawn = 0;
+
+    TMXLayer *sprites2spawnLayer = map->getTiledMap()->layerNamed("sprites2spawn");
+    TMXLayer *effects2spawnLayer = map->getTiledMap()->layerNamed("effects2spawn");
+
+    // Get info about sprites and effect to spawn
+    for(int ix = 0; ix < map->getWidth(); ix++)
+    {
+        for(int iy = 0; iy < map->getHeight(); iy++)
+        {
+            Point point = ccp(ix, iy);
+            if(sprites2spawnLayer->tileGIDAt( point ) != 0)
+            {
+                _sprites2Spawn++;
+            }
+            if(effects2spawnLayer->tileGIDAt( point ) != 0)
+            {
+                _effects2Spawn++;
+            }
+        }
+    }
+
+    // IMPORTANT: Batch Node must be initialized before
+
+    // Cache obstacles and bombs
+    for(i = 0; i < MAX_CACHED_ITEMS; i++)
+    {
+        _obstacleCache.push_back( 
+            _creator->createObstacle(
+                _batchNode->getTexture(),
+                Rect(0,0,0,0)
+            )
+        );
+        _obstacleCache.back()->setVisible(false);
+        _batchNode->addChild(_obstacleCache.back());
+
+        _bombCache.push_back( 
+            _creator->createBomb(
+                _batchNode->getTexture(),
+                Rect(0,0,0,0)
+            )
+        );
+        _bombCache.back()->setVisible(false);
+        _batchNode->addChild(_bombCache.back());
+    }
+
+    // Cache mobs
+    for(i = 0; i < _sprites2Spawn + MAX_CACHED_ITEMS; i++)
+    {
+        _mobCache.push_back( 
+            _creator->createSprite(
+                _batchNode->getTexture(),
+                Rect(0,0,0,0)
+            )
+        );
+        _mobCache.back()->setVisible(false);
+        _batchNode->addChild(_mobCache.back());
+    }
+
+    // Cache effects
+    for(i = 0; i < _effects2Spawn + MAX_CACHED_ITEMS; i++)
+    {
+        _effectCache.push_back( 
+            _creator->createEffect(
+                _batchNode->getTexture(),
+                Rect(0,0,0,0)
+            )
+        );
+        _effectCache.back()->setVisible(false);
+        _batchNode->addChild(_effectCache.back());
+    }
+
+    return;
+}
+
+//
 void GUICache::cacheAllLayers(Map* map)
 {
     // Clear
@@ -55,37 +135,35 @@ void GUICache::cacheAllLayers(Map* map)
 }
 
 //
-void GUICache::cacheObstacle(Sprite * sprite)
+bool GUICache::cacheObstacle(Sprite * sprite)
 {
     if( _obstacleCache.size() < MAX_CACHED_ITEMS )
     {
+        sprite->setVisible(false);
+        sprite->setPosition( ccp(0, 0) );
         _obstacleCache.push_back(sprite);
+        return true;
     }
-    else
-    {
-        delete sprite;
-    }
-    return;
+    return false;
 }
 
 //
-void GUICache::cacheSprite(Sprite *sprite)
+bool GUICache::cacheSprite(Sprite *sprite)
 {
-    if( _mobCache.size() < MAX_CACHED_ITEMS )
+    if( _mobCache.size() < _sprites2Spawn + MAX_CACHED_ITEMS )
     {
+        sprite->setVisible(false);
+        sprite->setPosition( ccp(0, 0) );
         _mobCache.push_back(sprite);
+        return true;
     }
-    else
-    {
-        delete sprite;
-    }
-    return;
+    return false;
 }
 
 //
 bool GUICache::cacheEffect(Sprite *sprite)
 {
-    if( _effectCache.size() < MAX_CACHED_ITEMS )
+    if( _effectCache.size() < _effects2Spawn + MAX_CACHED_ITEMS )
     {
         sprite->setVisible(false);
         sprite->setPosition( ccp(0, 0) );
@@ -97,49 +175,56 @@ bool GUICache::cacheEffect(Sprite *sprite)
 
 
 //
-void GUICache::cacheBomb(Sprite *sprite)
+bool GUICache::cacheBomb(Sprite *sprite)
 {
     if( _bombCache.size() < MAX_CACHED_ITEMS )
     {
+        sprite->setVisible(false);
+        sprite->setPosition( ccp(0, 0) );
         _bombCache.push_back(sprite);
+        return true;
     }
-    else
-    {
-        delete sprite;
-    }
-    return;
+    return false;
 }
 
 //
-Sprite *GUICache::getObstacle()
+Sprite *GUICache::getObstacle(Texture2D *texture, Rect rect)
 {
-    Sprite *result;
+    Sprite *obstacle;
     if( !_obstacleCache.empty() )
     {
-        result = _obstacleCache.back();
+        obstacle = _obstacleCache.back();
         _obstacleCache.pop_back();
+        obstacle->setTextureRect( rect );
+        obstacle->setVisible(true);
     }
     else
     {
-        result = _creator->createObstacle();
+        obstacle = _creator->createObstacle(texture, rect);
+        // Add to Batch Node
+        _batchNode->addChild(obstacle);
     }
-    return result;
+    return obstacle;
 }
 
 //
-Sprite *GUICache::getSprite()
+Sprite *GUICache::getSprite(Texture2D *texture, Rect rect)
 {
-    Sprite *result;
+    Sprite *mob;
     if( !_mobCache.empty() )
     {
-        result = _mobCache.back();
+        mob = _mobCache.back();
         _mobCache.pop_back();
+        mob->setTextureRect( rect );
+        mob->setVisible(true);
     }
     else
     {
-        result = _creator->createSprite();
+        mob = _creator->createSprite(texture, rect);
+        // Add to Batch Node
+        _batchNode->addChild(mob);
     }
-    return result;
+    return mob;
 }
 
 //
@@ -163,19 +248,23 @@ Sprite *GUICache::getEffect(Texture2D *texture, Rect rect)
 }
 
 //
-Sprite *GUICache::getBomb()
+Sprite *GUICache::getBomb(Texture2D *texture, Rect rect)
 {
-    Sprite *result;
+    Sprite *bomb;
     if( !_bombCache.empty() )
     {
-        result = _bombCache.back();
+        bomb = _bombCache.back();
         _bombCache.pop_back();
+        bomb->setTextureRect( rect );
+        bomb->setVisible(true);
     }
     else
     {
-        result = _creator->createBomb();
+        bomb = _creator->createBomb(texture, rect);
+        // Add to Batch Node
+        _batchNode->addChild(bomb);
     }
-    return result;
+    return bomb;
 }
 
 void GUICache::resetSprites()

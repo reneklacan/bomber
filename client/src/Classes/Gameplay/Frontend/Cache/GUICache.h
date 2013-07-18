@@ -8,7 +8,7 @@
 #include "../Map/Map.h"
 #include "../Sprites/SpriteCreator.h"
 
-#define MAX_CACHED_ITEMS  5
+#define MAX_CACHED_ITEMS  10
 
 namespace Bomber
 {
@@ -19,15 +19,16 @@ namespace Bomber
         public:
             static GUICache *getInstance();
 
+            void initCaches(Map* map);
             void cacheAllLayers(Map* map);
-            void cacheObstacle(Sprite *);
-            void cacheSprite(Sprite * sprite);
+            bool cacheObstacle(Sprite *);
+            bool cacheSprite(Sprite * sprite);
             bool cacheEffect(Sprite * sprite);
-            void cacheBomb(Sprite * sprite);
-            Sprite *getObstacle();
-            Sprite *getSprite();
+            bool cacheBomb(Sprite * sprite);
+            Sprite *getObstacle(Texture2D *texture, Rect rect);
+            Sprite *getSprite(Texture2D *texture, Rect rect);
             Sprite *getEffect(Texture2D *texture, Rect rect);
-            Sprite *getBomb();
+            Sprite *getBomb(Texture2D *texture, Rect rect);
             void resetSprites();
             void setBatchNode(SpriteBatchNode* batchNode);
 
@@ -51,6 +52,9 @@ namespace Bomber
             std::vector<Sprite *> _obstacleCache;
             std::vector<Sprite *> _mobCache;
             std::vector<Sprite *> _effectCache;
+
+            unsigned int _effects2Spawn;
+            unsigned int _sprites2Spawn;
         };
     }
 }

@@ -42,8 +42,9 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     this->initPlayer();
 
     // Cache data from tiled map layers
-    _cache->setBatchNode(_batchNode);
+    _cache->setBatchNode(_batchNode);   // Batch Node init must be first
     _cache->cacheAllLayers(_map);
+    _cache->initCaches(_map);
 
     // Initialize all important layers
     this->initLayers();
@@ -245,20 +246,17 @@ void GUIUpdater::updateBombSpawn(Backend::GSCBombSpawn *bombSpawn)
     unsigned int id = bombSpawn->getGameObjectId();
     Point bombSpawnPosition = ccp( bombSpawn->getPosition().x, bombSpawn->getPosition().y);
 
-    _bombs[ id ] = Sprite::createWithTexture(
+    _bombs[ id ] = _cache->getBomb(
         _batchNode->getTexture(),
         this->pickImageFromTexture(BOMB_IMAGE_ID)
     );
+
     _bombs[ id ]->setPosition(bombSpawnPosition);
-    _bombs[ id ]->setAnchorPoint( ccp(0.5, 0.35) ); // WARNING
-    _bombs[ id ]->setVertexZ(0); // DO NOT CHANGE
-    
-    _batchNode->addChild(_bombs[ id ], 0);
     _batchNode->reorderChild(_bombs[ id ], _map->getHeight()*TILE_HEIGHT - bombSpawnPosition.y);
 
     // for kicking
     _collisionDetector->setCFA(id, bombSpawnPosition);
-    //_collisionFreeAreas[id] = bombSpawnPosition;
+
     return;
 }
 
@@ -266,7 +264,11 @@ void GUIUpdater::updateBombSpawn(Backend::GSCBombSpawn *bombSpawn)
 void GUIUpdater::updateBombDestroy(Backend::GSCBombDestroy *bombDestroy)
 {
     unsigned int id = bombDestroy->getGameObjectId();
-    _batchNode->removeChild(_bombs[ id ], true);
+    // Cache or remove         
+    if ( !_cache->cacheBomb(_bombs[ id ]) )
+    {
+        _batchNode->removeChild(_bombs[ id ], true);
+    }
     _bombs.erase(id);
 }
 
@@ -276,7 +278,11 @@ void GUIUpdater::updateObstacleDestroy(Backend::GSCObstacleDestroy *obstacleDest
     int bombID = (_map->getHeight() - ( obstacleDestroy->getGameObjectId() / _map->getWidth() ) - 1) 
                 * _map->getWidth()
                 + obstacleDestroy->getGameObjectId() % _map->getWidth();
-    _batchNode->removeChild(_obstacles[bombID], true); // WARNING
+    // Cache or remove         
+    if ( !_cache->cacheObstacle(_obstacles[bombID]) )
+    {
+        _batchNode->removeChild(_obstacles[bombID], true);
+    }
     _obstacles.erase(bombID); // Collision detection
 
 }
@@ -319,17 +325,15 @@ void GUIUpdater::updateObstacleSpawn(Backend::GSCObstacleSpawn *obstacleSpawn)
     int position = _map->getWidth() * transformed_iy + ix;
 
     // Init with texture of Batch Node
-    _obstacles[ position ] = Sprite::createWithTexture(
+    _obstacles[ position ] = _cache->getObstacle(
         _batchNode->getTexture(),
         this->pickImageFromTexture( obstacleSpawn->getGid() )
-    );    // Maybe cache ?
+    );
 
     // Add to Batch Node
     _obstacles[ position ]->setPosition( ccp(ix*TILE_WIDTH, iy*TILE_HEIGHT ) );
-    _obstacles[ position ]->setAnchorPoint( ccp(0, 0) );
-    _batchNode->addChild(_obstacles[ position ], 0);
     _batchNode->reorderChild(_obstacles[ position ], transformed_iy*TILE_HEIGHT+5);
-    _obstacles[ position ]->setVertexZ(0); // DO NOT CHANGE
+
     return;
 }
 
@@ -344,7 +348,11 @@ void GUIUpdater::updateSpriteDestroy( Backend::GSCSpriteDestroy *spriteDestroy )
         return;
     }
     unsigned int id = spriteDestroy->getGameObjectId();
-    _batchNode->removeChild(_mobs[id], true); // WARNING
+    // Cache or remove         
+    if ( !_cache->cacheSprite(_mobs[id]) )
+    {
+        _batchNode->removeChild(_mobs[id], true);
+    }
     _mobs.erase(id);
 }
 
@@ -435,17 +443,15 @@ void GUIUpdater::updateSpriteSpawn( Backend::GSCSpriteSpawn *spriteSpawn )
     unsigned int id = spriteSpawn->getGameObjectId();
 
     // Init with texture of Batch Node
-    _mobs[ id ] = Sprite::createWithTexture(
+    _mobs[ id ] = _cache->getSprite(
         _batchNode->getTexture(),
         this->pickImageFromTexture( spriteSpawn->getGid() ) 
-    );    // Maybe cache ?
+    );
 
-    // Add to Batch Node
+    // Position and Batch node Z order
     _mobs[ id ]->setPosition( ccp(ix*TILE_WIDTH, iy*TILE_HEIGHT ) );
-    _mobs[ id ]->setAnchorPoint( ccp(0, 0) );
-    _batchNode->addChild(_mobs[ id ], 0);
     _batchNode->reorderChild(_mobs[ id ], transformed_iy*TILE_HEIGHT);
-    _mobs[ id ]->setVertexZ(0); // DO NOT CHANGE
+
     return;
 }
 
@@ -630,12 +636,13 @@ void GUIUpdater::resetGUI()
     // Buffs and Achievements
     ButtonLayer::getInstance()->reset();
 
-    // Cache
-    _cache->resetSprites();
-
     // Batch Node
     _batchNode->removeAllChildrenWithCleanup(true);
     this->initLayers();
+
+    // Cache
+    _cache->resetSprites();
+    _cache->initCaches(_map);
 
     // Player
     this->initPlayer();
