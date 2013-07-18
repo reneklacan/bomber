@@ -24,10 +24,8 @@ GameState::GameState(unsigned int width, unsigned int height)
     _portalExitLayer = new GameStateLayer<PortalExit>("Portal Exit Layer", _width, _height);
     _effectLayer = new GameStateLayer<Effect>("Effect Layer", _width, _height);
     _specialLayer = new GameStateLayer<GameObject>("Special Layer", _width, _height);
-    _leverLayer = new GameStateLayer<GameObject>("Lever Layer", _width, _height);
-    _leverTargetLayer = new GameStateLayer<GameObject>("Lever Target Layer", _width, _height);
-    _trapLayer = new GameStateLayer<GameObject>("Trap Layer", _width, _height);
-    _trapTargetLayer = new GameStateLayer<GameObject>("Trap Target Layer", _width, _height);
+    _switchLayer = new GameStateLayer<Switch>("Trap Layer", _width, _height);
+    _switchTargetLayer = new GameStateLayer<GameObject>("Trap Target Layer", _width, _height);
 }
 
 GameState::~GameState()
@@ -40,6 +38,8 @@ void GameState::init(TMXTiledMap *tiledMap)
     _tiledMap = tiledMap;
     
     Object *ccObject;
+
+    // level properties
 
     auto properties = tiledMap->getProperties();
     auto propertiesKeys = properties->allKeys();
@@ -57,6 +57,8 @@ void GameState::init(TMXTiledMap *tiledMap)
             }
         }
     }
+
+    // obstacles
 
     unsigned int gid;
     TMXLayer *obstacleLayer = tiledMap->layerNamed("obstacles");
@@ -78,6 +80,8 @@ void GameState::init(TMXTiledMap *tiledMap)
             _obstacleLayer->addObject(obstacle);
         }
     }
+
+    // sprites
     
     TMXLayer *spriteLayer = tiledMap->layerNamed("sprites");
 
@@ -119,6 +123,8 @@ void GameState::init(TMXTiledMap *tiledMap)
             _spriteLayer->addObject(sprite);
         }
     }
+
+    // effects
     
     TMXLayer *effectLayer = tiledMap->layerNamed("effects");
 
@@ -164,6 +170,8 @@ void GameState::init(TMXTiledMap *tiledMap)
     int id, x, y, width, height;
     Dictionary *dict;
     TMXObjectGroup *objectGroup;
+
+    // portals
 
     objectGroup = tiledMap->objectGroupNamed("portals");
     Array *portals = objectGroup->getObjects();
@@ -213,10 +221,12 @@ void GameState::init(TMXTiledMap *tiledMap)
         _portalExitLayer->addObject(portalExit);
     }
 
-    objectGroup = tiledMap->objectGroupNamed("levers");
-    Array *levers = objectGroup->getObjects();
+    // switches
 
-    CCARRAY_FOREACH(levers, ccObject)
+    objectGroup = tiledMap->objectGroupNamed("switches");
+    Array *switches = objectGroup->getObjects();
+
+    CCARRAY_FOREACH(switches, ccObject)
     {
         dict = (Dictionary*) ccObject;
 
@@ -224,20 +234,28 @@ void GameState::init(TMXTiledMap *tiledMap)
         x = ((String*) dict->objectForKey("x"))->intValue();
         y = ((String*) dict->objectForKey("y"))->intValue();
         width = ((String*) dict->objectForKey("width"))->intValue();
-        height = ((String*) dict->objectForKey("height"))->intValue();         
+        height = ((String*) dict->objectForKey("height"))->intValue();
+        
+        bool oneTime = ((String*) dict->objectForKey("one_time"))->boolValue();
+        bool bombSensitive = ((String*) dict->objectForKey("bomb_sensitive"))->boolValue();
+        bool passingSensitive = ((String*) dict->objectForKey("passing_sensitive"))->boolValue();
 
-        GameObject *lever = new GameObject();
-        lever->setId(id);
-        lever->setPosition(x, y);
-        lever->setSize(width, height);
+        Switch *switchObject = new Switch();
+        switchObject->setId(id);
+        switchObject->setPosition(x, y);
+        switchObject->setSize(width, height);
 
-        _leverLayer->addObject(lever);
+        switchObject->setOneTime(oneTime);
+        switchObject->setBombSensitive(bombSensitive);
+        switchObject->setPassingSensitive(passingSensitive);
+
+        _switchLayer->addObject(switchObject);
     }
 
-    objectGroup = tiledMap->objectGroupNamed("lever_targets");
-    Array *leverTargets = objectGroup->getObjects();
+    objectGroup = tiledMap->objectGroupNamed("switch_targets");
+    Array *switchTargets = objectGroup->getObjects();
 
-    CCARRAY_FOREACH(leverTargets, ccObject)
+    CCARRAY_FOREACH(switchTargets, ccObject)
     {
         dict = (Dictionary*) ccObject;
 
@@ -247,54 +265,12 @@ void GameState::init(TMXTiledMap *tiledMap)
         width = ((String*) dict->objectForKey("width"))->intValue();
         height = ((String*) dict->objectForKey("height"))->intValue();         
 
-        GameObject *leverTarget = new GameObject();
-        leverTarget->setId(id);
-        leverTarget->setPosition(x, y);
-        leverTarget->setSize(width, height);
+        GameObject *switchTarget = new GameObject();
+        switchTarget->setId(id);
+        switchTarget->setPosition(x, y);
+        switchTarget->setSize(width, height);
 
-        _leverTargetLayer->addObject(leverTarget);
-    }
-
-    objectGroup = tiledMap->objectGroupNamed("traps");
-    Array *traps = objectGroup->getObjects();
-
-    CCARRAY_FOREACH(traps, ccObject)
-    {
-        dict = (Dictionary*) ccObject;
-
-        id = ((String*) dict->objectForKey("name"))->intValue();
-        x = ((String*) dict->objectForKey("x"))->intValue();
-        y = ((String*) dict->objectForKey("y"))->intValue();
-        width = ((String*) dict->objectForKey("width"))->intValue();
-        height = ((String*) dict->objectForKey("height"))->intValue();         
-
-        GameObject *trap = new GameObject();
-        trap->setId(id);
-        trap->setPosition(x, y);
-        trap->setSize(width, height);
-
-        _trapLayer->addObject(trap);
-    }
-
-    objectGroup = tiledMap->objectGroupNamed("trap_targets");
-    Array *trapTargets = objectGroup->getObjects();
-
-    CCARRAY_FOREACH(trapTargets, ccObject)
-    {
-        dict = (Dictionary*) ccObject;
-
-        id = ((String*) dict->objectForKey("name"))->intValue();
-        x = ((String*) dict->objectForKey("x"))->intValue();
-        y = ((String*) dict->objectForKey("y"))->intValue();
-        width = ((String*) dict->objectForKey("width"))->intValue();
-        height = ((String*) dict->objectForKey("height"))->intValue();         
-
-        GameObject *trapTarget = new GameObject();
-        trapTarget->setId(id);
-        trapTarget->setPosition(x, y);
-        trapTarget->setSize(width, height);
-
-        _trapTargetLayer->addObject(trapTarget);
+        _switchTargetLayer->addObject(switchTarget);
     }
 }
 
@@ -312,10 +288,8 @@ void GameState::reset()
     _portalExitLayer->reset();
     _effectLayer->reset();
     _specialLayer->reset();
-    _leverLayer->reset();
-    _leverTargetLayer->reset();
-    _trapLayer->reset();
-    _trapTargetLayer->reset();
+    _switchLayer->reset();
+    _switchTargetLayer->reset();
 
     _goalConditions.clear();
 

@@ -3158,24 +3158,38 @@
   <object name="4" x="1449" y="1402" width="30" height="30"/>
   <object name="5" x="1045" y="1078" width="30" height="30"/>
  </objectgroup>
- <objectgroup name="levers" width="21" height="21">
-  <object name="1" x="1140" y="1320" width="40" height="29"/>
+ <objectgroup name="switches" width="21" height="21">
+  <object name="1" type="type" x="1140" y="1320" width="40" height="29">
+   <properties>
+    <property name="bomb_sensitive" value="true"/>
+    <property name="one_time" value="false"/>
+    <property name="passing_sensitive" value="false"/>
+   </properties>
+  </object>
+  <object name="2" type="type" x="131" y="1560" width="40" height="29">
+   <properties>
+    <property name="bomb_sensitive" value="false"/>
+    <property name="one_time" value="true"/>
+    <property name="passing_sensitive" value="true"/>
+   </properties>
+  </object>
+  <object name="3" x="130" y="508" width="48" height="34">
+   <properties>
+    <property name="bomb_sensitive" value="false"/>
+    <property name="one_time" value="true"/>
+    <property name="passing_sensitive" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
- <objectgroup name="lever_targets" width="21" height="21">
+ <objectgroup name="switch_targets" width="21" height="21">
   <object name="1" x="1340" y="991" width="45" height="38"/>
   <object name="1" x="1139" y="987" width="45" height="38"/>
- </objectgroup>
- <objectgroup name="traps" width="21" height="21">
-  <object name="1" x="125" y="504" width="50" height="39"/>
-  <object name="2" x="127" y="1558" width="48" height="34"/>
- </objectgroup>
- <objectgroup name="trap_targets" width="21" height="21">
-  <object name="1" x="219" y="663" width="60" height="42"/>
-  <object name="1" x="121" y="663" width="63" height="44"/>
-  <object name="2" x="327" y="1558" width="46" height="29"/>
-  <object name="2" x="124" y="1395" width="49" height="34"/>
-  <object name="2" x="226" y="1398" width="47" height="33"/>
-  <object name="2" x="329" y="1401" width="45" height="34"/>
   <object name="2" x="326" y="1482" width="47" height="31"/>
+  <object name="2" x="226" y="1398" width="47" height="33"/>
+  <object name="2" x="327" y="1558" width="46" height="29"/>
+  <object name="2" x="329" y="1401" width="45" height="34"/>
+  <object name="2" x="124" y="1395" width="49" height="34"/>
+  <object name="3" x="121" y="663" width="63" height="44"/>
+  <object name="3" x="219" y="663" width="60" height="42"/>
  </objectgroup>
 </map>

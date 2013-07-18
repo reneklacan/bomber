@@ -216,8 +216,8 @@ void Logic::updateSprites(float dt)
     auto spriteLayer = _state->getSpriteLayer();
     auto portalLayer = _state->getPortalLayer();
     auto portalExitLayer = _state->getPortalExitLayer();
-    auto trapLayer = _state->getTrapLayer();
-    auto trapTargetLayer = _state->getTrapTargetLayer();
+    auto switchLayer = _state->getSwitchLayer();
+    auto switchTargetLayer = _state->getSwitchTargetLayer();
     auto effectLayer = _state->getEffectLayer();
 
     std::vector<Effect *> effectsToDestroy;
@@ -262,20 +262,21 @@ void Logic::updateSprites(float dt)
             break;
         }
 
-        auto traps = trapLayer->getObjectsAtCoords(sprite->getCoords());
+        auto switches = switchLayer->getObjectsAtCoords(sprite->getCoords());
 
-        for (GameObject *trap : traps)
+        for (Switch *switchObject : switches)
         {
-            if (!trap->isActive())
+            if (!switchObject->isPassingSensitive() || !switchObject->isActive())
                 continue;
 
-            printf("xxx\n");
-            trap->setActive(false);
-
-            for (auto trapTarget : trapTargetLayer->getObjects(trap->getId()))
+            if (switchObject->isOneTime())
             {
-                printf("yyy\n");
-                _gameStateUpdater->spawnObstacle(20, trapTarget->getCoords(), sprite->getId());
+                switchObject->setActive(false);
+            }
+
+            for (auto switchTarget : switchTargetLayer->getObjects(switchObject->getId()))
+            {
+                _gameStateUpdater->spawnObstacle(20, switchTarget->getCoords(), sprite->getId());
             }
             break;
         }
@@ -301,11 +302,19 @@ bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int
     if (penetration != NULL && !(*penetration))
         return false;
 
-    auto levers = _state->getLeverLayer()->getObjectsAtCoords(x, y);
+    auto switches = _state->getSwitchLayer()->getObjectsAtCoords(x, y);
 
-    for (auto lever : levers)
+    for (auto switchObject : switches)
     {
-        auto targets = _state->getLeverTargetLayer()->getObjects(lever->getId());
+        if (!switchObject->isBombSensitive() || !switchObject->isActive())
+            continue;
+
+        if (switchObject->isOneTime())
+        {
+            switchObject->setActive(false);
+        }
+
+        auto targets = _state->getSwitchTargetLayer()->getObjects(switchObject->getId());
 
         for (auto target : targets)
         {
@@ -314,7 +323,7 @@ bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int
             if (obstacles.size() > 0)
             {
                 // open "the bridge"
-                _gameStateUpdater->switchLeverOn(lever, bomb->getOwnerId());
+                _gameStateUpdater->switchLeverOn(switchObject, bomb->getOwnerId());
 
                 for (auto obstacle : obstacles)
                 {
@@ -324,7 +333,7 @@ bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int
             else
             {
                 // close "the bridge"
-                _gameStateUpdater->switchLeverOff(lever, bomb->getOwnerId());
+                _gameStateUpdater->switchLeverOff(switchObject, bomb->getOwnerId());
 
                 unsigned int obstacleGid = 20;
                 _gameStateUpdater->spawnObstacle(obstacleGid, target->getCoords(), bomb->getId());

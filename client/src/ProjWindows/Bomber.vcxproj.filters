@@ -386,5 +386,8 @@
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Sprites\Bomber.h">
       <Filter>Classes\Gameplay\Backend\GameObjects\Sprites</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Switch.h">
+      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

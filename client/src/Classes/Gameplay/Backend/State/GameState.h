@@ -11,6 +11,7 @@
 #include "../GameObjects/Portal.h"
 #include "../GameObjects/PortalExit.h"
 #include "../GameObjects/Effect.h"
+#include "../GameObjects/Switch.h"
 
 namespace Bomber
 {
@@ -57,10 +58,8 @@ namespace Bomber
                 SYNTHESIZE_READONLY(GameStateLayer<PortalExit> *, _portalExitLayer, PortalExitLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<Effect> *, _effectLayer, EffectLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _specialLayer, SpecialLayer);
-                SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _leverLayer, LeverLayer);
-                SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _leverTargetLayer, LeverTargetLayer);
-                SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _trapLayer, TrapLayer);
-                SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _trapTargetLayer, TrapTargetLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Switch> *, _switchLayer, SwitchLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _switchTargetLayer, SwitchTargetLayer);
         };
     }
 }
