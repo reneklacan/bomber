@@ -37,6 +37,8 @@ namespace Bomber
 
             ACHIEVEMENT_UNLOCKED,
             
+            BLOCK_PUSH,
+
             LEVER_SWITCH_ON,
             LEVER_SWITCH_OFF,
 
@@ -220,6 +222,21 @@ namespace Bomber
             private:
                 SYNTHESIZE(const char *, _title, Title);
                 SYNTHESIZE(const char *, _description, Description);
+        };
+
+        class GSCBlockPush : public GameStateChange
+        {
+            public:
+                GSCBlockPush() { _type = BLOCK_PUSH; };
+                virtual void update(Coordinates from, Coordinates to)
+                {
+                    _from = from;
+                    _to = to;
+                }
+                
+            private:
+                SYNTHESIZE(Coordinates, _from, From);
+                SYNTHESIZE(Coordinates, _to, To);
         };
 
         class GSCLeverSwitchOn : public GameStateChange

@@ -38,6 +38,7 @@ namespace Bomber
                 void update();
                 void updateSpriteAttributes(Sprite *sprite, Effect *effect);
                 
+                void pushBlock(Coordinates from, Coordinates to);
                 void switchLeverOn(GameObject *lever, unsigned int causerId);
                 void switchLeverOff(GameObject *lever, unsigned int causerId);
                 
@@ -62,6 +63,7 @@ namespace Bomber
                 void logExplosionSpawn(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void logObstacleDestroy(Obstacle *obstacle);
                 void logSpriteAttributesUpdate(Sprite *sprite, Effect *effect);
+                void logBlockPush(Coordinates from, Coordinates to);
                 void logLeverSwitchOn(GameObject *lever);
                 void logLeverSwitchOff(GameObject *lever);
                 void logEffectDestroy(Effect *effect);

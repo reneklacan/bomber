@@ -172,6 +172,11 @@ void GameStateUpdater::update()
     }
 }
 
+void GameStateUpdater::pushBlock(Coordinates from, Coordinates to)
+{
+    this->logBlockPush(from, to);
+}
+
 void GameStateUpdater::switchLeverOn(GameObject *lever, unsigned int causerId)
 {
     StatisticsUpdater::getInstance()->leverUsed(causerId);
@@ -280,7 +285,7 @@ void GameStateUpdater::logSpriteDestroy(Sprite *sprite)
 void GameStateUpdater::logSpriteSpawn(Sprite *sprite)
 {
     printf("logSpriteSpawn\n");
-    GSCSpriteSpawn* change = new GSCSpriteSpawn();
+    GSCSpriteSpawn *change = new GSCSpriteSpawn();
     change->update(
         sprite->getGid(),
         sprite->getCoords()
@@ -312,12 +317,12 @@ void GameStateUpdater::logExplosionSpawn(ExplodableObject *explObj, int topArmLe
     printf("logExplosionSpawn\n");
     GSCExplosionSpawn* change = new GSCExplosionSpawn();
     change->update(
-            explObj->getOwnerId(),
-            explObj->getCollisionRect().getCenterPosition(),
-            topArmLength,
-            bottomArmLength,
-            leftArmLength,
-            rightArmLength
+        explObj->getOwnerId(),
+        explObj->getCollisionRect().getCenterPosition(),
+        topArmLength,
+        bottomArmLength,
+        leftArmLength,
+        rightArmLength
     );
     change->setGameObjectId(explObj->getId());
     _state->addChange(change);
@@ -326,7 +331,7 @@ void GameStateUpdater::logExplosionSpawn(ExplodableObject *explObj, int topArmLe
 void GameStateUpdater::logObstacleSpawn(unsigned int obstacleGid, Obstacle *obstacle, unsigned int spawnerId)
 {
     printf("logObstacleSpawn\n");
-    GSCObstacleSpawn* change = new GSCObstacleSpawn();
+    GSCObstacleSpawn *change = new GSCObstacleSpawn();
     change->update(
         obstacleGid,
         obstacle->getCoords(),
@@ -339,7 +344,7 @@ void GameStateUpdater::logObstacleSpawn(unsigned int obstacleGid, Obstacle *obst
 void GameStateUpdater::logEffectSpawn(Effect *effect)
 {
     printf("logEffectSpawn\n");
-    GSCEffectSpawn* change = new GSCEffectSpawn();
+    GSCEffectSpawn *change = new GSCEffectSpawn();
     change->update(
         effect->getGid(),
         effect->getCoords()
@@ -351,7 +356,7 @@ void GameStateUpdater::logEffectSpawn(Effect *effect)
 void GameStateUpdater::logObstacleDestroy(Obstacle *obstacle)
 {
     printf("logObstacleDestroy\n");
-    GSCObstacleDestroy* change = new GSCObstacleDestroy();
+    GSCObstacleDestroy *change = new GSCObstacleDestroy();
     change->update(obstacle->getCoords());
     change->setGameObjectId(obstacle->getId());
     _state->addChange(change);
@@ -360,11 +365,19 @@ void GameStateUpdater::logObstacleDestroy(Obstacle *obstacle)
 void GameStateUpdater::logSpriteAttributesUpdate(Sprite *sprite, Effect *effect)
 {
     printf("logSpriteAttributesUpdate\n");
-    GSCSpriteAttrUpdate * change = new GSCSpriteAttrUpdate();
+    GSCSpriteAttrUpdate *change = new GSCSpriteAttrUpdate();
     change->update(
             effect->getType()
     );
     change->setGameObjectId(sprite->getId());
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logBlockPush(Coordinates from, Coordinates to)
+{
+    printf("logBlockPush\n");
+    GSCBlockPush *change = new GSCBlockPush();
+    change->update(from, to);
     _state->addChange(change);
 }
 
@@ -379,7 +392,7 @@ void GameStateUpdater::logLeverSwitchOn(GameObject *lever)
 void GameStateUpdater::logLeverSwitchOff(GameObject *lever)
 {
     printf("logLeverSwitchOff\n");
-    GSCLeverSwitchOff * change = new GSCLeverSwitchOff();
+    GSCLeverSwitchOff *change = new GSCLeverSwitchOff();
     change->setGameObjectId(lever->getId());
     _state->addChange(change);
 }
@@ -387,9 +400,9 @@ void GameStateUpdater::logLeverSwitchOff(GameObject *lever)
 void GameStateUpdater::logEffectDestroy(Effect *effect)
 {
     printf("logEffectDestroy\n");
-    GSCEffectDestroy* change = new GSCEffectDestroy();
+    GSCEffectDestroy *change = new GSCEffectDestroy();
     change->update(
-            effect->getCoords()
+        effect->getCoords()
     );
     change->setGameObjectId(effect->getId());
     _state->addChange(change);
@@ -398,10 +411,10 @@ void GameStateUpdater::logEffectDestroy(Effect *effect)
 void GameStateUpdater::logAchievementUnlocked(Achievement *achievement)
 {
     printf("logAchievementUnlocked\n");
-    GSCAchievementUnlocked* change = new GSCAchievementUnlocked();
+    GSCAchievementUnlocked *change = new GSCAchievementUnlocked();
     change->update(
-            achievement->getTitle(),
-            achievement->getDescription()
+        achievement->getTitle(),
+        achievement->getDescription()
     );
     change->setGameObjectId(0);
     _state->addChange(change);

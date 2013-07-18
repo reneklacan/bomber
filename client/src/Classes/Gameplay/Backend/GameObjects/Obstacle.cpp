@@ -12,11 +12,13 @@ Obstacle *Obstacle::getInstanceByGid(unsigned int gid)
     switch(gid)
     {
         case 20:
+        case 36:
             obstacle = new MazeBlock();
             break;
         case 25:
             obstacle = new LeverBlock();
             break;
+        case 41:
         case 42:
             obstacle = new DestroyableBlock();
             break;
