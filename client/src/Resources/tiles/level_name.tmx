@@ -136,7 +136,7 @@
    <tile gid="37"/>
    <tile gid="37"/>
    <tile gid="37"/>
-   <tile gid="37"/>
+   <tile gid="50"/>
    <tile gid="37"/>
    <tile gid="37"/>
    <tile gid="37"/>
@@ -481,12 +481,12 @@
    <tile gid="20"/>
    <tile gid="20"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="42"/>
+   <tile gid="42"/>
+   <tile gid="42"/>
+   <tile gid="42"/>
+   <tile gid="42"/>
+   <tile gid="42"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -502,12 +502,12 @@
    <tile gid="20"/>
    <tile gid="20"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="20"/>
+   <tile gid="20"/>
+   <tile gid="20"/>
+   <tile gid="20"/>
+   <tile gid="20"/>
+   <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="43"/>
@@ -523,46 +523,6 @@
    <tile gid="20"/>
    <tile gid="20"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="43"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="43"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="20"/>
-   <tile gid="20"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="43"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="43"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="20"/>
    <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -581,12 +541,52 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="20"/>
+   <tile gid="20"/>
+   <tile gid="0"/>
+   <tile gid="20"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="20"/>
    <tile gid="20"/>
    <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="20"/>
+   <tile gid="20"/>
+   <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -607,7 +607,7 @@
    <tile gid="20"/>
    <tile gid="20"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="43"/>
@@ -670,8 +670,8 @@
    <tile gid="20"/>
    <tile gid="20"/>
    <tile gid="20"/>
-   <tile gid="43"/>
    <tile gid="20"/>
+   <tile gid="43"/>
    <tile gid="20"/>
    <tile gid="20"/>
    <tile gid="20"/>
@@ -3158,11 +3158,18 @@
   <object name="4" x="1449" y="1402" width="30" height="30"/>
   <object name="5" x="1045" y="1078" width="30" height="30"/>
  </objectgroup>
+ <objectgroup name="levers" width="21" height="21">
+  <object name="1" x="1140" y="1320" width="40" height="29"/>
+ </objectgroup>
  <objectgroup name="lever_targets" width="21" height="21">
   <object name="1" x="1340" y="991" width="45" height="38"/>
   <object name="1" x="1139" y="987" width="45" height="38"/>
  </objectgroup>
- <objectgroup name="levers" width="21" height="21">
-  <object name="1" x="1140" y="1320" width="40" height="29"/>
+ <objectgroup name="traps" width="21" height="21">
+  <object name="1" x="125" y="504" width="50" height="39"/>
+ </objectgroup>
+ <objectgroup name="trap_targets" width="21" height="21">
+  <object name="1" x="219" y="663" width="60" height="42"/>
+  <object name="1" x="121" y="663" width="63" height="44"/>
  </objectgroup>
 </map>

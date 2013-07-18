@@ -59,6 +59,8 @@ namespace Bomber
                 SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _specialLayer, SpecialLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _leverLayer, LeverLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _leverTargetLayer, LeverTargetLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _trapLayer, TrapLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _trapTargetLayer, TrapTargetLayer);
         };
     }
 }

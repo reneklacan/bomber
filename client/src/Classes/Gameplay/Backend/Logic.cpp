@@ -216,6 +216,8 @@ void Logic::updateSprites(float dt)
     auto spriteLayer = _state->getSpriteLayer();
     auto portalLayer = _state->getPortalLayer();
     auto portalExitLayer = _state->getPortalExitLayer();
+    auto trapLayer = _state->getTrapLayer();
+    auto trapTargetLayer = _state->getTrapTargetLayer();
     auto effectLayer = _state->getEffectLayer();
 
     std::vector<Effect *> effectsToDestroy;
@@ -257,6 +259,24 @@ void Logic::updateSprites(float dt)
         {
             auto portalExit = portalExitLayer->getObject(portal->getPortalTarget(sprite->getPreviousCoords()));
             _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
+            break;
+        }
+
+        auto traps = trapLayer->getObjectsAtCoords(sprite->getCoords());
+
+        for (GameObject *trap : traps)
+        {
+            if (!trap->isActive())
+                continue;
+
+            printf("xxx\n");
+            trap->setActive(false);
+
+            for (auto trapTarget : trapTargetLayer->getObjects(trap->getId()))
+            {
+                printf("yyy\n");
+                _gameStateUpdater->spawnObstacle(20, trapTarget->getCoords(), sprite->getId());
+            }
             break;
         }
     }
@@ -321,8 +341,6 @@ bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int
 
         if (sprite->getAttributes()->isDead())
             continue;
-
-        //if (!sprite->isAI()) continue; // temporary
 
         _gameStateUpdater->damageSprite(sprite, bomb->getOwnerId(), bomb->getDamage());
 

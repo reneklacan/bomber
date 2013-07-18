@@ -26,6 +26,8 @@ GameState::GameState(unsigned int width, unsigned int height)
     _specialLayer = new GameStateLayer<GameObject>("Special Layer", _width, _height);
     _leverLayer = new GameStateLayer<GameObject>("Lever Layer", _width, _height);
     _leverTargetLayer = new GameStateLayer<GameObject>("Lever Target Layer", _width, _height);
+    _trapLayer = new GameStateLayer<GameObject>("Trap Layer", _width, _height);
+    _trapTargetLayer = new GameStateLayer<GameObject>("Trap Target Layer", _width, _height);
 }
 
 GameState::~GameState()
@@ -252,6 +254,48 @@ void GameState::init(TMXTiledMap *tiledMap)
 
         _leverTargetLayer->addObject(leverTarget);
     }
+
+    objectGroup = tiledMap->objectGroupNamed("traps");
+    Array *traps = objectGroup->getObjects();
+
+    CCARRAY_FOREACH(traps, ccObject)
+    {
+        dict = (Dictionary*) ccObject;
+
+        id = ((String*) dict->objectForKey("name"))->intValue();
+        x = ((String*) dict->objectForKey("x"))->intValue();
+        y = ((String*) dict->objectForKey("y"))->intValue();
+        width = ((String*) dict->objectForKey("width"))->intValue();
+        height = ((String*) dict->objectForKey("height"))->intValue();         
+
+        GameObject *trap = new GameObject();
+        trap->setId(id);
+        trap->setPosition(x, y);
+        trap->setSize(width, height);
+
+        _trapLayer->addObject(trap);
+    }
+
+    objectGroup = tiledMap->objectGroupNamed("trap_targets");
+    Array *trapTargets = objectGroup->getObjects();
+
+    CCARRAY_FOREACH(trapTargets, ccObject)
+    {
+        dict = (Dictionary*) ccObject;
+
+        id = ((String*) dict->objectForKey("name"))->intValue();
+        x = ((String*) dict->objectForKey("x"))->intValue();
+        y = ((String*) dict->objectForKey("y"))->intValue();
+        width = ((String*) dict->objectForKey("width"))->intValue();
+        height = ((String*) dict->objectForKey("height"))->intValue();         
+
+        GameObject *trapTarget = new GameObject();
+        trapTarget->setId(id);
+        trapTarget->setPosition(x, y);
+        trapTarget->setSize(width, height);
+
+        _trapTargetLayer->addObject(trapTarget);
+    }
 }
 
 void GameState::reset()
@@ -270,6 +314,8 @@ void GameState::reset()
     _specialLayer->reset();
     _leverLayer->reset();
     _leverTargetLayer->reset();
+    _trapLayer->reset();
+    _trapTargetLayer->reset();
 
     _goalConditions.clear();
 
