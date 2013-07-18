@@ -9,7 +9,12 @@ namespace Bomber
     {
         class Bomber : public Sprite
         {
-            virtual bool isBombPotent() { return true; };
+            public:
+                Bomber() : Sprite()
+                {
+                    _attributes->setSpeed(200);
+                }
+                virtual bool isBombPotent() { return true; };
         };
     }
 }

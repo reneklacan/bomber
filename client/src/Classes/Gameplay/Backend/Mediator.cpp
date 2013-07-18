@@ -54,7 +54,7 @@ Sprite *Mediator::getControlledSprite()
     controlledSprite->setId(19991);
     controlledSprite->setSize(10, 10);
     controlledSprite->setPosition(200, 200);
-
+    
     Logic::getInstance()->getState()->getSpriteLayer()->addObject(controlledSprite);
     Logic::getInstance()->setControlledSprite(controlledSprite->getId());
 

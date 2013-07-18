@@ -40,10 +40,10 @@ Sprite *Sprite::getInstanceByGid(unsigned int gid)
 }
 
 Sprite::Sprite()
-: GameObject()
+:GameObject()
+,_attributes(new SpriteAttributes())
 {
     _name = "sprite?";
-    _attributes = new SpriteAttributes();
 }
 
 Sprite::~Sprite()

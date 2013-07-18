@@ -207,6 +207,7 @@ void LevelLayer::initControlledSprite()
         )
     );
     _player->setNextPosition(_player->getPosition());
+    _player->setSpeed(_controlledSprite->getAttributes()->getSpeed());
 
     // set view that timmy is in the center of it
     Size visibleSize = Director::sharedDirector()->getVisibleSize();

@@ -398,7 +398,6 @@ bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int
 void Logic::setControlledSprite(unsigned int spriteId)
 {
     _controlledSprite = _state->getSpriteLayer()->getObject(spriteId);
-    _controlledSprite->getAttributes()->reset();
     StatisticsUpdater::getInstance()->setRelevantSpriteId(spriteId);
 }
 
