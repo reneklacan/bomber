@@ -395,6 +395,7 @@ void GUIUpdater::updateSpriteAttrUpdate( Backend::GSCSpriteAttrUpdate *spriteAtt
             break;
         case Backend::EFFECT_SPEED_INC:
             imageID = SPEED_INC_ETI;
+            _player->setSpeed(_player->getSpeed() + SPRITE_SPEED_INCREASE);
             break;
         default:
             std::cerr << "Unknown effect type: " << 

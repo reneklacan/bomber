@@ -22,8 +22,7 @@ ControlLayer::~ControlLayer()
 
 void ControlLayer::update(float dt)
 {
-    float sensitivity = 20.0f;
-    float speed = _controlledSprite->getSpeed();
+    int speed = _controlledSprite->getSpeed();
 
     Point pos = _controlledSprite->getPosition();
     Point velocity;
@@ -40,14 +39,14 @@ void ControlLayer::update(float dt)
 
         _controlledSprite->setNextPositionDelta(
                 ccp(
-                    velocity.x*sensitivity*dt*speed,
-                    velocity.y*sensitivity*dt*speed
+                    velocity.x*dt*speed,
+                    velocity.y*dt*speed
                 )
-        );
+        );               
 
         _controlledSprite->setNextPosition(
                 ccpAdd(pos, _controlledSprite->getNextPositionDelta())
-        );
+        );   
     }
 }
 

@@ -8,7 +8,7 @@ using namespace cocos2d;
 class GameSprite : public Sprite
 {
     public:
-        CC_SYNTHESIZE(float, _speed, Speed);
+        CC_SYNTHESIZE(int, _speed, Speed);
         CC_SYNTHESIZE(Point, _nextPosition, NextPosition);
         CC_SYNTHESIZE(Point, _nextPositionDelta, NextPositionDelta);
 
