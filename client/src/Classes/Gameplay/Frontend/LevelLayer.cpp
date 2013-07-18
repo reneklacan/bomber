@@ -213,7 +213,7 @@ void LevelLayer::initControlledSprite()
     _map->setPosition(
         ccp(
             visibleSize.width/2 - _player->getPosition().x,
-            visibleSize.height/2 - _player->getPosition().y,
+            visibleSize.height/2 - _player->getPosition().y
         )
     );
 }

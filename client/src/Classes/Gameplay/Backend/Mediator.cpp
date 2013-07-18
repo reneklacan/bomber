@@ -1,6 +1,6 @@
 
 #include "Mediator.h"
-#include "GameObjects\Sprites\Bomber.h"
+#include "GameObjects/Sprites/Bomber.h"
 
 using namespace Bomber::Backend;
 

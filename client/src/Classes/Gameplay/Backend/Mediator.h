@@ -18,7 +18,7 @@ namespace Bomber
                 void resetState();
                 void setState(GameState *state);
                 void setControlledSprite(unsigned int id);
-                Sprite *Mediator::getControlledSprite();
+                Sprite *getControlledSprite();
                 void moveSprite(Position position);
                 void spawnBomb();
                 GameState *getState() { return _state; }
