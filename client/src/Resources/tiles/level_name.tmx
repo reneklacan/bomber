@@ -409,7 +409,7 @@
    <tile gid="37"/>
    <tile gid="37"/>
    <tile gid="37"/>
-   <tile gid="37"/>
+   <tile gid="50"/>
    <tile gid="37"/>
    <tile gid="37"/>
    <tile gid="37"/>
@@ -3167,9 +3167,15 @@
  </objectgroup>
  <objectgroup name="traps" width="21" height="21">
   <object name="1" x="125" y="504" width="50" height="39"/>
+  <object name="2" x="127" y="1558" width="48" height="34"/>
  </objectgroup>
  <objectgroup name="trap_targets" width="21" height="21">
   <object name="1" x="219" y="663" width="60" height="42"/>
   <object name="1" x="121" y="663" width="63" height="44"/>
+  <object name="2" x="327" y="1558" width="46" height="29"/>
+  <object name="2" x="124" y="1395" width="49" height="34"/>
+  <object name="2" x="226" y="1398" width="47" height="33"/>
+  <object name="2" x="329" y="1401" width="45" height="34"/>
+  <object name="2" x="326" y="1482" width="47" height="31"/>
  </objectgroup>
 </map>
