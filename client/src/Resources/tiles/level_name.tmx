@@ -753,8 +753,8 @@
    <tile gid="42"/>
    <tile gid="20"/>
    <tile gid="20"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="20"/>
+   <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -775,7 +775,7 @@
    <tile gid="20"/>
    <tile gid="20"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="43"/>
@@ -1223,7 +1223,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="15"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -3150,6 +3150,14 @@
     <property name="top" value="5"/>
    </properties>
   </object>
+  <object name="portal" x="114" y="1226" width="73" height="49">
+   <properties>
+    <property name="bottom" value="7"/>
+    <property name="left" value="7"/>
+    <property name="right" value="7"/>
+    <property name="top" value="7"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="portal_exits" width="21" height="21">
   <object name="1" x="1550" y="1483" width="30" height="30"/>
@@ -3157,6 +3165,7 @@
   <object name="3" x="1651" y="1402" width="30" height="30"/>
   <object name="4" x="1449" y="1402" width="30" height="30"/>
   <object name="5" x="1045" y="1078" width="30" height="30"/>
+  <object name="7" x="1543" y="424" width="44" height="37"/>
  </objectgroup>
  <objectgroup name="switches" width="21" height="21">
   <object name="1" type="type" x="1140" y="1320" width="40" height="29">
