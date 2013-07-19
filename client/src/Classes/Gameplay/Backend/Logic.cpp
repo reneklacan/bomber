@@ -571,6 +571,9 @@ void Logic::pushBlock(Coordinates coords, int direction)
     if (_state->getSpriteLayer()->getObjectsAtCoords(nextCoords).size() > 0)
         return;
     
+    block->setId(nextCoords.y*_state->getWidth() + nextCoords.x);
+    block->setPosition(nextCoords.x*_state->getWidth(), nextCoords.y*_state->getHeight());
+    _state->getObstacleLayer()->updateGrid();
     _gameStateUpdater->pushBlock(coords, nextCoords);
     //_gameStateUpdater->destroyObstacle(block, 0); // comment this line out when push block change is implemented
     //_gameStateUpdater->spawnObstacle(block->getGid(), nextCoords, 0); // comment this line out when push block change is implemented
