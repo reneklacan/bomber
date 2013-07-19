@@ -231,9 +231,12 @@ void Logic::updateSprites(float dt)
 
         if (sprite->isAI() && sprite->isDirty())
         {
+            // AI moves have to be logged
             _gameStateUpdater->logSpriteMove(sprite);
         }
         
+        // take effects
+
         auto effects = effectLayer->getObjectsAtCoords(sprite->getCoords());
 
         for (Effect *effect : effects)
@@ -248,19 +251,24 @@ void Logic::updateSprites(float dt)
             effectsToDestroy.push_back(effect);
         }
 
-        if (sprite->getAttributes()->getPortability() == false)
+        // port sprite if it is possible
+
+        if (sprite->getAttributes()->getPortability())
         {
+            auto portals = portalLayer->getObjectsAtCoords(sprite->getCoords());
+
+            for (Portal *portal : portals)
+            {
+                auto portalExit = portalExitLayer->getObject(portal->getPortalTarget(sprite->getPreviousCoords()));
+                _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
+                break;
+            }
+        }
+
+        // activate/deactivate corresponding switches
+
+        if (sprite->getMadeCoordsAction())
             continue;
-        }
-
-        auto portals = portalLayer->getObjectsAtCoords(sprite->getCoords());
-
-        for (Portal *portal : portals)
-        {
-            auto portalExit = portalExitLayer->getObject(portal->getPortalTarget(sprite->getPreviousCoords()));
-            _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
-            break;
-        }
 
         auto switches = switchLayer->getObjectsAtCoords(sprite->getCoords());
 
@@ -269,6 +277,8 @@ void Logic::updateSprites(float dt)
             if (!switchObject->isPassingSensitive() || !switchObject->isActive())
                 continue;
 
+            sprite->setMadeCoordsAction(true);
+
             if (switchObject->isOneTime())
             {
                 switchObject->setActive(false);
@@ -276,7 +286,19 @@ void Logic::updateSprites(float dt)
 
             for (auto switchTarget : switchTargetLayer->getObjects(switchObject->getId()))
             {
-                _gameStateUpdater->spawnObstacle(20, switchTarget->getCoords(), sprite->getId());
+                auto obstacles = _state->getObstacleLayer()->getObjectsAtCoords(switchTarget->getCoords());
+
+                if (obstacles.size() == 0)
+                {
+                    _gameStateUpdater->spawnObstacle(20, switchTarget->getCoords(), sprite->getId());
+                }
+                else
+                {
+                    for (auto obstacle : obstacles)
+                    {
+                        _gameStateUpdater->destroyObstacle(obstacle, 0);
+                    }
+                }
             }
             break;
         }

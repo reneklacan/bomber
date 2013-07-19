@@ -130,7 +130,7 @@
    <tile gid="37"/>
    <tile gid="37"/>
    <tile gid="37"/>
-   <tile gid="37"/>
+   <tile gid="50"/>
    <tile gid="37"/>
    <tile gid="37"/>
    <tile gid="37"/>
@@ -3180,6 +3180,13 @@
     <property name="passing_sensitive" value="true"/>
    </properties>
   </object>
+  <object name="4" x="1642" y="424" width="48" height="34">
+   <properties>
+    <property name="bomb_sensitive" value="false"/>
+    <property name="one_time" value="false"/>
+    <property name="passing_sensitive" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="switch_targets" width="21" height="21">
   <object name="1" x="1340" y="991" width="45" height="38"/>
@@ -3191,5 +3198,21 @@
   <object name="2" x="124" y="1395" width="49" height="34"/>
   <object name="3" x="121" y="663" width="63" height="44"/>
   <object name="3" x="219" y="663" width="60" height="42"/>
+  <object name="4" x="1643" y="262" width="44" height="38"/>
+  <object name="4" x="1442" y="511" width="44" height="38"/>
+  <object name="4" x="1846" y="426" width="44" height="38"/>
+  <object name="4" x="1446" y="425" width="44" height="38"/>
+  <object name="4" x="1845" y="590" width="44" height="38"/>
+  <object name="4" x="1744" y="590" width="44" height="38"/>
+  <object name="4" x="1538" y="589" width="44" height="38"/>
+  <object name="4" x="1848" y="264" width="44" height="38"/>
+  <object name="4" x="1545" y="264" width="44" height="38"/>
+  <object name="4" x="1845" y="344" width="44" height="38"/>
+  <object name="4" x="1440" y="589" width="44" height="38"/>
+  <object name="4" x="1444" y="264" width="44" height="38"/>
+  <object name="4" x="1748" y="263" width="44" height="38"/>
+  <object name="4" x="1645" y="587" width="44" height="38"/>
+  <object name="4" x="1846" y="508" width="44" height="38"/>
+  <object name="4" x="1442" y="340" width="44" height="38"/>
  </objectgroup>
 </map>

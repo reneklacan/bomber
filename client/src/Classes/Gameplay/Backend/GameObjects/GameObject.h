@@ -44,6 +44,7 @@ namespace Bomber
                 bool _dirty;
                 bool _active;
                 SYNTHESIZE(bool, _inMovement, InMovement);
+                SYNTHESIZE(bool, _madeCoordsAction, MadeCoordsAction);
                 SYNTHESIZE(const char *, _name, Name);
                 SYNTHESIZE(unsigned int, _id, Id);
                 SYNTHESIZE(unsigned int, _gid, Gid);
