@@ -25,11 +25,13 @@
 
 #include "Cache/GUICache.h"
 
+#include "Primitives/Path.h"
+
 namespace Bomber
 {
     namespace Frontend
     {
-        class GUIUpdater
+        class GUIUpdater : public Object
         {
         public:
             static GUIUpdater *getInstance();
@@ -63,11 +65,12 @@ namespace Bomber
             void updateLevelReset( Backend::GSCLevelReset *levelReset );
             void updateLevelFinish( Backend::GSCLevelFinish *levelFinish );
             void updateBombMove( Backend::GSCBombMove *bombMove );
+            void updateBlockPush( Backend::GSCBlockPush *blockPush );
+            void finishUpdateBlockPush(Node* sender);
 
             void initLayers();
             void initPlayer();
             Rect pickImageFromTexture(unsigned int id);
-            //bool evalCollision(Point nextPoint, Backend::TDirection direction);
             Sprite *getBombAtPosition(int x, int y);
 
             unsigned int _lastChangeID;
@@ -86,6 +89,8 @@ namespace Bomber
             GUICache *_cache;
             Backend::Mediator *_mediator;
             Collisions *_collisionDetector;
+
+            std::vector<Path*> _paths;
         };
     }
 }

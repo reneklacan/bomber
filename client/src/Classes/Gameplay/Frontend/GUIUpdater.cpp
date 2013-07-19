@@ -171,6 +171,11 @@ void GUIUpdater::update(Point playerPosition)
                 this->updateBombMove( (Backend::GSCBombMove *)GSChange );
             }
             break;
+            case Backend::BLOCK_PUSH:
+            {
+                this->updateBlockPush( (Backend::GSCBlockPush *)GSChange );
+            }
+            break;
             // Nothing    
             default: {}
         }
@@ -498,6 +503,69 @@ void GUIUpdater::updateBombMove( Backend::GSCBombMove *bombMove )
     _bombs[ id ]->setPosition( ccp( bombMove->getPosition().x, bombMove->getPosition().y) );
     _batchNode->reorderChild(_bombs[ id ], _map->getHeight()*TILE_HEIGHT - bombMove->getPosition().y);
     return;
+}
+
+//
+void GUIUpdater::updateBlockPush( Backend::GSCBlockPush *blockPush )
+{
+    std::cout << "FROM: " << blockPush->getFrom().x << ", " << blockPush->getFrom().y << "\n";
+    std::cout << "TO  : " << blockPush->getTo().x << ", " << blockPush->getTo().y << "\n";
+
+    // Get obstacle for animation
+    unsigned int id = _map->getWidth() * (_map->getWidth() - blockPush->getFrom().y - 1) + blockPush->getFrom().x;
+    unsigned int newId = _map->getWidth() * (_map->getWidth() - blockPush->getTo().y - 1) + blockPush->getTo().x;
+    Sprite *obstacle = _obstacles[ id ];
+
+    // If no such obstacle exists, return
+    if(obstacle == NULL)
+    {
+        return;
+    }
+    // If moving now, return
+    for(auto path: _paths)
+    {
+        if( obstacle == path->getSprite() )
+        {
+            return;
+        }
+    }
+
+    // Create animation
+    _paths.push_back( new Path(id, newId, obstacle) ); // BIG WARNING - in this case all animations must have same time
+    obstacle->runAction(
+        Sequence::create( 
+            MoveTo::create(
+                0.5,
+                ccp(
+                    blockPush->getTo().x * TILE_WIDTH,
+                    blockPush->getTo().y * TILE_HEIGHT
+                )
+            ),
+            CallFuncN::create(
+                this,
+                callfuncN_selector(GUIUpdater::finishUpdateBlockPush)
+            ),
+            NULL
+        )
+    );
+
+    return;
+}
+
+//
+void GUIUpdater::finishUpdateBlockPush(Node* sender)
+{
+    // Get path
+    Path *path = _paths.front();
+    _paths.erase( _paths.begin() );
+
+    // Erase old block from map
+    _obstacles.erase( path->getFrom() );
+
+    // Save moved obstacle with new id
+    _obstacles[ path->getTo() ] = path->getSprite();
+
+    delete path;
 }
 
 /*
