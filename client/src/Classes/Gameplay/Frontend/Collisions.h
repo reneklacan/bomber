@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 
+#include <algorithm>
+
 #include "../Backend/Mediator.h"
 #include "../Backend/Primitives/Direction.h"
 #include "../../Input/ControlLayer.h"
@@ -24,6 +26,8 @@ namespace Bomber
         	void skipEval(bool skip);
         	void setCFA(unsigned int id, Point point);
         	void reset();
+            void setObstacleImmuneToPush(unsigned int id);
+            void unsetObstacleImmuneToPush(unsigned int id);
 
         private:
         	bool evalObstacles(Point nextPoint, Backend::TDirection direction);
@@ -46,6 +50,7 @@ namespace Bomber
         	std::map<unsigned int, Point> _collisionFreeAreas;
         	unsigned int _mapWidth;
         	unsigned int _mapHeight;
+            std::vector<unsigned int> _immuneObstacles;
 
         };
     }

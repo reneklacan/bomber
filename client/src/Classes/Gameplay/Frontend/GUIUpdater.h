@@ -31,7 +31,7 @@ namespace Bomber
 {
     namespace Frontend
     {
-        class GUIUpdater : public Object
+        class GUIUpdater
         {
         public:
             static GUIUpdater *getInstance();
@@ -66,7 +66,7 @@ namespace Bomber
             void updateLevelFinish( Backend::GSCLevelFinish *levelFinish );
             void updateBombMove( Backend::GSCBombMove *bombMove );
             void updateBlockPush( Backend::GSCBlockPush *blockPush );
-            void finishUpdateBlockPush(Node* sender);
+            void finishUpdateBlockPush();
 
             void initLayers();
             void initPlayer();

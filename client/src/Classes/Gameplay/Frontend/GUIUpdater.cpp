@@ -530,8 +530,13 @@ void GUIUpdater::updateBlockPush( Backend::GSCBlockPush *blockPush )
         }
     }
 
+    //
+    std::function<void()> cleaner = std::bind(&GUIUpdater::finishUpdateBlockPush, this);
+
     // Create animation
     _paths.push_back( new Path(id, newId, obstacle) ); // BIG WARNING - in this case all animations must have same time
+    _collisionDetector->setObstacleImmuneToPush(id);
+
     obstacle->runAction(
         Sequence::create( 
             MoveTo::create(
@@ -541,9 +546,8 @@ void GUIUpdater::updateBlockPush( Backend::GSCBlockPush *blockPush )
                     blockPush->getTo().y * TILE_HEIGHT
                 )
             ),
-            CallFuncN::create(
-                this,
-                callfuncN_selector(GUIUpdater::finishUpdateBlockPush)
+            CallFunc::create(
+                cleaner
             ),
             NULL
         )
@@ -553,11 +557,12 @@ void GUIUpdater::updateBlockPush( Backend::GSCBlockPush *blockPush )
 }
 
 //
-void GUIUpdater::finishUpdateBlockPush(Node* sender)
+void GUIUpdater::finishUpdateBlockPush()
 {
     // Get path
     Path *path = _paths.front();
     _paths.erase( _paths.begin() );
+    _collisionDetector->unsetObstacleImmuneToPush( path->getFrom() );
 
     // Erase old block from map
     _obstacles.erase( path->getFrom() );

@@ -44,6 +44,22 @@ void Collisions::setBombs(std::map<unsigned int, Sprite *> *bombs)
 }
 
 //
+void Collisions::setObstacleImmuneToPush(unsigned int id)
+{
+    _immuneObstacles.push_back(id);
+}
+
+//
+void Collisions::unsetObstacleImmuneToPush(unsigned int id)
+{
+    auto idToDelete = std::find(_immuneObstacles.begin(), _immuneObstacles.end(), id );
+    if( idToDelete != _immuneObstacles.end())
+    {
+        _immuneObstacles.erase( idToDelete );
+    }
+}
+
+//
 std::vector<bool> Collisions::eval(Point currentPoint, Point nextPoint)
 {
 	// Init
@@ -166,53 +182,69 @@ bool Collisions::evalObstacles(Point nextPoint, Backend::TDirection direction)
 	// Top Left
     offsetX = (nextPoint.x - _OWLeft) / TILE_WIDTH;
     offsetY = (nextPoint.y + _OHTop) / TILE_HEIGHT;
-    auto obstacle = _obstacles->find(_mapWidth * (_mapHeight - offsetY -1) + offsetX);
+    unsigned int id = _mapWidth * (_mapHeight - offsetY -1) + offsetX;
+    auto obstacle = _obstacles->find( id );
     if( obstacle != _obstacles->end())
     {
-        Backend::Coordinates coords = Backend::Coordinates(
-            obstacle->second->getPosition().x / TILE_WIDTH,
-            obstacle->second->getPosition().y / TILE_HEIGHT
-        );
-        _mediator->pushObstacle(coords, direction);
+        if( std::find(_immuneObstacles.begin(), _immuneObstacles.end(), id ) == _immuneObstacles.end() )
+        {
+            Backend::Coordinates coords = Backend::Coordinates(
+                obstacle->second->getPosition().x / TILE_WIDTH,
+                obstacle->second->getPosition().y / TILE_HEIGHT
+            );
+            _mediator->pushObstacle(coords, direction);
+        }
         result = true;
     }
     // Top Right
     offsetX = (nextPoint.x + _OWRight) / TILE_WIDTH;
-    obstacle = _obstacles->find(_mapWidth * (_mapHeight - offsetY -1) + offsetX);
+    id = _mapWidth * (_mapHeight - offsetY -1) + offsetX;
+    obstacle = _obstacles->find( id );
     if( obstacle != _obstacles->end())
     {
-        Backend::Coordinates coords = Backend::Coordinates(
-            obstacle->second->getPosition().x / TILE_WIDTH,
-            obstacle->second->getPosition().y / TILE_HEIGHT
-        );
-        _mediator->pushObstacle(coords, direction);
+        if( std::find(_immuneObstacles.begin(), _immuneObstacles.end(), id ) == _immuneObstacles.end() )
+        {
+            Backend::Coordinates coords = Backend::Coordinates(
+                obstacle->second->getPosition().x / TILE_WIDTH,
+                obstacle->second->getPosition().y / TILE_HEIGHT
+            );
+            _mediator->pushObstacle(coords, direction);
+        }
         result = true;
     }
 
     // Bottom Left
     offsetX = (nextPoint.x - _OWLeft) / TILE_WIDTH;
     offsetY = (nextPoint.y - _OHBottom) / TILE_HEIGHT;
-    obstacle = _obstacles->find(_mapWidth * (_mapHeight - offsetY -1) + offsetX);
+    id = _mapWidth * (_mapHeight - offsetY -1) + offsetX;
+    obstacle = _obstacles->find( id );
     if( obstacle != _obstacles->end())
     {
-        Backend::Coordinates coords = Backend::Coordinates(
-            obstacle->second->getPosition().x / TILE_WIDTH,
-            obstacle->second->getPosition().y / TILE_HEIGHT
-        );
-        _mediator->pushObstacle(coords, direction);
+        if( std::find(_immuneObstacles.begin(), _immuneObstacles.end(), id ) == _immuneObstacles.end() )
+        {
+            Backend::Coordinates coords = Backend::Coordinates(
+                obstacle->second->getPosition().x / TILE_WIDTH,
+                obstacle->second->getPosition().y / TILE_HEIGHT
+            );
+            _mediator->pushObstacle(coords, direction);
+        }
         result = true;
     }
 
     // Bottom Right
     offsetX = (nextPoint.x + _OWRight) / TILE_WIDTH;
-    obstacle = _obstacles->find(_mapWidth * (_mapHeight - offsetY -1) + offsetX);
+    id = _mapWidth * (_mapHeight - offsetY -1) + offsetX;
+    obstacle = _obstacles->find( id );
     if( obstacle != _obstacles->end())
     {
-        Backend::Coordinates coords = Backend::Coordinates(
-            obstacle->second->getPosition().x / TILE_WIDTH,
-            obstacle->second->getPosition().y / TILE_HEIGHT
-        );
-        _mediator->pushObstacle(coords, direction);
+        if( std::find(_immuneObstacles.begin(), _immuneObstacles.end(), id ) == _immuneObstacles.end() )
+        {
+            Backend::Coordinates coords = Backend::Coordinates(
+                obstacle->second->getPosition().x / TILE_WIDTH,
+                obstacle->second->getPosition().y / TILE_HEIGHT
+            );
+            _mediator->pushObstacle(coords, direction);
+        }
         result = true;
     }
 
