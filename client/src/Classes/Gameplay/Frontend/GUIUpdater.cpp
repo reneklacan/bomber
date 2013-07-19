@@ -26,10 +26,11 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     _map->getTiledMap()->layerNamed("sprites2spawn")->setVisible(false);
     _map->getTiledMap()->layerNamed("effects2spawn")->setVisible(false);
 
-    // Hide sprites, obstacles, effects
+    // Hide sprites, obstacles, effects, portals
     _map->getTiledMap()->layerNamed("sprites")->setVisible(false);
     _map->getTiledMap()->layerNamed("obstacles")->setVisible(false);
     _map->getTiledMap()->layerNamed("effects")->setVisible(false);
+    _map->getTiledMap()->layerNamed("portals")->setVisible(false);
 
     // Init Batch Node
     _batchNode = SpriteBatchNode::create("tiles/tileset.png");
@@ -694,6 +695,22 @@ void GUIUpdater::initLayers()
         _batchNode->addChild(_effects[ id ], 0);
         _batchNode->reorderChild(
             _effects[ id ],
+            _map->getHeight()*TILE_HEIGHT - sp->getPosition().y + 5
+        );
+    }
+    for(auto it : *(_cache->getPortals()) )
+    {
+        unsigned int id = it.first;
+        Sprite *sp = it.second;
+
+        _portals[ id ] = Sprite::createWithTexture( sp->getTexture(), sp->getTextureRect() );
+        _portals[ id ]->setPosition( sp->getPosition() );
+        _portals[ id ]->setAnchorPoint( ccp(0, 0) );
+        _portals[ id ]->setVertexZ(0); // DO NOT CHANGE
+
+        _batchNode->addChild(_portals[ id ], 0);
+        _batchNode->reorderChild(
+            _portals[ id ],
             _map->getHeight()*TILE_HEIGHT - sp->getPosition().y + 5
         );
     }

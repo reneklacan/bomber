@@ -36,6 +36,7 @@ namespace Bomber
             std::map<unsigned int, Sprite *> *getMobs() { return &_mobs; }
             std::map<unsigned int, Sprite *> *getObstacles() { return &_obstacles; }
             std::map<unsigned int, Sprite *> *getEffects() { return &_effects; }
+            std::map<unsigned int, Sprite *> *getPortals() { return &_portals; }
 
         private:
             GUICache() : _creator( SpriteCreator::getInstance() ) {};
@@ -46,6 +47,7 @@ namespace Bomber
             std::map<unsigned int, Sprite *> _mobs;
             std::map<unsigned int, Sprite *> _obstacles;
             std::map<unsigned int, Sprite *> _effects;
+            std::map<unsigned int, Sprite *> _portals;
 
 
             std::vector<Sprite *> _bombCache;

@@ -106,6 +106,9 @@ void GUICache::cacheAllLayers(Map* map)
     // Effects
     TMXLayer *effectsLayer = map->getTiledMap()->layerNamed("effects");
 
+    // Portals
+    TMXLayer *portalsLayer = map->getTiledMap()->layerNamed("portals");
+
     // Init obstacles, mobs and effects structure
     for(int ix = 0; ix < map->getWidth(); ix++)
     {
@@ -128,6 +131,12 @@ void GUICache::cacheAllLayers(Map* map)
             {
                 int position = map->getWidth() * iy + ix;
                 _effects[ position ] = effectsLayer->tileAt( point );
+            }
+
+            if(portalsLayer->tileGIDAt( point ) != 0)
+            {
+                int position = map->getWidth() * iy + ix;
+                _portals[ position ] = portalsLayer->tileAt( point );
             }
 
         }

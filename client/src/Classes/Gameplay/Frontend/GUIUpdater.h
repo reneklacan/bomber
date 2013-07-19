@@ -83,6 +83,7 @@ namespace Bomber
             std::map<unsigned int, Sprite *> _obstacles;
             std::map<unsigned int, Sprite *> _effects;
             std::map<unsigned int, Sprite *> _bombs;
+            std::map<unsigned int, Sprite *> _portals;
 
             SpriteBatchNode* _batchNode;
             bool _resetNow;
