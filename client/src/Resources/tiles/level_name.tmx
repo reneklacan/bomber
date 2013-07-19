@@ -535,11 +535,11 @@
    <tile gid="0"/>
    <tile gid="43"/>
    <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="20"/>
    <tile gid="20"/>
@@ -577,11 +577,11 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="20"/>
    <tile gid="20"/>
@@ -619,11 +619,11 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="20"/>
    <tile gid="0"/>
    <tile gid="20"/>
    <tile gid="20"/>
@@ -3165,7 +3165,7 @@
   <object name="3" x="1651" y="1402" width="30" height="30"/>
   <object name="4" x="1449" y="1402" width="30" height="30"/>
   <object name="5" x="1045" y="1078" width="30" height="30"/>
-  <object name="7" x="1543" y="424" width="44" height="37"/>
+  <object name="7" x="1643" y="500" width="44" height="37"/>
  </objectgroup>
  <objectgroup name="switches" width="21" height="21">
   <object name="1" type="type" x="1140" y="1320" width="40" height="29">
@@ -3218,10 +3218,14 @@
   <object name="4" x="1545" y="264" width="44" height="38"/>
   <object name="4" x="1845" y="344" width="44" height="38"/>
   <object name="4" x="1440" y="589" width="44" height="38"/>
-  <object name="4" x="1444" y="264" width="44" height="38"/>
+  <object name="4" x="1339" y="181" width="44" height="38"/>
   <object name="4" x="1748" y="263" width="44" height="38"/>
   <object name="4" x="1645" y="587" width="44" height="38"/>
   <object name="4" x="1846" y="508" width="44" height="38"/>
   <object name="4" x="1442" y="340" width="44" height="38"/>
+  <object name="4" x="1439" y="261" width="44" height="38"/>
+  <object name="4" x="1337" y="666" width="44" height="38"/>
+  <object name="4" x="1947" y="666" width="44" height="38"/>
+  <object name="4" x="1947" y="182" width="44" height="38"/>
  </objectgroup>
 </map>
