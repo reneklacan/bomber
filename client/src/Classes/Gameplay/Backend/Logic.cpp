@@ -7,6 +7,7 @@
 #include "GameObjects/Effect.h"
 #include "AI/AI.h"
 #include "Statistics/StatisticsUpdater.h"
+#include "../../Constants.h"
 
 using namespace Bomber::Backend;
 
@@ -562,19 +563,23 @@ void Logic::pushBlock(Coordinates coords, int direction)
     auto block = blocks[0];
     if (!block->isPushable())
         return;
-
+    
     Coordinates nextCoords = coords.getNext(direction);
 
     if (_state->getObstacleLayer()->getObjectsAtCoords(nextCoords).size() > 0)
         return;
-
+    
     if (_state->getSpriteLayer()->getObjectsAtCoords(nextCoords).size() > 0)
         return;
+
+    _state->getObstacleLayer()->removeObject(block);
     
     block->setId(nextCoords.y*_state->getWidth() + nextCoords.x);
-    block->setPosition(nextCoords.x*_state->getWidth(), nextCoords.y*_state->getHeight());
-    _state->getObstacleLayer()->updateGrid();
+    block->setPosition(nextCoords.x*TILE_WIDTH, nextCoords.y*TILE_HEIGHT);
+    
+    _state->getObstacleLayer()->addObject(block);
+
     _gameStateUpdater->pushBlock(coords, nextCoords);
-    //_gameStateUpdater->destroyObstacle(block, 0); // comment this line out when push block change is implemented
-    //_gameStateUpdater->spawnObstacle(block->getGid(), nextCoords, 0); // comment this line out when push block change is implemented
+
+    _state->getObstacleLayer()->print();
 }
