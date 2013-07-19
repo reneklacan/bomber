@@ -530,13 +530,12 @@ void GUIUpdater::updateBlockPush( Backend::GSCBlockPush *blockPush )
         }
     }
 
-    //
+    // Importatn actions for collision detection and callback
+    _collisionDetector->setObstacleImmuneToPush(id);
+    _paths.push_back( new Path(id, newId, obstacle) ); // BIG WARNING - in this case all animations must have same time
     std::function<void()> cleaner = std::bind(&GUIUpdater::finishUpdateBlockPush, this);
 
     // Create animation
-    _paths.push_back( new Path(id, newId, obstacle) ); // BIG WARNING - in this case all animations must have same time
-    _collisionDetector->setObstacleImmuneToPush(id);
-
     obstacle->runAction(
         Sequence::create( 
             MoveTo::create(
@@ -569,6 +568,10 @@ void GUIUpdater::finishUpdateBlockPush()
 
     // Save moved obstacle with new id
     _obstacles[ path->getTo() ] = path->getSprite();
+    _batchNode->reorderChild(
+        _obstacles[ path->getTo() ], 
+        _map->getHeight()*TILE_HEIGHT - path->getSprite()->getPosition().y - TILE_HEIGHT + 5
+    );
 
     delete path;
 }

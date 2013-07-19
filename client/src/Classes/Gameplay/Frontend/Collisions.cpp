@@ -15,32 +15,32 @@ _BWRight(0),
 _BHTop(0),
 _BHBottom(0)
 {
-	_mediator = Backend::Mediator::getInstance();
+    _mediator = Backend::Mediator::getInstance();
 }
 
 //
 void Collisions::skipEval(bool skip)
 {
-	_skipEval = skip;
+    _skipEval = skip;
 }
 
 //
 void Collisions::reset()
 {
-	_skipEval = false;
-	_collisionFreeAreas.clear();
+    _skipEval = false;
+    _collisionFreeAreas.clear();
 }
 
 //
 void Collisions::setObstacles(std::map<unsigned int, Sprite *> *obstacles)
 {
-	_obstacles = obstacles;
+    _obstacles = obstacles;
 }
 
 //
 void Collisions::setBombs(std::map<unsigned int, Sprite *> *bombs)
 {
-	_bombs = bombs;
+    _bombs = bombs;
 }
 
 //
@@ -62,7 +62,7 @@ void Collisions::unsetObstacleImmuneToPush(unsigned int id)
 //
 std::vector<bool> Collisions::eval(Point currentPoint, Point nextPoint)
 {
-	// Init
+    // Init
     std::vector<bool> result;
     result.push_back(false);  // Collision occured
     result.push_back(false);  // Collision on X
@@ -96,10 +96,10 @@ std::vector<bool> Collisions::eval(Point currentPoint, Point nextPoint)
     std::vector<unsigned int> toRemove;
     for(auto freeArea : _collisionFreeAreas)
     {
-        if( (currentPoint.x - freeArea.second.x) > 50 ||	// Push left
-            (currentPoint.y - freeArea.second.y) > 40 ||	// Push up
-            (freeArea.second.x - currentPoint.x) > 60 ||	// Push right
-            (freeArea.second.y - currentPoint.y) > 50 )		// Push down
+        if( (currentPoint.x - freeArea.second.x) > 50 ||    // Push left
+            (currentPoint.y - freeArea.second.y) > 40 ||    // Push up
+            (freeArea.second.x - currentPoint.x) > 60 ||    // Push right
+            (freeArea.second.y - currentPoint.y) > 50 )     // Push down
         {
             toRemove.push_back(freeArea.first);
         }
@@ -162,24 +162,24 @@ Sprite *Collisions::getBombAtPosition(int x, int y)
 //
 void Collisions::setCFA(unsigned int id, Point point)
 {
-	_collisionFreeAreas[ id ] = point;
+    _collisionFreeAreas[ id ] = point;
 }
 
 //
 void Collisions::setMapDimensions(unsigned int width, unsigned int height)
 {
-	_mapWidth = width;
-	_mapHeight = height;
+    _mapWidth = width;
+    _mapHeight = height;
 }
 
 //
 bool Collisions::evalObstacles(Point nextPoint, Backend::TDirection direction)
 {
-	bool result = false;
-	int offsetX = 0;
+    bool result = false;
+    int offsetX = 0;
     int offsetY = 0;
 
-	// Top Left
+    // Top Left
     offsetX = (nextPoint.x - _OWLeft) / TILE_WIDTH;
     offsetY = (nextPoint.y + _OHTop) / TILE_HEIGHT;
     unsigned int id = _mapWidth * (_mapHeight - offsetY -1) + offsetX;
@@ -255,11 +255,11 @@ bool Collisions::evalObstacles(Point nextPoint, Backend::TDirection direction)
 //
 bool Collisions::evalBombs(Point nextPoint, Backend::TDirection direction)
 {
-	bool result = false;
-	int offsetX = 0;
+    bool result = false;
+    int offsetX = 0;
     int offsetY = 0;
 
-	// Top Left
+    // Top Left
     offsetX = (nextPoint.x - _BWLeft) / TILE_WIDTH;
     offsetY = (nextPoint.y + _BHTop) / TILE_HEIGHT;
     auto bomb = this->getBombAtPosition(offsetX, offsetY);
