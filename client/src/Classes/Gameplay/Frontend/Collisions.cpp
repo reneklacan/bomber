@@ -73,24 +73,24 @@ std::vector<bool> Collisions::eval(Point currentPoint, Point nextPoint)
     Point nextPointY = ccp(currentPoint.x, nextPoint.y);
 
     // Get move direction
-    Backend::TDirection directionX = Backend::CALM;
-    Backend::TDirection directionY = Backend::CALM;
+    Common::TDirection directionX = Common::CALM;
+    Common::TDirection directionY = Common::CALM;
     if(nextPoint.x - currentPoint.x > 0)
     {
-        directionX = Backend::RIGHT;
+        directionX = Common::RIGHT;
     }
     else if(nextPoint.x - currentPoint.x < 0)
     {
-        directionX = Backend::LEFT;
+        directionX = Common::LEFT;
     }
 
     if(nextPoint.y - currentPoint.y > 0)
     {
-        directionY = Backend::UP;
+        directionY = Common::UP;
     }
     else if(nextPoint.y - currentPoint.y < 0)
     {
-        directionY = Backend::DOWN;
+        directionY = Common::DOWN;
     }
 
     std::vector<unsigned int> toRemove;

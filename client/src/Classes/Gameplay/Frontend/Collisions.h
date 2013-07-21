@@ -6,7 +6,7 @@
 #include <algorithm>
 
 #include "../Backend/Mediator.h"
-#include "../Backend/Primitives/Direction.h"
+#include "../Common/Primitives/Direction.h"
 #include "../../Input/ControlLayer.h"
 #include "../../Constants.h"
 
@@ -30,9 +30,9 @@ namespace Bomber
             void unsetObstacleImmuneToPush(unsigned int id);
 
         private:
-            bool evalObstacles(Point nextPoint, Backend::TDirection direction);
-            bool evalBombs(Point nextPoint, Backend::TDirection direction);
-            bool evalPartial(Point nextPoint, Backend::TDirection direction);
+            bool evalObstacles(Point nextPoint, Common::TDirection direction);
+            bool evalBombs(Point nextPoint, Common::TDirection direction);
+            bool evalPartial(Point nextPoint, Common::TDirection direction);
             Sprite *getBombAtPosition(int x, int y);
 
             bool _skipEval;

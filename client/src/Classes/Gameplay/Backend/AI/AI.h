@@ -26,7 +26,7 @@ namespace Bomber
                 Coordinates getRandomCoordsAround(Coordinates coords, bool ghostMode);
                 std::deque<Coordinates> findDirectPath(Coordinates from, Coordinates to);
                 std::deque<Coordinates> findDirectPath(Coordinates from, Coordinates to, bool ghostMode);
-                std::deque<Coordinates> findPath(Coordinates from, Coordinates to);
+                std::deque<Coordinates> findPath(Common::Coordinates from, Coordinates to);
                 std::deque<Coordinates> findPath(Coordinates from, Coordinates to, bool ghostMode);
                 std::deque<Coordinates> findPathToNearestPlayer(Coordinates from, float range);
                 std::deque<Coordinates> findPathToNearestPlayer(Coordinates from, float range, bool smart);

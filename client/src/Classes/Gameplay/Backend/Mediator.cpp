@@ -3,6 +3,7 @@
 #include "GameObjects/Sprites/Bomber.h"
 
 using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 Mediator *Mediator::_instance = nullptr;
 

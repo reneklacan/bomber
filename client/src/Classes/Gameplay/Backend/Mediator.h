@@ -3,7 +3,7 @@
 
 #include "Logic.h"
 #include "State/GameStateUpdater.h"
-#include "Primitives/Direction.h"
+#include "../Common/Primitives/Direction.h"
 
 namespace Bomber
 {
@@ -19,12 +19,12 @@ namespace Bomber
                 void setState(GameState *state);
                 void setControlledSprite(unsigned int id);
                 Sprite *getControlledSprite();
-                void moveSprite(Position position);
+                void moveSprite(Common::Position position);
                 void spawnBomb();
                 GameState *getState() { return _state; }
 
-                void pushObstacle(Coordinates coords, TDirection direction);
-                void kickBomb(Coordinates coords, TDirection direction);
+                void pushObstacle(Common::Coordinates coords, Common::TDirection direction);
+                void kickBomb(Common::Coordinates coords, Common::TDirection direction);
 
             private:
                 Mediator();

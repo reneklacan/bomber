@@ -4,6 +4,7 @@
 #include "../../../Constants.h"
 
 using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 GameStateUpdater::GameStateUpdater()
 :_uniqueId(1)
