@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="21" height="21" tilewidth="101" tileheight="81">
+<map version="1.0" orientation="orthogonal" width="21" height="21" tilewidth="101" tileheight="101">
  <properties>
   <property name="goal_mobs_alive" value="0"/>
  </properties>
