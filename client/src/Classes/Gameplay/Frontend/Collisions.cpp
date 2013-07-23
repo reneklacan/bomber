@@ -96,8 +96,8 @@ std::vector<bool> Collisions::eval(Point currentPoint, Point nextPoint)
     std::vector<unsigned int> toRemove;
     for(auto freeArea : _collisionFreeAreas)
     {
-        if( (currentPoint.x - freeArea.second.x) > 50 ||    // Push left
-            (currentPoint.y - freeArea.second.y) > 40 ||    // Push up
+        if( (currentPoint.x - freeArea.second.x) > 55 ||    // Push left
+            (currentPoint.y - freeArea.second.y) > 45 ||    // Push up
             (freeArea.second.x - currentPoint.x) > 60 ||    // Push right
             (freeArea.second.y - currentPoint.y) > 50 )     // Push down
         {

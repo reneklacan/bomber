@@ -22,6 +22,10 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
     _mediator = Backend::Mediator::getInstance();
     _collisionDetector = new Collisions();
 
+    // Optimization
+    _O_mapPixelHeight = _map->getHeight()*TILE_HEIGHT;
+    _O_tileHeightDiv4 = TILE_HEIGHT/4;
+
     // Ignore items which will be spawned, backend will take care of them
     _map->getTiledMap()->layerNamed("sprites2spawn")->setVisible(false);
     _map->getTiledMap()->layerNamed("effects2spawn")->setVisible(false);
@@ -193,7 +197,7 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
         // Only set Z coordinate
         _batchNode->reorderChild(
             _player, 
-            _map->getHeight()*TILE_HEIGHT - _player->getPosition().y
+            _O_mapPixelHeight - _player->getPosition().y
         );
         return;
     }
@@ -209,7 +213,7 @@ void GUIUpdater::updateSpriteMove(Backend::GSCSpriteMove *spriteMove)
                 );
         _batchNode->reorderChild(
             _mobs[spriteMove->getGameObjectId()],
-            _map->getHeight()*TILE_HEIGHT - spriteMove->getPosition().y - TILE_HEIGHT/4 // DO NOT CHANGE
+            _O_mapPixelHeight - spriteMove->getPosition().y - _O_tileHeightDiv4 // DO NOT CHANGE
         );
     }
     // First occurence of a sprite
@@ -242,7 +246,7 @@ void GUIUpdater::updateSpriteTeleport(Backend::GSCSpriteTeleport *spriteTeleport
                     )
                 );
     }
-    return;
+    return; // CHILD REORDER ?
 }
 
 //
@@ -258,7 +262,7 @@ void GUIUpdater::updateBombSpawn(Backend::GSCBombSpawn *bombSpawn)
     );
 
     _bombs[ id ]->setPosition(bombSpawnPosition);
-    _batchNode->reorderChild(_bombs[ id ], _map->getHeight()*TILE_HEIGHT - bombSpawnPosition.y);
+    _batchNode->reorderChild(_bombs[ id ], _O_mapPixelHeight - bombSpawnPosition.y);
 
     // for kicking
     _collisionDetector->setCFA(id, bombSpawnPosition);
@@ -502,16 +506,13 @@ void GUIUpdater::updateBombMove( Backend::GSCBombMove *bombMove )
 {
     unsigned int id = bombMove->getGameObjectId();
     _bombs[ id ]->setPosition( ccp( bombMove->getPosition().x, bombMove->getPosition().y) );
-    _batchNode->reorderChild(_bombs[ id ], _map->getHeight()*TILE_HEIGHT - bombMove->getPosition().y);
+    _batchNode->reorderChild(_bombs[ id ], _O_mapPixelHeight - bombMove->getPosition().y);
     return;
 }
 
 //
 void GUIUpdater::updateBlockPush( Backend::GSCBlockPush *blockPush )
 {
-    std::cout << "FROM: " << blockPush->getFrom().x << ", " << blockPush->getFrom().y << "\n";
-    std::cout << "TO  : " << blockPush->getTo().x << ", " << blockPush->getTo().y << "\n";
-
     // Get obstacle for animation
     unsigned int id = _map->getWidth() * (_map->getWidth() - blockPush->getFrom().y - 1) + blockPush->getFrom().x;
     unsigned int newId = _map->getWidth() * (_map->getWidth() - blockPush->getTo().y - 1) + blockPush->getTo().x;
@@ -522,19 +523,15 @@ void GUIUpdater::updateBlockPush( Backend::GSCBlockPush *blockPush )
     {
         return;
     }
-    // If moving now, return
-    for(auto path: _paths)
-    {
-        if( obstacle == path->getSprite() )
-        {
-            return;
-        }
-    }
 
-    // Importatn actions for collision detection and callback
+    // Important actions for collision detection and callback
     _collisionDetector->setObstacleImmuneToPush(id);
-    _paths.push_back( new Path(id, newId, obstacle) ); // BIG WARNING - in this case all animations must have same time
-    std::function<void()> cleaner = std::bind(&GUIUpdater::finishUpdateBlockPush, this);
+
+    // Create Obstacle Move data object
+    ObstacleMove* obsMove = new ObstacleMove(id, newId, obstacle);
+    
+    // Create callback function a bind it with data object 
+    std::function<void()> cleaner = std::bind(&GUIUpdater::finishUpdateBlockPush, this, obsMove);
 
     // Create animation
     obstacle->runAction(
@@ -557,24 +554,22 @@ void GUIUpdater::updateBlockPush( Backend::GSCBlockPush *blockPush )
 }
 
 //
-void GUIUpdater::finishUpdateBlockPush()
+void GUIUpdater::finishUpdateBlockPush(ObstacleMove *move)
 {
-    // Get path
-    Path *path = _paths.front();
-    _paths.erase( _paths.begin() );
-    _collisionDetector->unsetObstacleImmuneToPush( path->getFrom() );
+    // Update collisions
+    _collisionDetector->unsetObstacleImmuneToPush( move->getFrom() );
 
     // Erase old block from map
-    _obstacles.erase( path->getFrom() );
+    _obstacles.erase( move->getFrom() );
 
     // Save moved obstacle with new id
-    _obstacles[ path->getTo() ] = path->getSprite();
+    _obstacles[ move->getTo() ] = move->getSprite();
     _batchNode->reorderChild(
-        _obstacles[ path->getTo() ], 
-        _map->getHeight()*TILE_HEIGHT - path->getSprite()->getPosition().y - TILE_HEIGHT + 5
+        _obstacles[ move->getTo() ], 
+        _O_mapPixelHeight - move->getSprite()->getPosition().y - TILE_HEIGHT + 5
     );
 
-    delete path;
+    delete move;
 }
 
 /*
@@ -663,7 +658,7 @@ void GUIUpdater::initLayers()
         _batchNode->addChild(_obstacles[ id ], 0);
         _batchNode->reorderChild(
             _obstacles[ id ],
-            _map->getHeight()*TILE_HEIGHT - sp->getPosition().y + 5
+            _O_mapPixelHeight - sp->getPosition().y + 5
         );
     }
     for(auto it : *(_cache->getMobs()) )
@@ -679,7 +674,7 @@ void GUIUpdater::initLayers()
         _batchNode->addChild(_mobs[ id ], 0);
         _batchNode->reorderChild(
             _mobs[ id ],
-            _map->getHeight()*TILE_HEIGHT - sp->getPosition().y - TILE_HEIGHT/4
+            _O_mapPixelHeight - sp->getPosition().y - TILE_HEIGHT/4
         );
     }
     for(auto it : *(_cache->getEffects()) )
@@ -695,7 +690,7 @@ void GUIUpdater::initLayers()
         _batchNode->addChild(_effects[ id ], 0);
         _batchNode->reorderChild(
             _effects[ id ],
-            _map->getHeight()*TILE_HEIGHT - sp->getPosition().y + 5
+            _O_mapPixelHeight - sp->getPosition().y + 5
         );
     }
     for(auto it : *(_cache->getPortals()) )
@@ -711,7 +706,7 @@ void GUIUpdater::initLayers()
         _batchNode->addChild(_portals[ id ], 0);
         _batchNode->reorderChild(
             _portals[ id ],
-            _map->getHeight()*TILE_HEIGHT - sp->getPosition().y + 5
+            _O_mapPixelHeight - sp->getPosition().y + 5
         );
     }
 

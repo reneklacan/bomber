@@ -9,10 +9,10 @@ namespace Bomber
 {
     namespace Frontend
     {
-        class Path
+        class ObstacleMove
         {
         public:
-            Path(unsigned int from, unsigned int to, Sprite* sprite)
+            ObstacleMove(unsigned int from, unsigned int to, Sprite* sprite)
             : _oldId(from), _newId(to), _sprite(sprite) 
             {}
 
