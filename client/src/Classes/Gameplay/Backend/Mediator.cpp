@@ -81,7 +81,7 @@ void Mediator::kickBomb(Coordinates coords, TDirection direction)
 {
     if(direction != Backend::CALM)
     {
-        std::cout << "KICK: [" << coords.x << ", " << coords.y << "] direction = " << direction << "\n";
-        //Logic::getInstance()->kickBomb(coords, direction);
+        //std::cout << "KICK: [" << coords.x << ", " << coords.y << "] direction = " << direction << "\n";
+        Logic::getInstance()->kickBomb(coords, direction);
     }
 }
