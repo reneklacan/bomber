@@ -2,7 +2,7 @@
 #define __BOMBER_BACKEND_GAME_STATE_UPDATER
 
 #include "GameState.h"
-#include "../Primitives/Position.h"
+#include "../../Common/Primitives/Position.h"
 #include "../GameObjects/BBomb.h"
 #include "../GameObjects/Obstacle.h"
 #include "../GameObjects/Sprites/Sprite.h"
@@ -26,19 +26,19 @@ namespace Bomber
                 GameState *getState() { return _state; };
                 unsigned int getUniqueId() { return _uniqueId++; };
 
-                void moveSprite(Sprite *sprite, Position position);
-                void teleportSprite(Sprite *sprite, Position position);
+                void moveSprite(Sprite *sprite, Common::Position position);
+                void teleportSprite(Sprite *sprite, Common::Position position);
                 
-                void spawnSprite(unsigned int spriteGid, Coordinates coords);
+                void spawnSprite(unsigned int spriteGid, Common::Coordinates coords);
                 void spawnBomb(Sprite* owner);
                 void spawnExplosion(ExplodableObject *explObji, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
-                void spawnObstacle(unsigned int obstacleGid, Coordinates coords, unsigned int spawnerId);
-                void spawnEffect(unsigned int effectGid, Coordinates coords);
+                void spawnObstacle(unsigned int obstacleGid, Common::Coordinates coords, unsigned int spawnerId);
+                void spawnEffect(unsigned int effectGid, Common::Coordinates coords);
                 
                 void update();
                 void updateSpriteAttributes(Sprite *sprite, Effect *effect);
                 
-                void pushBlock(Coordinates from, Coordinates to);
+                void pushBlock(Common::Coordinates from, Common::Coordinates to);
                 void switchLeverOn(GameObject *lever, unsigned int causerId);
                 void switchLeverOff(GameObject *lever, unsigned int causerId);
                 
@@ -51,7 +51,7 @@ namespace Bomber
                 void destroyEffect(Effect *effect);
 
                 void logSpriteMove(Sprite *sprite);
-                void logSpriteTeleport(Sprite *sprite, Position &to);
+                void logSpriteTeleport(Sprite *sprite, Common::Position &to);
                 void logSpriteDamage(Sprite *sprite, int damage);
                 void logSpriteDestroy(Sprite *sprite);
                 void logSpriteSpawn(Sprite *sprite);
@@ -63,7 +63,7 @@ namespace Bomber
                 void logExplosionSpawn(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void logObstacleDestroy(Obstacle *obstacle);
                 void logSpriteAttributesUpdate(Sprite *sprite, Effect *effect);
-                void logBlockPush(Coordinates from, Coordinates to);
+                void logBlockPush(Common::Coordinates from, Common::Coordinates to);
                 void logLeverSwitchOn(GameObject *lever);
                 void logLeverSwitchOff(GameObject *lever);
                 void logEffectDestroy(Effect *effect);

@@ -13,7 +13,7 @@ namespace Bomber
             public:
                 Portal();
                 void configure(int top, int bottom, int left, int right);
-                int getPortalTarget(Coordinates coords);
+                int getPortalTarget(Common::Coordinates coords);
 
             private:
                 SYNTHESIZE(int ,_topTarget, TopTarget);

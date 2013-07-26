@@ -1,7 +1,7 @@
 
 #include "Rectangle.h"
 
-using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 Rectangle::Rectangle(int x, int y, int width, int height)
 {

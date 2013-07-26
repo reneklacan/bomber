@@ -11,8 +11,8 @@ namespace Bomber
         class Movement
         {
             public:
-                Movement(GameObject *object, Position goal, int direction, int speed);
-                Movement(GameObject *object, Coordinates goalCoords, int direction, int speed);
+                Movement(GameObject *object, Common::Position goal, int direction, int speed);
+                Movement(GameObject *object, Common::Coordinates goalCoords, int direction, int speed);
                 void update(float dt);
                 inline bool isFinished() { return _finished; };
 
@@ -20,9 +20,9 @@ namespace Bomber
                 SYNTHESIZE(bool, _finished, Finished);
                 SYNTHESIZE(int, _direction, Direction);
                 SYNTHESIZE(int, _speed, Speed);
-                SYNTHESIZE(Position, _start, Start);
-                SYNTHESIZE(Position, _current, Current);
-                SYNTHESIZE(Position, _goal, Goal);
+                SYNTHESIZE(Common::Position, _start, Start);
+                SYNTHESIZE(Common::Position, _current, Current);
+                SYNTHESIZE(Common::Position, _goal, Goal);
                 SYNTHESIZE(GameObject *, _object, Object);
         };
     }

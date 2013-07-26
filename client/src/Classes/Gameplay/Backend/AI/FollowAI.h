@@ -2,7 +2,7 @@
 #define __BOMBER_BACKEND_FOLLOW_AI
 
 #include "../GameObjects/Sprites/Sprite.h"
-#include "../Primitives/Position.h"
+#include "../../Common/Primitives/Position.h"
 
 namespace Bomber
 {
@@ -27,7 +27,7 @@ namespace Bomber
 
             private:
                 TFollowAIState _state;
-                Position _goal;
+                Common::Position _goal;
         };
     }
 }

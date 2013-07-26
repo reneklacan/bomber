@@ -13,9 +13,6 @@
     <Filter Include="Classes\Gameplay\Backend\AI">
       <UniqueIdentifier>{0e028fe2-7381-476a-a68a-e524e7f7b77e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Gameplay\Backend\Primitives">
-      <UniqueIdentifier>{af9cf17a-814b-4ddc-ad49-e47ca40f84d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\Gameplay\Backend\Statistics">
       <UniqueIdentifier>{9b2d5a69-1ff8-4c97-9839-db68a3c13967}</UniqueIdentifier>
     </Filter>
@@ -61,6 +58,15 @@
     <Filter Include="Classes\Gameplay\Backend\GameObjects\Sprites">
       <UniqueIdentifier>{6eeb9dd4-29ba-4b7d-ab22-c6b950edba28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Gameplay\Frontend\Primitives">
+      <UniqueIdentifier>{b220fa62-ee77-4277-88b6-dc9c16078ec3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Gameplay\Common">
+      <UniqueIdentifier>{461292a9-cd08-4b78-89e3-b5858d4b1c66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Gameplay\Common\Primitives">
+      <UniqueIdentifier>{85b70376-3c55-4459-ada2-01a441634ab3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -83,12 +89,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Gameplay\Backend\AI\FollowAI.cpp">
       <Filter>Classes\Gameplay\Backend\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\Primitives\Coordinates.cpp">
-      <Filter>Classes\Gameplay\Backend\Primitives</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\Primitives\Rectangle.cpp">
-      <Filter>Classes\Gameplay\Backend\Primitives</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\AchievementContainer.cpp">
       <Filter>Classes\Gameplay\Backend\Statistics</Filter>
@@ -198,6 +198,12 @@
     <ClCompile Include="..\Classes\Gameplay\Backend\GameObjects\Portal.cpp">
       <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Common\Primitives\Coordinates.cpp">
+      <Filter>Classes\Gameplay\Common\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Common\Primitives\Rectangle.cpp">
+      <Filter>Classes\Gameplay\Common\Primitives</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -226,21 +232,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Backend\AI\FollowAI.h">
       <Filter>Classes\Gameplay\Backend\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Circle.h">
-      <Filter>Classes\Gameplay\Backend\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Coordinates.h">
-      <Filter>Classes\Gameplay\Backend\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Position.h">
-      <Filter>Classes\Gameplay\Backend\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Rectangle.h">
-      <Filter>Classes\Gameplay\Backend\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Size.h">
-      <Filter>Classes\Gameplay\Backend\Primitives</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\AchievementContainer.h">
       <Filter>Classes\Gameplay\Backend\Statistics</Filter>
@@ -329,9 +320,6 @@
     <ClInclude Include="..\Classes\Gameplay\Frontend\Cache\GUICache.h">
       <Filter>Classes\Gameplay\Frontend\Cache</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Direction.h">
-      <Filter>Classes\Gameplay\Backend\Primitives</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\SpriteCreator.h">
       <Filter>Classes\Gameplay\Frontend\Sprites</Filter>
     </ClInclude>
@@ -388,6 +376,27 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Switch.h">
       <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Primitives\AnimationHelper.h">
+      <Filter>Classes\Gameplay\Frontend\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Circle.h">
+      <Filter>Classes\Gameplay\Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Coordinates.h">
+      <Filter>Classes\Gameplay\Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Direction.h">
+      <Filter>Classes\Gameplay\Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Position.h">
+      <Filter>Classes\Gameplay\Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Rectangle.h">
+      <Filter>Classes\Gameplay\Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Size.h">
+      <Filter>Classes\Gameplay\Common\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

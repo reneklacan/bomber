@@ -5,6 +5,7 @@
 #include "../../../Constants.h"
 
 using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 Movement::Movement(GameObject *object, Position goal, int direction, int speed)
 :_finished(false)

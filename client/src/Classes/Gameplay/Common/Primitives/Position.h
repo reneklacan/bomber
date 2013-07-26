@@ -5,7 +5,7 @@
 
 namespace Bomber
 {
-    namespace Backend
+    namespace Common
     {
         class Position
         {

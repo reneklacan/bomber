@@ -13,7 +13,7 @@
 #include "../Backend/Mediator.h"
 #include "../Backend/GameObjects/Sprites/Bomber.h"
 #include "../Backend/GameObjects/Effect.h"
-#include "../Backend/Primitives/Direction.h"
+#include "../Common/Primitives/Direction.h"
 
 #include "../../Constants.h"
 #include "GUIConstants.h"
@@ -25,7 +25,7 @@
 
 #include "Cache/GUICache.h"
 
-#include "Primitives/Path.h"
+#include "Primitives/AnimationHelper.h"
 
 namespace Bomber
 {
@@ -66,7 +66,7 @@ namespace Bomber
             void updateLevelFinish( Backend::GSCLevelFinish *levelFinish );
             void updateBombMove( Backend::GSCBombMove *bombMove );
             void updateBlockPush( Backend::GSCBlockPush *blockPush );
-            void finishUpdateBlockPush();
+            void finishUpdateBlockPush(ObstacleMove* move);
 
             void initLayers();
             void initPlayer();
@@ -91,7 +91,9 @@ namespace Bomber
             Backend::Mediator *_mediator;
             Collisions *_collisionDetector;
 
-            std::vector<Path*> _paths;
+            // Opt
+            unsigned int _O_mapPixelHeight;
+            unsigned int _O_tileHeightDiv4;
         };
     }
 }

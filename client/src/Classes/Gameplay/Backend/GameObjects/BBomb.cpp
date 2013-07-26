@@ -5,6 +5,7 @@
 #include "../../../Constants.h"
 
 using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 Bomb::Bomb() : ExplodableObject()
 {

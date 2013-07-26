@@ -9,7 +9,9 @@
 #include "Statistics/StatisticsUpdater.h"
 #include "../../Constants.h"
 
+using namespace Bomber;
 using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 Logic *Logic::_instance = nullptr;
 
@@ -580,6 +582,4 @@ void Logic::pushBlock(Coordinates coords, int direction)
     _state->getObstacleLayer()->addObject(block);
 
     _gameStateUpdater->pushBlock(coords, nextCoords);
-
-    _state->getObstacleLayer()->print();
 }

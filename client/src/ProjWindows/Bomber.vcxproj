@@ -142,8 +142,6 @@
     <ClCompile Include="..\Classes\Gameplay\Backend\Interactions\Movement.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Logic.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Mediator.cpp" />
-    <ClCompile Include="..\Classes\Gameplay\Backend\Primitives\Coordinates.cpp" />
-    <ClCompile Include="..\Classes\Gameplay\Backend\Primitives\Rectangle.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\State\GameState.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\State\GameStateUpdater.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\AchievementContainer.cpp" />
@@ -151,6 +149,8 @@
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\GameAchievements.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\Statistics.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\StatisticsUpdater.cpp" />
+    <ClCompile Include="..\Classes\Gameplay\Common\Primitives\Coordinates.cpp" />
+    <ClCompile Include="..\Classes\Gameplay\Common\Primitives\Rectangle.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Frontend\ButtonLayer.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Frontend\Buttons\AchievementButton.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Frontend\Buttons\ControlButton.cpp" />
@@ -197,12 +197,6 @@
     <ClInclude Include="..\Classes\Gameplay\Backend\Logic.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Macros.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Mediator.h" />
-    <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Circle.h" />
-    <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Coordinates.h" />
-    <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Direction.h" />
-    <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Position.h" />
-    <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Rectangle.h" />
-    <ClInclude Include="..\Classes\Gameplay\Backend\Primitives\Size.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\State\GameState.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\State\GameStateChange.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\State\GameStateLayer.h" />
@@ -212,6 +206,12 @@
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\GameAchievements.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\Statistics.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\StatisticsUpdater.h" />
+    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Circle.h" />
+    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Coordinates.h" />
+    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Direction.h" />
+    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Position.h" />
+    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Rectangle.h" />
+    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Size.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\ButtonLayer.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Buttons\AchievementButton.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Buttons\ControlButton.h" />
@@ -225,6 +225,7 @@
     <ClInclude Include="..\Classes\Gameplay\Frontend\Map\Bomb.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Map\Explosion.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Map\Map.h" />
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Primitives\AnimationHelper.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\GameSprite.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\Human.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\SpriteCreator.h" />
