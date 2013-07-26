@@ -61,6 +61,9 @@
     <Filter Include="Classes\Gameplay\Backend\GameObjects\Sprites">
       <UniqueIdentifier>{6eeb9dd4-29ba-4b7d-ab22-c6b950edba28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Gameplay\Frontend\Primitives">
+      <UniqueIdentifier>{b220fa62-ee77-4277-88b6-dc9c16078ec3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -388,6 +391,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Switch.h">
       <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Primitives\AnimationHelper.h">
+      <Filter>Classes\Gameplay\Frontend\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
