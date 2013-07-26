@@ -126,7 +126,7 @@ namespace Bomber
 
             _objects.insert(object);
 
-            Coordinates coords = object->getCoords();
+            Common::Coordinates coords = object->getCoords();
             //printf("addObject at x:%d y:%d with id %d\n", coords.x, coords.y, id);
             _objectGridMap[id].insert(coords.y*_width + coords.x);
             _grid[coords.y*_width + coords.x].insert(object);
@@ -148,7 +148,7 @@ namespace Bomber
         template <class ObjectType>
         void GameStateLayer<ObjectType>::removeObject(ObjectType *object)
         {
-            Coordinates coords = object->getCoords();
+            Common::Coordinates coords = object->getCoords();
             _grid[coords.y*_width + coords.x].erase(object);
             //_objects.erase(_objects.find(object->getId()));
             _objectIdMap[object->getId()].erase(object);

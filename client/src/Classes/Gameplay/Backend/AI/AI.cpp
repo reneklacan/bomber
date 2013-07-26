@@ -2,6 +2,7 @@
 #include "AI.h"
 
 using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 AI *AI::_instance = nullptr;
 

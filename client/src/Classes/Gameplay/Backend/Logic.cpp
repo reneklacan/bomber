@@ -9,7 +9,9 @@
 #include "Statistics/StatisticsUpdater.h"
 #include "../../Constants.h"
 
+using namespace Bomber;
 using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 Logic *Logic::_instance = nullptr;
 
