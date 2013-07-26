@@ -13,7 +13,7 @@
 #include "../Backend/Mediator.h"
 #include "../Backend/GameObjects/Sprites/Bomber.h"
 #include "../Backend/GameObjects/Effect.h"
-#include "../Backend/Primitives/Direction.h"
+#include "../Common/Primitives/Direction.h"
 
 #include "../../Constants.h"
 #include "GUIConstants.h"

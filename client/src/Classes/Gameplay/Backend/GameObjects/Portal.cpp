@@ -4,6 +4,7 @@
 #include "Portal.h"
 
 using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 Portal::Portal() : GameObject()
 {

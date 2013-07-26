@@ -73,24 +73,24 @@ std::vector<bool> Collisions::eval(Point currentPoint, Point nextPoint)
     Point nextPointY = ccp(currentPoint.x, nextPoint.y);
 
     // Get move direction
-    Backend::TDirection directionX = Backend::CALM;
-    Backend::TDirection directionY = Backend::CALM;
+    Common::TDirection directionX = Common::CALM;
+    Common::TDirection directionY = Common::CALM;
     if(nextPoint.x - currentPoint.x > 0)
     {
-        directionX = Backend::RIGHT;
+        directionX = Common::RIGHT;
     }
     else if(nextPoint.x - currentPoint.x < 0)
     {
-        directionX = Backend::LEFT;
+        directionX = Common::LEFT;
     }
 
     if(nextPoint.y - currentPoint.y > 0)
     {
-        directionY = Backend::UP;
+        directionY = Common::UP;
     }
     else if(nextPoint.y - currentPoint.y < 0)
     {
-        directionY = Backend::DOWN;
+        directionY = Common::DOWN;
     }
 
     std::vector<unsigned int> toRemove;
@@ -119,7 +119,7 @@ std::vector<bool> Collisions::eval(Point currentPoint, Point nextPoint)
 }
 
 //
-bool Collisions::evalPartial(Point nextPoint, Backend::TDirection direction)
+bool Collisions::evalPartial(Point nextPoint, Common::TDirection direction)
 {
     // Init
     bool result = false;
@@ -173,7 +173,7 @@ void Collisions::setMapDimensions(unsigned int width, unsigned int height)
 }
 
 //
-bool Collisions::evalObstacles(Point nextPoint, Backend::TDirection direction)
+bool Collisions::evalObstacles(Point nextPoint, Common::TDirection direction)
 {
     bool result = false;
     int offsetX = 0;
@@ -188,7 +188,7 @@ bool Collisions::evalObstacles(Point nextPoint, Backend::TDirection direction)
     {
         if( std::find(_immuneObstacles.begin(), _immuneObstacles.end(), id ) == _immuneObstacles.end() )
         {
-            Backend::Coordinates coords = Backend::Coordinates(
+            Common::Coordinates coords = Common::Coordinates(
                 obstacle->second->getPosition().x / TILE_WIDTH,
                 obstacle->second->getPosition().y / TILE_HEIGHT
             );
@@ -204,7 +204,7 @@ bool Collisions::evalObstacles(Point nextPoint, Backend::TDirection direction)
     {
         if( std::find(_immuneObstacles.begin(), _immuneObstacles.end(), id ) == _immuneObstacles.end() )
         {
-            Backend::Coordinates coords = Backend::Coordinates(
+            Common::Coordinates coords = Common::Coordinates(
                 obstacle->second->getPosition().x / TILE_WIDTH,
                 obstacle->second->getPosition().y / TILE_HEIGHT
             );
@@ -222,7 +222,7 @@ bool Collisions::evalObstacles(Point nextPoint, Backend::TDirection direction)
     {
         if( std::find(_immuneObstacles.begin(), _immuneObstacles.end(), id ) == _immuneObstacles.end() )
         {
-            Backend::Coordinates coords = Backend::Coordinates(
+            Common::Coordinates coords = Common::Coordinates(
                 obstacle->second->getPosition().x / TILE_WIDTH,
                 obstacle->second->getPosition().y / TILE_HEIGHT
             );
@@ -239,7 +239,7 @@ bool Collisions::evalObstacles(Point nextPoint, Backend::TDirection direction)
     {
         if( std::find(_immuneObstacles.begin(), _immuneObstacles.end(), id ) == _immuneObstacles.end() )
         {
-            Backend::Coordinates coords = Backend::Coordinates(
+            Common::Coordinates coords = Common::Coordinates(
                 obstacle->second->getPosition().x / TILE_WIDTH,
                 obstacle->second->getPosition().y / TILE_HEIGHT
             );
@@ -253,7 +253,7 @@ bool Collisions::evalObstacles(Point nextPoint, Backend::TDirection direction)
 
 //
 //
-bool Collisions::evalBombs(Point nextPoint, Backend::TDirection direction)
+bool Collisions::evalBombs(Point nextPoint, Common::TDirection direction)
 {
     bool result = false;
     int offsetX = 0;
@@ -265,7 +265,7 @@ bool Collisions::evalBombs(Point nextPoint, Backend::TDirection direction)
     auto bomb = this->getBombAtPosition(offsetX, offsetY);
     if( bomb != NULL)
     {
-        Backend::Coordinates coords = Backend::Coordinates(
+        Common::Coordinates coords = Common::Coordinates(
             bomb->getPosition().x / TILE_WIDTH,
             bomb->getPosition().y / TILE_HEIGHT
         );
@@ -277,7 +277,7 @@ bool Collisions::evalBombs(Point nextPoint, Backend::TDirection direction)
     bomb = this->getBombAtPosition(offsetX, offsetY);
     if( bomb != NULL)
     {
-        Backend::Coordinates coords = Backend::Coordinates(
+        Common::Coordinates coords = Common::Coordinates(
             bomb->getPosition().x / TILE_WIDTH,
             bomb->getPosition().y / TILE_HEIGHT
         );
@@ -291,7 +291,7 @@ bool Collisions::evalBombs(Point nextPoint, Backend::TDirection direction)
     bomb = this->getBombAtPosition(offsetX, offsetY);
     if( bomb != NULL)
     {
-        Backend::Coordinates coords = Backend::Coordinates(
+        Common::Coordinates coords = Common::Coordinates(
             bomb->getPosition().x / TILE_WIDTH,
             bomb->getPosition().y / TILE_HEIGHT
         );
@@ -304,7 +304,7 @@ bool Collisions::evalBombs(Point nextPoint, Backend::TDirection direction)
     bomb = this->getBombAtPosition(offsetX, offsetY);
     if( bomb != NULL)
     {
-        Backend::Coordinates coords = Backend::Coordinates(
+        Common::Coordinates coords = Common::Coordinates(
             bomb->getPosition().x / TILE_WIDTH,
             bomb->getPosition().y / TILE_HEIGHT
         );

@@ -26,9 +26,9 @@ namespace Bomber
                 ObjectType *getObject(unsigned int id);
                 void removeObject(ObjectType *object);
                 void removeObject(unsigned int id);
-                std::vector<ObjectType *> getObjectsAroundCoords(Coordinates coords, int range);
-                std::vector<ObjectType *> getObjectsAroundCoords(Coordinates coords);
-                std::vector<ObjectType *> getObjectsAtCoords(Coordinates coords);
+                std::vector<ObjectType *> getObjectsAroundCoords(Common::Coordinates coords, int range);
+                std::vector<ObjectType *> getObjectsAroundCoords(Common::Coordinates coords);
+                std::vector<ObjectType *> getObjectsAtCoords(Common::Coordinates coords);
                 std::vector<ObjectType *> getObjectsAtCoords(unsigned int x, unsigned int y);
                 std::set<ObjectType *> &getObjects() { return _objects; };
                 std::set<ObjectType *> &getObjects(unsigned int id);
@@ -126,7 +126,7 @@ namespace Bomber
 
             _objects.insert(object);
 
-            Coordinates coords = object->getCoords();
+            Common::Coordinates coords = object->getCoords();
             //printf("addObject at x:%d y:%d with id %d\n", coords.x, coords.y, id);
             _objectGridMap[id].insert(coords.y*_width + coords.x);
             _grid[coords.y*_width + coords.x].insert(object);
@@ -148,7 +148,7 @@ namespace Bomber
         template <class ObjectType>
         void GameStateLayer<ObjectType>::removeObject(ObjectType *object)
         {
-            Coordinates coords = object->getCoords();
+            Common::Coordinates coords = object->getCoords();
             _grid[coords.y*_width + coords.x].erase(object);
             //_objects.erase(_objects.find(object->getId()));
             _objectIdMap[object->getId()].erase(object);
@@ -172,7 +172,7 @@ namespace Bomber
         }
 
         template <class ObjectType>
-        std::vector<ObjectType *> GameStateLayer<ObjectType>::getObjectsAroundCoords(Coordinates coords, int range)
+        std::vector<ObjectType *> GameStateLayer<ObjectType>::getObjectsAroundCoords(Common::Coordinates coords, int range)
         {
             std::vector<ObjectType *> objects;
 
@@ -194,13 +194,13 @@ namespace Bomber
         }
 
         template <class ObjectType>
-        std::vector<ObjectType *> GameStateLayer<ObjectType>::getObjectsAroundCoords(Coordinates coords)
+        std::vector<ObjectType *> GameStateLayer<ObjectType>::getObjectsAroundCoords(Common::Coordinates coords)
         {
             return this->getObjectsAroundCoords(coords, 1);
         }
 
         template <class ObjectType>
-        std::vector<ObjectType *> GameStateLayer<ObjectType>::getObjectsAtCoords(Coordinates coords)
+        std::vector<ObjectType *> GameStateLayer<ObjectType>::getObjectsAtCoords(Common::Coordinates coords)
         {
             return this->getObjectsAroundCoords(coords, 0);
         }

@@ -3,7 +3,7 @@
 
 namespace Bomber
 {
-    namespace Backend
+    namespace Common
     {
         enum TDirection
         {

@@ -25,9 +25,9 @@ namespace Bomber
 
                 void scheduleLevelReset(float delay);
 
-                void moveSprite(Position position);
-                void moveSprite(unsigned int id, Position position);
-                void moveSprite(GameObject *sprite, Position position);
+                void moveSprite(Common::Position position);
+                void moveSprite(unsigned int id, Common::Position position);
+                void moveSprite(GameObject *sprite, Common::Position position);
 
                 bool spawnBomb();
                 bool spawnBomb(unsigned int);
@@ -35,10 +35,10 @@ namespace Bomber
 
                 void spawnExplosion(ExplodableObject *explObj);
 
-                bool makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int *spritesKilled);
+                bool makeBombImpact(Bomb *bomb, Common::Coordinates coords, int *penetration, int *spritesKilled);
 
-                void kickBomb(Coordinates coords, int direction);
-                void pushBlock(Coordinates coords, int direction);
+                void kickBomb(Common::Coordinates coords, int direction);
+                void pushBlock(Common::Coordinates coords, int direction);
                 
                 void setControlledSprite(unsigned int id);
                 void setGameStateUpdater(GameStateUpdater *updater);

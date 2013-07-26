@@ -2,7 +2,7 @@
 #define __BOMBER_GAME_STATE_CHANGE
 
 #include "../Macros.h"
-#include "../Primitives/Position.h"
+#include "../../Common/Primitives/Position.h"
 
 namespace Bomber
 {
@@ -59,19 +59,19 @@ namespace Bomber
         class GSCPosition : public GameStateChange
         {
             public:
-                virtual void update(Position p) { _position = p; };
+                virtual void update(Common::Position p) { _position = p; };
 
             private:
-                SYNTHESIZE(Position, _position, Position);
+                SYNTHESIZE(Common::Position, _position, Position);
         };
 
         class GSCCoordinates : public GameStateChange
         {
             public:
-                virtual void update(Coordinates coords) { _coordinates = coords; };
+                virtual void update(Common::Coordinates coords) { _coordinates = coords; };
 
             private:
-                SYNTHESIZE(Coordinates, _coordinates, Coordinates);
+                SYNTHESIZE(Common::Coordinates, _coordinates, Coordinates);
         };
 
         class GSCSpriteMove : public GSCPosition
@@ -112,7 +112,7 @@ namespace Bomber
         {
             public:
                 GSCGidOnCoordinates() { _type = NONE; };
-                virtual void update(unsigned int gid, Coordinates coords)
+                virtual void update(unsigned int gid, Common::Coordinates coords)
                 {
                     _git = gid;
                     _coordinates = coords;
@@ -148,7 +148,7 @@ namespace Bomber
         {
             public:
                 GSCObstacleSpawn() { _type = OBSTACLE_SPAWN; };
-                virtual void update(unsigned int gid, Coordinates coords, unsigned int spawnerId)
+                virtual void update(unsigned int gid, Common::Coordinates coords, unsigned int spawnerId)
                 {
                     _git = gid;
                     _coordinates = coords;
@@ -175,7 +175,7 @@ namespace Bomber
         {
             public:
                 GSCExplosionSpawn() { _type = EXPLOSION_SPAWN; };
-                virtual void update(unsigned int owner, Position epicentrum, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
+                virtual void update(unsigned int owner, Common::Position epicentrum, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
                 {
                     _owner = owner;
                     _epicentrum = epicentrum;
@@ -186,7 +186,7 @@ namespace Bomber
                 };
             private:
                 SYNTHESIZE(unsigned int, _owner, Owner);
-                SYNTHESIZE(Position, _epicentrum, Epicentrum);
+                SYNTHESIZE(Common::Position, _epicentrum, Epicentrum);
                 SYNTHESIZE(unsigned int, _topArmLength, TopArmLength);
                 SYNTHESIZE(unsigned int, _bottomArmLength, BottomArmLength);
                 SYNTHESIZE(unsigned int, _leftArmLength, LeftArmLength);
@@ -228,15 +228,15 @@ namespace Bomber
         {
             public:
                 GSCBlockPush() { _type = BLOCK_PUSH; };
-                virtual void update(Coordinates from, Coordinates to)
+                virtual void update(Common::Coordinates from, Common::Coordinates to)
                 {
                     _from = from;
                     _to = to;
                 }
                 
             private:
-                SYNTHESIZE(Coordinates, _from, From);
-                SYNTHESIZE(Coordinates, _to, To);
+                SYNTHESIZE(Common::Coordinates, _from, From);
+                SYNTHESIZE(Common::Coordinates, _to, To);
         };
 
         class GSCLeverSwitchOn : public GameStateChange

@@ -20,17 +20,17 @@ namespace Bomber
 
                 void init(GameState *state);
                 void init(GameStateUpdater *gameStateUpdater);
-                bool isCoordsCrossable(Coordinates coords);
-                bool isCoordsCrossable(Coordinates coords, bool ghostMode);
-                Coordinates getRandomCoordsAround(Coordinates coords);
-                Coordinates getRandomCoordsAround(Coordinates coords, bool ghostMode);
-                std::deque<Coordinates> findDirectPath(Coordinates from, Coordinates to);
-                std::deque<Coordinates> findDirectPath(Coordinates from, Coordinates to, bool ghostMode);
-                std::deque<Coordinates> findPath(Coordinates from, Coordinates to);
-                std::deque<Coordinates> findPath(Coordinates from, Coordinates to, bool ghostMode);
-                std::deque<Coordinates> findPathToNearestPlayer(Coordinates from, float range);
-                std::deque<Coordinates> findPathToNearestPlayer(Coordinates from, float range, bool smart);
-                std::deque<Coordinates> findPathToNearestPlayer(Coordinates from, float range, bool smart, bool ghostMode);
+                bool isCoordsCrossable(Common::Coordinates coords);
+                bool isCoordsCrossable(Common::Coordinates coords, bool ghostMode);
+                Common::Coordinates getRandomCoordsAround(Common::Coordinates coords);
+                Common::Coordinates getRandomCoordsAround(Common::Coordinates coords, bool ghostMode);
+                std::deque<Common::Coordinates> findDirectPath(Common::Coordinates from, Common::Coordinates to);
+                std::deque<Common::Coordinates> findDirectPath(Common::Coordinates from, Common::Coordinates to, bool ghostMode);
+                std::deque<Common::Coordinates> findPath(Common::Coordinates from, Common::Coordinates to);
+                std::deque<Common::Coordinates> findPath(Common::Coordinates from, Common::Coordinates to, bool ghostMode);
+                std::deque<Common::Coordinates> findPathToNearestPlayer(Common::Coordinates from, float range);
+                std::deque<Common::Coordinates> findPathToNearestPlayer(Common::Coordinates from, float range, bool smart);
+                std::deque<Common::Coordinates> findPathToNearestPlayer(Common::Coordinates from, float range, bool smart, bool ghostMode);
 
             private:
                 AI();

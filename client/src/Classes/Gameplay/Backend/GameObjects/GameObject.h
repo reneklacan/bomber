@@ -2,11 +2,11 @@
 #define __BOMBER_GAMEOBJECT
 
 #include "../Macros.h"
-#include "../Primitives/Position.h"
-#include "../Primitives/Coordinates.h"
-#include "../Primitives/Size.h"
-#include "../Primitives/Rectangle.h"
-#include "../Primitives/Circle.h"
+#include "../../Common/Primitives/Position.h"
+#include "../../Common/Primitives/Coordinates.h"
+#include "../../Common/Primitives/Size.h"
+#include "../../Common/Primitives/Rectangle.h"
+#include "../../Common/Primitives/Circle.h"
 
 namespace Bomber
 {
@@ -20,11 +20,11 @@ namespace Bomber
                 bool collides(GameObject *object);
                 
                 virtual void setPosition(int x, int y);
-                virtual void setPosition(Position position);
+                virtual void setPosition(Common::Position position);
                 virtual void setSize(int width, int height);
-                virtual void setSize(Size size);
-                virtual Position &getPosition() { return _position; };
-                virtual Coordinates getCoords();
+                virtual void setSize(Common::Size size);
+                virtual Common::Position &getPosition() { return _position; };
+                virtual Common::Coordinates getCoords();
                 virtual bool isBombPotent() { return false; };
                 virtual bool isExplodable() { return false; };
                 bool isInMovement() { return _inMovement; };
@@ -33,13 +33,13 @@ namespace Bomber
                 bool isActive() { return _active; };
                 void setActive(bool active) { _active = active; };
 
-                virtual Rectangle getCollisionRect() { return Rectangle(_position, _size); };
-                virtual Circle getCollisionCircle() { return Circle(_position, _size); };
+                virtual Common::Rectangle getCollisionRect() { return Common::Rectangle(_position, _size); };
+                virtual Common::Circle getCollisionCircle() { return Common::Circle(_position, _size); };
                 virtual bool hasCircleCollider() { return _circleCollider; };
 
             protected:
-                Position _position;
-                Size _size;
+                Common::Position _position;
+                Common::Size _size;
                 bool _circleCollider;
                 bool _dirty;
                 bool _active;
@@ -48,8 +48,8 @@ namespace Bomber
                 SYNTHESIZE(const char *, _name, Name);
                 SYNTHESIZE(unsigned int, _id, Id);
                 SYNTHESIZE(unsigned int, _gid, Gid);
-                SYNTHESIZE(Coordinates, _currentCoords, CurrentCoords);
-                SYNTHESIZE(Coordinates, _previousCoords, PreviousCoords);
+                SYNTHESIZE(Common::Coordinates, _currentCoords, CurrentCoords);
+                SYNTHESIZE(Common::Coordinates, _previousCoords, PreviousCoords);
         };
     }
 }

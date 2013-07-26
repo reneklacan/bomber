@@ -7,10 +7,10 @@ namespace Bomber
 {
     namespace Backend
     {
-        class Bomber : public Sprite
+        class BomberSprite : public Sprite
         {
             public:
-                Bomber() : Sprite()
+                BomberSprite() : Sprite()
                 {
                     _attributes->setSpeed(200);
                 }

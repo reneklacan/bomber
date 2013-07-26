@@ -3,6 +3,7 @@
 #include "GameObjects/Sprites/Bomber.h"
 
 using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 Mediator *Mediator::_instance = nullptr;
 
@@ -50,7 +51,7 @@ Sprite *Mediator::getControlledSprite()
     // - dont create new sprite each call of this method
     // - this method should be maybe called with id as argument?
 
-    Sprite *controlledSprite = new Bomber(); 
+    Sprite *controlledSprite = new BomberSprite(); 
     controlledSprite->setId(19991);
     controlledSprite->setSize(10, 10);
     controlledSprite->setPosition(200, 200);
@@ -79,9 +80,8 @@ void Mediator::pushObstacle(Coordinates coords, TDirection direction)
 
 void Mediator::kickBomb(Coordinates coords, TDirection direction)
 {
-    if(direction != Backend::CALM)
+    if(direction != CALM)
     {
-        //std::cout << "KICK: [" << coords.x << ", " << coords.y << "] direction = " << direction << "\n";
         Logic::getInstance()->kickBomb(coords, direction);
     }
 }

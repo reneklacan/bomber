@@ -2,7 +2,7 @@
 #include "Coordinates.h"
 #include "Direction.h"
 
-using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 Coordinates::Coordinates()
 {
