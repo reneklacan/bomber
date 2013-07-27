@@ -15,10 +15,13 @@ SOURCES = Main.cpp \
         ../Classes/Input/Touch/Joystick.cpp \
         ../Classes/Input/Keyboard/Keyboard.cpp \
         ../Classes/Input/ControlLayer.cpp \
+        ../Classes/Configuration.cpp \
+        ../Classes/Gameplay/Common/Primitives/Coordinates.cpp \
+        ../Classes/Gameplay/Common/Primitives/Rectangle.cpp \
+        ../Classes/Gameplay/Common/GameState/GameState.cpp \
         ../Classes/Gameplay/Backend/Mediator.cpp \
         ../Classes/Gameplay/Backend/Logic.cpp \
-        ../Classes/Gameplay/Backend/State/GameStateUpdater.cpp \
-        ../Classes/Gameplay/Backend/State/GameState.cpp \
+        ../Classes/Gameplay/Backend/GameState/GameStateUpdater.cpp \
         ../Classes/Gameplay/Backend/GameObjects/GameObject.cpp \
         ../Classes/Gameplay/Backend/GameObjects/Sprites/Sprite.cpp \
         ../Classes/Gameplay/Backend/GameObjects/BBomb.cpp \
@@ -26,8 +29,6 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Backend/GameObjects/Effect.cpp \
         ../Classes/Gameplay/Backend/GameObjects/Portal.cpp \
         ../Classes/Gameplay/Backend/Interactions/Movement.cpp \
-        ../Classes/Gameplay/Backend/Primitives/Coordinates.cpp \
-        ../Classes/Gameplay/Backend/Primitives/Rectangle.cpp \
         ../Classes/Gameplay/Backend/Statistics/Statistics.cpp \
         ../Classes/Gameplay/Backend/Statistics/StatisticsUpdater.cpp \
         ../Classes/Gameplay/Backend/Statistics/Achievements.cpp \
