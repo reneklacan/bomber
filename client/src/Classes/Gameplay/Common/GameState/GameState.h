@@ -5,17 +5,17 @@
 
 #include "GameStateLayer.h"
 #include "GameStateChange.h"
-#include "../GameObjects/Sprites/Sprite.h"
-#include "../GameObjects/BBomb.h"
-#include "../GameObjects/Obstacle.h"
-#include "../GameObjects/Portal.h"
-#include "../GameObjects/PortalExit.h"
-#include "../GameObjects/Effect.h"
-#include "../GameObjects/Switch.h"
+#include "../../Backend/GameObjects/Sprites/Sprite.h"
+#include "../../Backend/GameObjects/BBomb.h"
+#include "../../Backend/GameObjects/Obstacle.h"
+#include "../../Backend/GameObjects/Portal.h"
+#include "../../Backend/GameObjects/PortalExit.h"
+#include "../../Backend/GameObjects/Effect.h"
+#include "../../Backend/GameObjects/Switch.h"
 
 namespace Bomber
 {
-    namespace Backend
+    namespace Common
     {
         enum TGoalConditionsTypes
         {
@@ -51,15 +51,15 @@ namespace Bomber
 
                 SYNTHESIZE_READONLY(cocos2d::TMXTiledMap *, _tiledMap, TiledMap);
 
-                SYNTHESIZE_READONLY(GameStateLayer<Sprite> *, _spriteLayer, SpriteLayer);
-                SYNTHESIZE_READONLY(GameStateLayer<Obstacle> *, _obstacleLayer, ObstacleLayer);
-                SYNTHESIZE_READONLY(GameStateLayer<Bomb> *, _bombLayer, BombLayer);
-                SYNTHESIZE_READONLY(GameStateLayer<Portal> *, _portalLayer, PortalLayer);
-                SYNTHESIZE_READONLY(GameStateLayer<PortalExit> *, _portalExitLayer, PortalExitLayer);
-                SYNTHESIZE_READONLY(GameStateLayer<Effect> *, _effectLayer, EffectLayer);
-                SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _specialLayer, SpecialLayer);
-                SYNTHESIZE_READONLY(GameStateLayer<Switch> *, _switchLayer, SwitchLayer);
-                SYNTHESIZE_READONLY(GameStateLayer<GameObject> *, _switchTargetLayer, SwitchTargetLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Backend::Sprite> *, _spriteLayer, SpriteLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Backend::Obstacle> *, _obstacleLayer, ObstacleLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Backend::Bomb> *, _bombLayer, BombLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Backend::Portal> *, _portalLayer, PortalLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Backend::PortalExit> *, _portalExitLayer, PortalExitLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Backend::Effect> *, _effectLayer, EffectLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Backend::GameObject> *, _specialLayer, SpecialLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Backend::Switch> *, _switchLayer, SwitchLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Backend::GameObject> *, _switchTargetLayer, SwitchTargetLayer);
         };
     }
 }

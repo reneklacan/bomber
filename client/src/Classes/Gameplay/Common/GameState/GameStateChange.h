@@ -1,12 +1,12 @@
 #ifndef __BOMBER_GAME_STATE_CHANGE
 #define __BOMBER_GAME_STATE_CHANGE
 
-#include "../Macros.h"
-#include "../../Common/Primitives/Position.h"
+#include "../../Macros.h"
+#include "../Primitives/Position.h"
 
 namespace Bomber
 {
-    namespace Backend
+    namespace Common
     {
         enum TGameStateChangeType
         {

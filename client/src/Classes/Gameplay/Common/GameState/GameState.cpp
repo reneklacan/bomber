@@ -1,11 +1,11 @@
 
 #include "GameState.h"
-#include "../GameObjects/Sprites/Bomber.h"
-#include "../GameObjects/Sprites/AISprite.h"
+#include "../../Backend/GameObjects/Sprites/Bomber.h"
+#include "../../Backend/GameObjects/Sprites/AISprite.h"
 #include "../../../Constants.h"
 
+using namespace Bomber::Common;
 using namespace Bomber::Backend;
-using namespace cocos2d;
 
 GameState::GameState(unsigned int width, unsigned int height)
 {
@@ -33,11 +33,11 @@ GameState::~GameState()
 
 }
 
-void GameState::init(TMXTiledMap *tiledMap)
+void GameState::init(cocos2d::TMXTiledMap *tiledMap)
 {
     _tiledMap = tiledMap;
     
-    Object *ccObject;
+    cocos2d::Object *ccObject;
 
     // level properties
 
@@ -46,7 +46,7 @@ void GameState::init(TMXTiledMap *tiledMap)
 
     CCARRAY_FOREACH(propertiesKeys, ccObject)
     {
-        auto key = ((String *) ccObject)->getCString();
+        auto key = ((cocos2d::String *) ccObject)->getCString();
         auto value = properties->valueForKey(key)->intValue();
 
         if (strncmp("goal", key, 4) == 0)
@@ -61,7 +61,7 @@ void GameState::init(TMXTiledMap *tiledMap)
     // obstacles
 
     unsigned int gid;
-    TMXLayer *obstacleLayer = tiledMap->layerNamed("obstacles");
+    cocos2d::TMXLayer *obstacleLayer = tiledMap->layerNamed("obstacles");
 
     for (unsigned iy = 0; iy < _height; iy++)
     {
@@ -83,7 +83,7 @@ void GameState::init(TMXTiledMap *tiledMap)
 
     // sprites
     
-    TMXLayer *spriteLayer = tiledMap->layerNamed("sprites");
+    cocos2d::TMXLayer *spriteLayer = tiledMap->layerNamed("sprites");
 
     for (unsigned int iy = 0; iy < _height; iy++)
     {
@@ -103,7 +103,7 @@ void GameState::init(TMXTiledMap *tiledMap)
         }
     }
 
-    TMXLayer *spriteToSpawnLayer = tiledMap->layerNamed("sprites2spawn");
+    cocos2d::TMXLayer *spriteToSpawnLayer = tiledMap->layerNamed("sprites2spawn");
 
     for (unsigned int iy = 0; iy < _height; iy++)
     {
@@ -126,7 +126,7 @@ void GameState::init(TMXTiledMap *tiledMap)
 
     // effects
     
-    TMXLayer *effectLayer = tiledMap->layerNamed("effects");
+    cocos2d::TMXLayer *effectLayer = tiledMap->layerNamed("effects");
 
     for (unsigned int iy = 0; iy < _height; iy++)
     {
@@ -146,7 +146,7 @@ void GameState::init(TMXTiledMap *tiledMap)
         }
     }    
     
-    TMXLayer *effectToSpawnLayer = tiledMap->layerNamed("effects2spawn");
+    cocos2d::TMXLayer *effectToSpawnLayer = tiledMap->layerNamed("effects2spawn");
 
     for (unsigned int iy = 0; iy < _height; iy++)
     {
@@ -168,28 +168,28 @@ void GameState::init(TMXTiledMap *tiledMap)
     }
 
     int id, x, y, width, height;
-    Dictionary *dict;
-    TMXObjectGroup *objectGroup;
+    cocos2d::Dictionary *dict;
+    cocos2d::TMXObjectGroup *objectGroup;
 
     // portals
 
     objectGroup = tiledMap->objectGroupNamed("portals");
-    Array *portals = objectGroup->getObjects();
+    cocos2d::Array *portals = objectGroup->getObjects();
 
     CCARRAY_FOREACH(portals, ccObject)
     {
-        dict = (Dictionary*) ccObject;
+        dict = (cocos2d::Dictionary*) ccObject;
 
-        id = ((String*) dict->objectForKey("name"))->intValue();
-        x = ((String*) dict->objectForKey("x"))->intValue();
-        y = ((String*) dict->objectForKey("y"))->intValue();
-        width = ((String*) dict->objectForKey("width"))->intValue();
-        height = ((String*) dict->objectForKey("height"))->intValue();
+        id = ((cocos2d::String*) dict->objectForKey("name"))->intValue();
+        x = ((cocos2d::String*) dict->objectForKey("x"))->intValue();
+        y = ((cocos2d::String*) dict->objectForKey("y"))->intValue();
+        width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
+        height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();
 
-        int top =  ((String*) dict->objectForKey("top"))->intValue();
-        int bottom =  ((String*) dict->objectForKey("bottom"))->intValue();
-        int left =  ((String*) dict->objectForKey("left"))->intValue();
-        int right =  ((String*) dict->objectForKey("right"))->intValue();
+        int top =  ((cocos2d::String*) dict->objectForKey("top"))->intValue();
+        int bottom =  ((cocos2d::String*) dict->objectForKey("bottom"))->intValue();
+        int left =  ((cocos2d::String*) dict->objectForKey("left"))->intValue();
+        int right =  ((cocos2d::String*) dict->objectForKey("right"))->intValue();
 
         Portal *portal = new Portal();
         portal->setId(id);
@@ -201,17 +201,17 @@ void GameState::init(TMXTiledMap *tiledMap)
     }
 
     objectGroup = tiledMap->objectGroupNamed("portal_exits");
-    Array *portalExits = objectGroup->getObjects();
+    cocos2d::Array *portalExits = objectGroup->getObjects();
 
     CCARRAY_FOREACH(portalExits, ccObject)
     {
-        dict = (Dictionary*) ccObject;
+        dict = (cocos2d::Dictionary*) ccObject;
         
-        id = ((String*) dict->objectForKey("name"))->intValue();
-        x = ((String*) dict->objectForKey("x"))->intValue();
-        y = ((String*) dict->objectForKey("y"))->intValue();
-        width = ((String*) dict->objectForKey("width"))->intValue();
-        height = ((String*) dict->objectForKey("height"))->intValue();   
+        id = ((cocos2d::String*) dict->objectForKey("name"))->intValue();
+        x = ((cocos2d::String*) dict->objectForKey("x"))->intValue();
+        y = ((cocos2d::String*) dict->objectForKey("y"))->intValue();
+        width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
+        height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();   
 
         PortalExit *portalExit = new PortalExit();
         portalExit->setId(id);
@@ -224,21 +224,21 @@ void GameState::init(TMXTiledMap *tiledMap)
     // switches
 
     objectGroup = tiledMap->objectGroupNamed("switches");
-    Array *switches = objectGroup->getObjects();
+    cocos2d::Array *switches = objectGroup->getObjects();
 
     CCARRAY_FOREACH(switches, ccObject)
     {
-        dict = (Dictionary*) ccObject;
+        dict = (cocos2d::Dictionary*) ccObject;
 
-        id = ((String*) dict->objectForKey("name"))->intValue();
-        x = ((String*) dict->objectForKey("x"))->intValue();
-        y = ((String*) dict->objectForKey("y"))->intValue();
-        width = ((String*) dict->objectForKey("width"))->intValue();
-        height = ((String*) dict->objectForKey("height"))->intValue();
+        id = ((cocos2d::String*) dict->objectForKey("name"))->intValue();
+        x = ((cocos2d::String*) dict->objectForKey("x"))->intValue();
+        y = ((cocos2d::String*) dict->objectForKey("y"))->intValue();
+        width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
+        height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();
         
-        bool oneTime = ((String*) dict->objectForKey("one_time"))->boolValue();
-        bool bombSensitive = ((String*) dict->objectForKey("bomb_sensitive"))->boolValue();
-        bool passingSensitive = ((String*) dict->objectForKey("passing_sensitive"))->boolValue();
+        bool oneTime = ((cocos2d::String*) dict->objectForKey("one_time"))->boolValue();
+        bool bombSensitive = ((cocos2d::String*) dict->objectForKey("bomb_sensitive"))->boolValue();
+        bool passingSensitive = ((cocos2d::String*) dict->objectForKey("passing_sensitive"))->boolValue();
 
         Switch *switchObject = new Switch();
         switchObject->setId(id);
@@ -253,17 +253,17 @@ void GameState::init(TMXTiledMap *tiledMap)
     }
 
     objectGroup = tiledMap->objectGroupNamed("switch_targets");
-    Array *switchTargets = objectGroup->getObjects();
+    cocos2d::Array *switchTargets = objectGroup->getObjects();
 
     CCARRAY_FOREACH(switchTargets, ccObject)
     {
-        dict = (Dictionary*) ccObject;
+        dict = (cocos2d::Dictionary*) ccObject;
 
-        id = ((String*) dict->objectForKey("name"))->intValue();
-        x = ((String*) dict->objectForKey("x"))->intValue();
-        y = ((String*) dict->objectForKey("y"))->intValue();
-        width = ((String*) dict->objectForKey("width"))->intValue();
-        height = ((String*) dict->objectForKey("height"))->intValue();         
+        id = ((cocos2d::String*) dict->objectForKey("name"))->intValue();
+        x = ((cocos2d::String*) dict->objectForKey("x"))->intValue();
+        y = ((cocos2d::String*) dict->objectForKey("y"))->intValue();
+        width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
+        height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();         
 
         GameObject *switchTarget = new GameObject();
         switchTarget->setId(id);

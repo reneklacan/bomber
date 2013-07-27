@@ -46,7 +46,7 @@ bool LevelLayer::init()
     GUIUpdater::getInstance()->init(_map, _player, this);
 
     // Game State init
-    _gameState = new Backend::GameState(_map->getWidth(), _map->getHeight());
+    _gameState = new Common::GameState(_map->getWidth(), _map->getHeight());
     Backend::Mediator::getInstance()->setState(_gameState);
     _gameState->init(_map->getTiledMap());
     

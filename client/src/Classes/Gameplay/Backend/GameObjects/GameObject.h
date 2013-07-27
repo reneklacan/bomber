@@ -1,7 +1,7 @@
 #ifndef __BOMBER_GAMEOBJECT
 #define __BOMBER_GAMEOBJECT
 
-#include "../Macros.h"
+#include "../../Macros.h"
 #include "../../Common/Primitives/Position.h"
 #include "../../Common/Primitives/Coordinates.h"
 #include "../../Common/Primitives/Size.h"

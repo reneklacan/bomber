@@ -1,8 +1,8 @@
 #ifndef __BOMBER_LOGICv2
 #define __BOMBER_LOGICv2
 
-#include "State/GameState.h"
-#include "State/GameStateUpdater.h"
+#include "../Common/GameState/GameState.h"
+#include "GameState/GameStateUpdater.h"
 #include "GameObjects/BBomb.h"
 #include "Interactions/Movement.h"
 
@@ -20,8 +20,8 @@ namespace Bomber
                 void updateMovements(float dt);
                 void updateSprites(float dt);
 
-                void setState(GameState *state) { _state = state; };
-                inline GameState *getState() { return _state; };
+                void setState(Common::GameState *state) { _state = state; };
+                inline Common::GameState *getState() { return _state; };
 
                 void scheduleLevelReset(float delay);
 
@@ -47,7 +47,7 @@ namespace Bomber
                 Logic();
 
                 static Logic *_instance;
-                GameState *_state;
+                Common::GameState *_state;
                 GameStateUpdater *_gameStateUpdater;
                 Sprite *_controlledSprite;
                 bool _restartScheduled;

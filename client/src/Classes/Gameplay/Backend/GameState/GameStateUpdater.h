@@ -1,7 +1,7 @@
 #ifndef __BOMBER_BACKEND_GAME_STATE_UPDATER
 #define __BOMBER_BACKEND_GAME_STATE_UPDATER
 
-#include "GameState.h"
+#include "../../Common/GameState/GameState.h"
 #include "../../Common/Primitives/Position.h"
 #include "../GameObjects/BBomb.h"
 #include "../GameObjects/Obstacle.h"
@@ -22,8 +22,8 @@ namespace Bomber
                 void resetLevel();
 
                 void updateSpriteGrid();
-                void setState(GameState *state) { _state = state; };
-                GameState *getState() { return _state; };
+                void setState(Common::GameState *state) { _state = state; };
+                Common::GameState *getState() { return _state; };
                 unsigned int getUniqueId() { return _uniqueId++; };
 
                 void moveSprite(Sprite *sprite, Common::Position position);
@@ -72,7 +72,7 @@ namespace Bomber
                 void logLevelReset();
 
             private:
-                GameState *_state;
+                Common::GameState *_state;
                 unsigned int _uniqueId;
         };
     }

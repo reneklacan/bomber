@@ -46,26 +46,26 @@ namespace Bomber
         private:
             GUIUpdater(): _lastChangeID(0), _batchNode(NULL) {};
 
-            void updateSpriteMove(Backend::GSCSpriteMove *spriteMove);
-            void updateSpriteTeleport(Backend::GSCSpriteTeleport *spriteTeleport, Point playerPosition);
-            void updateBombSpawn(Backend::GSCBombSpawn *bombSpawn);
-            void updateBombDestroy(Backend::GSCBombDestroy *bombDestroy);
-            void updateObstacleDestroy(Backend::GSCObstacleDestroy *obstacleDestroy);
-            void updateExplosionSpawn(Backend::GSCExplosionSpawn *explosionSpawn);
-            void updateAchievementUnlocked(Backend::GSCAchievementUnlocked *achievementUnlocked);
-            void updateObstacleSpawn(Backend::GSCObstacleSpawn *obstacleSpawn);
-            void updateSpriteDestroy( Backend::GSCSpriteDestroy *spriteDestroy );
-            void updateLeverSwitchOn( Backend::GSCLeverSwitchOn *leverSwitchOn );
-            void updateLeverSwitchOff( Backend::GSCLeverSwitchOff *leverSwitchOff );
-            void updateSpriteDamage( Backend::GSCSpriteDamage *spriteDamage );
-            void updateSpriteAttrUpdate( Backend::GSCSpriteAttrUpdate *spriteAttrUpdate );
-            void updateEffectDestroy( Backend::GSCEffectDestroy *effectDestroy );
-            void updateSpriteSpawn( Backend::GSCSpriteSpawn *spriteSpawn );
-            void updateEffectSpawn( Backend::GSCEffectSpawn *effectSpawn );
-            void updateLevelReset( Backend::GSCLevelReset *levelReset );
-            void updateLevelFinish( Backend::GSCLevelFinish *levelFinish );
-            void updateBombMove( Backend::GSCBombMove *bombMove );
-            void updateBlockPush( Backend::GSCBlockPush *blockPush );
+            void updateSpriteMove(Common::GSCSpriteMove *spriteMove);
+            void updateSpriteTeleport(Common::GSCSpriteTeleport *spriteTeleport, Point playerPosition);
+            void updateBombSpawn(Common::GSCBombSpawn *bombSpawn);
+            void updateBombDestroy(Common::GSCBombDestroy *bombDestroy);
+            void updateObstacleDestroy(Common::GSCObstacleDestroy *obstacleDestroy);
+            void updateExplosionSpawn(Common::GSCExplosionSpawn *explosionSpawn);
+            void updateAchievementUnlocked(Common::GSCAchievementUnlocked *achievementUnlocked);
+            void updateObstacleSpawn(Common::GSCObstacleSpawn *obstacleSpawn);
+            void updateSpriteDestroy( Common::GSCSpriteDestroy *spriteDestroy );
+            void updateLeverSwitchOn( Common::GSCLeverSwitchOn *leverSwitchOn );
+            void updateLeverSwitchOff( Common::GSCLeverSwitchOff *leverSwitchOff );
+            void updateSpriteDamage( Common::GSCSpriteDamage *spriteDamage );
+            void updateSpriteAttrUpdate( Common::GSCSpriteAttrUpdate *spriteAttrUpdate );
+            void updateEffectDestroy( Common::GSCEffectDestroy *effectDestroy );
+            void updateSpriteSpawn( Common::GSCSpriteSpawn *spriteSpawn );
+            void updateEffectSpawn( Common::GSCEffectSpawn *effectSpawn );
+            void updateLevelReset( Common::GSCLevelReset *levelReset );
+            void updateLevelFinish( Common::GSCLevelFinish *levelFinish );
+            void updateBombMove( Common::GSCBombMove *bombMove );
+            void updateBlockPush( Common::GSCBlockPush *blockPush );
             void finishUpdateBlockPush(ObstacleMove* move);
 
             void initLayers();

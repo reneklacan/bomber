@@ -52,9 +52,6 @@
     <Filter Include="Classes\Gameplay\Backend\Interactions">
       <UniqueIdentifier>{e8e9bf3b-66f4-4c75-a87e-d45ee43dc09a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Gameplay\Backend\State">
-      <UniqueIdentifier>{c855266f-471f-411d-95b2-06f61a65a03a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\Gameplay\Backend\GameObjects\Sprites">
       <UniqueIdentifier>{6eeb9dd4-29ba-4b7d-ab22-c6b950edba28}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,12 @@
     </Filter>
     <Filter Include="Classes\Gameplay\Common\Primitives">
       <UniqueIdentifier>{85b70376-3c55-4459-ada2-01a441634ab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Gameplay\Common\GameState">
+      <UniqueIdentifier>{5aae9f52-9eda-45c2-a188-b845d5cde7f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Gameplay\Backend\GameState">
+      <UniqueIdentifier>{80b91a6a-03cc-4a4b-8cf6-200625d64bb8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -171,12 +174,6 @@
     <ClCompile Include="..\Classes\Gameplay\Frontend\Collisions.cpp">
       <Filter>Classes\Gameplay\Frontend</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\State\GameState.cpp">
-      <Filter>Classes\Gameplay\Backend\State</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\State\GameStateUpdater.cpp">
-      <Filter>Classes\Gameplay\Backend\State</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Gameplay\Backend\Interactions\Movement.cpp">
       <Filter>Classes\Gameplay\Backend\Interactions</Filter>
     </ClCompile>
@@ -204,6 +201,12 @@
     <ClCompile Include="..\Classes\Gameplay\Common\Primitives\Rectangle.cpp">
       <Filter>Classes\Gameplay\Common\Primitives</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Common\GameState\GameState.cpp">
+      <Filter>Classes\Gameplay\Common\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Backend\GameState\GameStateUpdater.cpp">
+      <Filter>Classes\Gameplay\Backend\GameState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -219,9 +222,6 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Backend\Logic.h">
-      <Filter>Classes\Gameplay\Backend</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Macros.h">
       <Filter>Classes\Gameplay\Backend</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Backend\Mediator.h">
@@ -326,18 +326,6 @@
     <ClInclude Include="..\Classes\Gameplay\Frontend\Collisions.h">
       <Filter>Classes\Gameplay\Frontend</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\State\GameState.h">
-      <Filter>Classes\Gameplay\Backend\State</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\State\GameStateChange.h">
-      <Filter>Classes\Gameplay\Backend\State</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\State\GameStateLayer.h">
-      <Filter>Classes\Gameplay\Backend\State</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\State\GameStateUpdater.h">
-      <Filter>Classes\Gameplay\Backend\State</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Backend\Interactions\Movement.h">
       <Filter>Classes\Gameplay\Backend\Interactions</Filter>
     </ClInclude>
@@ -397,6 +385,21 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Size.h">
       <Filter>Classes\Gameplay\Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Common\GameState\GameState.h">
+      <Filter>Classes\Gameplay\Common\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Common\GameState\GameStateChange.h">
+      <Filter>Classes\Gameplay\Common\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Common\GameState\GameStateLayer.h">
+      <Filter>Classes\Gameplay\Common\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Macros.h">
+      <Filter>Classes\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Backend\GameState\GameStateUpdater.h">
+      <Filter>Classes\Gameplay\Backend\GameState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

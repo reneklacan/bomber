@@ -7,12 +7,12 @@
 #include <set>
 #include <map>
 
-#include "../GameObjects/ExplodableObject.h"
+#include "../../Backend/GameObjects/ExplodableObject.h"
 #include "GameStateChange.h"
 
 namespace Bomber
 {
-    namespace Backend
+    namespace Common
     {
         template <class ObjectType>
         class GameStateLayer

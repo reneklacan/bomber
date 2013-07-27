@@ -1,8 +1,8 @@
 #ifndef __BOMBER_BACKEND_AI
 #define __BOMBER_BACKEND_AI
 
-#include "../State/GameState.h"
-#include "../State/GameStateUpdater.h"
+#include "../../Common/GameState/GameState.h"
+#include "../GameState/GameStateUpdater.h"
 
 namespace Bomber
 {
@@ -18,7 +18,7 @@ namespace Bomber
             public:
                 static AI *getInstance();
 
-                void init(GameState *state);
+                void init(Common::GameState *state);
                 void init(GameStateUpdater *gameStateUpdater);
                 bool isCoordsCrossable(Common::Coordinates coords);
                 bool isCoordsCrossable(Common::Coordinates coords, bool ghostMode);
@@ -37,7 +37,7 @@ namespace Bomber
 
                 static AI *_instance;
 
-                SYNTHESIZE_READONLY(GameState *, _state, State);
+                SYNTHESIZE_READONLY(Common::GameState *, _state, State);
                 SYNTHESIZE_READONLY(GameStateUpdater *, _gameStateUpdater, GameStateUpdater);
         };
     }

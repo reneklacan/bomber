@@ -2,7 +2,7 @@
 #define __BOMBER_BACKEND_MEDIATOR
 
 #include "Logic.h"
-#include "State/GameStateUpdater.h"
+#include "GameState/GameStateUpdater.h"
 #include "../Common/Primitives/Direction.h"
 
 namespace Bomber
@@ -16,12 +16,12 @@ namespace Bomber
 
                 void update(float dt);
                 void resetState();
-                void setState(GameState *state);
+                void setState(Common::GameState *state);
                 void setControlledSprite(unsigned int id);
                 Sprite *getControlledSprite();
                 void moveSprite(Common::Position position);
                 void spawnBomb();
-                GameState *getState() { return _state; }
+                Common::GameState *getState() { return _state; }
 
                 void pushObstacle(Common::Coordinates coords, Common::TDirection direction);
                 void kickBomb(Common::Coordinates coords, Common::TDirection direction);
@@ -30,7 +30,7 @@ namespace Bomber
                 Mediator();
 
                 static Mediator *_instance;
-                GameState *_state;
+                Common::GameState *_state;
                 GameStateUpdater *_gameStateUpdater;
         };
     }

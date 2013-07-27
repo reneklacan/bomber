@@ -1,7 +1,7 @@
 #ifndef __BOMBER_BACKEND_SPRITE_ATTR
 #define __BOMBER_BACKEND_SPRITE_ATTR
 
-#include "../../Macros.h"
+#include "../../../Macros.h"
 
 namespace Bomber
 {

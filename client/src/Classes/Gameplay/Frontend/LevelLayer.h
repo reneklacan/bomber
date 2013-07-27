@@ -55,8 +55,8 @@ namespace Bomber
             Human *_player;
             bool _gamePaused;
             unsigned int _lastChangeID;
-            Bomber::Backend::GameState *_gameState;
-            Bomber::Backend::Sprite *_controlledSprite;
+            Common::GameState *_gameState;
+            Backend::Sprite *_controlledSprite;
 
         private:
             void initControlledSprite();
