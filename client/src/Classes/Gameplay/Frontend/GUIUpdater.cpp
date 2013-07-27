@@ -64,121 +64,121 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
 //
 void GUIUpdater::update(Point playerPosition)
 {
-    Common::GameState* state = _mediator->getState();
+    GameState* state = _mediator->getState();
     auto changes = state->getChangesFromId(_lastChangeID);
 
     _lastChangeID = changes.first;
     for(auto change : changes.second)
     {
-        Common::GameStateChange *GSChange = change;
+        GameStateChange *GSChange = change;
 
         switch(GSChange->getType())
         {
             // Move
-            case Common::SPRITE_MOVE:
+            case SPRITE_MOVE:
             {
-                this->updateSpriteMove( (Common::GSCSpriteMove *)GSChange );
+                this->updateSpriteMove( (GSCSpriteMove *)GSChange );
             }
             break;
             // Portals
-            case Common::SPRITE_TELEPORT:
+            case SPRITE_TELEPORT:
             {
-                this->updateSpriteTeleport( (Common::GSCSpriteTeleport *)GSChange, playerPosition );
+                this->updateSpriteTeleport( (GSCSpriteTeleport *)GSChange, playerPosition );
             }
             break;
             // Bomb spawn
-            case Common::BOMB_SPAWN:
+            case BOMB_SPAWN:
             {
-                this->updateBombSpawn( (Common::GSCBombSpawn *)GSChange );
+                this->updateBombSpawn( (GSCBombSpawn *)GSChange );
             }
             break;
             // Bomb destroy
-            case Common::BOMB_DESTROY:
+            case BOMB_DESTROY:
             {
-                this->updateBombDestroy( (Common::GSCBombDestroy *)GSChange );
+                this->updateBombDestroy( (GSCBombDestroy *)GSChange );
             }
             break;
             // Obstacle destroy
-            case Common::OBSTACLE_DESTROY:
+            case OBSTACLE_DESTROY:
             {
-                this->updateObstacleDestroy( (Common::GSCObstacleDestroy *)GSChange );
+                this->updateObstacleDestroy( (GSCObstacleDestroy *)GSChange );
             }
             break;
             // Explosion
-            case Common::EXPLOSION_SPAWN:
+            case EXPLOSION_SPAWN:
             {
-                this->updateExplosionSpawn( (Common::GSCExplosionSpawn *)GSChange );
+                this->updateExplosionSpawn( (GSCExplosionSpawn *)GSChange );
                 
             }
             break;
-            case Common::ACHIEVEMENT_UNLOCKED:
+            case ACHIEVEMENT_UNLOCKED:
             {
-                this->updateAchievementUnlocked( (Common::GSCAchievementUnlocked *)GSChange );
+                this->updateAchievementUnlocked( (GSCAchievementUnlocked *)GSChange );
             }
             break;
-            case Common::OBSTACLE_SPAWN:
+            case OBSTACLE_SPAWN:
             {
-                this->updateObstacleSpawn( (Common::GSCObstacleSpawn *)GSChange );
+                this->updateObstacleSpawn( (GSCObstacleSpawn *)GSChange );
             }
             break;
-            case Common::SPRITE_DESTROY:
+            case SPRITE_DESTROY:
             {
-                this->updateSpriteDestroy( (Common::GSCSpriteDestroy *)GSChange );
+                this->updateSpriteDestroy( (GSCSpriteDestroy *)GSChange );
             }
             break;
-            case Common::LEVER_SWITCH_ON:
+            case LEVER_SWITCH_ON:
             {
-                this->updateLeverSwitchOn( (Common::GSCLeverSwitchOn *)GSChange );
+                this->updateLeverSwitchOn( (GSCLeverSwitchOn *)GSChange );
             }
             break;
-            case Common::LEVER_SWITCH_OFF:
+            case LEVER_SWITCH_OFF:
             {
-                this->updateLeverSwitchOff( (Common::GSCLeverSwitchOff *)GSChange );
+                this->updateLeverSwitchOff( (GSCLeverSwitchOff *)GSChange );
             }
             break;
-            case Common::SPRITE_DAMAGE:
+            case SPRITE_DAMAGE:
             {
-                this->updateSpriteDamage( (Common::GSCSpriteDamage *)GSChange );
+                this->updateSpriteDamage( (GSCSpriteDamage *)GSChange );
             }
             break;
-            case Common::SPRITE_ATTR_UPDATE:
+            case SPRITE_ATTR_UPDATE:
             {
-                this->updateSpriteAttrUpdate( (Common::GSCSpriteAttrUpdate *)GSChange );
+                this->updateSpriteAttrUpdate( (GSCSpriteAttrUpdate *)GSChange );
             }
             break;
-            case Common::EFFECT_DESTROY:
+            case EFFECT_DESTROY:
             {
-                this->updateEffectDestroy( (Common::GSCEffectDestroy *)GSChange );
+                this->updateEffectDestroy( (GSCEffectDestroy *)GSChange );
             }
             break;
-            case Common::SPRITE_SPAWN:
+            case SPRITE_SPAWN:
             {
-                this->updateSpriteSpawn( (Common::GSCSpriteSpawn *)GSChange );
+                this->updateSpriteSpawn( (GSCSpriteSpawn *)GSChange );
             }
             break;
-            case Common::EFFECT_SPAWN:
+            case EFFECT_SPAWN:
             {
-                this->updateEffectSpawn( (Common::GSCEffectSpawn *)GSChange );
+                this->updateEffectSpawn( (GSCEffectSpawn *)GSChange );
             }
             break;
-            case Common::LEVEL_RESET:
+            case LEVEL_RESET:
             {
-                this->updateLevelReset( (Common::GSCLevelReset *)GSChange );
+                this->updateLevelReset( (GSCLevelReset *)GSChange );
             }
             break;
-            case Common::LEVEL_FINISH:
+            case LEVEL_FINISH:
             {
-                this->updateLevelFinish( (Common::GSCLevelFinish *)GSChange );
+                this->updateLevelFinish( (GSCLevelFinish *)GSChange );
             }
             break;
-            case Common::BOMB_MOVE:
+            case BOMB_MOVE:
             {
-                this->updateBombMove( (Common::GSCBombMove *)GSChange );
+                this->updateBombMove( (GSCBombMove *)GSChange );
             }
             break;
-            case Common::BLOCK_PUSH:
+            case BLOCK_PUSH:
             {
-                this->updateBlockPush( (Common::GSCBlockPush *)GSChange );
+                this->updateBlockPush( (GSCBlockPush *)GSChange );
             }
             break;
             // Nothing    
@@ -190,7 +190,7 @@ void GUIUpdater::update(Point playerPosition)
 }
 
 //
-void GUIUpdater::updateSpriteMove(Common::GSCSpriteMove *spriteMove)
+void GUIUpdater::updateSpriteMove(GSCSpriteMove *spriteMove)
 {
     if(spriteMove->getGameObjectId() == _player->getID())
     {
@@ -227,7 +227,7 @@ void GUIUpdater::updateSpriteMove(Common::GSCSpriteMove *spriteMove)
 
 
 //
-void GUIUpdater::updateSpriteTeleport(Common::GSCSpriteTeleport *spriteTeleport, Point playerPosition)
+void GUIUpdater::updateSpriteTeleport(GSCSpriteTeleport *spriteTeleport, Point playerPosition)
 {
     // Player, map needs to be moved
     if(spriteTeleport->getGameObjectId() == _player->getID())
@@ -250,7 +250,7 @@ void GUIUpdater::updateSpriteTeleport(Common::GSCSpriteTeleport *spriteTeleport,
 }
 
 //
-void GUIUpdater::updateBombSpawn(Common::GSCBombSpawn *bombSpawn)
+void GUIUpdater::updateBombSpawn(GSCBombSpawn *bombSpawn)
 {
 
     unsigned int id = bombSpawn->getGameObjectId();
@@ -271,7 +271,7 @@ void GUIUpdater::updateBombSpawn(Common::GSCBombSpawn *bombSpawn)
 }
 
 //
-void GUIUpdater::updateBombDestroy(Common::GSCBombDestroy *bombDestroy)
+void GUIUpdater::updateBombDestroy(GSCBombDestroy *bombDestroy)
 {
     unsigned int id = bombDestroy->getGameObjectId();
     // Cache or remove         
@@ -283,7 +283,7 @@ void GUIUpdater::updateBombDestroy(Common::GSCBombDestroy *bombDestroy)
 }
 
 //
-void GUIUpdater::updateObstacleDestroy(Common::GSCObstacleDestroy *obstacleDestroy)
+void GUIUpdater::updateObstacleDestroy(GSCObstacleDestroy *obstacleDestroy)
 {
     int bombID = (_map->getHeight() - ( obstacleDestroy->getGameObjectId() / _map->getWidth() ) - 1) 
                 * _map->getWidth()
@@ -298,7 +298,7 @@ void GUIUpdater::updateObstacleDestroy(Common::GSCObstacleDestroy *obstacleDestr
 }
 
 //
-void GUIUpdater::updateExplosionSpawn(Common::GSCExplosionSpawn *explosionSpawn)
+void GUIUpdater::updateExplosionSpawn(GSCExplosionSpawn *explosionSpawn)
 {
     Point epicentrum = ccp(explosionSpawn->getEpicentrum().x, explosionSpawn->getEpicentrum().y);
     Explosion *explosion = new Explosion(
@@ -314,7 +314,7 @@ void GUIUpdater::updateExplosionSpawn(Common::GSCExplosionSpawn *explosionSpawn)
 }
 
 //
-void GUIUpdater::updateAchievementUnlocked(Common::GSCAchievementUnlocked *achievementUnlocked)
+void GUIUpdater::updateAchievementUnlocked(GSCAchievementUnlocked *achievementUnlocked)
 {
 
     AchievementButton *ab = new AchievementButton(
@@ -327,7 +327,7 @@ void GUIUpdater::updateAchievementUnlocked(Common::GSCAchievementUnlocked *achie
 }
 
 //
-void GUIUpdater::updateObstacleSpawn(Common::GSCObstacleSpawn *obstacleSpawn)
+void GUIUpdater::updateObstacleSpawn(GSCObstacleSpawn *obstacleSpawn)
 {
     unsigned int ix = obstacleSpawn->getCoordinates().x;
     unsigned int iy = obstacleSpawn->getCoordinates().y;
@@ -348,7 +348,7 @@ void GUIUpdater::updateObstacleSpawn(Common::GSCObstacleSpawn *obstacleSpawn)
 }
 
 //
-void GUIUpdater::updateSpriteDestroy( Common::GSCSpriteDestroy *spriteDestroy )
+void GUIUpdater::updateSpriteDestroy( GSCSpriteDestroy *spriteDestroy )
 {
     if(spriteDestroy->getGameObjectId() == _player->getID())
     {
@@ -367,25 +367,25 @@ void GUIUpdater::updateSpriteDestroy( Common::GSCSpriteDestroy *spriteDestroy )
 }
 
 //
-void GUIUpdater::updateLeverSwitchOn( Common::GSCLeverSwitchOn *leverSwitchOn )
+void GUIUpdater::updateLeverSwitchOn( GSCLeverSwitchOn *leverSwitchOn )
 {
     return; // TODO
 }
 
 //
-void GUIUpdater::updateLeverSwitchOff( Common::GSCLeverSwitchOff *leverSwitchOff )
+void GUIUpdater::updateLeverSwitchOff( GSCLeverSwitchOff *leverSwitchOff )
 {
     return; // TODO
 }
 
 //
-void GUIUpdater::updateSpriteDamage( Common::GSCSpriteDamage *spriteDamage )
+void GUIUpdater::updateSpriteDamage( GSCSpriteDamage *spriteDamage )
 {
     return; // TODO
 }
 
 //
-void GUIUpdater::updateSpriteAttrUpdate( Common::GSCSpriteAttrUpdate *spriteAttrUpdate )
+void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
 {
     // Show only players buff
     if( spriteAttrUpdate->getGameObjectId() != _player->getID() )
@@ -431,7 +431,7 @@ void GUIUpdater::updateSpriteAttrUpdate( Common::GSCSpriteAttrUpdate *spriteAttr
 }
 
 //
-void GUIUpdater::updateEffectDestroy( Common::GSCEffectDestroy *effectDestroy )
+void GUIUpdater::updateEffectDestroy( GSCEffectDestroy *effectDestroy )
 {
     int id = (_map->getHeight() - ( effectDestroy->getGameObjectId() / _map->getWidth() ) - 1) 
                 * _map->getWidth()
@@ -446,7 +446,7 @@ void GUIUpdater::updateEffectDestroy( Common::GSCEffectDestroy *effectDestroy )
 }
 
 //
-void GUIUpdater::updateSpriteSpawn( Common::GSCSpriteSpawn *spriteSpawn )
+void GUIUpdater::updateSpriteSpawn( GSCSpriteSpawn *spriteSpawn )
 {
     unsigned int ix = spriteSpawn->getCoordinates().x;
     unsigned int iy = spriteSpawn->getCoordinates().y;
@@ -467,7 +467,7 @@ void GUIUpdater::updateSpriteSpawn( Common::GSCSpriteSpawn *spriteSpawn )
 }
 
 //
-void GUIUpdater::updateEffectSpawn( Common::GSCEffectSpawn *effectSpawn )
+void GUIUpdater::updateEffectSpawn( GSCEffectSpawn *effectSpawn )
 {
     unsigned int ix = effectSpawn->getCoordinates().x;
     unsigned int iy = effectSpawn->getCoordinates().y;
@@ -488,21 +488,21 @@ void GUIUpdater::updateEffectSpawn( Common::GSCEffectSpawn *effectSpawn )
 }
 
 //
-void GUIUpdater::updateLevelReset( Common::GSCLevelReset *levelReset )
+void GUIUpdater::updateLevelReset( GSCLevelReset *levelReset )
 {
     _resetNow = true;
     return;
 }
 
 //
-void GUIUpdater::updateLevelFinish( Common::GSCLevelFinish *levelFinish )
+void GUIUpdater::updateLevelFinish( GSCLevelFinish *levelFinish )
 {
     _resetNow = true; 
     return;
 }
 
 //
-void GUIUpdater::updateBombMove( Common::GSCBombMove *bombMove )
+void GUIUpdater::updateBombMove( GSCBombMove *bombMove )
 {
     unsigned int id = bombMove->getGameObjectId();
     _bombs[ id ]->setPosition( ccp( bombMove->getPosition().x, bombMove->getPosition().y) );
@@ -511,7 +511,7 @@ void GUIUpdater::updateBombMove( Common::GSCBombMove *bombMove )
 }
 
 //
-void GUIUpdater::updateBlockPush( Common::GSCBlockPush *blockPush )
+void GUIUpdater::updateBlockPush( GSCBlockPush *blockPush )
 {
     // Get obstacle for animation
     unsigned int id = _map->getWidth() * (_map->getWidth() - blockPush->getFrom().y - 1) + blockPush->getFrom().x;
