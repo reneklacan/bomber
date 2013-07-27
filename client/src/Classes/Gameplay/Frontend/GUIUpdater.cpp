@@ -193,7 +193,7 @@ void GUIUpdater::update()
 //
 void GUIUpdater::updateSpriteMove(GSCSpriteMove *spriteMove)
 {
-    if(spriteMove->getGameObjectId() == _player1->getID())
+    if (spriteMove->getGameObjectId() == _player1->getID())
     {
         // Only set Z coordinate
         _batchNode->reorderChild(
@@ -202,9 +202,18 @@ void GUIUpdater::updateSpriteMove(GSCSpriteMove *spriteMove)
         );
         return;
     }
+    else if (spriteMove->getGameObjectId() == _player2->getID())
+    {
+        // Only set Z coordinate
+        _batchNode->reorderChild(
+            _player2, 
+            _O_mapPixelHeight - _player2->getPosition().y
+        );
+        return;
+    }
 
     // Sprite is already initialized
-    if( _mobs.find(spriteMove->getGameObjectId()) != _mobs.end() )
+    if (_mobs.find(spriteMove->getGameObjectId()) != _mobs.end())
     {
         _mobs[spriteMove->getGameObjectId()]->setPosition(
                     ccp (
@@ -237,15 +246,21 @@ void GUIUpdater::updateSpriteTeleport(GSCSpriteTeleport *spriteTeleport, Point p
         _player1->setPosition(teleportPosition);
         _map->addToPosition(ccpSub(playerPosition, teleportPosition));
     }
+    else if(spriteTeleport->getGameObjectId() == _player2->getID())
+    {
+        Point teleportPosition = ccp( spriteTeleport->getPosition().x, spriteTeleport->getPosition().y);
+        _player2->setPosition(teleportPosition);
+    }
+
     // Mob
     else
     {
         _mobs[spriteTeleport->getGameObjectId()]->setPosition(
-                    ccp (
-                        spriteTeleport->getPosition().x,
-                        spriteTeleport->getPosition().y
-                    )
-                );
+            ccp (
+                spriteTeleport->getPosition().x,
+                spriteTeleport->getPosition().y
+            )
+        );
     }
     return; // CHILD REORDER ?
 }
@@ -358,6 +373,14 @@ void GUIUpdater::updateSpriteDestroy( GSCSpriteDestroy *spriteDestroy )
         _collisionDetector->skipEval(true);
         return;
     }
+    else if(spriteDestroy->getGameObjectId() == _player2->getID())
+    {
+        _batchNode->removeChild(_player2, true); // WARNING
+        _player2Destroyed = true;
+        _collisionDetector->skipEval(true);
+        return;
+    }
+
     unsigned int id = spriteDestroy->getGameObjectId();
     // Cache or remove         
     if ( !_cache->cacheSprite(_mobs[id]) )
@@ -389,7 +412,17 @@ void GUIUpdater::updateSpriteDamage( GSCSpriteDamage *spriteDamage )
 void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
 {
     // Show only players buff
-    if( spriteAttrUpdate->getGameObjectId() != _player1->getID() )
+    GameSprite *sprite = NULL;
+
+    if (spriteAttrUpdate->getGameObjectId() != _player1->getID())
+    {
+        sprite = _player1;
+    }
+    if (spriteAttrUpdate->getGameObjectId() == _player2->getID())
+    {
+        sprite = _player2;
+    }
+    else
     {
         return;
     }
@@ -406,7 +439,7 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
             break;
         case Backend::EFFECT_SPEED_INC:
             imageID = SPEED_INC_ETI;
-            _player1->setSpeed(_player1->getSpeed() + SPRITE_SPEED_INCREASE);
+            sprite->setSpeed(sprite->getSpeed() + SPRITE_SPEED_INCREASE);
             break;
         default:
             std::cerr << "Unknown effect type: " << 
@@ -609,9 +642,9 @@ bool GUIUpdater::obstacleExists(unsigned int id)
  */
  
 //
-std::vector<bool> GUIUpdater::evalCollisions(Point currentPoint, Point nextPoint)
+std::vector<bool> GUIUpdater::evalCollisions(GameSprite *sprite)
 {
-    return _collisionDetector->eval(currentPoint, nextPoint);
+    return _collisionDetector->eval(sprite);
 }
 
 /*

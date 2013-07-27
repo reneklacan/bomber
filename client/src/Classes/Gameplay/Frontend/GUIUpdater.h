@@ -38,7 +38,7 @@ namespace Bomber
 
             void init(Map* map, Human* player1, Human* player2, Layer* layer);
             void update();
-            std::vector<bool> evalCollisions(Point currentPoint, Point nextPoint);
+            std::vector<bool> evalCollisions(GameSprite *sprite);
             void resetGUI();
             bool isResetSet() {return _resetNow; }
             bool obstacleExists(unsigned int id);

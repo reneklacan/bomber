@@ -57,7 +57,7 @@ namespace Bomber
             bool _gamePaused;
             unsigned int _lastChangeID;
             Common::GameState *_gameState;
-            Backend::Sprite *_controlledSprite;
+            //Backend::Sprite *_controlledSprite;
 
         private:
             void initControlledSprite();

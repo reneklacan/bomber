@@ -460,30 +460,9 @@ void Logic::setGameStateUpdater(GameStateUpdater *updater)
     AI::getInstance()->init(_state);
 }
 
-void Logic::moveSprite(Position position)
-{
-    if (_controlledSprite == nullptr)
-    {
-        std::cout << "Logic::_controlledSprite is nullptr\n";
-    }
-
-    _gameStateUpdater->moveSprite(_controlledSprite, position);
-}
-
 void Logic::moveSprite(unsigned int spriteId, Position position)
 {
     _gameStateUpdater->moveSprite(_state->getSpriteLayer()->getObject(spriteId), position);
-}
-
-bool Logic::spawnBomb()
-{ 
-    if (_controlledSprite == nullptr)
-    {
-        std::cout << "Logic::_controlledSprite is nullptr\n";
-        return false;
-    }
-
-    return this->spawnBomb(_controlledSprite);
 }
 
 bool Logic::spawnBomb(unsigned int spriteId)
@@ -517,9 +496,9 @@ bool Logic::spawnBomb(Sprite *owner)
     return true;
 }
 
-void Logic::kickBomb(Coordinates coords, int direction)
+void Logic::kickBomb(unsigned int spriteId, Coordinates coords, int direction)
 {
-    if (!_controlledSprite->getAttributes()->getBombKicking())
+    if (!_state->getSpriteLayer()->getObject(spriteId)->getAttributes()->getBombKicking())
         return;
 
     if(_state->getBombLayer()->getObjectsAtCoords(coords).size() == 0)
@@ -553,9 +532,9 @@ void Logic::kickBomb(Coordinates coords, int direction)
     _movements.insert(movement);
 }
 
-void Logic::pushBlock(Coordinates coords, int direction)
+void Logic::pushBlock(unsigned int spriteId, Coordinates coords, int direction)
 {
-    if (!_controlledSprite->getAttributes()->getBlockPushing())
+    if (!_state->getSpriteLayer()->getObject(spriteId)->getAttributes()->getBombKicking())
         return;
 
     auto blocks = _state->getObstacleLayer()->getObjectsAtCoords(coords);

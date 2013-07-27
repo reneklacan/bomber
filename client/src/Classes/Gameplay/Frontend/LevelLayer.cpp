@@ -16,7 +16,6 @@ LevelLayer::LevelLayer()
 ,_map(NULL)
 ,_gamePaused(false)
 ,_lastChangeID(0)
-,_controlledSprite(NULL)
 {
 }
 
@@ -96,10 +95,11 @@ bool LevelLayer::init()
     
     // Backend init
     Backend::Mediator::getInstance()->moveSprite(
-            Common::Position(
-                _player1->getPosition().x,
-                _player1->getPosition().y
-            )
+        _player1->getID(),
+        Common::Position(
+            _player1->getPosition().x,
+            _player1->getPosition().y
+        )
     );
 
     // use updateGame instead of update, otherwise it will conflit with SelectorProtocol::update
@@ -123,7 +123,7 @@ void LevelLayer::updateGame(float dt)
 
     // Count collisions
     std::vector<bool> collisions;
-    collisions = GUIUpdater::getInstance()->evalCollisions(currentPos, nextPos);
+    collisions = GUIUpdater::getInstance()->evalCollisions(_player1);
 
     // Set whether player has moved
     bool move = true;
@@ -141,7 +141,10 @@ void LevelLayer::updateGame(float dt)
     {
         _player1->setPosition(nextPos);
         _map->addToPosition(ccpSub(currentPos, nextPos));
-        Backend::Mediator::getInstance()->moveSprite(Common::Position(nextPos.x, nextPos.y));
+        Backend::Mediator::getInstance()->moveSprite(
+            _player1->getID(),
+            Common::Position(nextPos.x, nextPos.y)
+        );
     }
 
     // player 2
@@ -154,7 +157,7 @@ void LevelLayer::updateGame(float dt)
 
     // Count collisions
     collisions.clear();
-    collisions = GUIUpdater::getInstance()->evalCollisions(currentPos, nextPos);
+    collisions = GUIUpdater::getInstance()->evalCollisions(_player2);
 
     // Set whether player has moved
     move = true;
@@ -171,8 +174,10 @@ void LevelLayer::updateGame(float dt)
     if (move && (currentPos.x != nextPos.x || currentPos.y != nextPos.y))
     {
         _player2->setPosition(nextPos);
-        // TODO: move with id on the backend, both of players
-        //Backend::Mediator::getInstance()->moveSprite(Common::Position(nextPos.x, nextPos.y));
+        Backend::Mediator::getInstance()->moveSprite(
+            _player2->getID(),
+            Common::Position(nextPos.x, nextPos.y)
+        );
     }
 
     // Send action
@@ -234,15 +239,15 @@ void LevelLayer::resetLevel()
 void LevelLayer::initControlledSprite()
 {
     // spawnpoint is calculated on backend
-    _controlledSprite = Backend::Mediator::getInstance()->getControlledSprite();
+    auto player1Sprite = Backend::Mediator::getInstance()->getPlayer1Sprite();
     _player1->setPosition(
         ccp(
-            _controlledSprite->getPosition().x,
-            _controlledSprite->getPosition().y
+            player1Sprite->getPosition().x,
+            player1Sprite->getPosition().y
         )
     );
     _player1->setNextPosition(_player1->getPosition());
-    _player1->setSpeed(_controlledSprite->getAttributes()->getSpeed());
+    _player1->setSpeed(player1Sprite->getAttributes()->getSpeed());
 
     // set view that timmy is in the center of it
     Size visibleSize = Director::sharedDirector()->getVisibleSize();
@@ -254,14 +259,15 @@ void LevelLayer::initControlledSprite()
     );
 
     // player 2
+    auto player2Sprite = Backend::Mediator::getInstance()->getPlayer2Sprite();
     _player2->setPosition(
         ccp(
-            _controlledSprite->getPosition().x,
-            _controlledSprite->getPosition().y
+            player2Sprite->getPosition().x,
+            player2Sprite->getPosition().y
         )
     );
     _player2->setNextPosition(_player2->getPosition());
-    _player2->setSpeed(_controlledSprite->getAttributes()->getSpeed());
+    _player2->setSpeed(player2Sprite->getAttributes()->getSpeed());
 }
 
 //

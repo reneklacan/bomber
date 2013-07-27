@@ -38,6 +38,7 @@ bool MainMenuLayer::init()
 
     Size visibleSize = Director::sharedDirector()->getVisibleSize();
     
+    // TODO: fix deprecated warning
     MenuItem *newGameItem = MenuItemImage::create(
             "menu/new_game.png",
             "menu/new_game.png",

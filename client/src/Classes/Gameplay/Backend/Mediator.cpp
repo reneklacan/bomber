@@ -1,6 +1,7 @@
 
 #include "Mediator.h"
 #include "GameObjects/Sprites/Bomber.h"
+#include "Statistics/StatisticsUpdater.h"
 
 using namespace Bomber::Backend;
 using namespace Bomber::Common;
@@ -44,7 +45,7 @@ void Mediator::setControlledSprite(unsigned int id)
     Logic::getInstance()->setControlledSprite(id);
 }
 
-Sprite *Mediator::getControlledSprite()
+Sprite *Mediator::getPlayer1Sprite()
 {
     // TODO:
     // - set spawn position by position in tilemap
@@ -57,31 +58,48 @@ Sprite *Mediator::getControlledSprite()
     controlledSprite->setPosition(200, 200);
     
     Logic::getInstance()->getState()->getSpriteLayer()->addObject(controlledSprite);
-    Logic::getInstance()->setControlledSprite(controlledSprite->getId());
+    StatisticsUpdater::getInstance()->setRelevantSpriteId(controlledSprite->getId());
 
     return controlledSprite;
 }
 
-void Mediator::moveSprite(Position position)
+Sprite *Mediator::getPlayer2Sprite()
 {
-    Logic::getInstance()->moveSprite(position);
+    // TODO:
+    // - set spawn position by position in tilemap
+    // - dont create new sprite each call of this method
+    // - this method should be maybe called with id as argument?
+
+    Sprite *controlledSprite = new BomberSprite(); 
+    controlledSprite->setId(19992);
+    controlledSprite->setSize(10, 10);
+    controlledSprite->setPosition(300, 200);
+    
+    Logic::getInstance()->getState()->getSpriteLayer()->addObject(controlledSprite);
+
+    return controlledSprite;
 }
 
-void Mediator::spawnBomb()
+void Mediator::moveSprite(unsigned int spriteId, Position position)
 {
-    Logic::getInstance()->spawnBomb();
+    Logic::getInstance()->moveSprite(spriteId, position);
 }
 
-void Mediator::pushObstacle(Coordinates coords, TDirection direction)
+void Mediator::spawnBomb(unsigned int spriteId)
+{
+    Logic::getInstance()->spawnBomb(spriteId);
+}
+
+void Mediator::pushObstacle(unsigned int spriteId, Coordinates coords, TDirection direction)
 {
     //std::cout << "PUSH: [" << coords.x << ", " << coords.y << "] direction = " << direction << "\n";
-    Logic::getInstance()->pushBlock(coords, direction);
+    Logic::getInstance()->pushBlock(spriteId, coords, direction);
 }
 
-void Mediator::kickBomb(Coordinates coords, TDirection direction)
+void Mediator::kickBomb(unsigned int spriteId, Coordinates coords, TDirection direction)
 {
     if(direction != CALM)
     {
-        Logic::getInstance()->kickBomb(coords, direction);
+        Logic::getInstance()->kickBomb(spriteId, coords, direction);
     }
 }

@@ -60,8 +60,10 @@ void Collisions::unsetObstacleImmuneToPush(unsigned int id)
 }
 
 //
-std::vector<bool> Collisions::eval(Point currentPoint, Point nextPoint)
+std::vector<bool> Collisions::eval(GameSprite *sprite)
 {
+    Point currentPoint = sprite->getPosition();;
+    Point nextPoint = sprite->getNextPosition();
     // Init
     std::vector<bool> result;
     result.push_back(false);  // Collision occured
@@ -110,8 +112,8 @@ std::vector<bool> Collisions::eval(Point currentPoint, Point nextPoint)
     } 
 
     // Evaluation
-    result[1] = this->evalPartial(nextPointX, directionX);
-    result[2] = this->evalPartial(nextPointY, directionY);
+    result[1] = this->evalPartial(sprite, nextPointX, directionX);
+    result[2] = this->evalPartial(sprite, nextPointY, directionY);
     result[0] = result[1] || result[2];
 
     // Return
@@ -119,7 +121,7 @@ std::vector<bool> Collisions::eval(Point currentPoint, Point nextPoint)
 }
 
 //
-bool Collisions::evalPartial(Point nextPoint, Common::TDirection direction)
+bool Collisions::evalPartial(GameSprite *sprite, Point nextPoint, Common::TDirection direction)
 {
     // Init
     bool result = false;
@@ -133,8 +135,8 @@ bool Collisions::evalPartial(Point nextPoint, Common::TDirection direction)
     }
     
     // Evaluate all possible items
-    resultObstacles = this->evalObstacles(nextPoint, direction); 
-    resultBombs = this->evalBombs(nextPoint, direction);
+    resultObstacles = this->evalObstacles(sprite, nextPoint, direction); 
+    resultBombs = this->evalBombs(sprite, nextPoint, direction);
     result = resultObstacles || resultBombs;
 
     return result;
@@ -173,8 +175,11 @@ void Collisions::setMapDimensions(unsigned int width, unsigned int height)
 }
 
 //
-bool Collisions::evalObstacles(Point nextPoint, Common::TDirection direction)
+bool Collisions::evalObstacles(GameSprite *sprite, Point nextPoint, Common::TDirection direction)
 {
+    // TODO: put these 4 code blocks into one cycle with common code to reduce repeating
+    //       calculate 4 offsets as points and put them into the vector or so
+
     bool result = false;
     int offsetX = 0;
     int offsetY = 0;
@@ -192,7 +197,7 @@ bool Collisions::evalObstacles(Point nextPoint, Common::TDirection direction)
                 obstacle->second->getPosition().x / TILE_WIDTH,
                 obstacle->second->getPosition().y / TILE_HEIGHT
             );
-            _mediator->pushObstacle(coords, direction);
+            _mediator->pushObstacle(sprite->getID(), coords, direction);
         }
         result = true;
     }
@@ -208,7 +213,7 @@ bool Collisions::evalObstacles(Point nextPoint, Common::TDirection direction)
                 obstacle->second->getPosition().x / TILE_WIDTH,
                 obstacle->second->getPosition().y / TILE_HEIGHT
             );
-            _mediator->pushObstacle(coords, direction);
+            _mediator->pushObstacle(sprite->getID(), coords, direction);
         }
         result = true;
     }
@@ -226,7 +231,7 @@ bool Collisions::evalObstacles(Point nextPoint, Common::TDirection direction)
                 obstacle->second->getPosition().x / TILE_WIDTH,
                 obstacle->second->getPosition().y / TILE_HEIGHT
             );
-            _mediator->pushObstacle(coords, direction);
+            _mediator->pushObstacle(sprite->getID(), coords, direction);
         }
         result = true;
     }
@@ -243,7 +248,7 @@ bool Collisions::evalObstacles(Point nextPoint, Common::TDirection direction)
                 obstacle->second->getPosition().x / TILE_WIDTH,
                 obstacle->second->getPosition().y / TILE_HEIGHT
             );
-            _mediator->pushObstacle(coords, direction);
+            _mediator->pushObstacle(sprite->getID(), coords, direction);
         }
         result = true;
     }
@@ -253,7 +258,7 @@ bool Collisions::evalObstacles(Point nextPoint, Common::TDirection direction)
 
 //
 //
-bool Collisions::evalBombs(Point nextPoint, Common::TDirection direction)
+bool Collisions::evalBombs(GameSprite *sprite, Point nextPoint, Common::TDirection direction)
 {
     bool result = false;
     int offsetX = 0;
@@ -269,7 +274,7 @@ bool Collisions::evalBombs(Point nextPoint, Common::TDirection direction)
             bomb->getPosition().x / TILE_WIDTH,
             bomb->getPosition().y / TILE_HEIGHT
         );
-        _mediator->kickBomb(coords, direction);
+        _mediator->kickBomb(sprite->getID(), coords, direction);
         result = true;
     }
     // Top Right
@@ -281,7 +286,7 @@ bool Collisions::evalBombs(Point nextPoint, Common::TDirection direction)
             bomb->getPosition().x / TILE_WIDTH,
             bomb->getPosition().y / TILE_HEIGHT
         );
-        _mediator->kickBomb(coords, direction);
+        _mediator->kickBomb(sprite->getID(), coords, direction);
         result = true;
     }
 
@@ -295,7 +300,7 @@ bool Collisions::evalBombs(Point nextPoint, Common::TDirection direction)
             bomb->getPosition().x / TILE_WIDTH,
             bomb->getPosition().y / TILE_HEIGHT
         );
-        _mediator->kickBomb(coords, direction);
+        _mediator->kickBomb(sprite->getID(), coords, direction);
         result = true;
     }
 
@@ -308,7 +313,7 @@ bool Collisions::evalBombs(Point nextPoint, Common::TDirection direction)
             bomb->getPosition().x / TILE_WIDTH,
             bomb->getPosition().y / TILE_HEIGHT
         );
-        _mediator->kickBomb(coords, direction);
+        _mediator->kickBomb(sprite->getID(), coords, direction);
         result = true;
     }
 

@@ -18,13 +18,15 @@ namespace Bomber
                 void resetState();
                 void setState(Common::GameState *state);
                 void setControlledSprite(unsigned int id);
-                Sprite *getControlledSprite();
-                void moveSprite(Common::Position position);
-                void spawnBomb();
+
+                Sprite *getPlayer1Sprite();
+                Sprite *getPlayer2Sprite();
+                void moveSprite(unsigned int spriteId, Common::Position position);
+                void spawnBomb(unsigned int spriteId);
                 Common::GameState *getState() { return _state; }
 
-                void pushObstacle(Common::Coordinates coords, Common::TDirection direction);
-                void kickBomb(Common::Coordinates coords, Common::TDirection direction);
+                void pushObstacle(unsigned int spriteId, Common::Coordinates coords, Common::TDirection direction);
+                void kickBomb(unsigned int spriteId, Common::Coordinates coords, Common::TDirection direction);
 
             private:
                 Mediator();

@@ -8,9 +8,6 @@ using namespace cocos2d;
 class GameSprite : public Sprite
 {
     public:
-        CC_SYNTHESIZE(int, _speed, Speed);
-        CC_SYNTHESIZE(Point, _nextPosition, NextPosition);
-        CC_SYNTHESIZE(Point, _nextPositionDelta, NextPositionDelta);
 
         GameSprite();
         //~GameSprite();
@@ -23,11 +20,11 @@ class GameSprite : public Sprite
         virtual void logInfo();
         virtual Point getTilemapPosition();
 
-        virtual void setID(unsigned int id) { _id = id; }
-        virtual unsigned int getID() { return _id; }
-
     protected:
-        unsigned int _id;
+        CC_SYNTHESIZE(int, _speed, Speed);
+        CC_SYNTHESIZE(Point, _nextPosition, NextPosition);
+        CC_SYNTHESIZE(Point, _nextPositionDelta, NextPositionDelta);
+        CC_SYNTHESIZE(unsigned int, _id, ID);
 
     private:
 };
