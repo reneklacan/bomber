@@ -207,6 +207,9 @@
     <ClCompile Include="..\Classes\Gameplay\Backend\GameState\GameStateUpdater.cpp">
       <Filter>Classes\Gameplay\Backend\GameState</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Configuration.cpp">
+      <Filter>Classes\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -400,6 +403,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Backend\GameState\GameStateUpdater.h">
       <Filter>Classes\Gameplay\Backend\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Configuration.h">
+      <Filter>Classes\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

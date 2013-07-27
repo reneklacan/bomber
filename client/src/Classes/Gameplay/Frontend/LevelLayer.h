@@ -52,7 +52,8 @@ namespace Bomber
         protected:
             ControlLayer *_controlLayer;
             Map *_map;
-            Human *_player;
+            Human *_player1;
+            Human *_player2;
             bool _gamePaused;
             unsigned int _lastChangeID;
             Common::GameState *_gameState;

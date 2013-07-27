@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "Touch/Joystick.h"
 #include "Keyboard/Keyboard.h"
-#include "../Gameplay/Frontend/Sprites/GameSprite.h"
+#include "../Gameplay/Frontend/Sprites/Human.h"
 #include "ActionDelegates.h"
 
 using namespace cocos2d;
@@ -12,7 +12,6 @@ using namespace cocos2d;
 class ControlLayer: public Layer, ActionDispatcher
 {
     public:
-        CC_SYNTHESIZE(GameSprite *, _controlledSprite, ControlledSprite);
 
         //ControlLayer();
         //~ControlLayer();
@@ -36,7 +35,9 @@ class ControlLayer: public Layer, ActionDispatcher
 
         void addGameController(GameController* controller);
         void setPauseGameDelegate(PauseGameDelegate *delegate);
-        void setGameActionDelegate(GameActionDelegate *delegate);
+        
+        void setControlledPlayer1(Human *sprite);
+        void setControlledPlayer2(Human *sprite);
 
     private:
         bool _enabled;
@@ -47,6 +48,10 @@ class ControlLayer: public Layer, ActionDispatcher
         PauseGameDelegate* _pauseGameDelegate;
 
         std::vector<GameController *> _enabledControllers;
+        
+        GameSprite * _controlledPlayer1;
+        GameSprite * _controlledPlayer2;
+
 };
 
 #endif

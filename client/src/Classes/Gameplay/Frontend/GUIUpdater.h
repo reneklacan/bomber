@@ -36,8 +36,8 @@ namespace Bomber
         public:
             static GUIUpdater *getInstance();
 
-            void init( Map* map, Human* player, Layer* layer);
-            void update(Point playerPosition);
+            void init(Map* map, Human* player1, Human* player2, Layer* layer);
+            void update();
             std::vector<bool> evalCollisions(Point currentPoint, Point nextPoint);
             void resetGUI();
             bool isResetSet() {return _resetNow; }
@@ -75,9 +75,11 @@ namespace Bomber
 
             unsigned int _lastChangeID;
             Map* _map;
-            Human* _player;
+            Human* _player1;
+            Human* _player2;
             Layer * _layer;
-            bool _playerDestroyed;
+            bool _player1Destroyed;
+            bool _player2Destroyed;
 
             std::map<unsigned int, Sprite *> _mobs;
             std::map<unsigned int, Sprite *> _obstacles;

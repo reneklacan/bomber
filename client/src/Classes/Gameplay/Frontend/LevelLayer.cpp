@@ -11,7 +11,8 @@ using namespace Bomber;
 using namespace Bomber::Frontend;
 
 LevelLayer::LevelLayer()
-:_player(NULL)
+:_player1(NULL)
+,_player2(NULL)
 ,_map(NULL)
 ,_gamePaused(false)
 ,_lastChangeID(0)
@@ -33,9 +34,11 @@ bool LevelLayer::init()
 
     // Basic init
     _map = Map::create();
-
-    _player = Human::create(_map, 0);
-    _player->setID(19991);
+    
+    _player1 = Human::create(_map, 0);
+    _player1->setID(19991);
+    _player2 = Human::create(_map, 0);
+    _player2->setID(19992);
 
     _controlLayer = ControlLayer::create();
 
@@ -43,7 +46,7 @@ bool LevelLayer::init()
     this->addChild(_controlLayer, 2);
 
     // Frontend init
-    GUIUpdater::getInstance()->init(_map, _player, this);
+    GUIUpdater::getInstance()->init(_map, _player1, _player2, this);
 
     // Game State init
     _gameState = new Common::GameState(_map->getWidth(), _map->getHeight());
@@ -94,11 +97,10 @@ bool LevelLayer::init()
     // Backend init
     Backend::Mediator::getInstance()->moveSprite(
             Common::Position(
-                _player->getPosition().x,
-                _player->getPosition().y
+                _player1->getPosition().x,
+                _player1->getPosition().y
             )
     );
-
 
     // use updateGame instead of update, otherwise it will conflit with SelectorProtocol::update
     // see http://www.cocos2d-x.org/boards/6/topics/1478
@@ -111,9 +113,11 @@ bool LevelLayer::init()
 
 void LevelLayer::updateGame(float dt)
 {
+    // player 1
+
     // Get all information
-    Point currentPos = _player->getPosition();
-    Point nextPos = _player->getNextPosition();
+    Point currentPos = _player1->getPosition();
+    Point nextPos = _player1->getNextPosition();
     Point nextPosX = ccp(nextPos.x, currentPos.y);
     Point nextPosY = ccp(currentPos.x, nextPos.y);
 
@@ -135,16 +139,47 @@ void LevelLayer::updateGame(float dt)
     // Move player without backend
     if (move && (currentPos.x != nextPos.x || currentPos.y != nextPos.y))
     {
-        _player->setPosition(nextPos);
+        _player1->setPosition(nextPos);
         _map->addToPosition(ccpSub(currentPos, nextPos));
         Backend::Mediator::getInstance()->moveSprite(Common::Position(nextPos.x, nextPos.y));
+    }
+
+    // player 2
+
+    // Get all information
+    currentPos = _player2->getPosition();
+    nextPos = _player2->getNextPosition();
+    nextPosX = ccp(nextPos.x, currentPos.y);
+    nextPosY = ccp(currentPos.x, nextPos.y);
+
+    // Count collisions
+    collisions.clear();
+    collisions = GUIUpdater::getInstance()->evalCollisions(currentPos, nextPos);
+
+    // Set whether player has moved
+    move = true;
+    if (!collisions[0])
+        ;
+    else if (!collisions[1])
+        nextPos = nextPosX;
+    else if (!collisions[2])
+        nextPos = nextPosY;
+    else
+        move = false;
+
+    // Move player without backend
+    if (move && (currentPos.x != nextPos.x || currentPos.y != nextPos.y))
+    {
+        _player2->setPosition(nextPos);
+        // TODO: move with id on the backend, both of players
+        //Backend::Mediator::getInstance()->moveSprite(Common::Position(nextPos.x, nextPos.y));
     }
 
     // Send action
     Backend::Mediator::getInstance()->update(dt);
 
     // Draw new state
-    GUIUpdater::getInstance()->update(currentPos);
+    GUIUpdater::getInstance()->update();
     ButtonLayer::getInstance()->saveTime(dt);
 
     // Reset level if needed
@@ -200,31 +235,41 @@ void LevelLayer::initControlledSprite()
 {
     // spawnpoint is calculated on backend
     _controlledSprite = Backend::Mediator::getInstance()->getControlledSprite();
-    _player->setPosition(
+    _player1->setPosition(
         ccp(
             _controlledSprite->getPosition().x,
             _controlledSprite->getPosition().y
         )
     );
-    _player->setNextPosition(_player->getPosition());
-    _player->setSpeed(_controlledSprite->getAttributes()->getSpeed());
+    _player1->setNextPosition(_player1->getPosition());
+    _player1->setSpeed(_controlledSprite->getAttributes()->getSpeed());
 
     // set view that timmy is in the center of it
     Size visibleSize = Director::sharedDirector()->getVisibleSize();
     _map->setPosition(
         ccp(
-            visibleSize.width/2 - _player->getPosition().x,
-            visibleSize.height/2 - _player->getPosition().y
+            visibleSize.width/2 - _player1->getPosition().x,
+            visibleSize.height/2 - _player1->getPosition().y
         )
     );
+
+    // player 2
+    _player2->setPosition(
+        ccp(
+            _controlledSprite->getPosition().x,
+            _controlledSprite->getPosition().y
+        )
+    );
+    _player2->setNextPosition(_player2->getPosition());
+    _player2->setSpeed(_controlledSprite->getAttributes()->getSpeed());
 }
 
 //
 void LevelLayer::initControlLayer()
 {
-    _controlLayer->setControlledSprite((GameSprite *)_player);
     _controlLayer->enableJoystick();
     _controlLayer->enableKeyboard();
     _controlLayer->setPauseGameDelegate(this);
-    _controlLayer->setGameActionDelegate(_player);
+    _controlLayer->setControlledPlayer1(_player1);
+    _controlLayer->setControlledPlayer2(_player2);
 }

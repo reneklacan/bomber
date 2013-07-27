@@ -12,11 +12,12 @@ GUIUpdater *GUIUpdater::getInstance()
 }
 
 //
-void GUIUpdater::init( Map* map, Human* player, Layer* layer)
+void GUIUpdater::init( Map* map, Human* player1, Human* player2, Layer* layer)
 {
     // Init
     _map = map;
-    _player = player;
+    _player1 = player1;
+    _player2 = player2;
     _layer = layer;
     _resetNow = false;
     _cache = GUICache::getInstance();
@@ -62,7 +63,7 @@ void GUIUpdater::init( Map* map, Human* player, Layer* layer)
 }
 
 //
-void GUIUpdater::update(Point playerPosition)
+void GUIUpdater::update()
 {
     GameState* state = _mediator->getState();
     auto changes = state->getChangesFromId(_lastChangeID);
@@ -83,7 +84,7 @@ void GUIUpdater::update(Point playerPosition)
             // Portals
             case SPRITE_TELEPORT:
             {
-                this->updateSpriteTeleport( (GSCSpriteTeleport *)GSChange, playerPosition );
+                this->updateSpriteTeleport( (GSCSpriteTeleport *)GSChange, _player1->getPosition() );
             }
             break;
             // Bomb spawn
@@ -192,12 +193,12 @@ void GUIUpdater::update(Point playerPosition)
 //
 void GUIUpdater::updateSpriteMove(GSCSpriteMove *spriteMove)
 {
-    if(spriteMove->getGameObjectId() == _player->getID())
+    if(spriteMove->getGameObjectId() == _player1->getID())
     {
         // Only set Z coordinate
         _batchNode->reorderChild(
-            _player, 
-            _O_mapPixelHeight - _player->getPosition().y
+            _player1, 
+            _O_mapPixelHeight - _player1->getPosition().y
         );
         return;
     }
@@ -230,10 +231,10 @@ void GUIUpdater::updateSpriteMove(GSCSpriteMove *spriteMove)
 void GUIUpdater::updateSpriteTeleport(GSCSpriteTeleport *spriteTeleport, Point playerPosition)
 {
     // Player, map needs to be moved
-    if(spriteTeleport->getGameObjectId() == _player->getID())
+    if(spriteTeleport->getGameObjectId() == _player1->getID())
     {
         Point teleportPosition = ccp( spriteTeleport->getPosition().x, spriteTeleport->getPosition().y);
-        _player->setPosition(teleportPosition);
+        _player1->setPosition(teleportPosition);
         _map->addToPosition(ccpSub(playerPosition, teleportPosition));
     }
     // Mob
@@ -350,10 +351,10 @@ void GUIUpdater::updateObstacleSpawn(GSCObstacleSpawn *obstacleSpawn)
 //
 void GUIUpdater::updateSpriteDestroy( GSCSpriteDestroy *spriteDestroy )
 {
-    if(spriteDestroy->getGameObjectId() == _player->getID())
+    if(spriteDestroy->getGameObjectId() == _player1->getID())
     {
-        _batchNode->removeChild(_player, true); // WARNING
-        _playerDestroyed = true;
+        _batchNode->removeChild(_player1, true); // WARNING
+        _player1Destroyed = true;
         _collisionDetector->skipEval(true);
         return;
     }
@@ -388,7 +389,7 @@ void GUIUpdater::updateSpriteDamage( GSCSpriteDamage *spriteDamage )
 void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
 {
     // Show only players buff
-    if( spriteAttrUpdate->getGameObjectId() != _player->getID() )
+    if( spriteAttrUpdate->getGameObjectId() != _player1->getID() )
     {
         return;
     }
@@ -405,7 +406,7 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
             break;
         case Backend::EFFECT_SPEED_INC:
             imageID = SPEED_INC_ETI;
-            _player->setSpeed(_player->getSpeed() + SPRITE_SPEED_INCREASE);
+            _player1->setSpeed(_player1->getSpeed() + SPRITE_SPEED_INCREASE);
             break;
         default:
             std::cerr << "Unknown effect type: " << 
@@ -623,16 +624,28 @@ std::vector<bool> GUIUpdater::evalCollisions(Point currentPoint, Point nextPoint
 void GUIUpdater::initPlayer()
 {
     // Eval collisions
-    _playerDestroyed = false;
+    _player1Destroyed = false;
 
     // All initialization
-    _player->initWithTexture(_batchNode->getTexture(), CCRectMake(120,60,80,110));
-    _player->retain();
-    _player->setAnchorPoint(ccp(0.45f, 0.2f));
-    _player->setVertexZ(0);
+    _player1->initWithTexture(_batchNode->getTexture(), CCRectMake(120,60,80,110));
+    _player1->retain();
+    _player1->setAnchorPoint(ccp(0.45f, 0.2f));
+    _player1->setVertexZ(0);
     
     // Add player to Batch Node
-    _batchNode->addChild(_player, 0);
+    _batchNode->addChild(_player1, 0);
+
+        // Eval collisions
+    _player2Destroyed = false;
+
+    // All initialization
+    _player2->initWithTexture(_batchNode->getTexture(), CCRectMake(120,60,80,110));
+    _player2->retain();
+    _player2->setAnchorPoint(ccp(0.45f, 0.2f));
+    _player2->setVertexZ(0);
+    
+    // Add player to Batch Node
+    _batchNode->addChild(_player2, 0);
 }
 
 //

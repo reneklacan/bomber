@@ -1,10 +1,17 @@
 #include "Keyboard.h"
+#include "../../Configuration.h"
+
+using namespace Bomber::Intern;
 
 Keyboard::Keyboard()
-: _upArrowPressed(false)
-, _rightArrowPressed(false)
-, _downArrowPressed(false)
-, _leftArrowPressed(false)
+: _player1UpKeyPressed(false)
+, _player1DownKeyPressed(false)
+, _player1LeftKeyPressed(false)
+, _player1RightKeyPressed(false)
+, _player2UpKeyPressed(false)
+, _player2DownKeyPressed(false)
+, _player2LeftKeyPressed(false)
+, _player2RightKeyPressed(false)
 {
 
 }
@@ -23,43 +30,50 @@ bool Keyboard::init()
 
 void Keyboard::keyPressed(int keyCode)
 {
-    switch (keyCode)
+    BomberConfiguration *configuration = BomberConfiguration::getInstance();
+    
+    // player 1 keys
+    if (keyCode == configuration->kbPlayer1UpKey)
     {
-        case KEY_W:
-        case KEY_ArrowUp:
-            _upArrowPressed = true;
-            break;
+        _player1UpKeyPressed = true;
+    }
+    if (keyCode == configuration->kbPlayer1DownKey)
+    {
+        _player1DownKeyPressed = true;
+    }
+    if (keyCode == configuration->kbPlayer1LeftKey)
+    {
+        _player1LeftKeyPressed = true;
+    }
+    if (keyCode == configuration->kbPlayer1RightKey)
+    {
+        _player1RightKeyPressed = true;
+    }
+    if (keyCode == configuration->kbPlayer1BombKey)
+    {
+        _player1ActionDelegate->actionOne();
+    }
 
-        case KEY_D:
-        case KEY_ArrowRight:
-            _rightArrowPressed = true;
-            break;
-
-        case KEY_S:
-        case KEY_ArrowDown:
-            _downArrowPressed = true;
-            break;
-
-        case KEY_A:
-        case KEY_ArrowLeft:
-            _leftArrowPressed = true;
-            break;
-            
-        case KEY_Space:
-            _gameActionDelefate->actionOne();
-            break;
-
-        case KEY_E:
-            _gameActionDelefate->actionTwo();
-            break;
-
-        case KEY_Q:
-            _gameActionDelefate->actionThree();
-            break;
-
-        default:
-            printf("unknown key %d\n", keyCode);
-            return;
+    // player 2 keys
+    if (keyCode == configuration->kbPlayer2UpKey)
+    {
+        _player2UpKeyPressed = true;
+    }
+    if (keyCode == configuration->kbPlayer2DownKey)
+    {
+        _player2DownKeyPressed = true;
+    }
+    if (keyCode == configuration->kbPlayer2LeftKey)
+    {
+        _player2LeftKeyPressed = true;
+    }
+    if (keyCode == configuration->kbPlayer2RightKey)
+    {
+        _player2RightKeyPressed = true;
+    }
+    if (keyCode == configuration->kbPlayer2BombKey)
+    {
+        _player2ActionDelegate->actionOne();
     }
 
     this->updateVelocity();
@@ -67,41 +81,50 @@ void Keyboard::keyPressed(int keyCode)
 
 void Keyboard::keyReleased(int keyCode)
 {
-    switch (keyCode)
+    BomberConfiguration *configuration = BomberConfiguration::getInstance();
+    
+    // player 1 keys
+    if (keyCode == configuration->kbPlayer1UpKey)
     {
-        case KEY_W:
-        case KEY_ArrowUp:
-            _upArrowPressed = false;
-            break;
+        _player1UpKeyPressed = false;
+    }
+    if (keyCode == configuration->kbPlayer1DownKey)
+    {
+        _player1DownKeyPressed = false;
+    }
+    if (keyCode == configuration->kbPlayer1LeftKey)
+    {
+        _player1LeftKeyPressed = false;
+    }
+    if (keyCode == configuration->kbPlayer1RightKey)
+    {
+        _player1RightKeyPressed = false;
+    }
 
-        case KEY_D:
-        case KEY_ArrowRight:
-            _rightArrowPressed = false;
-            break;
-
-        case KEY_S:
-        case KEY_ArrowDown:
-            _downArrowPressed = false;
-            break;
-
-        case KEY_A:
-        case KEY_ArrowLeft:
-            _leftArrowPressed = false;
-            break;
-
-        case KEY_Space:
-            _actionKeyOnePressed = false;
-            break;
-
-        case KEY_Escape:
-            if (_pauseGameDelegate)
-            {
-                _pauseGameDelegate->pauseGameAction();
-            }
-            break;
-
-        default:
-            return;
+    // player 2 keys
+    if (keyCode == configuration->kbPlayer2UpKey)
+    {
+        _player2UpKeyPressed = false;
+    }
+    if (keyCode == configuration->kbPlayer2DownKey)
+    {
+        _player2DownKeyPressed = false;
+    }
+    if (keyCode == configuration->kbPlayer2LeftKey)
+    {
+        _player2LeftKeyPressed = false;
+    }
+    if (keyCode == configuration->kbPlayer2RightKey)
+    {
+        _player2RightKeyPressed = false;
+    }
+    
+    if (keyCode == KEY_Escape)
+    {
+        if (_pauseGameDelegate)
+        {
+            _pauseGameDelegate->pauseGameAction();
+        }
     }
 
     this->updateVelocity();
@@ -109,28 +132,55 @@ void Keyboard::keyReleased(int keyCode)
 
 void Keyboard::updateVelocity()
 {
-    _velocity = ccp(0, 0);
+    // player 1
+    _player1Velocity = ccp(0, 0);
 
-    if (_upArrowPressed)
+    if (_player1UpKeyPressed)
     {
-        _velocity.y = 1;
+        _player1Velocity.y = 1;
     }
-    if (_downArrowPressed)
+    if (_player1DownKeyPressed)
     {
-        _velocity.y = _velocity.y - 1;
+        _player1Velocity.y = _player1Velocity.y - 1;
     }
-    if (_leftArrowPressed)
+    if (_player1LeftKeyPressed)
     {
-        _velocity.x = -1;
+        _player1Velocity.x = -1;
     }
-    if (_rightArrowPressed)
+    if (_player1RightKeyPressed)
     {
-        _velocity.x = _velocity.x + 1;
+        _player1Velocity.x = _player1Velocity.x + 1;
     }
 
-    if (_velocity.x && _velocity.y)
+    if (_player1Velocity.x && _player1Velocity.y)
     {
-        _velocity.x = 0.7 * _velocity.x;
-        _velocity.y = 0.7 * _velocity.y;
+        _player1Velocity.x = 0.7 * _player1Velocity.x;
+        _player1Velocity.y = 0.7 * _player1Velocity.y;
+    }
+
+    // player 2
+    _player2Velocity = ccp(0, 0);
+
+    if (_player2UpKeyPressed)
+    {
+        _player2Velocity.y = 1;
+    }
+    if (_player2DownKeyPressed)
+    {
+        _player2Velocity.y = _player2Velocity.y - 1;
+    }
+    if (_player2LeftKeyPressed)
+    {
+        _player2Velocity.x = -1;
+    }
+    if (_player2RightKeyPressed)
+    {
+        _player2Velocity.x = _player2Velocity.x + 1;
+    }
+
+    if (_player2Velocity.x && _player2Velocity.y)
+    {
+        _player2Velocity.x = 0.7 * _player2Velocity.x;
+        _player2Velocity.y = 0.7 * _player2Velocity.y;
     }
 }

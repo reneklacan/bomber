@@ -7,7 +7,9 @@ class ActionDispatcher
 {
     public:
         CC_SYNTHESIZE(PauseGameDelegate *, _pauseGameDelegate, PauseGameDelegate);
-        CC_SYNTHESIZE(GameActionDelegate *, _gameActionDelefate, GameActionDelegate);
+
+        CC_SYNTHESIZE(GameActionDelegate *, _player1ActionDelegate, Player1ActionDelegate);
+        CC_SYNTHESIZE(GameActionDelegate *, _player2ActionDelegate, Player2ActionDelegate);
 };
 
 #endif

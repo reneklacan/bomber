@@ -28,7 +28,7 @@ bool Joystick::init()
         return false;
 
     this->setTouchEnabled(true);
-    _velocity = PointZero;
+    _player1Velocity = PointZero;
 
     Sprite *bg = Sprite::create("joystick_background.png");
     bg->setPosition(_kCenter);
@@ -56,7 +56,7 @@ void Joystick::updateVelocity(Point point)
         dy = sin(angle) * JOYSTICK_RADIUS;
     }
 
-    _velocity = CCPointMake(dx/JOYSTICK_RADIUS, dy/JOYSTICK_RADIUS);
+    _player1Velocity = CCPointMake(dx/JOYSTICK_RADIUS, dy/JOYSTICK_RADIUS);
 
     if (distance > THUMB_RADIUS)
     {
@@ -99,7 +99,7 @@ void Joystick::ccTouchesBegan(Set *pTouches, Event *pEvent)
 
     if (point.x > visibleSize.width/2)
     {
-        _gameActionDelefate->actionOne();
+        _player1ActionDelegate->actionOne();
     }
 }
 

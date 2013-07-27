@@ -24,11 +24,25 @@ class Keyboard : public GameController
     private:
         void updateVelocity();
 
+        /*
         bool _leftArrowPressed;
         bool _upArrowPressed;
         bool _rightArrowPressed;
         bool _downArrowPressed;
         bool _actionKeyOnePressed;
+        */
+
+        bool _player1UpKeyPressed;
+        bool _player1DownKeyPressed;
+        bool _player1LeftKeyPressed;
+        bool _player1RightKeyPressed;
+        bool _player1BombKeyPressed;
+        
+        bool _player2UpKeyPressed;
+        bool _player2DownKeyPressed;
+        bool _player2LeftKeyPressed;
+        bool _player2RightKeyPressed;
+        bool _player2BombKeyPressed;
 };
 
 typedef enum 
@@ -188,10 +202,10 @@ typedef enum
     KEY_Zoom = 0xFB,
     KEY_PA1 = 0xFD,
     KEY_OEMClear = 0xFE,
-    KEY_ArrowUp = 0x11B,
-    KEY_ArrowDown = 0x11C,
-    KEY_ArrowLeft = 0x11D,
-    KEY_ArrowRight = 0x11E
+    KEY_ArrowUp = 38,
+    KEY_ArrowDown = 40,
+    KEY_ArrowLeft = 37,
+    KEY_ArrowRight = 39
 
 } enumKeyCodes;
 

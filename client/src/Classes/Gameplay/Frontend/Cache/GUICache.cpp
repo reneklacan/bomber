@@ -12,7 +12,7 @@ GUICache *GUICache::getInstance()
 //
 void GUICache::initCaches(Map* map)
 {
-    int i;
+    unsigned int i;
     _sprites2Spawn = 0;
     _effects2Spawn = 0;
 
