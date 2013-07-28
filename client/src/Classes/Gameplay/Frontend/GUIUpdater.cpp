@@ -418,7 +418,7 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
     {
         sprite = _player1;
     }
-    if (spriteAttrUpdate->getGameObjectId() == _player2->getID())
+    else if (spriteAttrUpdate->getGameObjectId() == _player2->getID())
     {
         sprite = _player2;
     }
