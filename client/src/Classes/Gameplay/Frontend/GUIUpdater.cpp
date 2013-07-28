@@ -414,7 +414,7 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
     // Show only players buff
     GameSprite *sprite = NULL;
 
-    if (spriteAttrUpdate->getGameObjectId() != _player1->getID())
+    if (spriteAttrUpdate->getGameObjectId() == _player1->getID())
     {
         sprite = _player1;
     }
