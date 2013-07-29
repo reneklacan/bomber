@@ -51,9 +51,8 @@ bool LevelSelectLayer::init()
             if( strlen(ep->d_name) >= 5 && ep->d_name[0] != '.' &&
                 name.find(".tmx") != std::string::npos)
             {
-                ccMenuCallback callback = std::bind(&LevelSelectLayer::newGame, this, this, name);
+                ccMenuCallback callback = std::bind(&LevelSelectLayer::playersSelect, this, this, name);
 
-                // TODO: fix deprecated warning
                 MenuItemFont *newLevel = new MenuItemFont();
                 newLevel->initWithString(
                         ep->d_name,
@@ -86,16 +85,15 @@ bool LevelSelectLayer::init()
 }
 
 //
-void LevelSelectLayer::newGame(Object *sender, std::string levelName)
+void LevelSelectLayer::playersSelect(Object *sender, std::string levelName)
 {
-    CCLog("new game from level menu");
+    CCLog("player select from level menu");
 
     using namespace Bomber::Frontend;
     MenuSelections *ms = MenuSelections::getInstance();
     ms->setLevelName( levelName );
-    ms->setNumPlayers(2);
 
-    Scene *pScene = GameplayScene::scene();
+    Scene *pScene = PlayersSelectLayer::scene();
     Director::sharedDirector()->replaceScene(pScene);
 }
 

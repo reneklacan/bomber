@@ -3,8 +3,8 @@
 
 #include "cocos2d.h"
 
-#include "../GameplayScene.h"
 #include "../Gameplay/Frontend/Primitives/MenuHelper.h"
+#include "PlayersSelectLayer.h"
 
 #include <sys/types.h>
 #include <string>
@@ -26,7 +26,7 @@ class LevelSelectLayer : public Layer
 
     private:
 
-        void newGame(Object *sender, std::string levelName);
+        void playersSelect(Object *sender, std::string levelName);
 };
 
 #endif
