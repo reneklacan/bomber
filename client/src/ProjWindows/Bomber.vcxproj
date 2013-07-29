@@ -135,6 +135,7 @@
     <ClCompile Include="..\Classes\GameplayScene.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\AI\AI.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\AI\FollowAI.cpp" />
+    <ClCompile Include="..\Classes\Gameplay\Backend\BackendCache.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\GameObjects\BBomb.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\GameObjects\Effect.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\GameObjects\GameObject.cpp" />
@@ -186,9 +187,10 @@
     <ClInclude Include="..\Classes\GameplayScene.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\AI\AI.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\AI\FollowAI.h" />
+    <ClInclude Include="..\Classes\Gameplay\Backend\BackendCache.h" />
+    <ClInclude Include="..\Classes\Gameplay\Backend\CachableObject.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\BBomb.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Effect.h" />
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\ExplodableObject.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\GameObject.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Obstacle.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Portal.h" />

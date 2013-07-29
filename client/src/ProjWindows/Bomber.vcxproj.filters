@@ -219,6 +219,9 @@
     <ClCompile Include="..\..\lib\dirent\dirent.c">
       <Filter>Lib</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Backend\BackendCache.cpp">
+      <Filter>Classes\Gameplay\Backend</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -356,9 +359,6 @@
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Effect.h">
       <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\ExplodableObject.h">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\GameObject.h">
       <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
     </ClInclude>
@@ -424,6 +424,12 @@
     </ClInclude>
     <ClInclude Include="..\..\lib\dirent\dirent.h">
       <Filter>Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Backend\BackendCache.h">
+      <Filter>Classes\Gameplay\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Backend\CachableObject.h">
+      <Filter>Classes\Gameplay\Backend</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

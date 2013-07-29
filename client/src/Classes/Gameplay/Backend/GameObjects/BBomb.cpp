@@ -7,7 +7,12 @@
 using namespace Bomber::Backend;
 using namespace Bomber::Common;
 
-Bomb::Bomb() : ExplodableObject()
+Bomb::Bomb() : GameObject()
+{
+    this->init();
+}
+
+void Bomb::init()
 {
     _expired = 0.0f;
     _detonated = false;

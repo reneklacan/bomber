@@ -2,6 +2,7 @@
 #include "GameStateUpdater.h"
 #include "../Statistics/StatisticsUpdater.h"
 #include "../../../Constants.h"
+#include "../BackendCache.h"
 
 using namespace Bomber::Backend;
 using namespace Bomber::Common;
@@ -30,6 +31,9 @@ void GameStateUpdater::updateSpriteGrid()
 
 void GameStateUpdater::moveSprite(Sprite *sprite, Position position)
 {
+    if (sprite == nullptr)
+        return;
+
     sprite->setPosition(position);
     this->logSpriteMove(sprite);
 }
@@ -56,10 +60,13 @@ void GameStateUpdater::spawnSprite(unsigned int spriteGid, Coordinates coords)
 void GameStateUpdater::spawnBomb(Sprite *owner)
 {
     auto *bombLayer = _state->getBombLayer();
-
-    Bomb *bomb = new Bomb();
+    
+    //Bomb *bomb = new Bomb();
+    Bomb *bomb = (Bomb *) BackendCache::getInstance()->getObject(COT_BOMB);
     bomb->configure(owner);
     bomb->setId(this->getUniqueId());
+
+    printf("bomb id = %d\n", bomb->getId());
 
     bombLayer->addObject(bomb);
 
@@ -67,10 +74,10 @@ void GameStateUpdater::spawnBomb(Sprite *owner)
     this->logBombSpawn(bomb);
 }
 
-void GameStateUpdater::spawnExplosion(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
+void GameStateUpdater::spawnExplosion(Bomb *bomb, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
 {
     this->logExplosionSpawn(
-            explObj,
+            bomb,
             topArmLength,
             bottomArmLength,
             leftArmLength,
@@ -224,6 +231,7 @@ void GameStateUpdater::destroyBomb(Bomb *bomb)
     _state->getBombLayer()->removeObject(bomb);
     this->logBombDestroy(bomb);
     //delete bomb;
+    BackendCache::getInstance()->returnObject(bomb);
 }
 
 void GameStateUpdater::destroyEffect(Effect *effect)
@@ -313,19 +321,19 @@ void GameStateUpdater::logBombDestroy(Bomb *bomb)
     _state->addChange(change);
 }
 
-void GameStateUpdater::logExplosionSpawn(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
+void GameStateUpdater::logExplosionSpawn(Bomb *bomb, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
 {
     printf("logExplosionSpawn\n");
     GSCExplosionSpawn* change = new GSCExplosionSpawn();
     change->update(
-        explObj->getOwnerId(),
-        explObj->getCollisionRect().getCenterPosition(),
+        bomb->getOwnerId(),
+        bomb->getCollisionRect().getCenterPosition(),
         topArmLength,
         bottomArmLength,
         leftArmLength,
         rightArmLength
     );
-    change->setGameObjectId(explObj->getId());
+    change->setGameObjectId(bomb->getId());
     _state->addChange(change);
 }
 
