@@ -2,7 +2,7 @@
 #include "GameStateUpdater.h"
 #include "../Statistics/StatisticsUpdater.h"
 #include "../../../Constants.h"
-#include "../BackendCache.h"
+#include "../../Common/Cache/ObjectCache.h"
 
 using namespace Bomber::Backend;
 using namespace Bomber::Common;
@@ -65,7 +65,7 @@ void GameStateUpdater::spawnBomb(Sprite *owner)
     auto *bombLayer = _state->getBombLayer();
     
     //Bomb *bomb = new Bomb();
-    Bomb *bomb = (Bomb *) BackendCache::getInstance()->getObject(COT_BOMB);
+    Bomb *bomb = (Bomb *) ObjectCache::getInstance()->getObject(COT_BOMB);
     bomb->configure(owner);
     bomb->setId(this->getUniqueId());
 
@@ -228,7 +228,7 @@ void GameStateUpdater::destroySprite(Sprite *sprite)
 
     _state->getSpriteLayer()->removeObject(sprite);
 
-    BackendCache::getInstance()->returnObject(sprite);
+    ObjectCache::getInstance()->returnObject(sprite);
 }
 
 void GameStateUpdater::destroyBomb(Bomb *bomb)
@@ -236,14 +236,14 @@ void GameStateUpdater::destroyBomb(Bomb *bomb)
     _state->getBombLayer()->removeObject(bomb);
     this->logBombDestroy(bomb);
     //delete bomb;
-    BackendCache::getInstance()->returnObject(bomb);
+    ObjectCache::getInstance()->returnObject(bomb);
 }
 
 void GameStateUpdater::destroyEffect(Effect *effect)
 {
     _state->getEffectLayer()->removeObject(effect);
     this->logEffectDestroy(effect);
-    BackendCache::getInstance()->returnObject(effect);
+    ObjectCache::getInstance()->returnObject(effect);
 }
 
 void GameStateUpdater::destroyObstacle(Obstacle *obstacle, unsigned int destroyerId)
@@ -251,7 +251,7 @@ void GameStateUpdater::destroyObstacle(Obstacle *obstacle, unsigned int destroye
     StatisticsUpdater::getInstance()->obstacleDestroyed(destroyerId, obstacle);
     _state->getObstacleLayer()->removeObject(obstacle);
     this->logObstacleDestroy(obstacle);
-    BackendCache::getInstance()->returnObject(obstacle);
+    ObjectCache::getInstance()->returnObject(obstacle);
 }
 
 void GameStateUpdater::logSpriteMove(Sprite *sprite)

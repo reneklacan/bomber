@@ -10,7 +10,7 @@ namespace Bomber
         class AISprite : public FollowAI
         {
             public:
-                inline virtual TCachableObjectType getObjectType() { return COT_AI_SPRITE; };
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_AI_SPRITE; };
 
                 AISprite() : FollowAI()
                 {

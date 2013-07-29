@@ -1,5 +1,5 @@
-#ifndef __BOMBER_BACKEND_CACHE
-#define __BOMBER_BACKEND_CACHE
+#ifndef __BOMBER_COMMON_OBJECT_CACHE
+#define __BOMBER_COMMON_OBJECT_CACHE
 
 #include <map>
 #include <deque>
@@ -9,12 +9,12 @@
 
 namespace Bomber
 {
-    namespace Backend
+    namespace Common
     {
-        class BackendCache
+        class ObjectCache
         {
             public:
-                static BackendCache* getInstance();
+                static ObjectCache* getInstance();
                 
                 void enable() { _enabled = true; };
                 void disable() { _enabled = false; };
@@ -22,11 +22,13 @@ namespace Bomber
                 void returnObject(CachableObject *object);
                 void reset(TCachableObjectType type);
                 void reset();
+                void free(TCachableObjectType type);
+                void free();
 
             private:
-                static BackendCache* _instance;
+                static ObjectCache* _instance;
 
-                BackendCache();
+                ObjectCache();
 
                 bool _enabled;
                 std::map<TCachableObjectType, std::deque<CachableObject *> > _freeInstances;

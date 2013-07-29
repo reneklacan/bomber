@@ -1,35 +1,36 @@
 
 #include "stdio.h"
 
-#include "BackendCache.h"
+#include "ObjectCache.h"
 
-#include "GameObjects/Effect.h"
-#include "GameObjects/BBomb.h"
-#include "GameObjects/Portal.h"
-#include "GameObjects/PortalExit.h"
-#include "GameObjects/Obstacle.h"
-#include "GameObjects/Switch.h"
-#include "GameObjects/Sprites/AISprite.h"
+#include "../../Backend/GameObjects/Effect.h"
+#include "../../Backend/GameObjects/BBomb.h"
+#include "../../Backend/GameObjects/Portal.h"
+#include "../../Backend/GameObjects/PortalExit.h"
+#include "../../Backend/GameObjects/Obstacle.h"
+#include "../../Backend/GameObjects/Switch.h"
+#include "../../Backend/GameObjects/Sprites/AISprite.h"
 
+using namespace Bomber::Common;
 using namespace Bomber::Backend;
 
-BackendCache *BackendCache::_instance = nullptr;
+ObjectCache *ObjectCache::_instance = nullptr;
 
-BackendCache *BackendCache::getInstance()
+ObjectCache *ObjectCache::getInstance()
 {
     if (_instance == nullptr)
     {
-        _instance = new BackendCache();
+        _instance = new ObjectCache();
     }
     return _instance;
 }
 
-BackendCache::BackendCache()
+ObjectCache::ObjectCache()
 {
     _enabled = true;
 }
 
-CachableObject* BackendCache::getObject(TCachableObjectType type)
+CachableObject* ObjectCache::getObject(TCachableObjectType type)
 {
     //printf("BackendCache::getObject - type %d\n", type);
 
@@ -130,7 +131,7 @@ CachableObject* BackendCache::getObject(TCachableObjectType type)
     return object;
 }
 
-void BackendCache::returnObject(CachableObject *object)
+void ObjectCache::returnObject(CachableObject *object)
 {
     TCachableObjectType type = object->getObjectType();
     _occupiedInstances[type].erase(object);
@@ -139,7 +140,7 @@ void BackendCache::returnObject(CachableObject *object)
     //printf("occupied cache size for type %d is %u\n", type, _occupiedInstances[type].size());
 }
 
-void BackendCache::reset(TCachableObjectType type)
+void ObjectCache::reset(TCachableObjectType type)
 {
     for (auto object : _occupiedInstances[type])
     {
@@ -148,11 +149,31 @@ void BackendCache::reset(TCachableObjectType type)
     _occupiedInstances[type].clear();
 }
 
-void BackendCache::reset()
+void ObjectCache::reset()
 {
     for (auto pair : _occupiedInstances)
     {
         TCachableObjectType type = pair.first;
         this->reset(type);
+    }
+}
+
+void ObjectCache::free(TCachableObjectType type)
+{
+    this->reset(type);
+
+    for (auto object : _freeInstances[type])
+    {
+        delete object;
+    }
+    _freeInstances[type].clear();
+}
+
+void ObjectCache::free()
+{
+    for (auto pair : _freeInstances)
+    {
+        TCachableObjectType type = pair.first;
+        this->free(type);
     }
 }

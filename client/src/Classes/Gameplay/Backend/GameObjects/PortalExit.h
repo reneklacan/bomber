@@ -9,7 +9,8 @@ namespace Bomber
     {
         class PortalExit : public GameObject
         {
-
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_PORTAL_EXIT; };
         };
     }
 }

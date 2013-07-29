@@ -11,7 +11,7 @@ namespace Bomber
         class Bomb : public GameObject
         {
             public:
-                inline virtual TCachableObjectType getObjectType() { return COT_BOMB; };
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_BOMB; };
 
                 Bomb();
                 virtual void init();

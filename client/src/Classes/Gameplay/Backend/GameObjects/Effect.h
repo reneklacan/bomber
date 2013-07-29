@@ -52,7 +52,7 @@ namespace Bomber
         class EffectBombPowerInc : public Effect
         {
             public:
-                inline virtual TCachableObjectType getObjectType() { return COT_BOMB_POWER_INC; };
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_BOMB_POWER_INC; };
 
                 EffectBombPowerInc() : Effect()
                 {
@@ -69,7 +69,7 @@ namespace Bomber
         class EffectBombCapacityInc : public Effect
         {
             public:
-                inline virtual TCachableObjectType getObjectType() { return COT_BOMB_CAPACITY_INC; };
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_BOMB_CAPACITY_INC; };
 
                 EffectBombCapacityInc() : Effect()
                 {
@@ -87,7 +87,7 @@ namespace Bomber
         class EffectPortabilityOn : public Effect
         {
             public:
-                inline virtual TCachableObjectType getObjectType() { return COT_PORTABILITY_ON; };
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_PORTABILITY_ON; };
 
                 EffectPortabilityOn() : Effect()
                 {
@@ -105,7 +105,7 @@ namespace Bomber
         class EffectPortabilityOff : public Effect
         {
             public:
-                inline virtual TCachableObjectType getObjectType() { return COT_PORTABILITY_OFF; };
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_PORTABILITY_OFF; };
 
                 EffectPortabilityOff() : Effect()
                 {
@@ -123,7 +123,7 @@ namespace Bomber
         class EffectHealthInc : public Effect
         {
             public:
-                inline virtual TCachableObjectType getObjectType() { return COT_HEALTH_INC; };
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_HEALTH_INC; };
 
                 EffectHealthInc() : Effect()
                 {
@@ -141,7 +141,7 @@ namespace Bomber
         class EffectHealthDec : public Effect
         {
             public:
-                inline virtual TCachableObjectType getObjectType() { return COT_HEALTH_DEC; };
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_HEALTH_DEC; };
 
                 EffectHealthDec() : Effect()
                 {
@@ -159,7 +159,7 @@ namespace Bomber
         class EffectSpeedInc : public Effect
         {
             public:
-                inline virtual TCachableObjectType getObjectType() { return COT_SPEED_INC; };
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_SPEED_INC; };
 
                 EffectSpeedInc() : Effect()
                 {
@@ -177,7 +177,7 @@ namespace Bomber
         class EffectSpeedDec : public Effect
         {
             public:
-                inline virtual TCachableObjectType getObjectType() { return COT_SPEED_DEC; };
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_SPEED_DEC; };
 
                 EffectSpeedDec() : Effect()
                 {

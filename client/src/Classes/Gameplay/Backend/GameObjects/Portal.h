@@ -11,6 +11,8 @@ namespace Bomber
         class Portal : public GameObject
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_PORTAL; };
+
                 Portal();
                 void configure(int top, int bottom, int left, int right);
                 int getPortalTarget(Common::Coordinates coords);

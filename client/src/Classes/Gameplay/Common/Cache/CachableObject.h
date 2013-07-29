@@ -1,9 +1,9 @@
-#ifndef __BOMBER_BACKEND_CACHABLE_OBJECT
-#define __BOMBER_BACKEND_CACHABLE_OBJECT
+#ifndef __BOMBER_COMMON_CACHABLE_OBJECT
+#define __BOMBER_COMMON_CACHABLE_OBJECT
 
 namespace Bomber
 {
-    namespace Backend
+    namespace Common
     {
         enum TCachableObjectType
         {
@@ -39,7 +39,14 @@ namespace Bomber
             public:
                 inline virtual TCachableObjectType getObjectType() { return COT_NONE; };
 
-                virtual void init() {};
+                virtual void init()
+                {
+                    // derived class from CachableObject shold implement this
+                    // method as "reset" method, this method is called
+                    // before object is reused
+                    //
+                    // this method should reset object into start state
+                };
         };
     }
 }

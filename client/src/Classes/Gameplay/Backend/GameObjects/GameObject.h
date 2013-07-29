@@ -2,7 +2,7 @@
 #define __BOMBER_GAMEOBJECT
 
 #include "../../Macros.h"
-#include "../CachableObject.h"
+#include "../../Common/Cache/CachableObject.h"
 #include "../../Common/Primitives/Position.h"
 #include "../../Common/Primitives/Coordinates.h"
 #include "../../Common/Primitives/Size.h"
@@ -13,10 +13,10 @@ namespace Bomber
 {
     namespace Backend
     {
-        class GameObject : public CachableObject
+        class GameObject : public Common::CachableObject
         {
             public:
-                inline virtual TCachableObjectType getObjectType() { return COT_GAME_OBJECT; };
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_GAME_OBJECT; };
 
                 GameObject();
                 virtual void update(float dt) {};

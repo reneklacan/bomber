@@ -3,7 +3,7 @@
 #include "../../Backend/GameObjects/Sprites/Bomber.h"
 #include "../../Backend/GameObjects/Sprites/AISprite.h"
 #include "../../../Constants.h"
-#include "../../Backend/BackendCache.h"
+#include "../Cache/ObjectCache.h"
 
 using namespace Bomber::Common;
 using namespace Bomber::Backend;
@@ -36,7 +36,7 @@ GameState::~GameState()
 
 void GameState::init(cocos2d::TMXTiledMap *tiledMap)
 {
-    BackendCache::getInstance()->reset();
+    ObjectCache::getInstance()->reset();
 
     _tiledMap = tiledMap;
     
@@ -194,7 +194,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         int left =  ((cocos2d::String*) dict->objectForKey("left"))->intValue();
         int right =  ((cocos2d::String*) dict->objectForKey("right"))->intValue();
         
-        Portal *portal = (Portal *) BackendCache::getInstance()->getObject(COT_PORTAL);
+        Portal *portal = (Portal *) ObjectCache::getInstance()->getObject(COT_PORTAL);
         portal->setId(id);
         portal->setPosition(x - (x % TILE_WIDTH), y - (y % TILE_HEIGHT));
         portal->setSize(TILE_WIDTH, TILE_HEIGHT);
@@ -216,7 +216,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
         height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();   
         
-        PortalExit *portalExit = (PortalExit *) BackendCache::getInstance()->getObject(COT_PORTAL_EXIT);
+        PortalExit *portalExit = (PortalExit *) ObjectCache::getInstance()->getObject(COT_PORTAL_EXIT);
         portalExit->setId(id);
         portalExit->setPosition(x - (x % TILE_WIDTH), y - (y % TILE_HEIGHT));
         portalExit->setSize(TILE_WIDTH, TILE_HEIGHT);
@@ -243,7 +243,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         bool bombSensitive = ((cocos2d::String*) dict->objectForKey("bomb_sensitive"))->boolValue();
         bool passingSensitive = ((cocos2d::String*) dict->objectForKey("passing_sensitive"))->boolValue();
 
-        Switch *switchObject = (Switch *) BackendCache::getInstance()->getObject(COT_SWITCH);
+        Switch *switchObject = (Switch *) ObjectCache::getInstance()->getObject(COT_SWITCH);
         switchObject->setId(id);
         switchObject->setPosition(x, y);
         switchObject->setSize(width, height);
@@ -268,7 +268,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
         height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();         
 
-        GameObject *switchTarget = (GameObject *) BackendCache::getInstance()->getObject(COT_GAME_OBJECT);
+        GameObject *switchTarget = (GameObject *) ObjectCache::getInstance()->getObject(COT_GAME_OBJECT);
         switchTarget->setId(id);
         switchTarget->setPosition(x, y);
         switchTarget->setSize(width, height);

@@ -135,7 +135,6 @@
     <ClCompile Include="..\Classes\GameplayScene.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\AI\AI.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\AI\FollowAI.cpp" />
-    <ClCompile Include="..\Classes\Gameplay\Backend\BackendCache.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\GameObjects\BBomb.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\GameObjects\Effect.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\GameObjects\GameObject.cpp" />
@@ -151,6 +150,7 @@
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\GameAchievements.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\Statistics.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\StatisticsUpdater.cpp" />
+    <ClCompile Include="..\Classes\Gameplay\Common\Cache\ObjectCache.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Common\GameState\GameState.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Common\Primitives\Coordinates.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Common\Primitives\Rectangle.cpp" />
@@ -188,8 +188,6 @@
     <ClInclude Include="..\Classes\GameplayScene.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\AI\AI.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\AI\FollowAI.h" />
-    <ClInclude Include="..\Classes\Gameplay\Backend\BackendCache.h" />
-    <ClInclude Include="..\Classes\Gameplay\Backend\CachableObject.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\BBomb.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Effect.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\GameObject.h" />
@@ -210,6 +208,8 @@
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\GameAchievements.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\Statistics.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\StatisticsUpdater.h" />
+    <ClInclude Include="..\Classes\Gameplay\Common\Cache\CachableObject.h" />
+    <ClInclude Include="..\Classes\Gameplay\Common\Cache\ObjectCache.h" />
     <ClInclude Include="..\Classes\Gameplay\Common\GameState\GameState.h" />
     <ClInclude Include="..\Classes\Gameplay\Common\GameState\GameStateChange.h" />
     <ClInclude Include="..\Classes\Gameplay\Common\GameState\GameStateLayer.h" />
