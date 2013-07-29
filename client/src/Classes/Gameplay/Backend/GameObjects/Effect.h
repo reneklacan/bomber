@@ -32,8 +32,12 @@ namespace Bomber
                 {
                     _name = "effect none";
                     _type = EFFECT_NONE;
-                    _charges = 1;
+                    this->init();
                 };
+                virtual void init()
+                {
+                    _charges = 1;
+                }
                 virtual void applyToSprite(Sprite *sprite) = 0;
                 virtual void log()
                 {
