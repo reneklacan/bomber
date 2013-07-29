@@ -39,19 +39,20 @@ bool MainMenuLayer::init()
 
     Size visibleSize = Director::sharedDirector()->getVisibleSize();
     
-    // TODO: fix deprecated warning
+    ccMenuCallback callbackGame = std::bind(&MainMenuLayer::newGame, this, this);
     MenuItem *newGameItem = MenuItemImage::create(
             "menu/new_game.png",
             "menu/new_game.png",
-            this,
-            menu_selector(MainMenuLayer::newGame) 
+            callbackGame
     );
+
+    ccMenuCallback callbackLevels = std::bind(&MainMenuLayer::showLevels, this, this);
     MenuItem *levelsItem = MenuItemImage::create(
             "menu/levels.png",
             "menu/levels.png",
-            this,
-            menu_selector(MainMenuLayer::showLevels) 
+            callbackLevels
     );
+
     Menu* menu = Menu::create(newGameItem, levelsItem, NULL);
 
     newGameItem->setPosition(ccp(0, 0));
@@ -74,6 +75,11 @@ bool MainMenuLayer::init()
 void MainMenuLayer::newGame(Object *sender)
 {
     CCLog("new game from main menu");
+
+    MenuSelections *ms = MenuSelections::getInstance();
+    ms->setLevelName( "level_01.tmx" );
+    ms->setNumPlayers( 2 );
+
     Scene *pScene = GameplayScene::scene();
     Director::sharedDirector()->replaceScene(pScene);
 }
