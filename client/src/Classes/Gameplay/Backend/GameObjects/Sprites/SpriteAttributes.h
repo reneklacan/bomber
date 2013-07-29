@@ -12,9 +12,9 @@ namespace Bomber
             public:
                 SpriteAttributes()
                 {
-                    this->reset();
+                    this->init();
                 }
-                void reset()
+                void init()
                 {
                     _bombPower = 2;
                     _bombTimeout = 3.0f;

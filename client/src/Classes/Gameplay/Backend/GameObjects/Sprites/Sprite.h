@@ -16,6 +16,8 @@ namespace Bomber
                 Sprite();
                 ~Sprite();
 
+                virtual void init();
+
                 inline virtual bool isAI() { return false; };
 
             private:

@@ -47,6 +47,13 @@ Sprite::Sprite()
     _name = "sprite?";
 }
 
+void Sprite::init()
+{
+    GameObject::init();
+
+    _attributes->init();
+}
+
 Sprite::~Sprite()
 {
     delete _attributes;
