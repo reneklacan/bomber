@@ -1,5 +1,6 @@
 #include "MainMenuLayer.h"
 #include "../GameplayScene.h"
+#include "LevelSelectLayer.h"
 
 MainMenuLayer::MainMenuLayer()
 {
@@ -49,7 +50,7 @@ bool MainMenuLayer::init()
             "menu/levels.png",
             "menu/levels.png",
             this,
-            menu_selector(MainMenuLayer::newGame) 
+            menu_selector(MainMenuLayer::showLevels) 
     );
     Menu* menu = Menu::create(newGameItem, levelsItem, NULL);
 
@@ -74,6 +75,13 @@ void MainMenuLayer::newGame(Object *sender)
 {
     CCLog("new game from main menu");
     Scene *pScene = GameplayScene::scene();
+    Director::sharedDirector()->replaceScene(pScene);
+}
+
+void MainMenuLayer::showLevels(Object *sender)
+{
+    CCLog("level select from main menu");
+    Scene *pScene = LevelSelectLayer::scene();
     Director::sharedDirector()->replaceScene(pScene);
 }
 

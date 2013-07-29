@@ -1,6 +1,7 @@
 #include "Map.h"
 #include "Bomb.h"
 #include "../../../Constants.h"
+#include "../Primitives/MenuHelper.h"
 
 //
 bool Map::init()
@@ -8,7 +9,11 @@ bool Map::init()
     if (!Layer::init())
         return false;
 
-    _tiledMap = TMXTiledMap::create("tiles/level_name.tmx");
+    // create level name with appropriate path
+    std::string levelPath = "levels/";
+    levelPath.append( Bomber::Frontend::MenuSelections::getInstance()->getLevelName() );
+
+    _tiledMap = TMXTiledMap::create( levelPath.c_str() );
     this->addChild(_tiledMap, 0, 7);
     _tiledMap->setPosition(ccp(0, 0));
 

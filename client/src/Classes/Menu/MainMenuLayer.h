@@ -18,6 +18,7 @@ class MainMenuLayer : public Layer
 
     private:
         void newGame(Object *sender);
+        void showLevels(Object *sender);
 };
 
 #endif
