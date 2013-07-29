@@ -222,6 +222,9 @@
     <ClCompile Include="..\Classes\Gameplay\Backend\BackendCache.cpp">
       <Filter>Classes\Gameplay\Backend</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Menu\PlayersSelectLayer.cpp">
+      <Filter>Classes\Menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -430,6 +433,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Backend\CachableObject.h">
       <Filter>Classes\Gameplay\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Menu\PlayersSelectLayer.h">
+      <Filter>Classes\Menu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

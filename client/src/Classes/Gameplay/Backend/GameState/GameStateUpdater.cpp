@@ -32,7 +32,10 @@ void GameStateUpdater::updateSpriteGrid()
 void GameStateUpdater::moveSprite(Sprite *sprite, Position position)
 {
     if (sprite == nullptr)
+    {
+        printf("GameStateUpdater::moveSprite - sprite = null\n");
         return;
+    }
 
     sprite->setPosition(position);
     this->logSpriteMove(sprite);
@@ -100,7 +103,7 @@ void GameStateUpdater::spawnObstacle(unsigned int obstacleGid, Coordinates coord
 
 void GameStateUpdater::spawnEffect(unsigned int effectGid, Coordinates coords)
 {
-    Effect *effect= Effect::getInstanceByGid(effectGid);
+    Effect *effect = Effect::getInstanceByGid(effectGid);
     effect->setId(coords.y*_state->getWidth() + coords.x);
     effect->setPosition(coords.x*TILE_WIDTH, coords.y*TILE_HEIGHT);
     effect->setSize(TILE_WIDTH, TILE_HEIGHT);
@@ -224,6 +227,8 @@ void GameStateUpdater::destroySprite(Sprite *sprite)
     this->logSpriteDestroy(sprite);
 
     _state->getSpriteLayer()->removeObject(sprite);
+
+    BackendCache::getInstance()->returnObject(sprite);
 }
 
 void GameStateUpdater::destroyBomb(Bomb *bomb)
@@ -238,6 +243,7 @@ void GameStateUpdater::destroyEffect(Effect *effect)
 {
     _state->getEffectLayer()->removeObject(effect);
     this->logEffectDestroy(effect);
+    BackendCache::getInstance()->returnObject(effect);
 }
 
 void GameStateUpdater::destroyObstacle(Obstacle *obstacle, unsigned int destroyerId)
@@ -245,6 +251,7 @@ void GameStateUpdater::destroyObstacle(Obstacle *obstacle, unsigned int destroye
     StatisticsUpdater::getInstance()->obstacleDestroyed(destroyerId, obstacle);
     _state->getObstacleLayer()->removeObject(obstacle);
     this->logObstacleDestroy(obstacle);
+    BackendCache::getInstance()->returnObject(obstacle);
 }
 
 void GameStateUpdater::logSpriteMove(Sprite *sprite)

@@ -3,6 +3,8 @@
 
 #include "Obstacle.h"
 
+#include "../BackendCache.h"
+
 using namespace Bomber::Backend;
 
 Obstacle *Obstacle::getInstanceByGid(unsigned int gid)
@@ -13,17 +15,17 @@ Obstacle *Obstacle::getInstanceByGid(unsigned int gid)
     {
         case 20:
         case 36:
-            obstacle = new MazeBlock();
+            obstacle = (Obstacle *) BackendCache::getInstance()->getObject(COT_MAZE_BLOCK);
             break;
         case 25:
-            obstacle = new LeverBlock();
+            obstacle = (Obstacle *) BackendCache::getInstance()->getObject(COT_LEVER_BLOCK);
             break;
         case 41:
         case 42:
-            obstacle = new DestroyableBlock();
+            obstacle = (Obstacle *) BackendCache::getInstance()->getObject(COT_DESTROYABLE_BLOCK);
             break;
         case 43:
-            obstacle = new PushableBlock();
+            obstacle = (Obstacle *) BackendCache::getInstance()->getObject(COT_PUSHABLE_BLOCK);
             break;
         default:
             printf("Obstacle::getInstanceByGid - unknown obstacle gid %u\n", gid);

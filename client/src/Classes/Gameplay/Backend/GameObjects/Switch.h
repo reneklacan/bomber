@@ -11,6 +11,8 @@ namespace Bomber
         class Switch : public GameObject
         {
             public:
+                inline virtual TCachableObjectType getObjectType() { return COT_SWITCH; };
+
                 Switch() : GameObject()
                 ,_oneTime(false)
                 ,_bombSensitive(false)

@@ -6,10 +6,6 @@
 #include <set>
 
 #include "CachableObject.h"
-#include "GameObjects\Effect.h"
-#include "GameObjects\BBomb.h"
-#include "GameObjects\Portal.h"
-#include "GameObjects\PortalExit.h"
 
 namespace Bomber
 {
@@ -18,13 +14,10 @@ namespace Bomber
         class BackendCache
         {
             public:
-                Effect *getEffect();
-                void returnEffect(Effect *object);
-                Bomb *getBomb();
-                void returnBomb(Bomb *bomb);
-
                 static BackendCache* getInstance();
-
+                
+                void enable() { _enabled = true; };
+                void disable() { _enabled = false; };
                 CachableObject* getObject(TCachableObjectType type);
                 void returnObject(CachableObject *object);
                 void reset(TCachableObjectType type);

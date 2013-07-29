@@ -10,12 +10,20 @@ namespace Bomber
         class AISprite : public FollowAI
         {
             public:
+                inline virtual TCachableObjectType getObjectType() { return COT_AI_SPRITE; };
+
                 AISprite() : FollowAI()
                 {
                     _smart = true;
                     _attributes->setSpeed(50);
                     //_attributes->setBombCapacity(2);
                     //_attributes->setGhostMode(true);
+                    this->init();
+                }
+
+                virtual void init()
+                {
+                    FollowAI::init();
                 }
         };
     }

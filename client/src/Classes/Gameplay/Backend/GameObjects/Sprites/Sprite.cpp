@@ -3,12 +3,13 @@
 
 #include "Sprite.h"
 #include "AISprite.h"
+#include "../../BackendCache.h"
 
 using namespace Bomber::Backend;
 
 Sprite *Sprite::getInstanceByGid(unsigned int gid)
 {
-    AISprite *sprite = new AISprite();
+    AISprite *sprite = (AISprite *) BackendCache::getInstance()->getObject(COT_AI_SPRITE);
     sprite->setGid(gid);
         
     switch(gid)

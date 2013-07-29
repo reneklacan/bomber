@@ -175,6 +175,7 @@
     <ClCompile Include="..\Classes\Menu\CreditsLayer.cpp" />
     <ClCompile Include="..\Classes\Menu\LevelSelectLayer.cpp" />
     <ClCompile Include="..\Classes\Menu\MainMenuLayer.cpp" />
+    <ClCompile Include="..\Classes\Menu\PlayersSelectLayer.cpp" />
     <ClCompile Include="..\Classes\Menu\SettingsLayer.cpp" />
     <ClCompile Include="..\ProjWindows\Main.cpp" />
   </ItemGroup>
@@ -246,6 +247,7 @@
     <ClInclude Include="..\Classes\Menu\CreditsLayer.h" />
     <ClInclude Include="..\Classes\Menu\LevelSelectLayer.h" />
     <ClInclude Include="..\Classes\Menu\MainMenuLayer.h" />
+    <ClInclude Include="..\Classes\Menu\PlayersSelectLayer.h" />
     <ClInclude Include="..\Classes\Menu\SettingsLayer.h" />
     <ClInclude Include="..\ProjWindows\Main.h" />
   </ItemGroup>
