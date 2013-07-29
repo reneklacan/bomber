@@ -14,8 +14,6 @@ namespace Bomber
 
                 AISprite() : FollowAI()
                 {
-                    _smart = true;
-                    _attributes->setSpeed(50);
                     //_attributes->setBombCapacity(2);
                     //_attributes->setGhostMode(true);
                     this->init();
@@ -24,6 +22,9 @@ namespace Bomber
                 virtual void init()
                 {
                     FollowAI::init();
+
+                    _smart = true;
+                    _attributes->setSpeed(50);
                 }
         };
     }
