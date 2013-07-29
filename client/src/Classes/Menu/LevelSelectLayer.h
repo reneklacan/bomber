@@ -7,7 +7,6 @@
 #include "../Gameplay/Frontend/Primitives/MenuHelper.h"
 
 #include <sys/types.h>
-#include <dirent.h>
 #include <string>
 
 using namespace cocos2d;

@@ -1,5 +1,11 @@
 #include "LevelSelectLayer.h"
 
+#ifdef _WINDOWS
+    #include "../../../lib/dirent/dirent.h"
+#else
+    #include <dirent.h>
+#endif
+
 //
 Scene* LevelSelectLayer::scene()
 {

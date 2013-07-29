@@ -128,6 +128,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\lib\dirent\dirent.c" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\Configuration.cpp" />
     <ClCompile Include="..\Classes\GameOverScene.cpp" />
@@ -171,11 +172,13 @@
     <ClCompile Include="..\Classes\Input\Keyboard\Keyboard.cpp" />
     <ClCompile Include="..\Classes\Input\Touch\Joystick.cpp" />
     <ClCompile Include="..\Classes\Menu\CreditsLayer.cpp" />
+    <ClCompile Include="..\Classes\Menu\LevelSelectLayer.cpp" />
     <ClCompile Include="..\Classes\Menu\MainMenuLayer.cpp" />
     <ClCompile Include="..\Classes\Menu\SettingsLayer.cpp" />
     <ClCompile Include="..\ProjWindows\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\lib\dirent\dirent.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\Configuration.h" />
     <ClInclude Include="..\Classes\Constants.h" />
@@ -227,6 +230,7 @@
     <ClInclude Include="..\Classes\Gameplay\Frontend\Map\Explosion.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Map\Map.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Primitives\AnimationHelper.h" />
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Primitives\MenuHelper.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\GameSprite.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\Human.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\SpriteCreator.h" />
@@ -238,6 +242,7 @@
     <ClInclude Include="..\Classes\Input\Keyboard\Keyboard.h" />
     <ClInclude Include="..\Classes\Input\Touch\Joystick.h" />
     <ClInclude Include="..\Classes\Menu\CreditsLayer.h" />
+    <ClInclude Include="..\Classes\Menu\LevelSelectLayer.h" />
     <ClInclude Include="..\Classes\Menu\MainMenuLayer.h" />
     <ClInclude Include="..\Classes\Menu\SettingsLayer.h" />
     <ClInclude Include="..\ProjWindows\Main.h" />

@@ -70,6 +70,9 @@
     <Filter Include="Classes\Gameplay\Backend\GameState">
       <UniqueIdentifier>{80b91a6a-03cc-4a4b-8cf6-200625d64bb8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib">
+      <UniqueIdentifier>{f621f278-f86b-41ef-8f9a-89534764d4c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -209,6 +212,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Configuration.cpp">
       <Filter>Classes\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Menu\LevelSelectLayer.cpp">
+      <Filter>Classes\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\dirent\dirent.c">
+      <Filter>Lib</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -406,6 +415,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Configuration.h">
       <Filter>Classes\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Menu\LevelSelectLayer.h">
+      <Filter>Classes\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Primitives\MenuHelper.h">
+      <Filter>Classes\Gameplay\Frontend\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\dirent\dirent.h">
+      <Filter>Lib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
