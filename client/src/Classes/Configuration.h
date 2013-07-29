@@ -23,6 +23,13 @@ namespace Bomber
 
                 int kbPlayer1BombKey;
                 
+                int kbPlayer1UpKeyAlt;
+                int kbPlayer1DownKeyAlt;
+                int kbPlayer1LeftKeyAlt;
+                int kbPlayer1RightKeyAlt;
+
+                int kbPlayer1BombKeyAlt;
+                
                 // player 2 keyboard configuration
                 int kbPlayer2UpKey;
                 int kbPlayer2DownKey;
@@ -30,6 +37,13 @@ namespace Bomber
                 int kbPlayer2RightKey;
 
                 int kbPlayer2BombKey;
+
+                int kbPlayer2UpKeyAlt;
+                int kbPlayer2DownKeyAlt;
+                int kbPlayer2LeftKeyAlt;
+                int kbPlayer2RightKeyAlt;
+
+                int kbPlayer2BombKeyAlt;
 
             private:
                 static BomberConfiguration *_instance;

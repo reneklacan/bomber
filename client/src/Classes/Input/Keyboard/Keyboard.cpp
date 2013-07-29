@@ -33,45 +33,45 @@ void Keyboard::keyPressed(int keyCode)
     BomberConfiguration *configuration = BomberConfiguration::getInstance();
     
     // player 1 keys
-    if (keyCode == configuration->kbPlayer1UpKey)
+    if (keyCode == configuration->kbPlayer1UpKey || keyCode == configuration->kbPlayer1UpKeyAlt)
     {
         _player1UpKeyPressed = true;
     }
-    if (keyCode == configuration->kbPlayer1DownKey)
+    if (keyCode == configuration->kbPlayer1DownKey || keyCode == configuration->kbPlayer1DownKeyAlt)
     {
         _player1DownKeyPressed = true;
     }
-    if (keyCode == configuration->kbPlayer1LeftKey)
+    if (keyCode == configuration->kbPlayer1LeftKey || keyCode == configuration->kbPlayer1LeftKeyAlt)
     {
         _player1LeftKeyPressed = true;
     }
-    if (keyCode == configuration->kbPlayer1RightKey)
+    if (keyCode == configuration->kbPlayer1RightKey || keyCode == configuration->kbPlayer1RightKeyAlt)
     {
         _player1RightKeyPressed = true;
     }
-    if (keyCode == configuration->kbPlayer1BombKey)
+    if (keyCode == configuration->kbPlayer1BombKey || keyCode == configuration->kbPlayer1BombKeyAlt)
     {
         _player1ActionDelegate->actionOne();
     }
 
     // player 2 keys
-    if (keyCode == configuration->kbPlayer2UpKey)
+    if (keyCode == configuration->kbPlayer2UpKey || keyCode == configuration->kbPlayer2UpKeyAlt)
     {
         _player2UpKeyPressed = true;
     }
-    if (keyCode == configuration->kbPlayer2DownKey)
+    if (keyCode == configuration->kbPlayer2DownKey || keyCode == configuration->kbPlayer2DownKeyAlt)
     {
         _player2DownKeyPressed = true;
     }
-    if (keyCode == configuration->kbPlayer2LeftKey)
+    if (keyCode == configuration->kbPlayer2LeftKey || keyCode == configuration->kbPlayer2LeftKeyAlt)
     {
         _player2LeftKeyPressed = true;
     }
-    if (keyCode == configuration->kbPlayer2RightKey)
+    if (keyCode == configuration->kbPlayer2RightKey || keyCode == configuration->kbPlayer2RightKeyAlt)
     {
         _player2RightKeyPressed = true;
     }
-    if (keyCode == configuration->kbPlayer2BombKey)
+    if (keyCode == configuration->kbPlayer2BombKey || keyCode == configuration->kbPlayer2BombKeyAlt)
     {
         _player2ActionDelegate->actionOne();
     }
