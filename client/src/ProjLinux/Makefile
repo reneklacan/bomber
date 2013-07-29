@@ -21,6 +21,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Common/GameState/GameState.cpp \
         ../Classes/Gameplay/Backend/Mediator.cpp \
         ../Classes/Gameplay/Backend/Logic.cpp \
+        ../Classes/Gameplay/Backend/BackendCache.cpp \
         ../Classes/Gameplay/Backend/GameState/GameStateUpdater.cpp \
         ../Classes/Gameplay/Backend/GameObjects/GameObject.cpp \
         ../Classes/Gameplay/Backend/GameObjects/Sprites/Sprite.cpp \
