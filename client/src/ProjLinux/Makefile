@@ -19,6 +19,7 @@ SOURCES = Main.cpp \
         ../Classes/Gameplay/Common/Primitives/Coordinates.cpp \
         ../Classes/Gameplay/Common/Primitives/Rectangle.cpp \
         ../Classes/Gameplay/Common/GameState/GameState.cpp \
+        ../Classes/Gameplay/Common/Cache/ObjectCache.cpp \
         ../Classes/Gameplay/Backend/Mediator.cpp \
         ../Classes/Gameplay/Backend/Logic.cpp \
         ../Classes/Gameplay/Backend/GameState/GameStateUpdater.cpp \

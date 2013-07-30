@@ -73,6 +73,9 @@
     <Filter Include="Lib">
       <UniqueIdentifier>{f621f278-f86b-41ef-8f9a-89534764d4c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Gameplay\Common\Cache">
+      <UniqueIdentifier>{caf66117-34d2-4489-98df-e15705d0100e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -219,6 +222,12 @@
     <ClCompile Include="..\..\lib\dirent\dirent.c">
       <Filter>Lib</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Menu\PlayersSelectLayer.cpp">
+      <Filter>Classes\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Gameplay\Common\Cache\ObjectCache.cpp">
+      <Filter>Classes\Gameplay\Common\Cache</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -356,9 +365,6 @@
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Effect.h">
       <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\ExplodableObject.h">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\GameObject.h">
       <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
     </ClInclude>
@@ -424,6 +430,15 @@
     </ClInclude>
     <ClInclude Include="..\..\lib\dirent\dirent.h">
       <Filter>Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Menu\PlayersSelectLayer.h">
+      <Filter>Classes\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Common\Cache\CachableObject.h">
+      <Filter>Classes\Gameplay\Common\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Common\Cache\ObjectCache.h">
+      <Filter>Classes\Gameplay\Common\Cache</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

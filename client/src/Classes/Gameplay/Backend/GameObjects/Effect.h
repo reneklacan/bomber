@@ -32,8 +32,12 @@ namespace Bomber
                 {
                     _name = "effect none";
                     _type = EFFECT_NONE;
-                    _charges = 1;
+                    this->init();
                 };
+                virtual void init()
+                {
+                    _charges = 1;
+                }
                 virtual void applyToSprite(Sprite *sprite) = 0;
                 virtual void log()
                 {
@@ -48,6 +52,8 @@ namespace Bomber
         class EffectBombPowerInc : public Effect
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_BOMB_POWER_INC; };
+
                 EffectBombPowerInc() : Effect()
                 {
                     _name = "effect flame inc";
@@ -63,6 +69,8 @@ namespace Bomber
         class EffectBombCapacityInc : public Effect
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_BOMB_CAPACITY_INC; };
+
                 EffectBombCapacityInc() : Effect()
                 {
                     _name = "effect bomb cap inc";
@@ -79,6 +87,8 @@ namespace Bomber
         class EffectPortabilityOn : public Effect
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_PORTABILITY_ON; };
+
                 EffectPortabilityOn() : Effect()
                 {
                     _name = "effect portability on";
@@ -95,6 +105,8 @@ namespace Bomber
         class EffectPortabilityOff : public Effect
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_PORTABILITY_OFF; };
+
                 EffectPortabilityOff() : Effect()
                 {
                     _name = "effect portability off";
@@ -111,6 +123,8 @@ namespace Bomber
         class EffectHealthInc : public Effect
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_HEALTH_INC; };
+
                 EffectHealthInc() : Effect()
                 {
                     _name = "effect heath inc";
@@ -127,6 +141,8 @@ namespace Bomber
         class EffectHealthDec : public Effect
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_HEALTH_DEC; };
+
                 EffectHealthDec() : Effect()
                 {
                     _name = "effect heath dec";
@@ -143,6 +159,8 @@ namespace Bomber
         class EffectSpeedInc : public Effect
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_SPEED_INC; };
+
                 EffectSpeedInc() : Effect()
                 {
                     _name = "effect speed inc";
@@ -159,6 +177,8 @@ namespace Bomber
         class EffectSpeedDec : public Effect
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_SPEED_DEC; };
+
                 EffectSpeedDec() : Effect()
                 {
                     _name = "effect speed inc";

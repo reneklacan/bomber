@@ -3,12 +3,14 @@
 
 #include "Sprite.h"
 #include "AISprite.h"
+#include "../../../Common/Cache/ObjectCache.h"
 
 using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 Sprite *Sprite::getInstanceByGid(unsigned int gid)
 {
-    AISprite *sprite = new AISprite();
+    AISprite *sprite = (AISprite *) ObjectCache::getInstance()->getObject(COT_AI_SPRITE);
     sprite->setGid(gid);
         
     switch(gid)
@@ -44,6 +46,13 @@ Sprite::Sprite()
 ,_attributes(new SpriteAttributes())
 {
     _name = "sprite?";
+}
+
+void Sprite::init()
+{
+    GameObject::init();
+
+    _attributes->init();
 }
 
 Sprite::~Sprite()

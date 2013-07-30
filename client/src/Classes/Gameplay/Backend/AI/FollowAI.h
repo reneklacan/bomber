@@ -18,6 +18,7 @@ namespace Bomber
         {
             public:
                 FollowAI();
+                virtual void init();
                 void update(float dt);
                 inline virtual bool isAI() { return true; };
 

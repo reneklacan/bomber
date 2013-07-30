@@ -31,8 +31,6 @@ namespace Bomber
                 bool spawnBomb(unsigned int);
                 bool spawnBomb(Sprite *owner);
 
-                void spawnExplosion(ExplodableObject *explObj);
-
                 bool makeBombImpact(Bomb *bomb, Common::Coordinates coords, int *penetration, int *spritesKilled);
 
                 void kickBomb(unsigned int spriteId, Common::Coordinates coords, int direction);

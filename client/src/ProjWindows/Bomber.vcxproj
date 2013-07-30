@@ -150,6 +150,7 @@
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\GameAchievements.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\Statistics.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\StatisticsUpdater.cpp" />
+    <ClCompile Include="..\Classes\Gameplay\Common\Cache\ObjectCache.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Common\GameState\GameState.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Common\Primitives\Coordinates.cpp" />
     <ClCompile Include="..\Classes\Gameplay\Common\Primitives\Rectangle.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="..\Classes\Menu\CreditsLayer.cpp" />
     <ClCompile Include="..\Classes\Menu\LevelSelectLayer.cpp" />
     <ClCompile Include="..\Classes\Menu\MainMenuLayer.cpp" />
+    <ClCompile Include="..\Classes\Menu\PlayersSelectLayer.cpp" />
     <ClCompile Include="..\Classes\Menu\SettingsLayer.cpp" />
     <ClCompile Include="..\ProjWindows\Main.cpp" />
   </ItemGroup>
@@ -188,7 +190,6 @@
     <ClInclude Include="..\Classes\Gameplay\Backend\AI\FollowAI.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\BBomb.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Effect.h" />
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\ExplodableObject.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\GameObject.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Obstacle.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Portal.h" />
@@ -207,6 +208,8 @@
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\GameAchievements.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\Statistics.h" />
     <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\StatisticsUpdater.h" />
+    <ClInclude Include="..\Classes\Gameplay\Common\Cache\CachableObject.h" />
+    <ClInclude Include="..\Classes\Gameplay\Common\Cache\ObjectCache.h" />
     <ClInclude Include="..\Classes\Gameplay\Common\GameState\GameState.h" />
     <ClInclude Include="..\Classes\Gameplay\Common\GameState\GameStateChange.h" />
     <ClInclude Include="..\Classes\Gameplay\Common\GameState\GameStateLayer.h" />
@@ -244,6 +247,7 @@
     <ClInclude Include="..\Classes\Menu\CreditsLayer.h" />
     <ClInclude Include="..\Classes\Menu\LevelSelectLayer.h" />
     <ClInclude Include="..\Classes\Menu\MainMenuLayer.h" />
+    <ClInclude Include="..\Classes\Menu\PlayersSelectLayer.h" />
     <ClInclude Include="..\Classes\Menu\SettingsLayer.h" />
     <ClInclude Include="..\ProjWindows\Main.h" />
   </ItemGroup>

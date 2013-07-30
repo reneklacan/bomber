@@ -31,7 +31,7 @@ namespace Bomber
                 
                 void spawnSprite(unsigned int spriteGid, Common::Coordinates coords);
                 void spawnBomb(Sprite* owner);
-                void spawnExplosion(ExplodableObject *explObji, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
+                void spawnExplosion(Bomb *bomb, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void spawnObstacle(unsigned int obstacleGid, Common::Coordinates coords, unsigned int spawnerId);
                 void spawnEffect(unsigned int effectGid, Common::Coordinates coords);
                 
@@ -60,7 +60,7 @@ namespace Bomber
                 void logObstacleSpawn(unsigned int obstacleGid, Obstacle *obstacle, unsigned int spawnerId);
                 void logEffectSpawn(Effect *effect);
                 void logBombDestroy(Bomb *bomb);
-                void logExplosionSpawn(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
+                void logExplosionSpawn(Bomb *bomb, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void logObstacleDestroy(Obstacle *obstacle);
                 void logSpriteAttributesUpdate(Sprite *sprite, Effect *effect);
                 void logBlockPush(Common::Coordinates from, Common::Coordinates to);

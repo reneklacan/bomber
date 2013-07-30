@@ -3,6 +3,7 @@
 
 #include "../../Macros.h"
 #include "../Primitives/Position.h"
+#include "../Primitives/Coordinates.h"
 
 namespace Bomber
 {

@@ -1,7 +1,10 @@
 
 #include "Effect.h"
 
+#include "../../Common/Cache/ObjectCache.h"
+
 using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 Effect *Effect::getInstanceByGid(unsigned int gid)
 {
@@ -10,13 +13,13 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
     switch(gid)
     {
         case 13:
-            effect = new EffectBombCapacityInc();
+            effect = (Effect *) ObjectCache::getInstance()->getObject(COT_BOMB_CAPACITY_INC);
             break;
         case 18:
-            effect = new EffectSpeedInc();
+            effect = (Effect *) ObjectCache::getInstance()->getObject(COT_SPEED_INC);
             break;
         case 46:
-            effect = new EffectBombPowerInc();
+            effect = (Effect *) ObjectCache::getInstance()->getObject(COT_BOMB_POWER_INC);
             break;
         default:
             printf("Effect::getInstanceByGid - unknown effect gid %u\n", gid);

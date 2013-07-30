@@ -2,6 +2,7 @@
 #include "GameStateUpdater.h"
 #include "../Statistics/StatisticsUpdater.h"
 #include "../../../Constants.h"
+#include "../../Common/Cache/ObjectCache.h"
 
 using namespace Bomber::Backend;
 using namespace Bomber::Common;
@@ -30,6 +31,12 @@ void GameStateUpdater::updateSpriteGrid()
 
 void GameStateUpdater::moveSprite(Sprite *sprite, Position position)
 {
+    if (sprite == nullptr)
+    {
+        printf("GameStateUpdater::moveSprite - sprite = null\n");
+        return;
+    }
+
     sprite->setPosition(position);
     this->logSpriteMove(sprite);
 }
@@ -56,10 +63,13 @@ void GameStateUpdater::spawnSprite(unsigned int spriteGid, Coordinates coords)
 void GameStateUpdater::spawnBomb(Sprite *owner)
 {
     auto *bombLayer = _state->getBombLayer();
-
-    Bomb *bomb = new Bomb();
+    
+    //Bomb *bomb = new Bomb();
+    Bomb *bomb = (Bomb *) ObjectCache::getInstance()->getObject(COT_BOMB);
     bomb->configure(owner);
     bomb->setId(this->getUniqueId());
+
+    printf("bomb id = %d\n", bomb->getId());
 
     bombLayer->addObject(bomb);
 
@@ -67,10 +77,10 @@ void GameStateUpdater::spawnBomb(Sprite *owner)
     this->logBombSpawn(bomb);
 }
 
-void GameStateUpdater::spawnExplosion(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
+void GameStateUpdater::spawnExplosion(Bomb *bomb, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
 {
     this->logExplosionSpawn(
-            explObj,
+            bomb,
             topArmLength,
             bottomArmLength,
             leftArmLength,
@@ -93,7 +103,7 @@ void GameStateUpdater::spawnObstacle(unsigned int obstacleGid, Coordinates coord
 
 void GameStateUpdater::spawnEffect(unsigned int effectGid, Coordinates coords)
 {
-    Effect *effect= Effect::getInstanceByGid(effectGid);
+    Effect *effect = Effect::getInstanceByGid(effectGid);
     effect->setId(coords.y*_state->getWidth() + coords.x);
     effect->setPosition(coords.x*TILE_WIDTH, coords.y*TILE_HEIGHT);
     effect->setSize(TILE_WIDTH, TILE_HEIGHT);
@@ -217,6 +227,8 @@ void GameStateUpdater::destroySprite(Sprite *sprite)
     this->logSpriteDestroy(sprite);
 
     _state->getSpriteLayer()->removeObject(sprite);
+
+    ObjectCache::getInstance()->returnObject(sprite);
 }
 
 void GameStateUpdater::destroyBomb(Bomb *bomb)
@@ -224,12 +236,14 @@ void GameStateUpdater::destroyBomb(Bomb *bomb)
     _state->getBombLayer()->removeObject(bomb);
     this->logBombDestroy(bomb);
     //delete bomb;
+    ObjectCache::getInstance()->returnObject(bomb);
 }
 
 void GameStateUpdater::destroyEffect(Effect *effect)
 {
     _state->getEffectLayer()->removeObject(effect);
     this->logEffectDestroy(effect);
+    ObjectCache::getInstance()->returnObject(effect);
 }
 
 void GameStateUpdater::destroyObstacle(Obstacle *obstacle, unsigned int destroyerId)
@@ -237,6 +251,7 @@ void GameStateUpdater::destroyObstacle(Obstacle *obstacle, unsigned int destroye
     StatisticsUpdater::getInstance()->obstacleDestroyed(destroyerId, obstacle);
     _state->getObstacleLayer()->removeObject(obstacle);
     this->logObstacleDestroy(obstacle);
+    ObjectCache::getInstance()->returnObject(obstacle);
 }
 
 void GameStateUpdater::logSpriteMove(Sprite *sprite)
@@ -313,19 +328,19 @@ void GameStateUpdater::logBombDestroy(Bomb *bomb)
     _state->addChange(change);
 }
 
-void GameStateUpdater::logExplosionSpawn(ExplodableObject *explObj, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
+void GameStateUpdater::logExplosionSpawn(Bomb *bomb, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength)
 {
     printf("logExplosionSpawn\n");
     GSCExplosionSpawn* change = new GSCExplosionSpawn();
     change->update(
-        explObj->getOwnerId(),
-        explObj->getCollisionRect().getCenterPosition(),
+        bomb->getOwnerId(),
+        bomb->getCollisionRect().getCenterPosition(),
         topArmLength,
         bottomArmLength,
         leftArmLength,
         rightArmLength
     );
-    change->setGameObjectId(explObj->getId());
+    change->setGameObjectId(bomb->getId());
     _state->addChange(change);
 }
 

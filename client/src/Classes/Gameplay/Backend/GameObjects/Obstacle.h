@@ -28,6 +28,8 @@ namespace Bomber
         class MazeBlock : public Obstacle
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_MAZE_BLOCK; };
+
                 MazeBlock() : Obstacle()
                 {
                     _name = "maze block";
@@ -38,6 +40,8 @@ namespace Bomber
         class DestroyableBlock : public Obstacle
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_DESTROYABLE_BLOCK; };
+
                 DestroyableBlock() : Obstacle()
                 {
                     _name = "destroyable block";
@@ -48,6 +52,8 @@ namespace Bomber
         class PushableBlock : public Obstacle
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_PUSHABLE_BLOCK; };
+
                 PushableBlock() : Obstacle()
                 {
                     _name = "pushable block";
@@ -59,6 +65,8 @@ namespace Bomber
         class LeverBlock : public Obstacle
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_LEVER_BLOCK; };
+
                 LeverBlock() : Obstacle()
                 {
                     _name = "lever";

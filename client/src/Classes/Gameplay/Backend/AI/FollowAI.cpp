@@ -6,13 +6,18 @@
 using namespace Bomber::Backend;
 using namespace Bomber::Common;
 
-FollowAI::FollowAI()
-: Sprite()
-, _state(STATE_NONE)
-, _aggroDistance(-1.0)
-, _smart(true)
+FollowAI::FollowAI() : Sprite()
 {
+    this->init();
+}
 
+void FollowAI::init()
+{
+    Sprite::init();
+
+    _state = STATE_NONE;
+    _aggroDistance = -0.1f;
+    _smart = true;
 }
 
 void FollowAI::update(float dt)

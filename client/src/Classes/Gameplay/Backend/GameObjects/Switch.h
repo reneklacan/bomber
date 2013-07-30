@@ -11,6 +11,8 @@ namespace Bomber
         class Switch : public GameObject
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_SWITCH; };
+
                 Switch() : GameObject()
                 ,_oneTime(false)
                 ,_bombSensitive(false)
