@@ -27,7 +27,7 @@ ObjectCache *ObjectCache::getInstance()
 
 ObjectCache::ObjectCache()
 {
-    _enabled = true;
+    _enabled = false;
 }
 
 CachableObject* ObjectCache::getObject(TCachableObjectType type)

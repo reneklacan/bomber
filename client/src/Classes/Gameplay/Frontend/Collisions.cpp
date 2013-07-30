@@ -98,18 +98,25 @@ std::vector<bool> Collisions::eval(GameSprite *sprite)
     std::vector<unsigned int> toRemove;
     for(auto freeArea : _collisionFreeAreas)
     {
-        if( (currentPoint.x - freeArea.second.x) > 55 ||    // Push left
-            (currentPoint.y - freeArea.second.y) > 45 ||    // Push up
-            (freeArea.second.x - currentPoint.x) > 60 ||    // Push right
-            (freeArea.second.y - currentPoint.y) > 50 )     // Push down
+        auto fa = freeArea.second;
+        if( (currentPoint.x - fa->getX()) > 55 ||    // Push left
+            (currentPoint.y - fa->getY()) > 55 ||    // Push up
+            (fa->getX() - currentPoint.x) > 60 ||    // Push right
+            (fa->getY() - currentPoint.y) > 50 )     // Push down
         {
-            toRemove.push_back(freeArea.first);
+            fa->removePlayer( sprite->getID() );
+            if( fa->isEmpty() )
+            {
+                std::cout << "EMPTY\n";
+                toRemove.push_back(freeArea.first);
+            }
         }
     }
     for(auto idToRemove : toRemove)
     {
         _collisionFreeAreas.erase(idToRemove);
-    } 
+    }
+
 
     // Evaluation
     result[1] = this->evalPartial(sprite, nextPointX, directionX);
@@ -143,7 +150,7 @@ bool Collisions::evalPartial(GameSprite *sprite, Point nextPoint, Common::TDirec
 }
 
 //
-Sprite *Collisions::getBombAtPosition(int x, int y)
+Sprite *Collisions::getBombAtPosition(int x, int y, unsigned int playerID)
 {
     Sprite *result = NULL;
     for(auto bomb : (*_bombs))
@@ -151,10 +158,19 @@ Sprite *Collisions::getBombAtPosition(int x, int y)
         Point pos = bomb.second->getPosition();
         if( ((int)pos.x/TILE_WIDTH == x) && ((int)pos.y/TILE_HEIGHT == y) )
         {
-            if(_collisionFreeAreas.find(bomb.first) == _collisionFreeAreas.end())
+            auto area = _collisionFreeAreas.find(bomb.first);
+            if(area == _collisionFreeAreas.end())
             {
                 result = dynamic_cast<Sprite *>(bomb.second);
                 return result;
+            }
+            else
+            {
+                if( !area->second->playerInArea(playerID) )
+                {
+                    result = dynamic_cast<Sprite *>(bomb.second);
+                    return result;
+                }
             }
         }
     }
@@ -162,9 +178,9 @@ Sprite *Collisions::getBombAtPosition(int x, int y)
 }
 
 //
-void Collisions::setCFA(unsigned int id, Point point)
+void Collisions::setCFA(unsigned int id, CollisionArea *area)
 {
-    _collisionFreeAreas[ id ] = point;
+    _collisionFreeAreas[ id ] = area;
 }
 
 //
@@ -267,7 +283,7 @@ bool Collisions::evalBombs(GameSprite *sprite, Point nextPoint, Common::TDirecti
     // Top Left
     offsetX = (nextPoint.x - _BWLeft) / TILE_WIDTH;
     offsetY = (nextPoint.y + _BHTop) / TILE_HEIGHT;
-    auto bomb = this->getBombAtPosition(offsetX, offsetY);
+    auto bomb = this->getBombAtPosition(offsetX, offsetY, sprite->getID());
     if( bomb != NULL)
     {
         Common::Coordinates coords = Common::Coordinates(
@@ -279,7 +295,7 @@ bool Collisions::evalBombs(GameSprite *sprite, Point nextPoint, Common::TDirecti
     }
     // Top Right
     offsetX = (nextPoint.x + _BWRight) / TILE_WIDTH;
-    bomb = this->getBombAtPosition(offsetX, offsetY);
+    bomb = this->getBombAtPosition(offsetX, offsetY, sprite->getID());
     if( bomb != NULL)
     {
         Common::Coordinates coords = Common::Coordinates(
@@ -293,7 +309,7 @@ bool Collisions::evalBombs(GameSprite *sprite, Point nextPoint, Common::TDirecti
     // Bottom Left
     offsetX = (nextPoint.x - _BWLeft) / TILE_WIDTH;
     offsetY = (nextPoint.y - _BHBottom) / TILE_HEIGHT;
-    bomb = this->getBombAtPosition(offsetX, offsetY);
+    bomb = this->getBombAtPosition(offsetX, offsetY, sprite->getID());
     if( bomb != NULL)
     {
         Common::Coordinates coords = Common::Coordinates(
@@ -306,7 +322,7 @@ bool Collisions::evalBombs(GameSprite *sprite, Point nextPoint, Common::TDirecti
 
     // Bottom Right
     offsetX = (nextPoint.x + _BWRight) / TILE_WIDTH;
-    bomb = this->getBombAtPosition(offsetX, offsetY);
+    bomb = this->getBombAtPosition(offsetX, offsetY, sprite->getID());
     if( bomb != NULL)
     {
         Common::Coordinates coords = Common::Coordinates(

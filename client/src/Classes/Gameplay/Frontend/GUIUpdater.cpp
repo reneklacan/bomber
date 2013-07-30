@@ -278,7 +278,15 @@ void GUIUpdater::updateBombSpawn(GSCBombSpawn *bombSpawn)
     _batchNode->reorderChild(_bombs[ id ], _O_mapPixelHeight - bombSpawnPosition.y);
 
     // for kicking
-    _collisionDetector->setCFA(id, bombSpawnPosition);
+    CollisionArea* ca = new CollisionArea();
+    ca->setPoint(bombSpawnPosition);
+    std::vector<unsigned int> pIDs;
+    for(auto player : _players)
+    {
+        pIDs.push_back( player->getID() );
+    }
+    ca->setPlayersID(pIDs);
+    _collisionDetector->setCFA(id, ca);
 
     return;
 }

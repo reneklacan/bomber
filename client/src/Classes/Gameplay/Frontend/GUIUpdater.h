@@ -26,6 +26,7 @@
 #include "Cache/GUICache.h"
 
 #include "Primitives/AnimationHelper.h"
+#include "Primitives/CollisionArea.h"
 
 namespace Bomber
 {
