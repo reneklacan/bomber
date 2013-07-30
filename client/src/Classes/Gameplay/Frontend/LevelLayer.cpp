@@ -6,6 +6,7 @@
 #include "GUIUpdater.h"
 #include "ButtonLayer.h"
 #include "Buttons/ControlButton.h"
+#include "Primitives/MenuHelper.h"
 
 using namespace Bomber;
 using namespace Bomber::Frontend;
@@ -17,6 +18,7 @@ LevelLayer::LevelLayer()
 ,_gamePaused(false)
 ,_lastChangeID(0)
 {
+    _players.clear();
 }
 
 LevelLayer::~LevelLayer()
@@ -34,10 +36,18 @@ bool LevelLayer::init()
     // Basic init
     _map = Map::create();
     
-    _player1 = Human::create(_map, 0);
+    // Player init
+    unsigned int playerID = 19990;
+    for(int i = 0; i < MenuSelections::getInstance()->getNumPlayers(); i++)
+    {
+        playerID++;
+        _players[playerID] = Human::create(_map, 0);
+        _players[playerID]->setID(playerID);
+    }
+    /*_player1 = Human::create(_map, 0);
     _player1->setID(19991);
     _player2 = Human::create(_map, 0);
-    _player2->setID(19992);
+    _player2->setID(19992);*/
 
     _controlLayer = ControlLayer::create();
 
@@ -45,7 +55,7 @@ bool LevelLayer::init()
     this->addChild(_controlLayer, 2);
 
     // Frontend init
-    GUIUpdater::getInstance()->init(_map, _player1, _player2, this);
+    GUIUpdater::getInstance()->init(_map, _players, this);
 
     // Game State init
     _gameState = new Common::GameState(_map->getWidth(), _map->getHeight());
@@ -95,10 +105,10 @@ bool LevelLayer::init()
     
     // Backend init
     Backend::Mediator::getInstance()->moveSprite(
-        _player1->getID(),
+        _players[19991]->getID(),
         Common::Position(
-            _player1->getPosition().x,
-            _player1->getPosition().y
+            _players[19991]->getPosition().x,
+            _players[19991]->getPosition().y
         )
     );
 
@@ -113,71 +123,55 @@ bool LevelLayer::init()
 
 void LevelLayer::updateGame(float dt)
 {
-    // player 1
-
-    // Get all information
-    Point currentPos = _player1->getPosition();
-    Point nextPos = _player1->getNextPosition();
-    Point nextPosX = ccp(nextPos.x, currentPos.y);
-    Point nextPosY = ccp(currentPos.x, nextPos.y);
-
     // Count collisions
     std::vector<bool> collisions;
-    collisions = GUIUpdater::getInstance()->evalCollisions(_player1);
-
-    // Set whether player has moved
-    bool move = true;
-    if (!collisions[0])
-        ;
-    else if (!collisions[1])
-        nextPos = nextPosX;
-    else if (!collisions[2])
-        nextPos = nextPosY;
-    else
-        move = false;
-
-    // Move player without backend
-    if (move && (currentPos.x != nextPos.x || currentPos.y != nextPos.y))
+    for(auto playerData : _players)
     {
-        _player1->setPosition(nextPos);
-        _map->addToPosition(ccpSub(currentPos, nextPos));
-        Backend::Mediator::getInstance()->moveSprite(
-            _player1->getID(),
-            Common::Position(nextPos.x, nextPos.y)
-        );
-    }
+        Human *player = playerData.second;
 
-    // player 2
+        // Eval only linig players
+        if( !GUIUpdater::getInstance()->isPlayerAlive( player->getID() ) )
+        {
+            continue;
+        }
 
-    // Get all information
-    currentPos = _player2->getPosition();
-    nextPos = _player2->getNextPosition();
-    nextPosX = ccp(nextPos.x, currentPos.y);
-    nextPosY = ccp(currentPos.x, nextPos.y);
+        // Get all information
+        Point currentPos = player->getPosition();
+        Point nextPos = player->getNextPosition();
+        Point nextPosX = ccp(nextPos.x, currentPos.y);
+        Point nextPosY = ccp(currentPos.x, nextPos.y);
 
-    // Count collisions
-    collisions.clear();
-    collisions = GUIUpdater::getInstance()->evalCollisions(_player2);
+        // Clear
+        collisions.clear();
+        collisions = GUIUpdater::getInstance()->evalCollisions(player);
 
-    // Set whether player has moved
-    move = true;
-    if (!collisions[0])
-        ;
-    else if (!collisions[1])
-        nextPos = nextPosX;
-    else if (!collisions[2])
-        nextPos = nextPosY;
-    else
-        move = false;
+        // Set whether player has moved
+        bool move = true;
+        if (!collisions[0])
+            ;
+        else if (!collisions[1])
+            nextPos = nextPosX;
+        else if (!collisions[2])
+            nextPos = nextPosY;
+        else
+            move = false;
 
-    // Move player without backend
-    if (move && (currentPos.x != nextPos.x || currentPos.y != nextPos.y))
-    {
-        _player2->setPosition(nextPos);
-        Backend::Mediator::getInstance()->moveSprite(
-            _player2->getID(),
-            Common::Position(nextPos.x, nextPos.y)
-        );
+        // Move player without backend
+        if (move && (currentPos.x != nextPos.x || currentPos.y != nextPos.y))
+        {
+            // Player
+            player->setPosition(nextPos);
+            // Map
+            if(player->getID() == 19991) // WARNING
+            {
+                _map->addToPosition(ccpSub(currentPos, nextPos));
+            }
+            // Backend
+            Backend::Mediator::getInstance()->moveSprite(
+                player->getID(),
+                Common::Position(nextPos.x, nextPos.y)
+            );
+        }
     }
 
     // Send action
@@ -238,36 +232,41 @@ void LevelLayer::resetLevel()
 //
 void LevelLayer::initControlledSprite()
 {
+    // TODO: some better solution that takes into account variable IDs
+
     // spawnpoint is calculated on backend
     auto player1Sprite = Backend::Mediator::getInstance()->getPlayer1Sprite();
-    _player1->setPosition(
+    _players[19991]->setPosition(
         ccp(
             player1Sprite->getPosition().x,
             player1Sprite->getPosition().y
         )
     );
-    _player1->setNextPosition(_player1->getPosition());
-    _player1->setSpeed(player1Sprite->getAttributes()->getSpeed());
+    _players[19991]->setNextPosition(_players[19991]->getPosition());
+    _players[19991]->setSpeed(player1Sprite->getAttributes()->getSpeed());
 
     // set view that timmy is in the center of it
     Size visibleSize = Director::sharedDirector()->getVisibleSize();
     _map->setPosition(
         ccp(
-            visibleSize.width/2 - _player1->getPosition().x,
-            visibleSize.height/2 - _player1->getPosition().y
+            visibleSize.width/2 - _players[19991]->getPosition().x,
+            visibleSize.height/2 - _players[19991]->getPosition().y
         )
     );
 
     // player 2
-    auto player2Sprite = Backend::Mediator::getInstance()->getPlayer2Sprite();
-    _player2->setPosition(
-        ccp(
-            player2Sprite->getPosition().x,
-            player2Sprite->getPosition().y
-        )
-    );
-    _player2->setNextPosition(_player2->getPosition());
-    _player2->setSpeed(player2Sprite->getAttributes()->getSpeed());
+    if(_players.size() == 2)
+    {
+        auto player2Sprite = Backend::Mediator::getInstance()->getPlayer2Sprite();
+        _players[19992]->setPosition(
+            ccp(
+                player2Sprite->getPosition().x,
+                player2Sprite->getPosition().y
+            )
+        );
+        _players[19992]->setNextPosition(_players[19992]->getPosition());
+        _players[19992]->setSpeed(player2Sprite->getAttributes()->getSpeed());
+    }
 }
 
 //
@@ -276,6 +275,11 @@ void LevelLayer::initControlLayer()
     _controlLayer->enableJoystick();
     _controlLayer->enableKeyboard();
     _controlLayer->setPauseGameDelegate(this);
-    _controlLayer->setControlledPlayer1(_player1);
-    _controlLayer->setControlledPlayer2(_player2);
+
+    // TODO: some better solution that takes into account variable IDs
+    _controlLayer->setControlledPlayer1(_players[19991]);
+    if(_players.size() == 2)
+    {
+        _controlLayer->setControlledPlayer2(_players[19992]);
+    }
 }

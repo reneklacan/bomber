@@ -52,6 +52,7 @@ namespace Bomber
         protected:
             ControlLayer *_controlLayer;
             Map *_map;
+            std::map<unsigned int, Human *> _players;
             Human *_player1;
             Human *_player2;
             bool _gamePaused;

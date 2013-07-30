@@ -36,18 +36,19 @@ namespace Bomber
         public:
             static GUIUpdater *getInstance();
 
-            void init(Map* map, Human* player1, Human* player2, Layer* layer);
+            void init(Map* map, std::map<unsigned int, Human *> &players, Layer* layer);
             void update();
             std::vector<bool> evalCollisions(GameSprite *sprite);
             void resetGUI();
             bool isResetSet() {return _resetNow; }
             bool obstacleExists(unsigned int id);
+            bool isPlayerAlive(unsigned int id);
 
         private:
             GUIUpdater(): _lastChangeID(0), _batchNode(NULL) {};
 
             void updateSpriteMove(Common::GSCSpriteMove *spriteMove);
-            void updateSpriteTeleport(Common::GSCSpriteTeleport *spriteTeleport, Point playerPosition);
+            void updateSpriteTeleport(Common::GSCSpriteTeleport *spriteTeleport);
             void updateBombSpawn(Common::GSCBombSpawn *bombSpawn);
             void updateBombDestroy(Common::GSCBombDestroy *bombDestroy);
             void updateObstacleDestroy(Common::GSCObstacleDestroy *obstacleDestroy);
@@ -69,17 +70,14 @@ namespace Bomber
             void finishUpdateBlockPush(ObstacleMove* move);
 
             void initLayers();
-            void initPlayer();
+            void initPlayers();
             Rect pickImageFromTexture(unsigned int id);
             Sprite *getBombAtPosition(int x, int y);
 
             unsigned int _lastChangeID;
             Map* _map;
-            Human* _player1;
-            Human* _player2;
+            std::vector<Human *> _players;
             Layer * _layer;
-            bool _player1Destroyed;
-            bool _player2Destroyed;
 
             std::map<unsigned int, Sprite *> _mobs;
             std::map<unsigned int, Sprite *> _obstacles;

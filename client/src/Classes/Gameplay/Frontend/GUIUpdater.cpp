@@ -12,12 +12,14 @@ GUIUpdater *GUIUpdater::getInstance()
 }
 
 //
-void GUIUpdater::init( Map* map, Human* player1, Human* player2, Layer* layer)
+void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer* layer)
 {
     // Init
     _map = map;
-    _player1 = player1;
-    _player2 = player2;
+    for(auto player : players)
+    {
+        _players.push_back(player.second);
+    }
     _layer = layer;
     _resetNow = false;
     _cache = GUICache::getInstance();
@@ -46,7 +48,7 @@ void GUIUpdater::init( Map* map, Human* player1, Human* player2, Layer* layer)
     _map->addChild(_batchNode);
 
     // Initialize player
-    this->initPlayer();
+    this->initPlayers();
 
     // Cache data from tiled map layers
     _cache->setBatchNode(_batchNode);   // Batch Node init must be first
@@ -84,7 +86,7 @@ void GUIUpdater::update()
             // Portals
             case SPRITE_TELEPORT:
             {
-                this->updateSpriteTeleport( (GSCSpriteTeleport *)GSChange, _player1->getPosition() );
+                this->updateSpriteTeleport( (GSCSpriteTeleport *)GSChange);
             }
             break;
             // Bomb spawn
@@ -193,23 +195,17 @@ void GUIUpdater::update()
 //
 void GUIUpdater::updateSpriteMove(GSCSpriteMove *spriteMove)
 {
-    if (spriteMove->getGameObjectId() == _player1->getID())
+    for(auto player : _players)
     {
-        // Only set Z coordinate
-        _batchNode->reorderChild(
-            _player1, 
-            _O_mapPixelHeight - _player1->getPosition().y
-        );
-        return;
-    }
-    else if (spriteMove->getGameObjectId() == _player2->getID())
-    {
-        // Only set Z coordinate
-        _batchNode->reorderChild(
-            _player2, 
-            _O_mapPixelHeight - _player2->getPosition().y
-        );
-        return;
+        if (spriteMove->getGameObjectId() == player->getID())
+        {
+            // Only set Z coordinate
+            _batchNode->reorderChild(
+                player, 
+                _O_mapPixelHeight - player->getPosition().y
+            );
+            return;
+        }
     }
 
     // Sprite is already initialized
@@ -237,31 +233,32 @@ void GUIUpdater::updateSpriteMove(GSCSpriteMove *spriteMove)
 
 
 //
-void GUIUpdater::updateSpriteTeleport(GSCSpriteTeleport *spriteTeleport, Point playerPosition)
+void GUIUpdater::updateSpriteTeleport(GSCSpriteTeleport *spriteTeleport)
 {
     // Player, map needs to be moved
-    if(spriteTeleport->getGameObjectId() == _player1->getID())
+    for(auto player : _players)
     {
-        Point teleportPosition = ccp( spriteTeleport->getPosition().x, spriteTeleport->getPosition().y);
-        _player1->setPosition(teleportPosition);
-        _map->addToPosition(ccpSub(playerPosition, teleportPosition));
-    }
-    else if(spriteTeleport->getGameObjectId() == _player2->getID())
-    {
-        Point teleportPosition = ccp( spriteTeleport->getPosition().x, spriteTeleport->getPosition().y);
-        _player2->setPosition(teleportPosition);
+        if(spriteTeleport->getGameObjectId() == player->getID())
+        {
+            Point playerPosition = player->getPosition();
+            Point teleportPosition = ccp( spriteTeleport->getPosition().x, spriteTeleport->getPosition().y);
+            player->setPosition(teleportPosition);
+            if(player->getID() == 19991)    // TODO: ID Management
+            {
+                _map->addToPosition(ccpSub(playerPosition, teleportPosition));
+            }
+            return;
+        }
     }
 
-    // Mob
-    else
-    {
-        _mobs[spriteTeleport->getGameObjectId()]->setPosition(
-            ccp (
-                spriteTeleport->getPosition().x,
-                spriteTeleport->getPosition().y
-            )
-        );
-    }
+    // Else Mob
+    _mobs[spriteTeleport->getGameObjectId()]->setPosition(
+        ccp (
+            spriteTeleport->getPosition().x,
+            spriteTeleport->getPosition().y
+        )
+    );
+
     return; // CHILD REORDER ?
 }
 
@@ -366,18 +363,24 @@ void GUIUpdater::updateObstacleSpawn(GSCObstacleSpawn *obstacleSpawn)
 //
 void GUIUpdater::updateSpriteDestroy( GSCSpriteDestroy *spriteDestroy )
 {
-    if(spriteDestroy->getGameObjectId() == _player1->getID())
+    int playerToDestroy = -1;
+    int counter = 0;
+    for(auto player : _players)
     {
-        _batchNode->removeChild(_player1, true); // WARNING
-        _player1Destroyed = true;
-        _collisionDetector->skipEval(true);
-        return;
+        if(spriteDestroy->getGameObjectId() == player->getID())
+        {
+            _batchNode->removeChild(player, true); // WARNING
+            playerToDestroy = counter;
+        }
+        counter++;
     }
-    else if(spriteDestroy->getGameObjectId() == _player2->getID())
+    if(playerToDestroy != -1)
     {
-        _batchNode->removeChild(_player2, true); // WARNING
-        _player2Destroyed = true;
-        _collisionDetector->skipEval(true);
+        _players.erase(_players.begin() + playerToDestroy);
+        if(_players.size() == 0)
+        {
+            _collisionDetector->skipEval(true);
+        }
         return;
     }
 
@@ -414,15 +417,16 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
     // Show only players buff
     GameSprite *sprite = NULL;
 
-    if (spriteAttrUpdate->getGameObjectId() == _player1->getID())
+    for(auto player : _players)
     {
-        sprite = _player1;
+        if (spriteAttrUpdate->getGameObjectId() == player->getID())
+        {
+            sprite = player;
+            break;
+        }
     }
-    else if (spriteAttrUpdate->getGameObjectId() == _player2->getID())
-    {
-        sprite = _player2;
-    }
-    else
+
+    if (sprite == NULL)
     {
         return;
     }
@@ -635,6 +639,18 @@ bool GUIUpdater::obstacleExists(unsigned int id)
     return false;
 }
 
+bool GUIUpdater::isPlayerAlive(unsigned int id)
+{
+    for(auto player : _players)
+    {
+        if(player->getID() == id)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 /*
  * ========== 
  * Collisions
@@ -644,6 +660,7 @@ bool GUIUpdater::obstacleExists(unsigned int id)
 //
 std::vector<bool> GUIUpdater::evalCollisions(GameSprite *sprite)
 {
+    // Eval collisions
     return _collisionDetector->eval(sprite);
 }
 
@@ -654,31 +671,19 @@ std::vector<bool> GUIUpdater::evalCollisions(GameSprite *sprite)
  */
 
 //
-void GUIUpdater::initPlayer()
+void GUIUpdater::initPlayers()
 {
-    // Eval collisions
-    _player1Destroyed = false;
-
-    // All initialization
-    _player1->initWithTexture(_batchNode->getTexture(), CCRectMake(120,60,80,110));
-    _player1->retain();
-    _player1->setAnchorPoint(ccp(0.45f, 0.2f));
-    _player1->setVertexZ(0);
-    
-    // Add player to Batch Node
-    _batchNode->addChild(_player1, 0);
-
-        // Eval collisions
-    _player2Destroyed = false;
-
-    // All initialization
-    _player2->initWithTexture(_batchNode->getTexture(), CCRectMake(120,60,80,110));
-    _player2->retain();
-    _player2->setAnchorPoint(ccp(0.45f, 0.2f));
-    _player2->setVertexZ(0);
-    
-    // Add player to Batch Node
-    _batchNode->addChild(_player2, 0);
+    for(auto player : _players)
+    {
+        // All initialization
+        player->initWithTexture(_batchNode->getTexture(), CCRectMake(120,60,80,110));
+        player->retain();
+        player->setAnchorPoint(ccp(0.45f, 0.2f));
+        player->setVertexZ(0);
+        
+        // Add player to Batch Node
+        _batchNode->addChild(player, 0);
+    }
 }
 
 //
@@ -780,7 +785,7 @@ void GUIUpdater::resetGUI()
     _cache->initCaches(_map);
 
     // Player
-    this->initPlayer();
+    this->initPlayers();
 
     // Collisions
     _collisionDetector->reset();
