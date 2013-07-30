@@ -2,7 +2,7 @@
 #include "../../../Constants.h"
 
 GameSprite::GameSprite()
-:_speed(50) // Default is 50, it is also default speed of all mobs
+:_speed(50), _isAlive(true) // Default is 50, it is also default speed of all mobs
 {
     _speed = 200; // Now it is multiplied by 4
 }

@@ -370,6 +370,7 @@ void GUIUpdater::updateSpriteDestroy( GSCSpriteDestroy *spriteDestroy )
         if(spriteDestroy->getGameObjectId() == player->getID())
         {
             _batchNode->removeChild(player, true); // WARNING
+            player->setIsAlive(false);
             playerToDestroy = counter;
         }
         counter++;
@@ -771,7 +772,7 @@ void GUIUpdater::initLayers()
  */
 
 //
-void GUIUpdater::resetGUI()
+void GUIUpdater::resetGUI(std::map<unsigned int, Human *> &players)
 {
     // Buffs and Achievements
     ButtonLayer::getInstance()->reset();
@@ -784,7 +785,12 @@ void GUIUpdater::resetGUI()
     _cache->resetSprites();
     _cache->initCaches(_map);
 
-    // Player
+    // Players
+    for(auto player : players)
+    {
+        player.second->setIsAlive(true);   // Otherwise he could not plant a bomb
+        _players.push_back(player.second);
+    }
     this->initPlayers();
 
     // Collisions

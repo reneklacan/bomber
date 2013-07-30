@@ -31,7 +31,10 @@ Human* Human::create(Map *map, int type)
 
 void Human::actionOne()
 {
-    this->plantBomb();
+    if(_isAlive)
+    {
+        this->plantBomb();
+    }
 }
 
 void Human::actionTwo()

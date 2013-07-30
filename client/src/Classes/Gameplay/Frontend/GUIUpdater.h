@@ -39,7 +39,7 @@ namespace Bomber
             void init(Map* map, std::map<unsigned int, Human *> &players, Layer* layer);
             void update();
             std::vector<bool> evalCollisions(GameSprite *sprite);
-            void resetGUI();
+            void resetGUI(std::map<unsigned int, Human *> &players);
             bool isResetSet() {return _resetNow; }
             bool obstacleExists(unsigned int id);
             bool isPlayerAlive(unsigned int id);

@@ -222,7 +222,7 @@ void LevelLayer::menuResetCallback(Object* pSender)
 void LevelLayer::resetLevel()
 {
     // "reset" menu item clicked
-    GUIUpdater::getInstance()->resetGUI();
+    GUIUpdater::getInstance()->resetGUI(_players);
     Backend::Mediator::getInstance()->resetState();
 
     // Backend init

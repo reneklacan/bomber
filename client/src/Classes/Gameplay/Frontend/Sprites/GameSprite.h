@@ -25,6 +25,7 @@ class GameSprite : public Sprite
         CC_SYNTHESIZE(Point, _nextPosition, NextPosition);
         CC_SYNTHESIZE(Point, _nextPositionDelta, NextPositionDelta);
         CC_SYNTHESIZE(unsigned int, _id, ID);
+        CC_SYNTHESIZE(bool, _isAlive, IsAlive);
 
     private:
 };
