@@ -1,5 +1,6 @@
 #include "Keyboard.h"
 #include "../../Configuration.h"
+#include "../../Gameplay/Frontend/Primitives/MenuHelper.h"
 
 using namespace Bomber::Intern;
 
@@ -55,25 +56,28 @@ void Keyboard::keyPressed(int keyCode)
     }
 
     // player 2 keys
-    if (keyCode == configuration->kbPlayer2UpKey || keyCode == configuration->kbPlayer2UpKeyAlt)
+    if(Bomber::Frontend::MenuSelections::getInstance()->getNumPlayers() >= 2)
     {
-        _player2UpKeyPressed = true;
-    }
-    if (keyCode == configuration->kbPlayer2DownKey || keyCode == configuration->kbPlayer2DownKeyAlt)
-    {
-        _player2DownKeyPressed = true;
-    }
-    if (keyCode == configuration->kbPlayer2LeftKey || keyCode == configuration->kbPlayer2LeftKeyAlt)
-    {
-        _player2LeftKeyPressed = true;
-    }
-    if (keyCode == configuration->kbPlayer2RightKey || keyCode == configuration->kbPlayer2RightKeyAlt)
-    {
-        _player2RightKeyPressed = true;
-    }
-    if (keyCode == configuration->kbPlayer2BombKey || keyCode == configuration->kbPlayer2BombKeyAlt)
-    {
-        _player2ActionDelegate->actionOne();
+        if (keyCode == configuration->kbPlayer2UpKey || keyCode == configuration->kbPlayer2UpKeyAlt)
+        {
+            _player2UpKeyPressed = true;
+        }
+        if (keyCode == configuration->kbPlayer2DownKey || keyCode == configuration->kbPlayer2DownKeyAlt)
+        {
+            _player2DownKeyPressed = true;
+        }
+        if (keyCode == configuration->kbPlayer2LeftKey || keyCode == configuration->kbPlayer2LeftKeyAlt)
+        {
+            _player2LeftKeyPressed = true;
+        }
+        if (keyCode == configuration->kbPlayer2RightKey || keyCode == configuration->kbPlayer2RightKeyAlt)
+        {
+            _player2RightKeyPressed = true;
+        }
+        if (keyCode == configuration->kbPlayer2BombKey || keyCode == configuration->kbPlayer2BombKeyAlt)
+        {
+            _player2ActionDelegate->actionOne();
+        }
     }
 
     this->updateVelocity();
@@ -102,21 +106,24 @@ void Keyboard::keyReleased(int keyCode)
     }
 
     // player 2 keys
-    if (keyCode == configuration->kbPlayer2UpKey)
+    if(Bomber::Frontend::MenuSelections::getInstance()->getNumPlayers() >= 2)
     {
-        _player2UpKeyPressed = false;
-    }
-    if (keyCode == configuration->kbPlayer2DownKey)
-    {
-        _player2DownKeyPressed = false;
-    }
-    if (keyCode == configuration->kbPlayer2LeftKey)
-    {
-        _player2LeftKeyPressed = false;
-    }
-    if (keyCode == configuration->kbPlayer2RightKey)
-    {
-        _player2RightKeyPressed = false;
+        if (keyCode == configuration->kbPlayer2UpKey)
+        {
+            _player2UpKeyPressed = false;
+        }
+        if (keyCode == configuration->kbPlayer2DownKey)
+        {
+            _player2DownKeyPressed = false;
+        }
+        if (keyCode == configuration->kbPlayer2LeftKey)
+        {
+            _player2LeftKeyPressed = false;
+        }
+        if (keyCode == configuration->kbPlayer2RightKey)
+        {
+            _player2RightKeyPressed = false;
+        }
     }
     
     if (keyCode == KEY_Escape)
@@ -159,28 +166,31 @@ void Keyboard::updateVelocity()
     }
 
     // player 2
-    _player2Velocity = ccp(0, 0);
+    if(Bomber::Frontend::MenuSelections::getInstance()->getNumPlayers() >= 2)
+    {
+        _player2Velocity = ccp(0, 0);
 
-    if (_player2UpKeyPressed)
-    {
-        _player2Velocity.y = 1;
-    }
-    if (_player2DownKeyPressed)
-    {
-        _player2Velocity.y = _player2Velocity.y - 1;
-    }
-    if (_player2LeftKeyPressed)
-    {
-        _player2Velocity.x = -1;
-    }
-    if (_player2RightKeyPressed)
-    {
-        _player2Velocity.x = _player2Velocity.x + 1;
-    }
+        if (_player2UpKeyPressed)
+        {
+            _player2Velocity.y = 1;
+        }
+        if (_player2DownKeyPressed)
+        {
+            _player2Velocity.y = _player2Velocity.y - 1;
+        }
+        if (_player2LeftKeyPressed)
+        {
+            _player2Velocity.x = -1;
+        }
+        if (_player2RightKeyPressed)
+        {
+            _player2Velocity.x = _player2Velocity.x + 1;
+        }
 
-    if (_player2Velocity.x && _player2Velocity.y)
-    {
-        _player2Velocity.x = 0.7 * _player2Velocity.x;
-        _player2Velocity.y = 0.7 * _player2Velocity.y;
+        if (_player2Velocity.x && _player2Velocity.y)
+        {
+            _player2Velocity.x = 0.7 * _player2Velocity.x;
+            _player2Velocity.y = 0.7 * _player2Velocity.y;
+        }
     }
 }
