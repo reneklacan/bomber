@@ -786,6 +786,7 @@ void GUIUpdater::resetGUI(std::map<unsigned int, Human *> &players)
     _cache->initCaches(_map);
 
     // Players
+    _players.clear();
     for(auto player : players)
     {
         player.second->setIsAlive(true);   // Otherwise he could not plant a bomb
