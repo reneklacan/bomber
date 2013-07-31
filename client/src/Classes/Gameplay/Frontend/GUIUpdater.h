@@ -42,6 +42,7 @@ namespace Bomber
             std::vector<bool> evalCollisions(GameSprite *sprite);
             void resetGUI(std::map<unsigned int, Human *> &players);
             bool isResetSet() {return _resetNow; }
+            bool isFinishSet() {return _finishLevel; }
             bool obstacleExists(unsigned int id);
             bool isPlayerAlive(unsigned int id);
 
@@ -88,6 +89,7 @@ namespace Bomber
 
             SpriteBatchNode* _batchNode;
             bool _resetNow;
+            bool _finishLevel;
             GUICache *_cache;
             Backend::Mediator *_mediator;
             Collisions *_collisionDetector;

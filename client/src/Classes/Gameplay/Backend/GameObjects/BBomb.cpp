@@ -17,6 +17,7 @@ void Bomb::init()
     _expired = 0.0f;
     _detonated = false;
     _ownerId = 0;
+    _inMovement = false;
 }
 
 void Bomb::update(float dt)

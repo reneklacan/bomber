@@ -27,6 +27,7 @@ namespace Bomber
             void incrementBuff(unsigned int id);
 
             void reset();
+            void resetAll();
 
         private:
             ButtonLayer();

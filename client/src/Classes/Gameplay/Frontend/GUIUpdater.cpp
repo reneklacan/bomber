@@ -22,6 +22,7 @@ void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer
     }
     _layer = layer;
     _resetNow = false;
+    _finishLevel = false;
     _cache = GUICache::getInstance();
     _mediator = Backend::Mediator::getInstance();
     _collisionDetector = new Collisions();
@@ -544,7 +545,22 @@ void GUIUpdater::updateLevelReset( GSCLevelReset *levelReset )
 //
 void GUIUpdater::updateLevelFinish( GSCLevelFinish *levelFinish )
 {
-    _resetNow = true; 
+    // Buffs and Achievements
+    ButtonLayer::getInstance()->resetAll();
+    // Cache
+    _cache->resetSprites();
+    // Collisions
+    _collisionDetector->reset();
+    // Players
+    _players.clear();
+    // Map
+    _map->removeAllChildren();
+    // Instance variable
+    _resetNow = false;
+    _finishLevel = false;
+
+    // Flag
+    _finishLevel = true;
     return;
 }
 
@@ -807,6 +823,7 @@ void GUIUpdater::resetGUI(std::map<unsigned int, Human *> &players)
 
     // Init instance variable
     _resetNow = false;
+    _finishLevel = false;
 
     return;
 }

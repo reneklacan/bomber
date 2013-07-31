@@ -13,6 +13,7 @@
 #include "../../Input/ActionDelegates.h"
 #include "../Backend/Mediator.h"
 #include "../Backend/GameObjects/Sprites/Sprite.h"
+#include "Menu/MainMenuLayer.h"
 
 namespace Bomber
 {
@@ -64,6 +65,7 @@ namespace Bomber
             void initControlledSprite();
             void initControlLayer();
             void resetLevel();
+            void showFinishMenu();
         };
     }
 }

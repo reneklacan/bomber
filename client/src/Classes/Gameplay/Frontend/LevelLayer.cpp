@@ -186,6 +186,11 @@ void LevelLayer::updateGame(float dt)
     {
         this->resetLevel();
     }
+
+    if( GUIUpdater::getInstance()->isFinishSet() )
+    {
+        this->showFinishMenu();
+    }
     
 }
 
@@ -227,6 +232,19 @@ void LevelLayer::resetLevel()
 
     // Backend init
     this->initControlledSprite();
+}
+
+//
+void LevelLayer::showFinishMenu()
+{
+    this->unschedule( schedule_selector(LevelLayer::updateGame) );
+
+    Scene *actualScene = Director::sharedDirector()->getRunningScene();
+    Scene *pScene = MainMenuLayer::scene();
+    Director::sharedDirector()->replaceScene(pScene);
+
+    actualScene->stopAllActions();
+    actualScene->removeFromParent();
 }
 
 //

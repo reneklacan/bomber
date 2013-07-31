@@ -1,7 +1,7 @@
 #include "Explosion.h"
 #include "../../../Constants.h"
 
-ExplosionEmitterCache *ExplosionEmitterCache::_instance = NULL;
+/*ExplosionEmitterCache *ExplosionEmitterCache::_instance = NULL;
 
 ExplosionEmitterCache *ExplosionEmitterCache::getInstance()
 {
@@ -10,7 +10,7 @@ ExplosionEmitterCache *ExplosionEmitterCache::getInstance()
         _instance = new ExplosionEmitterCache();
     }
     return _instance;
-}
+}*/
 
 ExplosionEmitterCache::ExplosionEmitterCache()
 : _cacheSize(EXPLOSION_CACHE_SIZE)
@@ -55,9 +55,10 @@ ParticleSun *ExplosionEmitterCache::getEmitter()
 
 Explosion::Explosion(Point epicentrum, int powerLeft, int powerRight, int powerTop, int powerBottom) 
 {
+    _eec = new ExplosionEmitterCache();
     for (int i = 0; i < 4; i++)
     {
-        ParticleSun *emitter = ExplosionEmitterCache::getInstance()->getEmitter();
+        ParticleSun *emitter = _eec->getEmitter();
         emitter->setPosition(epicentrum);
         this->addChild(emitter, -5);
 

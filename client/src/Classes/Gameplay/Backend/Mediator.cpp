@@ -100,7 +100,7 @@ void Mediator::kickBomb(unsigned int spriteId, Coordinates coords, TDirection di
 {
     if(direction != CALM)
     {
-        std::cout << "KICK: " << spriteId << " [" << coords.x << ", " << coords.y << "] direction = " << direction << "\n";
+        //std::cout << "KICK: " << spriteId << " [" << coords.x << ", " << coords.y << "] direction = " << direction << "\n";
         Logic::getInstance()->kickBomb(spriteId, coords, direction);
     }
 }
