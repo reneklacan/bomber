@@ -265,7 +265,7 @@ void GameStateUpdater::logSpriteMove(Sprite *sprite)
 
 void GameStateUpdater::logBombMove(Bomb *bomb)
 {
-    //printf("logSpriteMove\n"); // spam
+    //printf("logBombMove\n"); // spam
     GSCBombMove *change = new GSCBombMove();
     change->update(bomb->getPosition());
     change->setGameObjectId(bomb->getId());

@@ -14,10 +14,11 @@ Bomb::Bomb() : GameObject()
 
 void Bomb::init()
 {
+    GameObject::init();
+
     _expired = 0.0f;
     _detonated = false;
     _ownerId = 0;
-    _inMovement = false;
 }
 
 void Bomb::update(float dt)

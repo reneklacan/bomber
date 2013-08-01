@@ -19,6 +19,12 @@ GameObject::GameObject()
 
 }
 
+void GameObject::init()
+{
+    _active = true;
+    _inMovement = false;
+}
+
 void GameObject::setPosition(int x, int y)
 {
     _position = Position(x, y);

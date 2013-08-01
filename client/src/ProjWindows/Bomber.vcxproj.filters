@@ -440,5 +440,8 @@
     <ClInclude Include="..\Classes\Gameplay\Common\Cache\ObjectCache.h">
       <Filter>Classes\Gameplay\Common\Cache</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Primitives\CollisionArea.h">
+      <Filter>Classes\Gameplay\Frontend\Primitives</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

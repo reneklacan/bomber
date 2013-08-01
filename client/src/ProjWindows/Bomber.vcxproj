@@ -233,6 +233,7 @@
     <ClInclude Include="..\Classes\Gameplay\Frontend\Map\Explosion.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Map\Map.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Primitives\AnimationHelper.h" />
+    <ClInclude Include="..\Classes\Gameplay\Frontend\Primitives\CollisionArea.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Primitives\MenuHelper.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\GameSprite.h" />
     <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\Human.h" />

@@ -19,6 +19,7 @@ namespace Bomber
                 inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_GAME_OBJECT; };
 
                 GameObject();
+                virtual void init();
                 virtual void update(float dt) {};
                 bool collides(GameObject *object);
                 
