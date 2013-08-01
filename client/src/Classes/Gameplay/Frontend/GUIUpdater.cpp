@@ -5,13 +5,6 @@ using namespace Bomber::Frontend;
 using namespace Bomber::Common;
 
 //
-GUIUpdater *GUIUpdater::getInstance()
-{
-    static GUIUpdater instance;
-    return &instance;
-}
-
-//
 void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer* layer)
 {
     // Init
@@ -553,8 +546,6 @@ void GUIUpdater::updateLevelFinish( GSCLevelFinish *levelFinish )
     _collisionDetector->reset();
     // Players
     _players.clear();
-    // Map
-    _map->removeAllChildren();
     // Instance variable
     _resetNow = false;
     _finishLevel = false;

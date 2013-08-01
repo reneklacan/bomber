@@ -14,6 +14,7 @@
 #include "../Backend/Mediator.h"
 #include "../Backend/GameObjects/Sprites/Sprite.h"
 #include "Menu/MainMenuLayer.h"
+#include "GUIUpdater.h"
 
 namespace Bomber
 {
@@ -58,6 +59,7 @@ namespace Bomber
             Human *_player2;
             bool _gamePaused;
             unsigned int _lastChangeID;
+            GUIUpdater *_gui;
             Common::GameState *_gameState;
             //Backend::Sprite *_controlledSprite;
 
@@ -66,6 +68,7 @@ namespace Bomber
             void initControlLayer();
             void resetLevel();
             void showFinishMenu();
+            void backToMenu();
         };
     }
 }

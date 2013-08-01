@@ -3,7 +3,6 @@
 #include "../Backend/Mediator.h"
 #include "../Backend/GameObjects/Sprites/Bomber.h"
 #include "Buttons/GameButton.h"
-#include "GUIUpdater.h"
 #include "ButtonLayer.h"
 #include "Buttons/ControlButton.h"
 #include "Primitives/MenuHelper.h"
@@ -34,6 +33,7 @@ bool LevelLayer::init()
         return false;
 
     // Basic init
+    _gui = new GUIUpdater();
     _map = Map::create();
     
     // Player init
@@ -55,7 +55,7 @@ bool LevelLayer::init()
     this->addChild(_controlLayer, 2);
 
     // Frontend init
-    GUIUpdater::getInstance()->init(_map, _players, this);
+    _gui->init(_map, _players, this);
 
     // Game State init
     _gameState = new Common::GameState(_map->getWidth(), _map->getHeight());
@@ -123,6 +123,12 @@ bool LevelLayer::init()
 
 void LevelLayer::updateGame(float dt)
 {
+    //
+    if(_gamePaused)
+    {
+        return;
+    }
+
     // Count collisions
     std::vector<bool> collisions;
     for(auto playerData : _players)
@@ -130,7 +136,7 @@ void LevelLayer::updateGame(float dt)
         Human *player = playerData.second;
 
         // Eval only linig players
-        if( !GUIUpdater::getInstance()->isPlayerAlive( player->getID() ) )
+        if( !_gui->isPlayerAlive( player->getID() ) )
         {
             continue;
         }
@@ -143,7 +149,7 @@ void LevelLayer::updateGame(float dt)
 
         // Clear
         collisions.clear();
-        collisions = GUIUpdater::getInstance()->evalCollisions(player);
+        collisions = _gui->evalCollisions(player);
 
         // Set whether player has moved
         bool move = true;
@@ -178,16 +184,16 @@ void LevelLayer::updateGame(float dt)
     Backend::Mediator::getInstance()->update(dt);
 
     // Draw new state
-    GUIUpdater::getInstance()->update();
+    _gui->update();
     ButtonLayer::getInstance()->saveTime(dt);
 
     // Reset level if needed
-    if( GUIUpdater::getInstance()->isResetSet() )
+    if( _gui->isResetSet() )
     {
         this->resetLevel();
     }
 
-    if( GUIUpdater::getInstance()->isFinishSet() )
+    if( _gui->isFinishSet() )
     {
         this->showFinishMenu();
     }
@@ -207,12 +213,10 @@ void LevelLayer::menuPauseCallback(Object* pSender)
     // "pause/resume" menu item clicked
     if(_gamePaused)
     {
-        Director::sharedDirector()->resume();
         _gamePaused = false;
     }
     else
     {
-        Director::sharedDirector()->pause();
         _gamePaused = true;
     }
 }
@@ -227,7 +231,7 @@ void LevelLayer::menuResetCallback(Object* pSender)
 void LevelLayer::resetLevel()
 {
     // "reset" menu item clicked
-    GUIUpdater::getInstance()->resetGUI(_players);
+    _gui->resetGUI(_players);
     Backend::Mediator::getInstance()->resetState();
 
     // Backend init
@@ -237,14 +241,59 @@ void LevelLayer::resetLevel()
 //
 void LevelLayer::showFinishMenu()
 {
-    this->unschedule( schedule_selector(LevelLayer::updateGame) );
+    // Pase game
+    _gamePaused = true;
 
+    Size visibleSize = Director::sharedDirector()->getVisibleSize();
+
+    // Create new layer
+    LayerColor *lc = new LayerColor();
+    int lcWidth = (int)visibleSize.width*0.75;
+    int lcHeight = (int)visibleSize.width*0.60;
+    lc->initWithColor( ccc4(10, 10, 10, 180), lcWidth, lcHeight);
+    lc->setPosition(
+        visibleSize.width/2 - lcWidth/2,
+        visibleSize.height/2 - lcHeight/2
+    );
+
+    // Create menu
+    Menu* menu = Menu::create();
+
+    // Back to Main menu label
+    ccMenuCallback callback = std::bind(&LevelLayer::backToMenu, this);
+
+    MenuItemFont *backToMenu = new MenuItemFont();
+    backToMenu->initWithString(
+            "Back to Menu",
+            callback
+    );
+    backToMenu->setPosition(ccp(0, 0));
+    menu->addChild(backToMenu);
+
+    menu->setPosition(
+            ccp(
+                lcWidth/2,
+                lcHeight/2
+            )
+    );
+
+    // Add menu to the new layer
+    lc->addChild(menu, 1);
+
+    // Show new layer
+    this->addChild(lc, 10);
+}
+
+//
+void LevelLayer::backToMenu()
+{
+    // Replace actual scene (game) with menu and release game layer
     Scene *actualScene = Director::sharedDirector()->getRunningScene();
     Scene *pScene = MainMenuLayer::scene();
     Director::sharedDirector()->replaceScene(pScene);
 
     actualScene->stopAllActions();
-    actualScene->removeFromParent();
+    actualScene->removeFromParent(); 
 }
 
 //

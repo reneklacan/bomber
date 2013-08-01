@@ -35,7 +35,7 @@ namespace Bomber
         class GUIUpdater
         {
         public:
-            static GUIUpdater *getInstance();
+            GUIUpdater(): _lastChangeID(0), _batchNode(NULL) {};
 
             void init(Map* map, std::map<unsigned int, Human *> &players, Layer* layer);
             void update();
@@ -47,7 +47,6 @@ namespace Bomber
             bool isPlayerAlive(unsigned int id);
 
         private:
-            GUIUpdater(): _lastChangeID(0), _batchNode(NULL) {};
 
             void updateSpriteMove(Common::GSCSpriteMove *spriteMove);
             void updateSpriteTeleport(Common::GSCSpriteTeleport *spriteTeleport);
