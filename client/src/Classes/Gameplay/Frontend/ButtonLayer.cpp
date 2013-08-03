@@ -110,8 +110,6 @@ void ButtonLayer::addToControls(GameButton *control)
     next->x = last->x - control->getWidth();
     next->y = origin.y + visibleSize.height - control->getHeight(); 
 
-    std::cout << last->x << " " << origin.y << "| " << next->x << " " << next->y << "\n";
-
     control->setButtonPosition(next);
 
     _controls.push_back(control);

@@ -292,8 +292,9 @@ void LevelLayer::backToMenu()
     Scene *pScene = MainMenuLayer::scene();
     Director::sharedDirector()->replaceScene(pScene);
 
+    // Remove game layer
     actualScene->stopAllActions();
-    actualScene->removeFromParent(); 
+    actualScene->removeFromParent();
 }
 
 //
