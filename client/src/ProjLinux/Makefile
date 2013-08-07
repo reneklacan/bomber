@@ -16,41 +16,41 @@ SOURCES = Main.cpp \
         ../Classes/Input/Keyboard/Keyboard.cpp \
         ../Classes/Input/ControlLayer.cpp \
         ../Classes/Configuration.cpp \
-        ../Classes/Gameplay/Common/Primitives/Coordinates.cpp \
-        ../Classes/Gameplay/Common/Primitives/Rectangle.cpp \
-        ../Classes/Gameplay/Common/GameState/GameState.cpp \
-        ../Classes/Gameplay/Common/Cache/ObjectCache.cpp \
-        ../Classes/Gameplay/Backend/Mediator.cpp \
-        ../Classes/Gameplay/Backend/Logic.cpp \
-        ../Classes/Gameplay/Backend/GameState/GameStateUpdater.cpp \
-        ../Classes/Gameplay/Backend/GameObjects/GameObject.cpp \
-        ../Classes/Gameplay/Backend/GameObjects/Sprites/Sprite.cpp \
-        ../Classes/Gameplay/Backend/GameObjects/BBomb.cpp \
-        ../Classes/Gameplay/Backend/GameObjects/Obstacle.cpp \
-        ../Classes/Gameplay/Backend/GameObjects/Effect.cpp \
-        ../Classes/Gameplay/Backend/GameObjects/Portal.cpp \
-        ../Classes/Gameplay/Backend/Interactions/Movement.cpp \
-        ../Classes/Gameplay/Backend/Statistics/Statistics.cpp \
-        ../Classes/Gameplay/Backend/Statistics/StatisticsUpdater.cpp \
-        ../Classes/Gameplay/Backend/Statistics/Achievements.cpp \
-        ../Classes/Gameplay/Backend/Statistics/AchievementContainer.cpp \
-        ../Classes/Gameplay/Backend/Statistics/GameAchievements.cpp \
-        ../Classes/Gameplay/Backend/AI/AI.cpp \
-        ../Classes/Gameplay/Backend/AI/FollowAI.cpp \
-        ../Classes/Gameplay/Frontend/LevelLayer.cpp \
-        ../Classes/Gameplay/Frontend/ButtonLayer.cpp \
-        ../Classes/Gameplay/Frontend/Collisions.cpp \
-        ../Classes/Gameplay/Frontend/Buttons/GameButton.cpp \
-        ../Classes/Gameplay/Frontend/Buttons/ControlButton.cpp \
-        ../Classes/Gameplay/Frontend/Buttons/AchievementButton.cpp \
-        ../Classes/Gameplay/Frontend/Buttons/EffectButton.cpp \
-        ../Classes/Gameplay/Frontend/GUIUpdater.cpp \
-        ../Classes/Gameplay/Frontend/Map/Map.cpp \
-        ../Classes/Gameplay/Frontend/Map/Explosion.cpp \
-        ../Classes/Gameplay/Frontend/Sprites/GameSprite.cpp \
-        ../Classes/Gameplay/Frontend/Sprites/Human.cpp \
-        ../Classes/Gameplay/Frontend/Sprites/SpriteCreator.cpp \
-        ../Classes/Gameplay/Frontend/Cache/GUICache.cpp \
+        ../Classes/Common/Primitives/Coordinates.cpp \
+        ../Classes/Common/Primitives/Rectangle.cpp \
+        ../Classes/Common/GameState/GameState.cpp \
+        ../Classes/Common/Cache/ObjectCache.cpp \
+        ../Classes/Backend/Mediator.cpp \
+        ../Classes/Backend/Logic.cpp \
+        ../Classes/Backend/GameState/GameStateUpdater.cpp \
+        ../Classes/Backend/GameObjects/GameObject.cpp \
+        ../Classes/Backend/GameObjects/Sprites/Sprite.cpp \
+        ../Classes/Backend/GameObjects/BBomb.cpp \
+        ../Classes/Backend/GameObjects/Obstacle.cpp \
+        ../Classes/Backend/GameObjects/Effect.cpp \
+        ../Classes/Backend/GameObjects/Portal.cpp \
+        ../Classes/Backend/Interactions/Movement.cpp \
+        ../Classes/Backend/Statistics/Statistics.cpp \
+        ../Classes/Backend/Statistics/StatisticsUpdater.cpp \
+        ../Classes/Backend/Statistics/Achievements.cpp \
+        ../Classes/Backend/Statistics/AchievementContainer.cpp \
+        ../Classes/Backend/Statistics/GameAchievements.cpp \
+        ../Classes/Backend/AI/AI.cpp \
+        ../Classes/Backend/AI/FollowAI.cpp \
+        ../Classes/Frontend/LevelLayer.cpp \
+        ../Classes/Frontend/ButtonLayer.cpp \
+        ../Classes/Frontend/Collisions.cpp \
+        ../Classes/Frontend/Buttons/GameButton.cpp \
+        ../Classes/Frontend/Buttons/ControlButton.cpp \
+        ../Classes/Frontend/Buttons/AchievementButton.cpp \
+        ../Classes/Frontend/Buttons/EffectButton.cpp \
+        ../Classes/Frontend/GUIUpdater.cpp \
+        ../Classes/Frontend/Map/Map.cpp \
+        ../Classes/Frontend/Map/Explosion.cpp \
+        ../Classes/Frontend/Sprites/GameSprite.cpp \
+        ../Classes/Frontend/Sprites/Human.cpp \
+        ../Classes/Frontend/Sprites/SpriteCreator.cpp \
+        ../Classes/Frontend/Cache/GUICache.cpp \
         ../Classes/Menu/MainMenuLayer.cpp \
         ../Classes/Menu/SettingsLayer.cpp \
         ../Classes/Menu/CreditsLayer.cpp \

@@ -7,8 +7,8 @@
 
 #include "../Backend/Mediator.h"
 #include "../Common/Primitives/Direction.h"
-#include "../../Input/ControlLayer.h"
-#include "../../Constants.h"
+#include "../Input/ControlLayer.h"
+#include "../Constants.h"
 #include "Primitives/CollisionArea.h"
 
 namespace Bomber

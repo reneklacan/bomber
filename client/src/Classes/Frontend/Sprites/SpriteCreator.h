@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-#include "../../../Input/ControlLayer.h"
+#include "../../Input/ControlLayer.h"
 
 namespace Bomber
 {

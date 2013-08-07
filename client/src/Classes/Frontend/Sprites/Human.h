@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "GameSprite.h"
 #include "../Map/Map.h"
-#include "../../../Input/ActionDelegates.h"
+#include "../../Input/ActionDelegates.h"
 #include <string>
 
 using namespace cocos2d;

@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 
 #include "../GameplayScene.h"
-#include "../Gameplay/Frontend/Primitives/MenuHelper.h"
+#include "../Frontend/Primitives/MenuHelper.h"
 
 #include <sys/types.h>
 #include <string>

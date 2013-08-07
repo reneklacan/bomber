@@ -7,7 +7,7 @@
 #include "GameObjects/Effect.h"
 #include "AI/AI.h"
 #include "Statistics/StatisticsUpdater.h"
-#include "../../Constants.h"
+#include "../Constants.h"
 
 using namespace Bomber;
 using namespace Bomber::Backend;

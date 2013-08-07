@@ -1,6 +1,6 @@
 #include "Map.h"
 #include "Bomb.h"
-#include "../../../Constants.h"
+#include "../../Constants.h"
 #include "../Primitives/MenuHelper.h"
 
 //

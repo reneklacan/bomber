@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "BBomb.h"
-#include "../../../Constants.h"
+#include "../../Constants.h"
 
 using namespace Bomber::Backend;
 using namespace Bomber::Common;

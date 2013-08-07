@@ -1,5 +1,5 @@
 #include "GameSprite.h"
-#include "../../../Constants.h"
+#include "../../Constants.h"
 
 GameSprite::GameSprite()
 :_speed(50), _isAlive(true) // Default is 50, it is also default speed of all mobs

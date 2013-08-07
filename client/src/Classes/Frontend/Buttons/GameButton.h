@@ -2,7 +2,7 @@
 #define __BOMBER_FRONTEND_GAMEBUTTON_LAYER
 
 #include "cocos2d.h"
-#include "../../../Input/ControlLayer.h"
+#include "../../Input/ControlLayer.h"
 #include <string>
 
 namespace Bomber

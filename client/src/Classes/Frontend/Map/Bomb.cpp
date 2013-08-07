@@ -1,7 +1,7 @@
 #include "Map.h"
 #include "Bomb.h"
 #include "Explosion.h"
-#include "../../../Constants.h"
+#include "../../Constants.h"
 
 using namespace Bomber::Frontend;
 

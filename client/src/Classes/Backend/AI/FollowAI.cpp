@@ -1,7 +1,7 @@
 
 #include "FollowAI.h"
 #include "AI.h"
-#include "../../../Constants.h"
+#include "../../Constants.h"
 
 using namespace Bomber::Backend;
 using namespace Bomber::Common;

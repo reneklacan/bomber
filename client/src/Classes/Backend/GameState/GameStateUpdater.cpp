@@ -1,7 +1,7 @@
 
 #include "GameStateUpdater.h"
 #include "../Statistics/StatisticsUpdater.h"
-#include "../../../Constants.h"
+#include "../../Constants.h"
 #include "../../Common/Cache/ObjectCache.h"
 
 using namespace Bomber::Backend;

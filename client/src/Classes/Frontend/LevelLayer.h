@@ -9,11 +9,11 @@
 #include "Map/Explosion.h"
 #include "Sprites/GameSprite.h"
 #include "Sprites/Human.h"
-#include "../../Input/ControlLayer.h"
-#include "../../Input/ActionDelegates.h"
+#include "../Input/ControlLayer.h"
+#include "../Input/ActionDelegates.h"
 #include "../Backend/Mediator.h"
 #include "../Backend/GameObjects/Sprites/Sprite.h"
-#include "Menu/MainMenuLayer.h"
+#include "../Menu/MainMenuLayer.h"
 #include "GUIUpdater.h"
 
 namespace Bomber

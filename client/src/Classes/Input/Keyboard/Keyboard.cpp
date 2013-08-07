@@ -1,6 +1,6 @@
 #include "Keyboard.h"
 #include "../../Configuration.h"
-#include "../../Gameplay/Frontend/Primitives/MenuHelper.h"
+#include "../../Frontend/Primitives/MenuHelper.h"
 
 using namespace Bomber::Intern;
 

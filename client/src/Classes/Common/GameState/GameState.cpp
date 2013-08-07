@@ -2,7 +2,7 @@
 #include "GameState.h"
 #include "../../Backend/GameObjects/Sprites/Bomber.h"
 #include "../../Backend/GameObjects/Sprites/AISprite.h"
-#include "../../../Constants.h"
+#include "../../Constants.h"
 #include "../Cache/ObjectCache.h"
 
 using namespace Bomber::Common;

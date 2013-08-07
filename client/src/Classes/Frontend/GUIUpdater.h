@@ -15,7 +15,7 @@
 #include "../Backend/GameObjects/Effect.h"
 #include "../Common/Primitives/Direction.h"
 
-#include "../../Constants.h"
+#include "../Constants.h"
 #include "GUIConstants.h"
 #include "Collisions.h"
 
