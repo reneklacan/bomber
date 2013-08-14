@@ -56,6 +56,7 @@ SOURCES = Main.cpp \
         ../Classes/Menu/CreditsLayer.cpp \
         ../Classes/Menu/LevelSelectLayer.cpp \
         ../Classes/Menu/PlayersSelectLayer.cpp \
+        ../Classes/Middend/NetClient.cpp \
 
 include $(COCOS_ROOT)/cocos2dx/proj.linux/cocos2dx.mk
 

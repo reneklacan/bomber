@@ -1,5 +1,6 @@
 #include "MainMenuLayer.h"
 #include "LevelSelectLayer.h"
+#include "../Common/Primitives/ConnectionType.h"
 
 MainMenuLayer::MainMenuLayer()
 {
@@ -79,6 +80,7 @@ void MainMenuLayer::newGame(Object *sender)
     MenuSelections *ms = MenuSelections::getInstance();
     ms->setLevelName( "level_01.tmx" );
     ms->setNumPlayers( 2 );
+    ms->setConnection( Bomber::Common::WIDE_CON );
 
     Scene *pScene = GameplayScene::scene();
     Director::sharedDirector()->replaceScene(pScene);

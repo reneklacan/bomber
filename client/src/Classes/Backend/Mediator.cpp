@@ -5,6 +5,7 @@
 
 using namespace Bomber::Backend;
 using namespace Bomber::Common;
+using namespace Bomber::Middend;
 
 Mediator *Mediator::_instance = nullptr;
 
@@ -20,6 +21,7 @@ Mediator *Mediator::getInstance()
 Mediator::Mediator()
 {
     _gameStateUpdater = new GameStateUpdater();
+    _connectionType = Common::NONE_CON;
 }
 
 void Mediator::resetState()
@@ -102,5 +104,34 @@ void Mediator::kickBomb(unsigned int spriteId, Coordinates coords, TDirection di
     {
         //std::cout << "KICK: " << spriteId << " [" << coords.x << ", " << coords.y << "] direction = " << direction << "\n";
         Logic::getInstance()->kickBomb(spriteId, coords, direction);
+    }
+}
+
+void Mediator::setConnectionType(Common::TConnectionType type)
+{
+    if(type == Common::NONE_CON)
+    {
+        _connectionType = type;
+    }
+    else if(type == Common::LOCAL_CON)
+    {
+        std::cerr << "Local game (LAN) not supported !" << std::endl;
+    }
+    else if(type == Common::WIDE_CON)
+    {
+        _client = new NetClient;
+        if( _client->isRunning() )
+        {
+            // std::cout << "Network client started successfully.\n";
+            _connectionType = type;
+        }
+        else
+        {
+           std::cerr << "Unable to start network client !" << std::endl; 
+        }
+    }
+    else
+    {
+        std::cerr << "Unknown connection type !" << std::endl;
     }
 }

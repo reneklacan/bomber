@@ -35,6 +35,9 @@ bool LevelLayer::init()
     // Basic init
     _gui = new GUIUpdater();
     _map = Map::create();
+
+    // Init Mediator according to connection type
+    Backend::Mediator::getInstance()->setConnectionType( MenuSelections::getInstance()->getConnection() );
     
     // Player init
     unsigned int playerID = 19990;

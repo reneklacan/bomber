@@ -4,6 +4,8 @@
 #include "Logic.h"
 #include "GameState/GameStateUpdater.h"
 #include "../Common/Primitives/Direction.h"
+#include "../Common/Primitives/ConnectionType.h"
+#include "../Middend/NetClient.h"
 
 namespace Bomber
 {
@@ -18,6 +20,7 @@ namespace Bomber
                 void resetState();
                 void setState(Common::GameState *state);
                 void setControlledSprite(unsigned int id);
+                void setConnectionType(Common::TConnectionType type);
 
                 Sprite *getPlayer1Sprite();
                 Sprite *getPlayer2Sprite();
@@ -34,6 +37,8 @@ namespace Bomber
                 static Mediator *_instance;
                 Common::GameState *_state;
                 GameStateUpdater *_gameStateUpdater;
+                Common::TConnectionType _connectionType;
+                Middend::NetClient *_client;
         };
     }
 }
