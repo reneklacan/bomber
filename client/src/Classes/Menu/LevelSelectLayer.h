@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-#include "../Gameplay/Frontend/Primitives/MenuHelper.h"
+#include "../Frontend/Primitives/MenuHelper.h"
 #include "PlayersSelectLayer.h"
 
 #include <sys/types.h>
