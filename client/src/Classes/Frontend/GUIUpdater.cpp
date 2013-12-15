@@ -696,6 +696,8 @@ void GUIUpdater::initPlayers()
         player->retain();
         player->setAnchorPoint(ccp(0.45f, 0.2f));
         player->setVertexZ(0);
+
+        std::cout << player;
         
         // Add player to Batch Node
         _batchNode->addChild(player, 0);

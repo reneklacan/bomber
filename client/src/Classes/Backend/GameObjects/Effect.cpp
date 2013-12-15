@@ -16,10 +16,12 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
         case 13:
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_BOMB_CAPACITY_INC);
             break;
-        case 18:
+        //case 18:
+        case 604:
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_SPEED_INC);
             break;
-        case 46:
+        //case 46:
+        case 607:
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_BOMB_POWER_INC);
             break;
         default:

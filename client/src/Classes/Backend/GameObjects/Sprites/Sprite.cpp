@@ -15,7 +15,8 @@ Sprite *Sprite::getInstanceByGid(unsigned int gid)
         
     switch(gid)
     {
-        case 2:
+        //case 2:
+        case 459:
             sprite->setName("Timmy");
             break;
         case 3:
@@ -27,7 +28,7 @@ Sprite *Sprite::getInstanceByGid(unsigned int gid)
         case 5:
             sprite->setName("July");
             break;
-        case 6:
+        //case 6:
         case 453:
             sprite->setName("Princess");
             break;

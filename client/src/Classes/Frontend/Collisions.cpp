@@ -6,8 +6,8 @@ using namespace Bomber::Frontend;
 //
 Collisions::Collisions() :
 _skipEval(false),
-_OWLeft(33),
-_OWRight(36),
+_OWLeft(TILE_WIDTH/3),
+_OWRight(TILE_WIDTH/3 + 2),
 _OHTop(10),
 _OHBottom(0),
 _BWLeft(0),

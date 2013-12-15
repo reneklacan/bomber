@@ -14,20 +14,22 @@ Obstacle *Obstacle::getInstanceByGid(unsigned int gid)
 
     switch(gid)
     {
-        case 20:
-        case 36:
+        //case 20:
+        //case 36:
+        case 151:
         case 273:
             obstacle = (Obstacle *) ObjectCache::getInstance()->getObject(COT_MAZE_BLOCK);
             break;
         case 25:
             obstacle = (Obstacle *) ObjectCache::getInstance()->getObject(COT_LEVER_BLOCK);
             break;
-        case 41:
-        case 42:
+        //case 41:
+        //case 42:
         case 276:
             obstacle = (Obstacle *) ObjectCache::getInstance()->getObject(COT_DESTROYABLE_BLOCK);
             break;
-        case 43:
+        //case 43:
+        case 258:
             obstacle = (Obstacle *) ObjectCache::getInstance()->getObject(COT_PUSHABLE_BLOCK);
             break;
         default:

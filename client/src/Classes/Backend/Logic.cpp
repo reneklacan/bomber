@@ -293,7 +293,7 @@ void Logic::updateSprites(float dt)
 
                 if (obstacles.size() == 0)
                 {
-                    _gameStateUpdater->spawnObstacle(20, switchTarget->getCoords(), sprite->getId());
+                    _gameStateUpdater->spawnObstacle(273, switchTarget->getCoords(), sprite->getId());
                 }
                 else
                 {
@@ -360,7 +360,7 @@ bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int
                 // close "the bridge"
                 _gameStateUpdater->switchLeverOff(switchObject, bomb->getOwnerId());
 
-                unsigned int obstacleGid = 20;
+                unsigned int obstacleGid = 273;
                 _gameStateUpdater->spawnObstacle(obstacleGid, target->getCoords(), bomb->getId());
             }
         }
