@@ -16,6 +16,7 @@ Obstacle *Obstacle::getInstanceByGid(unsigned int gid)
     {
         case 20:
         case 36:
+        case 273:
             obstacle = (Obstacle *) ObjectCache::getInstance()->getObject(COT_MAZE_BLOCK);
             break;
         case 25:
@@ -23,6 +24,7 @@ Obstacle *Obstacle::getInstanceByGid(unsigned int gid)
             break;
         case 41:
         case 42:
+        case 276:
             obstacle = (Obstacle *) ObjectCache::getInstance()->getObject(COT_DESTROYABLE_BLOCK);
             break;
         case 43:

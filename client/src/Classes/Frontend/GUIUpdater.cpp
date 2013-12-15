@@ -35,7 +35,7 @@ void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer
     _map->getTiledMap()->layerNamed("portals")->setVisible(false);
 
     // Init Batch Node
-    _batchNode = SpriteBatchNode::create("tiles/tileset.png");
+    _batchNode = SpriteBatchNode::create("/home/rene/workspace/personal/ruby/texturepacker/output.png");
     _batchNode->setTag(0);
 
     // Add BatchNode
@@ -692,7 +692,7 @@ void GUIUpdater::initPlayers()
     for(auto player : _players)
     {
         // All initialization
-        player->initWithTexture(_batchNode->getTexture(), CCRectMake(120,60,80,110));
+        player->initWithTexture(_batchNode->getTexture(), CCRectMake(0, 1344, 32, 48));
         player->retain();
         player->setAnchorPoint(ccp(0.45f, 0.2f));
         player->setVertexZ(0);

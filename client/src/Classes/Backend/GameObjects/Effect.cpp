@@ -12,6 +12,7 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
     
     switch(gid)
     {
+        case 84: // bullshit
         case 13:
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_BOMB_CAPACITY_INC);
             break;

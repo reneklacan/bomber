@@ -60,7 +60,7 @@ SOURCES = Main.cpp \
 
 include $(COCOS_ROOT)/cocos2dx/proj.linux/cocos2dx.mk
 
-SHAREDLIBS += -lcocos2d -lcocosdenshion -lboost_system
+SHAREDLIBS += -lcocos2d -lcocosdenshion #-lboost_system
 CXXFLAGS += -g -lglut -Wunused-variable
 RAKNET_LIBS = $(RAKNET_ROOT)/lib/libraknet.so
 COCOS_LIBS = $(LIB_DIR)/libcocos2d.so $(LIB_DIR)/libcocosdenshion.so

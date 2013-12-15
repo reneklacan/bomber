@@ -28,6 +28,7 @@ Sprite *Sprite::getInstanceByGid(unsigned int gid)
             sprite->setName("July");
             break;
         case 6:
+        case 453:
             sprite->setName("Princess");
             break;
         case 48:

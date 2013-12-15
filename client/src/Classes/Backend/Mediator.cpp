@@ -57,7 +57,7 @@ Sprite *Mediator::getPlayer1Sprite()
     Sprite *controlledSprite = new BomberSprite(); 
     controlledSprite->setId(19991);
     controlledSprite->setSize(10, 10);
-    controlledSprite->setPosition(200, 200);
+    controlledSprite->setPosition(70, 70);
     
     Logic::getInstance()->getState()->getSpriteLayer()->addObject(controlledSprite);
     StatisticsUpdater::getInstance()->setRelevantSpriteId(controlledSprite->getId());
