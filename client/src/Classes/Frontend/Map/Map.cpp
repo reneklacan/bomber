@@ -11,7 +11,7 @@ bool Map::init()
 
     // create level name with appropriate path
     std::string levelPath = "levels/";
-    levelPath.append( Bomber::Frontend::MenuSelections::getInstance()->getLevelName() );
+    levelPath += Bomber::Frontend::MenuSelections::getInstance()->getLevelFilename();
 
     _tiledMap = TMXTiledMap::create( levelPath.c_str() );
     this->addChild(_tiledMap, 0, 7);

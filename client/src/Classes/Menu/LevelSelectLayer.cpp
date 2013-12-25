@@ -1,4 +1,5 @@
 #include "LevelSelectLayer.h"
+#include "../Common/Storage/XMLStorage.h"
 
 #ifdef _WINDOWS
     #include "../../../lib/dirent/dirent.h"
@@ -22,7 +23,6 @@ Scene* LevelSelectLayer::scene()
     ;
     // add layer as a child to scene
     scene->addChild(layer);
-
 
     // return the scene
     return scene;
@@ -69,6 +69,8 @@ bool LevelSelectLayer::init()
 
     int position = 0;
 
+    Bomber::Common::XMLStorage *storage = Bomber::Common::XMLStorage::getInstance();
+
     for (auto filename : files)
     {
         if (_levelNameMap.count(filename) == 0)
@@ -81,7 +83,18 @@ bool LevelSelectLayer::init()
 
         MenuItemFont *newLevel = new MenuItemFont();
 
-        newLevel->initWithString(_levelNameMap[filename].c_str(), callback);
+        std::string nameToDisplay(_levelNameMap[filename]);
+
+        if (storage->get("level_status", filename) != "")
+        {
+            nameToDisplay += " - ";
+            nameToDisplay += storage->get("level_status", filename);
+        }
+
+        newLevel->initWithString(
+            nameToDisplay.c_str(),
+            callback
+        );
         newLevel->setPosition(ccp(0, position));
         menu->addChild(newLevel);
         position -= 50;
@@ -102,13 +115,14 @@ bool LevelSelectLayer::init()
 }
 
 //
-void LevelSelectLayer::playersSelect(Object *sender, std::string levelName)
+void LevelSelectLayer::playersSelect(Object *sender, std::string filename)
 {
     CCLog("player select from level menu");
 
     using namespace Bomber::Frontend;
     MenuSelections *ms = MenuSelections::getInstance();
-    ms->setLevelName( levelName );
+    ms->setLevelFilename(filename);
+    ms->setLevelName(_levelNameMap[filename]);
 
     //Scene *pScene = PlayersSelectLayer::scene();
     //Director::sharedDirector()->replaceScene(pScene);

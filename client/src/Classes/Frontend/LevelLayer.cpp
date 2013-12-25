@@ -1,5 +1,6 @@
 #include "LevelLayer.h"
 #include "../Constants.h"
+#include "../Common/Storage/XMLStorage.h"
 #include "../Backend/Mediator.h"
 #include "../Backend/GameObjects/Sprites/Bomber.h"
 #include "Buttons/GameButton.h"
@@ -200,6 +201,8 @@ void LevelLayer::updateGame(float dt)
 
     if( _gui->isFinishSet() )
     {
+        auto levelFilename = MenuSelections::getInstance()->getLevelFilename();
+        Common::XMLStorage::getInstance()->set("level_status", levelFilename, "finished");
         this->showFinishMenu();
     }
     
@@ -269,17 +272,17 @@ void LevelLayer::showFinishMenu()
 
     MenuItemFont *backToMenu = new MenuItemFont();
     backToMenu->initWithString(
-            "Back to Levels",
-            callback
+        "Back to Levels",
+        callback
     );
     backToMenu->setPosition(ccp(0, 0));
     menu->addChild(backToMenu);
 
     menu->setPosition(
-            ccp(
-                lcWidth/2,
-                lcHeight/2
-            )
+        ccp(
+            lcWidth/2,
+            lcHeight/2
+        )
     );
 
     // Add menu to the new layer
