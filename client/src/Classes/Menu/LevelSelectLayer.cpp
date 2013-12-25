@@ -112,6 +112,8 @@ void LevelSelectLayer::playersSelect(Object *sender, std::string levelName)
 
     //Scene *pScene = PlayersSelectLayer::scene();
     //Director::sharedDirector()->replaceScene(pScene);
+    
+    CCLog("skipping player select menu");
 
     // skip players amount selection
     Scene *pScene = GameplayScene::scene();

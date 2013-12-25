@@ -6,6 +6,8 @@
 #include "ButtonLayer.h"
 #include "Buttons/ControlButton.h"
 #include "Primitives/MenuHelper.h"
+#include "../Menu/LevelSelectLayer.h"
+#include "../Menu/MainMenuLayer.h"
 
 using namespace Bomber;
 using namespace Bomber::Frontend;
@@ -263,11 +265,11 @@ void LevelLayer::showFinishMenu()
     Menu* menu = Menu::create();
 
     // Back to Main menu label
-    ccMenuCallback callback = std::bind(&LevelLayer::backToMenu, this);
+    ccMenuCallback callback = std::bind(&LevelLayer::backToLevelSelect, this);
 
     MenuItemFont *backToMenu = new MenuItemFont();
     backToMenu->initWithString(
-            "Back to Menu",
+            "Back to Levels",
             callback
     );
     backToMenu->setPosition(ccp(0, 0));
@@ -293,6 +295,18 @@ void LevelLayer::backToMenu()
     // Replace actual scene (game) with menu and release game layer
     Scene *actualScene = Director::sharedDirector()->getRunningScene();
     Scene *pScene = MainMenuLayer::scene();
+    Director::sharedDirector()->replaceScene(pScene);
+
+    // Remove game layer
+    actualScene->stopAllActions();
+    actualScene->removeFromParent();
+}
+
+void LevelLayer::backToLevelSelect()
+{
+    // Replace actual scene (game) with menu and release game layer
+    Scene *actualScene = Director::sharedDirector()->getRunningScene();
+    Scene *pScene = LevelSelectLayer::scene();
     Director::sharedDirector()->replaceScene(pScene);
 
     // Remove game layer
