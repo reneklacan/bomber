@@ -20,6 +20,7 @@ SOURCES = Main.cpp \
         ../Classes/Common/Primitives/Rectangle.cpp \
         ../Classes/Common/GameState/GameState.cpp \
         ../Classes/Common/Cache/ObjectCache.cpp \
+        ../Classes/Common/Storage/XMLStorage.cpp \
         ../Classes/Backend/Mediator.cpp \
         ../Classes/Backend/Logic.cpp \
         ../Classes/Backend/GameState/GameStateUpdater.cpp \
