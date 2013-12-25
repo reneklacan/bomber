@@ -4,7 +4,7 @@
   <property name="goal_mobs_alive" value="0"/>
  </properties>
  <tileset firstgid="1" name="output" tilewidth="32" tileheight="48">
-   <image source="../tiles/new_tileset.png" width="512" height="2544"/>
+  <image source="../tiles/new_tileset.png" width="512" height="2544"/>
  </tileset>
  <layer name="floor" width="20" height="20">
   <data>
@@ -2489,7 +2489,6 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="84"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -2761,6 +2760,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="459"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>

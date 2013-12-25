@@ -25,6 +25,7 @@ class LevelSelectLayer : public Layer
         void registerWithTouchDispatcher();
 
     private:
+        std::map<std::string, std::string> _levelNameMap;
 
         void playersSelect(Object *sender, std::string levelName);
 };

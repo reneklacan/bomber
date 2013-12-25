@@ -548,7 +548,7 @@ void GUIUpdater::updateLevelFinish( GSCLevelFinish *levelFinish )
     _players.clear();
     // Instance variable
     _resetNow = false;
-    _finishLevel = false;
+    _finishLevel = false; // hmm ?
 
     // Flag
     _finishLevel = true;

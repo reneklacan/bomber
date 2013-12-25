@@ -23,6 +23,7 @@ Scene* LevelSelectLayer::scene()
     // add layer as a child to scene
     scene->addChild(layer);
 
+
     // return the scene
     return scene;
 }
@@ -33,50 +34,66 @@ bool LevelSelectLayer::init()
     if (!Layer::init())
         return false;
 
+    // map filenames to level names
+    _levelNameMap["00.tmx"] = "0. Test Level";
+    _levelNameMap["01.tmx"] = "1. Test Level";
+    _levelNameMap["02.tmx"] = "2. Test Level";
+
     Size visibleSize = Director::sharedDirector()->getVisibleSize();
     Menu* menu = Menu::create();
 
     // Scan directory
     DIR *dp;
     struct dirent *ep;
+
+    std::vector<std::string> files;
      
-    dp = opendir ("../Resources/levels");
+    dp = opendir("../Resources/levels");
     if (dp != NULL)
     {
-        int position = 0;
-        while (ep = readdir (dp))
+        while (ep = readdir(dp))
         {
-            // Must be at least 1 character long + .tmx and must not be dir or hidden file
-            std::string name (ep->d_name); 
-            if( strlen(ep->d_name) >= 5 && ep->d_name[0] != '.' &&
-                name.find(".tmx") != std::string::npos)
-            {
-                ccMenuCallback callback = std::bind(&LevelSelectLayer::playersSelect, this, this, name);
+            std::string name(ep->d_name);
 
-                MenuItemFont *newLevel = new MenuItemFont();
-                newLevel->initWithString(
-                        ep->d_name,
-                        callback
-                );
-                newLevel->setPosition(ccp(0, position));
-                menu->addChild(newLevel);
-                position -= 50;
-            }
+            // Must contain .tmx and must not be dir or hidden file
+            if (name[0] != '.' && name.find(".tmx") != std::string::npos)
+                files.push_back(name);
         }
-        (void) closedir (dp);
+        (void) closedir(dp);
+        std::sort(files.begin(), files.end());
     }
     else
     {
         std::cerr << "Couldn't open the directory containing maps!" << std::endl;
     }
 
+    int position = 0;
+
+    for (auto filename : files)
+    {
+        if (_levelNameMap.count(filename) == 0)
+        {
+            std::cerr << "Not defined level name for filename " << filename << std::endl;
+            continue;
+        }
+
+        ccMenuCallback callback = std::bind(&LevelSelectLayer::playersSelect, this, this, filename);
+
+        MenuItemFont *newLevel = new MenuItemFont();
+
+        newLevel->initWithString(_levelNameMap[filename].c_str(), callback);
+        newLevel->setPosition(ccp(0, position));
+        menu->addChild(newLevel);
+        position -= 50;
+    }
+
     this->addChild(menu, 1);
 
     menu->setPosition(
-            ccp(
-                visibleSize.width/2,
-                visibleSize.height - 100
-            )
+        ccp(
+            visibleSize.width/2,
+            visibleSize.height + 100
+        )
     );
 
     this->setTouchEnabled(true);
@@ -93,7 +110,11 @@ void LevelSelectLayer::playersSelect(Object *sender, std::string levelName)
     MenuSelections *ms = MenuSelections::getInstance();
     ms->setLevelName( levelName );
 
-    Scene *pScene = PlayersSelectLayer::scene();
+    //Scene *pScene = PlayersSelectLayer::scene();
+    //Director::sharedDirector()->replaceScene(pScene);
+
+    // skip players amount selection
+    Scene *pScene = GameplayScene::scene();
     Director::sharedDirector()->replaceScene(pScene);
 }
 

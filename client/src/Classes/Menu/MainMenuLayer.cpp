@@ -41,33 +41,35 @@ bool MainMenuLayer::init()
     
     ccMenuCallback callbackGame = std::bind(&MainMenuLayer::newGame, this, this);
     MenuItem *newGameItem = MenuItemImage::create(
-            "menu/new_game.png",
-            "menu/new_game.png",
-            callbackGame
+        "menu/new_game.png",
+        "menu/new_game.png",
+        callbackGame
     );
 
     ccMenuCallback callbackLevels = std::bind(&MainMenuLayer::showLevels, this, this);
     MenuItem *levelsItem = MenuItemImage::create(
-            "menu/levels.png",
-            "menu/levels.png",
-            callbackLevels
+        "menu/levels.png",
+        "menu/levels.png",
+        callbackLevels
     );
 
-    Menu* menu = Menu::create(newGameItem, levelsItem, NULL);
+    //Menu* menu = Menu::create(newGameItem, levelsItem, NULL);
+    Menu* menu = Menu::create(levelsItem, NULL);
 
     newGameItem->setPosition(ccp(0, 0));
-    levelsItem->setPosition(ccp(0, -150));
+    //levelsItem->setPosition(ccp(0, -150));
+    levelsItem->setPosition(ccp(0, 0));
 
     this->addChild(menu, 1);
 
     menu->setPosition(
-            ccp(
-                visibleSize.width/2,
-                visibleSize.height - 200
-            )
+        ccp(
+            visibleSize.width/2,
+            visibleSize.height - 200
+        )
     );
 
-    this->setTouchEnabled(true);
+    //this->setTouchEnabled(true);
     this->setKeyboardEnabled(true);
 
     return true;

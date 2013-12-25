@@ -378,13 +378,14 @@ bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int
 
         _gameStateUpdater->damageSprite(sprite, bomb->getOwnerId(), bomb->getDamage());
 
-        
         if (sprite->getAttributes()->isDead())
         {
             *spritesKilled = *spritesKilled + 1;
         }
 
-        if (sprite == _controlledSprite && sprite->getAttributes()->isDead())
+
+        //if (sprite == _controlledSprite && sprite->getAttributes()->isDead())
+        if (!sprite->isAI() && sprite->getAttributes()->isDead())
         {
             this->scheduleLevelReset(2.0f);
         }
