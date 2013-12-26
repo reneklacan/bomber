@@ -360,7 +360,7 @@ void LevelLayer::initControlledSprite()
 //
 void LevelLayer::initControlLayer()
 {
-    _controlLayer->enableJoystick();
+    //_controlLayer->enableJoystick();
     _controlLayer->enableKeyboard();
     _controlLayer->setPauseGameDelegate(this);
 

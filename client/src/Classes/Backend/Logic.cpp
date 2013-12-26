@@ -175,11 +175,11 @@ void Logic::updateBombs(float dt)
         }
 
         _gameStateUpdater->spawnExplosion(
-                bomb,
-                armLengths[0], // top
-                armLengths[1], // bottom
-                armLengths[2], // left
-                armLengths[3]  // right
+            bomb,
+            armLengths[0], // top
+            armLengths[1], // bottom
+            armLengths[2], // left
+            armLengths[3]  // right
         );
     }
 
