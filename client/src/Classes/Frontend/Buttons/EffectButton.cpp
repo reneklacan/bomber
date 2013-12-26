@@ -3,7 +3,7 @@
 using namespace Bomber::Frontend;
 
 EffectButton::EffectButton(unsigned int id, Rect imageRect, Texture2D *texture)
-: _id(id), _textWidth(40), _textHeight(40), _imageScale(0.8), _label(1)
+: _id(id), _textWidth(40), _textHeight(40), _imageScale(0.8f), _label(1)
 {
     _width = 0;
     _height = 0;
