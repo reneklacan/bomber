@@ -572,15 +572,9 @@ void GUIUpdater::updateBlockPush( GSCBlockPush *blockPush )
     unsigned int newId = _map->getWidth() * (_map->getHeight() - blockPush->getTo().y - 1) + blockPush->getTo().x;
     Sprite *obstacle = _obstacles[ id ];
 
-    std::cout << "map width: " << _map->getWidth() << std::endl;
-    std::cout << "block push from x: " << blockPush->getFrom().x << std::endl;
-    std::cout << "block push from y: " << blockPush->getFrom().y << std::endl;
-    std::cout << "obstacle id: " << id << std::endl;
-
     // If no such obstacle exists, return
     if(obstacle == NULL)
     {
-        CCLog("Obstacle is null");
         return;
     }
 
@@ -703,8 +697,6 @@ void GUIUpdater::initPlayers()
         player->setAnchorPoint(ccp(0.45f, 0.2f));
         player->setVertexZ(0);
 
-        std::cout << player;
-        
         // Add player to Batch Node
         _batchNode->addChild(player, 0);
     }

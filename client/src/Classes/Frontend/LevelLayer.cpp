@@ -335,10 +335,6 @@ void LevelLayer::initControlledSprite()
 
     // set view that timmy is in the center of it
     Size visibleSize = Director::sharedDirector()->getVisibleSize();
-    std::cout << "width: " << visibleSize.width << std::endl;
-    std::cout << "heght: " << visibleSize.height << std::endl;
-    std::cout << "x: " <<  _players[19991]->getPosition().x << std::endl;
-    std::cout << "y: " <<  _players[19991]->getPosition().y << std::endl;
     _map->setPosition(
         ccp(
             //visibleSize.width/2 - _players[19991]->getPosition().x,
