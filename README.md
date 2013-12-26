@@ -1,9 +1,6 @@
 Bomber
 ======
 
-Projekt teraz obsahuje jednoduchu hru a jednoduchy editor vyprototypovany v pythone
-
-
 Pre skompilovanie je nutne najprv stiahnut zdrojaky cocos2d (musel som forknut zdrojaky, aby som pridal podporu na hw klavesnicu)
 
     cd client/lib
@@ -14,9 +11,9 @@ Pre skompilovanie je nutne najprv stiahnut zdrojaky cocos2d (musel som forknut z
 
 Nasledne, ak sa vsetko podari bez chyby
 
-    cd src/ProjLinux
+    cd client/src/ProjLinux
     make
-    ./bin/release/SimpleGame
+    ./bin/release/bomber
 
 Tada :)
 

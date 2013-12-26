@@ -27,6 +27,8 @@ bool PlayersSelectLayer::init()
     if (!Layer::init())
         return false;
 
+    //return true;
+    
     Size visibleSize = Director::sharedDirector()->getVisibleSize();
     Menu* menu = Menu::create();
 
@@ -41,8 +43,8 @@ bool PlayersSelectLayer::init()
 
         MenuItemFont *newLevel = new MenuItemFont();
         newLevel->initWithString(
-                label.c_str(),
-                callback
+            label.c_str(),
+            callback
         );
         newLevel->setPosition(ccp(0, position));
         menu->addChild(newLevel);
@@ -53,10 +55,10 @@ bool PlayersSelectLayer::init()
     this->addChild(menu, 1);
 
     menu->setPosition(
-            ccp(
-                visibleSize.width/2,
-                visibleSize.height - 100
-            )
+        ccp(
+            visibleSize.width/2,
+            visibleSize.height - 100
+        )
     );
 
     this->setTouchEnabled(true);

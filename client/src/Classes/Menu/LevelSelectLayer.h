@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-#include "../Gameplay/Frontend/Primitives/MenuHelper.h"
+#include "../Frontend/Primitives/MenuHelper.h"
 #include "PlayersSelectLayer.h"
 
 #include <sys/types.h>
@@ -25,6 +25,7 @@ class LevelSelectLayer : public Layer
         void registerWithTouchDispatcher();
 
     private:
+        std::map<std::string, std::string> _levelNameMap;
 
         void playersSelect(Object *sender, std::string levelName);
 };

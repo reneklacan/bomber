@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 
 //#include "SimpleAudioEngine.h"
-#include "Gameplay/Frontend/LevelLayer.h"
+#include "Frontend/LevelLayer.h"
 
 using namespace Bomber::Frontend;
 
