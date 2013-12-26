@@ -264,7 +264,9 @@ void Logic::updateSprites(float dt)
                 continue;
 
             _gameStateUpdater->updateSpriteAttributes(sprite, effect);
-            effectsToDestroy.push_back(effect);
+
+            if (effect->getCharges() == 0)
+                effectsToDestroy.push_back(effect);
         }
 
         // port sprite if it is possible

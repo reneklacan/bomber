@@ -24,6 +24,9 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
         case 607:
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_BOMB_POWER_INC);
             break;
+        case 623:
+            effect = (Effect *) ObjectCache::getInstance()->getObject(COT_LEVEL_KEY);
+            break;
         default:
             printf("Effect::getInstanceByGid - unknown effect gid %u\n", gid);
             printf("Segfault comiiiiiing...\n");

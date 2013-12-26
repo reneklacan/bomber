@@ -32,6 +32,7 @@ namespace Bomber
             COT_HEALTH_DEC,
             COT_SPEED_INC,
             COT_SPEED_DEC,
+            COT_LEVEL_KEY,
         };
 
         class CachableObject

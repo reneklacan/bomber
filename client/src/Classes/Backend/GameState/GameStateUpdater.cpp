@@ -155,6 +155,8 @@ void GameStateUpdater::update()
 
     bool goalComplete = true;
 
+    // currently all goals should be reached to complete the level
+    // TODO: or operator
     for (auto condition : _state->getGoalConditions())
     {
         auto type = condition.first;
@@ -166,6 +168,20 @@ void GameStateUpdater::update()
             {
                 goalComplete = false;
                 break;
+            }
+        }
+        else if (type == CONDITION_LEVEL_KEYS)
+        {
+            for (auto sprite : _state->getSpriteLayer()->getObjects())
+            {
+                if (sprite->isAI())
+                    continue;
+
+                if (sprite->getAttributes()->getLevelKeys() != value)
+                {
+                    goalComplete = false;
+                    break;
+                }
             }
         }
         else

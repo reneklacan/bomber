@@ -116,6 +116,9 @@ CachableObject* ObjectCache::getObject(TCachableObjectType type)
         case COT_SPEED_DEC:
             object = new EffectSpeedDec();
             break;
+        case COT_LEVEL_KEY:
+            object = new EffectLevelKey();
+            break;
     }
 
     if (object == nullptr)
