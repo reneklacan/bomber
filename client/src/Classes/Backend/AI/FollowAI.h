@@ -16,19 +16,18 @@ namespace Bomber
 
         class FollowAI : public Sprite
         {
+
             public:
                 FollowAI();
                 virtual void init();
                 void update(float dt);
                 inline virtual bool isAI() { return true; };
 
-            protected:
-                bool _smart; // if AI is able to find path if obstacles are in direct path
-                float _aggroDistance;
-
             private:
                 TFollowAIState _state;
                 Common::Position _goal;
+                SYNTHESIZE(bool, _smart, Smart); // if AI is able to find path if obstacles are in direct path
+                SYNTHESIZE(float, _aggroDistance, AggroDistance);
         };
     }
 }

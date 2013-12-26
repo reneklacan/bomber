@@ -105,7 +105,7 @@ bool LevelSelectLayer::init()
     menu->setPosition(
         ccp(
             visibleSize.width/2,
-            visibleSize.height + 100
+            visibleSize.height - 100
         )
     );
 

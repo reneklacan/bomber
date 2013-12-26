@@ -31,6 +31,7 @@ Sprite *Sprite::getInstanceByGid(unsigned int gid)
         //case 6:
         case 453:
             sprite->setName("Princess");
+            sprite->setSmart(false);
             break;
         case 48:
             sprite->setName("Fluffy");
