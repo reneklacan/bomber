@@ -237,6 +237,19 @@ void Logic::updateSprites(float dt)
             // AI moves have to be logged
             _gameStateUpdater->logSpriteMove(sprite);
         }
+
+        // check for mobs around
+        if (!sprite->isAI())
+        {
+            for (auto enemy : spriteLayer->getObjectsAtCoords(sprite->getCoords()))
+            {
+                if (!enemy->isAI())
+                    continue;
+
+                _gameStateUpdater->damageSprite(sprite, enemy->getId(), 9999);
+                this->scheduleLevelReset(2.0f);
+            }
+        }
         
         // take effects
 
