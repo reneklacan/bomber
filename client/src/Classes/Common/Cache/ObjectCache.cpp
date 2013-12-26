@@ -88,10 +88,10 @@ CachableObject* ObjectCache::getObject(TCachableObjectType type)
             break;
         case COT_PUSHABLE_BLOCK:
             object = new PushableBlock();
+            break;
 
         // effects
 
-            
         case COT_BOMB_POWER_INC:
             object = new EffectBombPowerInc();
             break;

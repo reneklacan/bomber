@@ -3,6 +3,7 @@
 #define __BOMBER_BACKEND_OBSTACLE
 
 #include "GameObject.h"
+#include <iostream>
 
 namespace Bomber
 {
@@ -33,6 +34,11 @@ namespace Bomber
                 MazeBlock() : Obstacle()
                 {
                     _name = "maze block";
+                    this->init();
+                }
+
+                virtual void init()
+                {
                     _toughness = -1;
                 }
         };
@@ -43,6 +49,12 @@ namespace Bomber
                 inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_DESTROYABLE_BLOCK; };
 
                 DestroyableBlock() : Obstacle()
+                {
+                    _name = "destroyable block";
+                    this->init();
+                }
+
+                virtual void init()
                 {
                     _name = "destroyable block";
                     _toughness = 1;
@@ -57,8 +69,13 @@ namespace Bomber
                 PushableBlock() : Obstacle()
                 {
                     _name = "pushable block";
-                    _toughness = -1;
                     _pushable = true;
+                    this->init();
+                }
+
+                virtual void init()
+                {
+                    _toughness = -1;
                 }
         };
 
@@ -70,6 +87,11 @@ namespace Bomber
                 LeverBlock() : Obstacle()
                 {
                     _name = "lever";
+                    this->init();
+                }
+
+                virtual void init()
+                {
                     _toughness = -1;
                 }
         };

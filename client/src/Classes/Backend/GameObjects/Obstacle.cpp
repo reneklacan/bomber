@@ -46,7 +46,7 @@ Obstacle::Obstacle()
 :GameObject()
 ,_pushable(false)
 {
-
+    this->init();
 }
 
 int Obstacle::decreaseToughness()
