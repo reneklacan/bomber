@@ -568,13 +568,19 @@ void GUIUpdater::updateBombMove( GSCBombMove *bombMove )
 void GUIUpdater::updateBlockPush( GSCBlockPush *blockPush )
 {
     // Get obstacle for animation
-    unsigned int id = _map->getWidth() * (_map->getWidth() - blockPush->getFrom().y - 1) + blockPush->getFrom().x;
-    unsigned int newId = _map->getWidth() * (_map->getWidth() - blockPush->getTo().y - 1) + blockPush->getTo().x;
+    unsigned int id = _map->getWidth() * (_map->getHeight() - blockPush->getFrom().y - 1) + blockPush->getFrom().x;
+    unsigned int newId = _map->getWidth() * (_map->getHeight() - blockPush->getTo().y - 1) + blockPush->getTo().x;
     Sprite *obstacle = _obstacles[ id ];
+
+    std::cout << "map width: " << _map->getWidth() << std::endl;
+    std::cout << "block push from x: " << blockPush->getFrom().x << std::endl;
+    std::cout << "block push from y: " << blockPush->getFrom().y << std::endl;
+    std::cout << "obstacle id: " << id << std::endl;
 
     // If no such obstacle exists, return
     if(obstacle == NULL)
     {
+        CCLog("Obstacle is null");
         return;
     }
 
