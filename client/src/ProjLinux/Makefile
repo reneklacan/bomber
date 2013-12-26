@@ -1,4 +1,4 @@
-EXECUTABLE = SimpleGame
+EXECUTABLE = bomber
 
 COCOS_ROOT = ../../lib/cocos2d-x
 RAKNET_ROOT = ../../lib/raknet
