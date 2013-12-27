@@ -38,6 +38,7 @@ bool LevelLayer::init()
     // Basic init
     _gui = new GUIUpdater();
     _map = Map::create();
+    _statistics = new Statistics();
 
     // Init Mediator according to connection type
     Backend::Mediator::getInstance()->setConnectionType( MenuSelections::getInstance()->getConnection() );
@@ -118,11 +119,14 @@ bool LevelLayer::init()
         )
     );
 
+    this->initStatistics();
+
     // use updateGame instead of update, otherwise it will conflit with SelectorProtocol::update
     // see http://www.cocos2d-x.org/boards/6/topics/1478
     this->schedule( schedule_selector(LevelLayer::updateGame) );
 
     //CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("background-music-aac.wav", true);
+
 
     return true;
 }
@@ -221,10 +225,12 @@ void LevelLayer::menuPauseCallback(Object* pSender)
     // "pause/resume" menu item clicked
     if(_gamePaused)
     {
+        _statistics->resumeLevelTimer();
         _gamePaused = false;
     }
     else
     {
+        _statistics->pauseLevelTimer();
         _gamePaused = true;
     }
 }
@@ -244,25 +250,41 @@ void LevelLayer::resetLevel()
 
     // Backend init
     this->initControlledSprite();
+    this->initStatistics();
 }
 
 //
 void LevelLayer::showFinishMenu()
 {
-    // Pase game
+    // Pause game
     _gamePaused = true;
+    _statistics->endLevelTimer();
 
     Size visibleSize = Director::sharedDirector()->getVisibleSize();
 
     // Create new layer
     LayerColor *lc = new LayerColor();
     int lcWidth = (int)visibleSize.width*0.75;
-    int lcHeight = (int)visibleSize.width*0.60;
+    int lcHeight = (int)visibleSize.height*0.60;
     lc->initWithColor( ccc4(10, 10, 10, 180), lcWidth, lcHeight);
     lc->setPosition(
         visibleSize.width/2 - lcWidth/2,
-        visibleSize.height/2 - lcHeight/2
+        visibleSize.height/2 - lcHeight/8
     );
+
+    std::string levelTime = "Time: ";
+    levelTime += std::to_string( _statistics->getLevelTimer() );
+    levelTime += " seconds";
+    LabelTTF* stats = LabelTTF::create(
+        levelTime.c_str(),
+        "Helvetica",
+        24,
+        CCSizeMake(lcWidth, 24),
+        kTextAlignmentCenter,
+        kVerticalTextAlignmentTop
+    );
+    stats->setPosition(ccp(lcWidth/2, lcHeight/2+50));
+    lc->addChild(stats, 1);
 
     // Create menu
     Menu* menu = Menu::create();
@@ -372,4 +394,11 @@ void LevelLayer::initControlLayer()
     {
         _controlLayer->setControlledPlayer2(_players[19992]);
     }
+}
+
+//
+void LevelLayer::initStatistics()
+{
+    // Level Timer
+    _statistics->startLevelTimer();
 }
