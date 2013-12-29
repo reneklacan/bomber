@@ -155,16 +155,12 @@ void GameStateUpdater::update()
 
     bool goalComplete = true;
 
-    printf("before\n");
-
     // currently all goals should be reached to complete the level
     // TODO: or operator
     for (auto condition : _state->getGoalConditions())
     {
         auto type = condition.first;
         auto value = condition.second;
-
-        printf("in - type: %d, value: %d\n", type, value);
 
         if (type == CONDITION_MOBS_ALIVE)
         {
