@@ -38,6 +38,8 @@ SOURCES = Main.cpp \
         ../Classes/Backend/Statistics/GameAchievements.cpp \
         ../Classes/Backend/AI/AI.cpp \
         ../Classes/Backend/AI/FollowAI.cpp \
+        ../Classes/Backend/AI/Behaviour/Behaviour.cpp \
+        ../Classes/Backend/AI/Behaviour/Action.cpp \
         ../Classes/Frontend/LevelLayer.cpp \
         ../Classes/Frontend/ButtonLayer.cpp \
         ../Classes/Frontend/Collisions.cpp \
