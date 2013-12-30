@@ -4,6 +4,7 @@
 #include "Actions.h"
 
 using namespace Bomber::Backend;
+using namespace Bomber::Common;
 
 Wait::Wait()
 {
@@ -42,4 +43,62 @@ Actions::Actions(Action *firstAction, ...)
     }
     
     va_end(list);
+}
+
+WalkTo::WalkTo(unsigned int x, unsigned int y)
+{
+    _destination = Coordinates(x, y);
+}
+
+void WalkTo::update(float dt)
+{
+    if (_sprite->isMoving())
+    {
+        _sprite->continueMove();
+        return;
+    }
+
+    if (_sprite->getCoords() == _destination)
+    {
+        _complete = true;
+        return;
+    }
+
+    if (!_sprite->tryToChasePlayer())
+    {
+        _sprite->continueMoveTo(_destination);
+    }
+}
+
+WalkWithoutAttentionTo::WalkWithoutAttentionTo(unsigned int x, unsigned int y)
+{
+    _destination = Coordinates(x, y);
+}
+
+void WalkWithoutAttentionTo::update(float dt)
+{
+    if (_sprite->isMoving())
+    {
+        _sprite->continueMove();
+        return;
+    }
+
+    if (_sprite->getCoords() == _destination)
+    {
+        _complete = true;
+        return;
+    }
+
+    _sprite->continueMoveTo(_destination);
+}
+
+void HuntNearestPlayer::update(float dt)
+{
+    if (_sprite->isMoving())
+    {
+        _sprite->continueMove();
+        return;
+    }
+
+    _sprite->tryToChasePlayerOrGoRandom();
 }

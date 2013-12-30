@@ -1,27 +1,31 @@
-#ifndef __BOMBER_BACKEND_BEHAVIOUR
-#define __BOMBER_BACKEND_BEHAVIOUR
+#ifndef __BOMBER_BACKEND_ADVANCED_AI
+#define __BOMBER_BACKEND_ADVANCED_AI
 
 #include <vector>
 
 #include "Actions.h"
-#include "../GameObjects/Sprites/Sprite.h"
 #include "../../Common/Primitives/Position.h"
+#include "ScriptedSprite.h"
+#include "AI.h"
 
 namespace Bomber
 {
     namespace Backend
     {
-        class AdvancedAI : public Sprite
+        class AdvancedAI : public ScriptedSprite
         {
             public:
                 AdvancedAI();
+                AdvancedAI(Actions *actions);
 
-                void update(float dt);
+                virtual void update(float dt);
                 void nextAction();
 
-                bool continueMove();
-                void goToRandomDirection();
-                void tryToChasePlayer();
+                virtual bool continueMove();
+                virtual bool continueMoveTo(Common::Coordinates coords);
+                virtual void goRandom();
+                virtual bool tryToChasePlayer();
+                virtual void tryToChasePlayerOrGoRandom();
 
                 inline virtual bool isAI() { return true; };
                 inline bool isMoving() { return _moving; };

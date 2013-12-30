@@ -15,6 +15,11 @@ AdvancedAI::AdvancedAI()
 
 }
 
+AdvancedAI::AdvancedAI(Actions *actions)
+{
+    this->setActions(actions);
+}
+
 void AdvancedAI::update(float dt)
 {
     _step = _attributes->getSpeed() * dt;
@@ -38,17 +43,17 @@ void AdvancedAI::setActions(Actions *actions)
         action->setSprite(this);
 }
 
-void AdvancedAI::goToRandomDirection()
+void AdvancedAI::goRandom()
 {
     Coordinates goalCoords = AI::getInstance()->getRandomCoordsAround(
         this->getCoords(),
         _attributes->getGhostMode()
     );
-    _goal = Position(goalCoords.x*TILE_WIDTH, goalCoords.y*TILE_HEIGHT);
+    _goal = goalCoords.toPosition();
     this->continueMove();
 }
 
-void AdvancedAI::tryToChasePlayer()
+bool AdvancedAI::tryToChasePlayer()
 {
     Coordinates goalCoords;
     std::deque<Coordinates> path = AI::getInstance()->findPathToNearestPlayer(
@@ -58,23 +63,46 @@ void AdvancedAI::tryToChasePlayer()
         _attributes->getGhostMode()
     );
     
-    if (path.size() != 0)
-    {
-        goalCoords = path[0];
-    }
-    else
-    {
-        goalCoords = AI::getInstance()->getRandomCoordsAround(
-            this->getCoords(),
-            _attributes->getGhostMode()
-        );
-    }
+    if (path.size() == 0)
+        return false;
+
+    goalCoords = AI::getInstance()->getRandomCoordsAround(
+        this->getCoords(),
+        _attributes->getGhostMode()
+    );
 
     if (this->getCoords() == goalCoords)
-        return;
+        return false;
 
-    _goal = Position(goalCoords.x*TILE_WIDTH, goalCoords.y*TILE_HEIGHT);
+    _goal = goalCoords.toPosition();
     this->continueMove();
+    return true;
+}
+
+void AdvancedAI::tryToChasePlayerOrGoRandom()
+{
+    if (!this->tryToChasePlayer())
+        this->goRandom();
+}
+
+bool AdvancedAI::continueMoveTo(Coordinates coords)
+{
+    if (_moving)
+    {
+        this->continueMove();
+        return true;
+    }
+
+    if (this->getCoords() == coords)
+        return false;
+
+    auto path = AI::getInstance()->findPath(this->getCoords(), coords, _attributes->getGhostMode(), _smart);
+
+    if (path.size() == 0)
+        return false;
+
+    _goal = path[0].toPosition();
+    return true;
 }
 
 bool AdvancedAI::continueMove()
@@ -87,12 +115,12 @@ bool AdvancedAI::continueMove()
     if (delta.x > TILE_WIDTH + 2*_step || delta.y > TILE_HEIGHT + 2*_step)
     {
         _moving = false;
-        return true; // goal reached
+        return false; // goal reached
     }
     else if (delta < 2*_step && delta > -2*_step)
     {
         _moving = false;
-        return true; // goal reached
+        return false; // goal reached
     }
 
     if (fabs(delta.x) > fabs(delta.y))
@@ -111,5 +139,5 @@ bool AdvancedAI::continueMove()
     }
     this->setPosition(nextPos);
     _moving = true;
-    return false;
+    return true;
 }

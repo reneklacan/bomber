@@ -210,6 +210,14 @@ std::deque<Coordinates> AI::findPath(Coordinates from, Coordinates to)
     return this->findPath(from, to, false);
 }
 
+std::deque<Coordinates> AI::findPath(Coordinates from, Coordinates to, bool ghostMode, bool smart)
+{
+    if (smart)
+        return this->findPath(from, to, ghostMode);
+    
+    return this->findDirectPath(from, to, ghostMode);
+}
+
 std::deque<Coordinates> AI::findPath(Coordinates from, Coordinates to, bool ghostMode)
 {
     // TODO: use effective algorithm (A*?) instead of this temporary processor burner!

@@ -16,7 +16,7 @@ namespace Bomber
 
             virtual void init()
             {
-                _actions = this->behaviour()->all();
+                this->setActions(this->behaviour());
             }
 
             virtual Actions *behaviour()

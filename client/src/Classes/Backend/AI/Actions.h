@@ -2,7 +2,7 @@
 #define __BOMBER_BACKEND_ACTION
 
 #include "../../Common/Primitives/Coordinates.h"
-#include "../GameObjects/Sprites/Sprite.h"
+#include "ScriptedSprite.h"
 
 namespace Bomber
 {
@@ -16,10 +16,10 @@ namespace Bomber
                 virtual void update(float dt) {};
                 bool isComplete() { return _complete; };
                 virtual bool isLast() { return false; };
-                void setSprite(Sprite *sprite) { _sprite = sprite; };
+                void setSprite(ScriptedSprite *sprite) { _sprite = sprite; };
 
             protected:
-                Sprite *_sprite;
+                ScriptedSprite *_sprite;
                 bool _complete;
         };
 
@@ -29,12 +29,6 @@ namespace Bomber
             public:
                 Again() {};
                 virtual bool isLast() { return true; };
-        };
-
-        class WalkTo : public Action
-        {
-            public:
-                WalkTo(unsigned int x, unsigned int y) {};
         };
 
         class Wait : public Action
@@ -49,11 +43,21 @@ namespace Bomber
                 float _expired = 0.0f;
         };
 
+        class WalkTo : public Action
+        {
+            public:
+                WalkTo(unsigned int x, unsigned int y);
+                virtual void update(float dt);
+
+            private:
+                Common::Coordinates _destination;
+        };
+
         class WalkWithoutAttentionTo : public Action
         {
             public:
-                WalkWithoutAttentionTo(int x, int y) {};
-                WalkWithoutAttentionTo(Common::Coordinates destination) {};
+                WalkWithoutAttentionTo(unsigned int x, unsigned int y);
+                virtual void update(float dt);
 
             private:
                 Common::Coordinates _destination;
@@ -63,6 +67,7 @@ namespace Bomber
         {
             public:
                 HuntNearestPlayer() {};
+                virtual void update(float dt);
         };
 
         class Actions
