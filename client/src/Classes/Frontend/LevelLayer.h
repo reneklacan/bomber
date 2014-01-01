@@ -14,7 +14,7 @@
 #include "../Backend/Mediator.h"
 #include "../Backend/GameObjects/Sprites/Sprite.h"
 #include "GUIUpdater.h"
-#include "Statistics/Statistics.h"
+#include "Statistics/FStatistics.h"
 
 namespace Bomber
 {

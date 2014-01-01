@@ -42,7 +42,7 @@ namespace Bomber
                 void setActions(Actions *);
 
             private:
-                int _currentActionIndex = 0;
+                int _currentActionIndex;
         };
     }
 }

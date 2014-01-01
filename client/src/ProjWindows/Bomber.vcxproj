@@ -130,6 +130,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\lib\dirent\dirent.c" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\Backend\AI\Actions.cpp" />
+    <ClCompile Include="..\Classes\Backend\AI\AdvancedAI.cpp" />
     <ClCompile Include="..\Classes\Backend\AI\AI.cpp" />
     <ClCompile Include="..\Classes\Backend\AI\FollowAI.cpp" />
     <ClCompile Include="..\Classes\Backend\GameObjects\BBomb.cpp" />
@@ -168,6 +170,7 @@
     <ClCompile Include="..\Classes\Frontend\Sprites\GameSprite.cpp" />
     <ClCompile Include="..\Classes\Frontend\Sprites\Human.cpp" />
     <ClCompile Include="..\Classes\Frontend\Sprites\SpriteCreator.cpp" />
+    <ClCompile Include="..\Classes\Frontend\Statistics\FStatistics.cpp" />
     <ClCompile Include="..\Classes\GameOverScene.cpp" />
     <ClCompile Include="..\Classes\GameplayScene.cpp" />
     <ClCompile Include="..\Classes\Input\ControlLayer.cpp" />
@@ -185,8 +188,11 @@
   <ItemGroup>
     <ClInclude Include="..\..\lib\dirent\dirent.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\Backend\AI\Actions.h" />
+    <ClInclude Include="..\Classes\Backend\AI\AdvancedAI.h" />
     <ClInclude Include="..\Classes\Backend\AI\AI.h" />
     <ClInclude Include="..\Classes\Backend\AI\FollowAI.h" />
+    <ClInclude Include="..\Classes\Backend\AI\ScriptedSprite.h" />
     <ClInclude Include="..\Classes\Backend\GameObjects\BBomb.h" />
     <ClInclude Include="..\Classes\Backend\GameObjects\Effect.h" />
     <ClInclude Include="..\Classes\Backend\GameObjects\GameObject.h" />
@@ -241,6 +247,7 @@
     <ClInclude Include="..\Classes\Frontend\Sprites\GameSprite.h" />
     <ClInclude Include="..\Classes\Frontend\Sprites\Human.h" />
     <ClInclude Include="..\Classes\Frontend\Sprites\SpriteCreator.h" />
+    <ClInclude Include="..\Classes\Frontend\Statistics\FStatistics.h" />
     <ClInclude Include="..\Classes\GameOverScene.h" />
     <ClInclude Include="..\Classes\GameplayScene.h" />
     <ClInclude Include="..\Classes\Input\ActionDelegates.h" />

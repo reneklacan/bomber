@@ -7,11 +7,14 @@ using namespace Bomber::Backend;
 using namespace Bomber::Common;
 
 Wait::Wait()
+:_period(-1.0f)
+,_expired(0.0f)
 {
 
 }
 
 Wait::Wait(float period)
+:_expired(0.0f)
 {
     _period = period;
 }

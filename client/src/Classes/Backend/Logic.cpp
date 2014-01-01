@@ -225,6 +225,8 @@ void Logic::updateSprites(float dt)
 
     std::vector<Effect *> effectsToDestroy;
 
+    Sprite *nonAISprite = nullptr;
+
     for (auto sprite : spriteLayer->getObjects())
     {
         if (!sprite->isActive())
@@ -240,16 +242,7 @@ void Logic::updateSprites(float dt)
 
         // check for mobs around
         if (!sprite->isAI())
-        {
-            for (auto enemy : spriteLayer->getObjectsAtCoords(sprite->getCoords()))
-            {
-                if (!enemy->isAI())
-                    continue;
-
-                _gameStateUpdater->damageSprite(sprite, enemy->getId(), 9999);
-                this->scheduleLevelReset(2.0f);
-            }
-        }
+            nonAISprite = sprite; // TODO: fix this shit and find out prettier solution
         
         // take effects
 
@@ -319,6 +312,18 @@ void Logic::updateSprites(float dt)
                 }
             }
             break;
+        }
+    }
+
+    if (nonAISprite)
+    {
+        for (auto enemy : spriteLayer->getObjectsAtCoords(nonAISprite->getCoords()))
+        {
+            if (!enemy->isAI())
+                continue;
+
+            _gameStateUpdater->damageSprite(nonAISprite, enemy->getId(), 9999);
+            this->scheduleLevelReset(2.0f);
         }
     }
 

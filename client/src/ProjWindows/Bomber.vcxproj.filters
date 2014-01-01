@@ -79,6 +79,9 @@
     <Filter Include="Classes\Input\Touch">
       <UniqueIdentifier>{d08b7c1d-e588-4244-8ec8-aea2e4c4090d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Frontend\Statistics">
+      <UniqueIdentifier>{169fe1e3-7bfb-453e-b551-36c2d9709a2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\ProjWindows\Main.cpp">
@@ -239,6 +242,15 @@
     </ClCompile>
     <ClCompile Include="..\Classes\GameplayScene.cpp">
       <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\AI\Actions.cpp">
+      <Filter>Classes\Backend\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\AI\AdvancedAI.cpp">
+      <Filter>Classes\Backend\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Statistics\FStatistics.cpp">
+      <Filter>Classes\Frontend\Statistics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -466,6 +478,18 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Macros.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\AI\Actions.h">
+      <Filter>Classes\Backend\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\AI\AdvancedAI.h">
+      <Filter>Classes\Backend\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\AI\ScriptedSprite.h">
+      <Filter>Classes\Backend\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Statistics\FStatistics.h">
+      <Filter>Classes\Frontend\Statistics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
