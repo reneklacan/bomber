@@ -39,8 +39,8 @@ namespace Bomber
                 virtual void update(float dt);
 
             private:
-                float _period = -1.0f;
-                float _expired = 0.0f;
+                float _period;
+                float _expired;
         };
 
         class WalkTo : public Action

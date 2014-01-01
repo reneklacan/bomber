@@ -11,11 +11,13 @@ using namespace Bomber::Backend;
 using namespace Bomber::Common;
 
 AdvancedAI::AdvancedAI()
+:_currentActionIndex(0)
 {
 
 }
 
 AdvancedAI::AdvancedAI(Actions *actions)
+:_currentActionIndex(0)
 {
     this->setActions(actions);
 }
