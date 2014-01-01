@@ -26,12 +26,16 @@ namespace Bomber
                 void obstacleDestroyed(unsigned int ownerId, Obstacle *obstacke);
                 void teleportUsed(unsigned int ownerId);
                 void leverUsed(unsigned int ownerId);
+                
+                inline void enable() { _enabled = true; };
+                inline void disable() { _enabled = false; };
 
             private:
                 StatisticsUpdater();
 
                 static StatisticsUpdater *_instance;
 
+                bool _enabled;
                 SYNTHESIZE(unsigned int, _relevantSpriteId, RelevantSpriteId);
 
                 SYNTHESIZE_READONLY(Statistics *, _levelStatistics, LevelStatistics);

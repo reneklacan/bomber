@@ -17,6 +17,7 @@ StatisticsUpdater *StatisticsUpdater::getInstance()
 
 StatisticsUpdater::StatisticsUpdater()
 {
+    _enabled = true;
     _levelStatistics = new Statistics();
     _gameStatistics = new Statistics();
     _relevantSpriteId = 0;
@@ -24,6 +25,9 @@ StatisticsUpdater::StatisticsUpdater()
 
 void StatisticsUpdater::resetLevelStatistics()
 {
+    if (!_enabled)
+        return;
+
     _levelStatistics->reset();
 }
 
@@ -34,6 +38,9 @@ void StatisticsUpdater::updateMobsAlive(int mobsAlive)
 
 void StatisticsUpdater::updateKillStreaks(unsigned int mobKills)
 {
+    if (!_enabled)
+        return;
+
     if (mobKills <= _gameStatistics->getKillStreaks())
         return;
 
@@ -44,7 +51,7 @@ void StatisticsUpdater::updateKillStreaks(unsigned int mobKills)
 
 void StatisticsUpdater::bombSpawned(unsigned int ownerId, Bomb *bomb)
 {
-    if (ownerId != _relevantSpriteId)
+    if (!_enabled || ownerId != _relevantSpriteId)
         return;
 
     _levelStatistics->increaseBombSpawns();
@@ -55,7 +62,7 @@ void StatisticsUpdater::bombSpawned(unsigned int ownerId, Bomb *bomb)
 
 void StatisticsUpdater::effectTaken(unsigned int ownerId, Effect *effect)
 {
-    if (ownerId != _relevantSpriteId)
+    if (!_enabled || ownerId != _relevantSpriteId)
         return;
 
     _levelStatistics->increaseEffects(effect->getName());
@@ -66,7 +73,7 @@ void StatisticsUpdater::effectTaken(unsigned int ownerId, Effect *effect)
 
 void StatisticsUpdater::monsterKilled(unsigned int ownerId, Sprite *monster)
 {
-    if (ownerId != _relevantSpriteId)
+    if (!_enabled || ownerId != _relevantSpriteId)
         return;
 
     _levelStatistics->increaseKills(monster->getName());
@@ -77,7 +84,7 @@ void StatisticsUpdater::monsterKilled(unsigned int ownerId, Sprite *monster)
 
 void StatisticsUpdater::obstacleDestroyed(unsigned int ownerId, Obstacle *obstacle)
 {
-    if (ownerId != _relevantSpriteId)
+    if (!_enabled || ownerId != _relevantSpriteId)
         return;
 
     _levelStatistics->increaseObstacles(obstacle->getName());
@@ -88,7 +95,7 @@ void StatisticsUpdater::obstacleDestroyed(unsigned int ownerId, Obstacle *obstac
 
 void StatisticsUpdater::teleportUsed(unsigned int ownerId)
 {
-    if (ownerId != _relevantSpriteId)
+    if (!_enabled || ownerId != _relevantSpriteId)
         return;
 
     _levelStatistics->increaseTeleportUses();
@@ -99,7 +106,7 @@ void StatisticsUpdater::teleportUsed(unsigned int ownerId)
 
 void StatisticsUpdater::leverUsed(unsigned int ownerId)
 {
-    if (ownerId != _relevantSpriteId)
+    if (!_enabled || ownerId != _relevantSpriteId)
         return;
 
     _levelStatistics->increaseLeverUses();

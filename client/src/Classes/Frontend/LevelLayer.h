@@ -14,6 +14,7 @@
 #include "../Backend/Mediator.h"
 #include "../Backend/GameObjects/Sprites/Sprite.h"
 #include "GUIUpdater.h"
+#include "Statistics/FStatistics.h"
 
 namespace Bomber
 {
@@ -61,6 +62,7 @@ namespace Bomber
             GUIUpdater *_gui;
             Common::GameState *_gameState;
             //Backend::Sprite *_controlledSprite;
+            Statistics *_statistics;
 
         private:
             void initControlledSprite();
@@ -69,6 +71,7 @@ namespace Bomber
             void showFinishMenu();
             void backToMenu();
             void backToLevelSelect();
+            void initStatistics();
         };
     }
 }

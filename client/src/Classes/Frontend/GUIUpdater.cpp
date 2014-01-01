@@ -35,7 +35,7 @@ void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer
     _map->getTiledMap()->layerNamed("portals")->setVisible(false);
 
     // Init Batch Node
-    _batchNode = SpriteBatchNode::create("/home/rene/workspace/personal/ruby/texturepacker/output.png");
+    _batchNode = SpriteBatchNode::create("tiles/new_tileset.png");
     _batchNode->setTag(0);
 
     // Add BatchNode

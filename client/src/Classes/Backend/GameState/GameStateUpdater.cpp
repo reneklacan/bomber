@@ -155,6 +155,8 @@ void GameStateUpdater::update()
 
     bool goalComplete = true;
 
+    // currently all goals should be reached to complete the level
+    // TODO: or operator
     for (auto condition : _state->getGoalConditions())
     {
         auto type = condition.first;
@@ -163,10 +165,25 @@ void GameStateUpdater::update()
         if (type == CONDITION_MOBS_ALIVE)
         {
             if (StatisticsUpdater::getInstance()->getLevelStatistics()->getMobsAlive() != value)
+                goto goal_failed;
+        }
+        else if (type == CONDITION_LEVEL_KEYS)
+        {
+            int spritesChecked = 0;
+
+            for (auto sprite : _state->getSpriteLayer()->getObjects())
             {
-                goalComplete = false;
-                break;
+                if (sprite->isAI())
+                    continue;
+
+                spritesChecked++;
+
+                if (sprite->getAttributes()->getLevelKeys() != value)
+                    goto goal_failed;
             }
+
+            if (spritesChecked == 0)
+                goto goal_failed;
         }
         else
         {
@@ -175,12 +192,18 @@ void GameStateUpdater::update()
         }
     }
 
+goal_complete:
+
     if (goalComplete)
     {
         // allow player proceed to the next level
         this->logLevelFinish();
         _state->setGoalReached(true);
     }
+
+goal_failed:
+
+    return;
 }
 
 void GameStateUpdater::pushBlock(Coordinates from, Coordinates to)

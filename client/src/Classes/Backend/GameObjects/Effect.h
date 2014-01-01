@@ -21,6 +21,7 @@ namespace Bomber
             EFFECT_HEALTH_DEC,
             EFFECT_SPEED_INC,
             EFFECT_SPEED_DEC,
+            EFFECT_LEVEL_KEY,
         };
 
         class Effect : public GameObject
@@ -188,6 +189,27 @@ namespace Bomber
                 virtual void applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->decreaseSpeed();
+                    _charges -= 1;
+                }
+        };
+
+        class EffectLevelKey : public Effect
+        {
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_LEVEL_KEY; };
+
+                EffectLevelKey() : Effect()
+                {
+                    _name = "level key";
+                    _type = EFFECT_LEVEL_KEY;
+                    _charges = 1;
+                };
+                virtual void applyToSprite(Sprite *sprite)
+                {
+                    if (sprite->isAI())
+                        return;
+
+                    sprite->getAttributes()->increaseLevelKeys();
                     _charges -= 1;
                 }
         };

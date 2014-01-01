@@ -53,7 +53,7 @@ std::string XMLStorage::get(std::string prefix, std::string key)
 
 std::string XMLStorage::getPath()
 {
-    _userDefaultInstance->getXMLFilePath();
+    return _userDefaultInstance->getXMLFilePath();
 }
 
 void XMLStorage::save()

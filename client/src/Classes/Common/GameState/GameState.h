@@ -20,6 +20,7 @@ namespace Bomber
         enum TGoalConditionsTypes
         {
             CONDITION_MOBS_ALIVE,
+            CONDITION_LEVEL_KEYS,
         };
 
         typedef std::map<TGoalConditionsTypes, int> TGoalConditions;

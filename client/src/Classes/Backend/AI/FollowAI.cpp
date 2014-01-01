@@ -32,10 +32,10 @@ void FollowAI::update(float dt)
     {
         case STATE_NONE:
             path = AI::getInstance()->findPathToNearestPlayer(
-                    this->getCoords(),
-                    _aggroDistance,
-                    _smart,
-                    _attributes->getGhostMode()
+                this->getCoords(),
+                _aggroDistance,
+                _smart,
+                _attributes->getGhostMode()
             );
             
             if (path.size() != 0)
@@ -45,8 +45,8 @@ void FollowAI::update(float dt)
             else
             {
                 goalCoords = AI::getInstance()->getRandomCoordsAround(
-                        this->getCoords(),
-                        _attributes->getGhostMode()
+                    this->getCoords(),
+                    _attributes->getGhostMode()
                 );
             }
 

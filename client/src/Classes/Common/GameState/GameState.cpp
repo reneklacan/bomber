@@ -55,9 +55,9 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         if (strncmp("goal", key, 4) == 0)
         {
             if (strcmp(key, "goal_mobs_alive") == 0)
-            {
                 _goalConditions[CONDITION_MOBS_ALIVE] = value;
-            }
+            else if (strcmp(key, "goal_level_keys") == 0)
+                _goalConditions[CONDITION_LEVEL_KEYS] = value;
         }
     }
 

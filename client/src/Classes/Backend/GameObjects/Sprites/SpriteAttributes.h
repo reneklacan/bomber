@@ -28,6 +28,7 @@ namespace Bomber
                     _ghostMode = false;
                     _bombKicking = true;
                     _blockPushing = true;
+                    _levelKeys = 0;
                 }
                 void increaseBombPower() { _bombPower += 1; };
                 void decreaseBombPower() { _bombPower -= 1; };
@@ -39,6 +40,7 @@ namespace Bomber
                 void decreaseHealth() { _health -= 30; };
                 void increaseHealth(int num) { _health += num; };
                 void decreaseHealth(int num) { _health -= num; };
+                void increaseLevelKeys() { _levelKeys += 1; };
                 bool isAlive() { return _health > 0; };
                 bool isDead() { return _health <= 0; };
 
@@ -55,6 +57,7 @@ namespace Bomber
                 SYNTHESIZE(bool, _ghostMode, GhostMode);
                 SYNTHESIZE(bool, _bombKicking, BombKicking);
                 SYNTHESIZE(bool, _blockPushing, BlockPushing);
+                SYNTHESIZE(int, _levelKeys, LevelKeys);
         };
     }
 }

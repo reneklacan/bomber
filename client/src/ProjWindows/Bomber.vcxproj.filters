@@ -4,81 +4,237 @@
     <Filter Include="Classes">
       <UniqueIdentifier>{532a2622-fb11-4cdd-96f4-1f7cc4fd7939}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Gameplay">
-      <UniqueIdentifier>{4b4625a6-9863-49f4-9be4-84f60ea21b3e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Backend">
-      <UniqueIdentifier>{bed84d89-3e92-43cc-bf84-d8d2759cf960}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Backend\AI">
-      <UniqueIdentifier>{0e028fe2-7381-476a-a68a-e524e7f7b77e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Backend\Statistics">
-      <UniqueIdentifier>{9b2d5a69-1ff8-4c97-9839-db68a3c13967}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Frontend">
-      <UniqueIdentifier>{6ad79e5f-bcb4-402b-83b6-1367d68422df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Input">
-      <UniqueIdentifier>{c416c11f-0864-4a22-9b9c-ac7e5e0f91d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Input\Touch">
-      <UniqueIdentifier>{0bf72723-e273-4fe6-a0ed-11ed107d7e26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Input\Keyboard">
-      <UniqueIdentifier>{5f73dec9-9cfc-4c69-b1de-d3f1b37f73d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Menu">
-      <UniqueIdentifier>{99355734-8985-4ffe-95c0-1e720ee48cd1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ProjectWindows">
       <UniqueIdentifier>{363f7ff4-1323-466d-ab88-8e1227ceed7b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Frontend\Map">
-      <UniqueIdentifier>{07165ddf-719f-46ae-9196-536f083ea4f9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Frontend\Sprites">
-      <UniqueIdentifier>{5b313cb0-d052-4769-ad78-269a140e7aed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Frontend\Buttons">
-      <UniqueIdentifier>{06a7ea3c-f80c-4bcc-b755-e59395be57d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Frontend\Cache">
-      <UniqueIdentifier>{2fd32048-a483-42bc-bc15-bd3c0311d955}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Backend\GameObjects">
-      <UniqueIdentifier>{13415ced-234c-47c0-a069-bad293f970ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Backend\Interactions">
-      <UniqueIdentifier>{e8e9bf3b-66f4-4c75-a87e-d45ee43dc09a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Backend\GameObjects\Sprites">
-      <UniqueIdentifier>{6eeb9dd4-29ba-4b7d-ab22-c6b950edba28}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Frontend\Primitives">
-      <UniqueIdentifier>{b220fa62-ee77-4277-88b6-dc9c16078ec3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Common">
-      <UniqueIdentifier>{461292a9-cd08-4b78-89e3-b5858d4b1c66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Common\Primitives">
-      <UniqueIdentifier>{85b70376-3c55-4459-ada2-01a441634ab3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Common\GameState">
-      <UniqueIdentifier>{5aae9f52-9eda-45c2-a188-b845d5cde7f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Gameplay\Backend\GameState">
-      <UniqueIdentifier>{80b91a6a-03cc-4a4b-8cf6-200625d64bb8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Lib">
       <UniqueIdentifier>{f621f278-f86b-41ef-8f9a-89534764d4c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Gameplay\Common\Cache">
-      <UniqueIdentifier>{caf66117-34d2-4489-98df-e15705d0100e}</UniqueIdentifier>
+    <Filter Include="Classes\Backend">
+      <UniqueIdentifier>{5d85c652-4fc0-4eb4-8029-56800c39f723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Common">
+      <UniqueIdentifier>{dfa7f5d3-b3bd-4910-8685-70730f384a93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Frontend">
+      <UniqueIdentifier>{15222a7b-f5b9-457c-bfab-25b59d042f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Input">
+      <UniqueIdentifier>{c60f6d27-ccd0-4b6a-91fb-ba8caa5f1467}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Menu">
+      <UniqueIdentifier>{3eba5d9c-5bd8-45cc-a397-89ff2a181588}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Middend">
+      <UniqueIdentifier>{584b8179-1578-46ea-adb2-979725ed011f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Backend\AI">
+      <UniqueIdentifier>{9fb390e9-f947-492e-8a7d-41021643121b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Backend\GameObjects">
+      <UniqueIdentifier>{2a486395-d4a1-4108-ae46-24550d3161f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Backend\GameState">
+      <UniqueIdentifier>{db368145-246e-4623-a7a8-ba6d5c783568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Backend\Interactions">
+      <UniqueIdentifier>{c301abd1-2e91-4286-b076-7d4c5e1b2dd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Backend\Statistics">
+      <UniqueIdentifier>{4fc30073-3758-438f-870c-4939a55422ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Backend\GameObjects\Sprites">
+      <UniqueIdentifier>{69b74b03-e998-4f21-9bcd-f738ccaef9d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Common\Cache">
+      <UniqueIdentifier>{349543e9-4abb-4b8b-adc2-c5905578cdc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Common\GameState">
+      <UniqueIdentifier>{2cb4c91a-ef9a-479a-85ab-3e263714e4a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Common\Storage">
+      <UniqueIdentifier>{2eeda575-c648-44ff-8b8a-95dc8030e087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Common\Primitives">
+      <UniqueIdentifier>{c4e1365e-10a3-4911-9e5f-c3b410790082}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Frontend\Buttons">
+      <UniqueIdentifier>{ac68c398-41e7-4baf-9a6e-55b43d1057f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Frontend\Cache">
+      <UniqueIdentifier>{f69e358f-b097-411b-96ec-02040e5e1330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Frontend\Map">
+      <UniqueIdentifier>{64b125a7-e88a-4b5c-b0cf-d6f0c7d8d5bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Frontend\Sprites">
+      <UniqueIdentifier>{3c717f34-1170-458a-bba0-5a2949393f47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Frontend\Primitives">
+      <UniqueIdentifier>{8fc00a43-c5ba-49ed-9373-984ffff10e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Input\Keyboard">
+      <UniqueIdentifier>{46479cef-4ba7-4a83-bf30-4c7868c059c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Input\Touch">
+      <UniqueIdentifier>{d08b7c1d-e588-4244-8ec8-aea2e4c4090d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Frontend\Statistics">
+      <UniqueIdentifier>{169fe1e3-7bfb-453e-b551-36c2d9709a2e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\ProjWindows\Main.cpp">
+      <Filter>ProjectWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\dirent\dirent.c">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\AI\AI.cpp">
+      <Filter>Classes\Backend\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\AI\FollowAI.cpp">
+      <Filter>Classes\Backend\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\GameObjects\Sprites\Sprite.cpp">
+      <Filter>Classes\Backend\GameObjects\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\GameObjects\BBomb.cpp">
+      <Filter>Classes\Backend\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\GameObjects\Effect.cpp">
+      <Filter>Classes\Backend\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\GameObjects\GameObject.cpp">
+      <Filter>Classes\Backend\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\GameObjects\Obstacle.cpp">
+      <Filter>Classes\Backend\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\GameObjects\Portal.cpp">
+      <Filter>Classes\Backend\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\GameState\GameStateUpdater.cpp">
+      <Filter>Classes\Backend\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\Interactions\Movement.cpp">
+      <Filter>Classes\Backend\Interactions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\Statistics\AchievementContainer.cpp">
+      <Filter>Classes\Backend\Statistics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\Statistics\Achievements.cpp">
+      <Filter>Classes\Backend\Statistics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\Statistics\GameAchievements.cpp">
+      <Filter>Classes\Backend\Statistics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\Statistics\Statistics.cpp">
+      <Filter>Classes\Backend\Statistics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\Statistics\StatisticsUpdater.cpp">
+      <Filter>Classes\Backend\Statistics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\Logic.cpp">
+      <Filter>Classes\Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Backend\Mediator.cpp">
+      <Filter>Classes\Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Common\Cache\ObjectCache.cpp">
+      <Filter>Classes\Common\Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Common\GameState\GameState.cpp">
+      <Filter>Classes\Common\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Common\Storage\XMLStorage.cpp">
+      <Filter>Classes\Common\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Common\Primitives\Coordinates.cpp">
+      <Filter>Classes\Common\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Common\Primitives\Rectangle.cpp">
+      <Filter>Classes\Common\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Buttons\AchievementButton.cpp">
+      <Filter>Classes\Frontend\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Buttons\ControlButton.cpp">
+      <Filter>Classes\Frontend\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Buttons\EffectButton.cpp">
+      <Filter>Classes\Frontend\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Buttons\GameButton.cpp">
+      <Filter>Classes\Frontend\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Cache\GUICache.cpp">
+      <Filter>Classes\Frontend\Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Map\Bomb.cpp">
+      <Filter>Classes\Frontend\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Map\Explosion.cpp">
+      <Filter>Classes\Frontend\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Map\Map.cpp">
+      <Filter>Classes\Frontend\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Sprites\GameSprite.cpp">
+      <Filter>Classes\Frontend\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Sprites\Human.cpp">
+      <Filter>Classes\Frontend\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Sprites\SpriteCreator.cpp">
+      <Filter>Classes\Frontend\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\ButtonLayer.cpp">
+      <Filter>Classes\Frontend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Collisions.cpp">
+      <Filter>Classes\Frontend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\GUIUpdater.cpp">
+      <Filter>Classes\Frontend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\LevelLayer.cpp">
+      <Filter>Classes\Frontend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Input\Keyboard\Keyboard.cpp">
+      <Filter>Classes\Input\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Input\Touch\Joystick.cpp">
+      <Filter>Classes\Input\Touch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Input\ControlLayer.cpp">
+      <Filter>Classes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Menu\CreditsLayer.cpp">
+      <Filter>Classes\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Menu\LevelSelectLayer.cpp">
+      <Filter>Classes\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Menu\MainMenuLayer.cpp">
+      <Filter>Classes\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Menu\PlayersSelectLayer.cpp">
+      <Filter>Classes\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Menu\SettingsLayer.cpp">
+      <Filter>Classes\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Middend\NetClient.cpp">
+      <Filter>Classes\Middend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Middend\server.cpp">
+      <Filter>Classes\Middend</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Configuration.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameOverScene.cpp">
@@ -87,187 +243,190 @@
     <ClCompile Include="..\Classes\GameplayScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\Logic.cpp">
-      <Filter>Classes\Gameplay\Backend</Filter>
+    <ClCompile Include="..\Classes\Backend\AI\Actions.cpp">
+      <Filter>Classes\Backend\AI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\Mediator.cpp">
-      <Filter>Classes\Gameplay\Backend</Filter>
+    <ClCompile Include="..\Classes\Backend\AI\AdvancedAI.cpp">
+      <Filter>Classes\Backend\AI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\AI\AI.cpp">
-      <Filter>Classes\Gameplay\Backend\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\AI\FollowAI.cpp">
-      <Filter>Classes\Gameplay\Backend\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\AchievementContainer.cpp">
-      <Filter>Classes\Gameplay\Backend\Statistics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\Achievements.cpp">
-      <Filter>Classes\Gameplay\Backend\Statistics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\GameAchievements.cpp">
-      <Filter>Classes\Gameplay\Backend\Statistics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\Statistics.cpp">
-      <Filter>Classes\Gameplay\Backend\Statistics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\Statistics\StatisticsUpdater.cpp">
-      <Filter>Classes\Gameplay\Backend\Statistics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Input\ControlLayer.cpp">
-      <Filter>Classes\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Input\Touch\Joystick.cpp">
-      <Filter>Classes\Input\Touch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Input\Keyboard\Keyboard.cpp">
-      <Filter>Classes\Input\Keyboard</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Menu\CreditsLayer.cpp">
-      <Filter>Classes\Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Menu\MainMenuLayer.cpp">
-      <Filter>Classes\Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Menu\SettingsLayer.cpp">
-      <Filter>Classes\Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ProjWindows\Main.cpp">
-      <Filter>ProjectWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\Map\Bomb.cpp">
-      <Filter>Classes\Gameplay\Frontend\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\Map\Explosion.cpp">
-      <Filter>Classes\Gameplay\Frontend\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\Map\Map.cpp">
-      <Filter>Classes\Gameplay\Frontend\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\Sprites\GameSprite.cpp">
-      <Filter>Classes\Gameplay\Frontend\Sprites</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\Sprites\Human.cpp">
-      <Filter>Classes\Gameplay\Frontend\Sprites</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\Buttons\AchievementButton.cpp">
-      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\Buttons\ControlButton.cpp">
-      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\Buttons\EffectButton.cpp">
-      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\Buttons\GameButton.cpp">
-      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\ButtonLayer.cpp">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\GUIUpdater.cpp">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\LevelLayer.cpp">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\Cache\GUICache.cpp">
-      <Filter>Classes\Gameplay\Frontend\Cache</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\Sprites\SpriteCreator.cpp">
-      <Filter>Classes\Gameplay\Frontend\Sprites</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Frontend\Collisions.cpp">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\Interactions\Movement.cpp">
-      <Filter>Classes\Gameplay\Backend\Interactions</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\GameObjects\Sprites\Sprite.cpp">
-      <Filter>Classes\Gameplay\Backend\GameObjects\Sprites</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\GameObjects\BBomb.cpp">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\GameObjects\Effect.cpp">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\GameObjects\GameObject.cpp">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\GameObjects\Obstacle.cpp">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\GameObjects\Portal.cpp">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Common\Primitives\Coordinates.cpp">
-      <Filter>Classes\Gameplay\Common\Primitives</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Common\Primitives\Rectangle.cpp">
-      <Filter>Classes\Gameplay\Common\Primitives</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Common\GameState\GameState.cpp">
-      <Filter>Classes\Gameplay\Common\GameState</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Backend\GameState\GameStateUpdater.cpp">
-      <Filter>Classes\Gameplay\Backend\GameState</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Configuration.cpp">
-      <Filter>Classes\Gameplay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Menu\LevelSelectLayer.cpp">
-      <Filter>Classes\Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\lib\dirent\dirent.c">
-      <Filter>Lib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Menu\PlayersSelectLayer.cpp">
-      <Filter>Classes\Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Gameplay\Common\Cache\ObjectCache.cpp">
-      <Filter>Classes\Gameplay\Common\Cache</Filter>
+    <ClCompile Include="..\Classes\Frontend\Statistics\FStatistics.cpp">
+      <Filter>Classes\Frontend\Statistics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>Classes</Filter>
+    <ClInclude Include="..\ProjWindows\Main.h">
+      <Filter>ProjectWindows</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Constants.h">
-      <Filter>Classes</Filter>
+    <ClInclude Include="..\..\lib\dirent\dirent.h">
+      <Filter>Lib</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameOverScene.h">
-      <Filter>Classes</Filter>
+    <ClInclude Include="..\Classes\Backend\AI\AI.h">
+      <Filter>Classes\Backend\AI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameplayScene.h">
-      <Filter>Classes</Filter>
+    <ClInclude Include="..\Classes\Backend\AI\FollowAI.h">
+      <Filter>Classes\Backend\AI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Logic.h">
-      <Filter>Classes\Gameplay\Backend</Filter>
+    <ClInclude Include="..\Classes\Backend\GameObjects\Sprites\AISprite.h">
+      <Filter>Classes\Backend\GameObjects\Sprites</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Mediator.h">
-      <Filter>Classes\Gameplay\Backend</Filter>
+    <ClInclude Include="..\Classes\Backend\GameObjects\Sprites\Bomber.h">
+      <Filter>Classes\Backend\GameObjects\Sprites</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\AI\AI.h">
-      <Filter>Classes\Gameplay\Backend\AI</Filter>
+    <ClInclude Include="..\Classes\Backend\GameObjects\Sprites\Sprite.h">
+      <Filter>Classes\Backend\GameObjects\Sprites</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\AI\FollowAI.h">
-      <Filter>Classes\Gameplay\Backend\AI</Filter>
+    <ClInclude Include="..\Classes\Backend\GameObjects\Sprites\SpriteAttributes.h">
+      <Filter>Classes\Backend\GameObjects\Sprites</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\AchievementContainer.h">
-      <Filter>Classes\Gameplay\Backend\Statistics</Filter>
+    <ClInclude Include="..\Classes\Backend\GameObjects\BBomb.h">
+      <Filter>Classes\Backend\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\Achievements.h">
-      <Filter>Classes\Gameplay\Backend\Statistics</Filter>
+    <ClInclude Include="..\Classes\Backend\GameObjects\Effect.h">
+      <Filter>Classes\Backend\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\GameAchievements.h">
-      <Filter>Classes\Gameplay\Backend\Statistics</Filter>
+    <ClInclude Include="..\Classes\Backend\GameObjects\GameObject.h">
+      <Filter>Classes\Backend\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\Statistics.h">
-      <Filter>Classes\Gameplay\Backend\Statistics</Filter>
+    <ClInclude Include="..\Classes\Backend\GameObjects\Obstacle.h">
+      <Filter>Classes\Backend\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Statistics\StatisticsUpdater.h">
-      <Filter>Classes\Gameplay\Backend\Statistics</Filter>
+    <ClInclude Include="..\Classes\Backend\GameObjects\Portal.h">
+      <Filter>Classes\Backend\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\GameObjects\PortalExit.h">
+      <Filter>Classes\Backend\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\GameObjects\Switch.h">
+      <Filter>Classes\Backend\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\GameState\GameStateUpdater.h">
+      <Filter>Classes\Backend\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\Interactions\Movement.h">
+      <Filter>Classes\Backend\Interactions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\Statistics\AchievementContainer.h">
+      <Filter>Classes\Backend\Statistics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\Statistics\Achievements.h">
+      <Filter>Classes\Backend\Statistics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\Statistics\GameAchievements.h">
+      <Filter>Classes\Backend\Statistics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\Statistics\Statistics.h">
+      <Filter>Classes\Backend\Statistics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\Statistics\StatisticsUpdater.h">
+      <Filter>Classes\Backend\Statistics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\Logic.h">
+      <Filter>Classes\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\Mediator.h">
+      <Filter>Classes\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\Cache\CachableObject.h">
+      <Filter>Classes\Common\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\Cache\ObjectCache.h">
+      <Filter>Classes\Common\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\GameState\GameState.h">
+      <Filter>Classes\Common\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\GameState\GameStateChange.h">
+      <Filter>Classes\Common\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\GameState\GameStateLayer.h">
+      <Filter>Classes\Common\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\Storage\XMLStorage.h">
+      <Filter>Classes\Common\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\Primitives\Circle.h">
+      <Filter>Classes\Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\Primitives\ConnectionType.h">
+      <Filter>Classes\Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\Primitives\Coordinates.h">
+      <Filter>Classes\Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\Primitives\Direction.h">
+      <Filter>Classes\Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\Primitives\Position.h">
+      <Filter>Classes\Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\Primitives\Rectangle.h">
+      <Filter>Classes\Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\Primitives\Size.h">
+      <Filter>Classes\Common\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Buttons\AchievementButton.h">
+      <Filter>Classes\Frontend\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Buttons\ControlButton.h">
+      <Filter>Classes\Frontend\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Buttons\EffectButton.h">
+      <Filter>Classes\Frontend\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Buttons\GameButton.h">
+      <Filter>Classes\Frontend\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Cache\GUICache.h">
+      <Filter>Classes\Frontend\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Map\Bomb.h">
+      <Filter>Classes\Frontend\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Map\Explosion.h">
+      <Filter>Classes\Frontend\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Map\Map.h">
+      <Filter>Classes\Frontend\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Primitives\AnimationHelper.h">
+      <Filter>Classes\Frontend\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Primitives\CollisionArea.h">
+      <Filter>Classes\Frontend\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Primitives\MenuHelper.h">
+      <Filter>Classes\Frontend\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Sprites\GameSprite.h">
+      <Filter>Classes\Frontend\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Sprites\Human.h">
+      <Filter>Classes\Frontend\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Sprites\SpriteCreator.h">
+      <Filter>Classes\Frontend\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\ButtonLayer.h">
+      <Filter>Classes\Frontend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Collisions.h">
+      <Filter>Classes\Frontend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\GUIConstants.h">
+      <Filter>Classes\Frontend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\GUIUpdater.h">
+      <Filter>Classes\Frontend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\LevelLayer.h">
+      <Filter>Classes\Frontend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Input\Keyboard\Keyboard.h">
+      <Filter>Classes\Input\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Input\Touch\Joystick.h">
+      <Filter>Classes\Input\Touch</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Input\ActionDelegates.h">
       <Filter>Classes\Input</Filter>
@@ -281,167 +440,56 @@
     <ClInclude Include="..\Classes\Input\GameController.h">
       <Filter>Classes\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Input\Touch\Joystick.h">
-      <Filter>Classes\Input\Touch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Input\Keyboard\Keyboard.h">
-      <Filter>Classes\Input\Keyboard</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Menu\CreditsLayer.h">
+      <Filter>Classes\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Menu\LevelSelectLayer.h">
       <Filter>Classes\Menu</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Menu\MainMenuLayer.h">
       <Filter>Classes\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Menu\SettingsLayer.h">
-      <Filter>Classes\Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ProjWindows\Main.h">
-      <Filter>ProjectWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Map\Bomb.h">
-      <Filter>Classes\Gameplay\Frontend\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Map\Explosion.h">
-      <Filter>Classes\Gameplay\Frontend\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Map\Map.h">
-      <Filter>Classes\Gameplay\Frontend\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\GameSprite.h">
-      <Filter>Classes\Gameplay\Frontend\Sprites</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\Human.h">
-      <Filter>Classes\Gameplay\Frontend\Sprites</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Buttons\AchievementButton.h">
-      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Buttons\ControlButton.h">
-      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Buttons\EffectButton.h">
-      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Buttons\GameButton.h">
-      <Filter>Classes\Gameplay\Frontend\Buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\ButtonLayer.h">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\GUIConstants.h">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\GUIUpdater.h">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\LevelLayer.h">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Cache\GUICache.h">
-      <Filter>Classes\Gameplay\Frontend\Cache</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Sprites\SpriteCreator.h">
-      <Filter>Classes\Gameplay\Frontend\Sprites</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Collisions.h">
-      <Filter>Classes\Gameplay\Frontend</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\Interactions\Movement.h">
-      <Filter>Classes\Gameplay\Backend\Interactions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Sprites\AISprite.h">
-      <Filter>Classes\Gameplay\Backend\GameObjects\Sprites</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Sprites\Sprite.h">
-      <Filter>Classes\Gameplay\Backend\GameObjects\Sprites</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Sprites\SpriteAttributes.h">
-      <Filter>Classes\Gameplay\Backend\GameObjects\Sprites</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\BBomb.h">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Effect.h">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\GameObject.h">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Obstacle.h">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Portal.h">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\PortalExit.h">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Sprites\Bomber.h">
-      <Filter>Classes\Gameplay\Backend\GameObjects\Sprites</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameObjects\Switch.h">
-      <Filter>Classes\Gameplay\Backend\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Primitives\AnimationHelper.h">
-      <Filter>Classes\Gameplay\Frontend\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Circle.h">
-      <Filter>Classes\Gameplay\Common\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Coordinates.h">
-      <Filter>Classes\Gameplay\Common\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Direction.h">
-      <Filter>Classes\Gameplay\Common\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Position.h">
-      <Filter>Classes\Gameplay\Common\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Rectangle.h">
-      <Filter>Classes\Gameplay\Common\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Common\Primitives\Size.h">
-      <Filter>Classes\Gameplay\Common\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Common\GameState\GameState.h">
-      <Filter>Classes\Gameplay\Common\GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Common\GameState\GameStateChange.h">
-      <Filter>Classes\Gameplay\Common\GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Common\GameState\GameStateLayer.h">
-      <Filter>Classes\Gameplay\Common\GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Macros.h">
-      <Filter>Classes\Gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Backend\GameState\GameStateUpdater.h">
-      <Filter>Classes\Gameplay\Backend\GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Configuration.h">
-      <Filter>Classes\Gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Menu\LevelSelectLayer.h">
-      <Filter>Classes\Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Primitives\MenuHelper.h">
-      <Filter>Classes\Gameplay\Frontend\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\lib\dirent\dirent.h">
-      <Filter>Lib</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Menu\PlayersSelectLayer.h">
       <Filter>Classes\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Common\Cache\CachableObject.h">
-      <Filter>Classes\Gameplay\Common\Cache</Filter>
+    <ClInclude Include="..\Classes\Menu\SettingsLayer.h">
+      <Filter>Classes\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Common\Cache\ObjectCache.h">
-      <Filter>Classes\Gameplay\Common\Cache</Filter>
+    <ClInclude Include="..\Classes\Middend\NetClient.h">
+      <Filter>Classes\Middend</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Gameplay\Frontend\Primitives\CollisionArea.h">
-      <Filter>Classes\Gameplay\Frontend\Primitives</Filter>
+    <ClInclude Include="..\Classes\Middend\server.h">
+      <Filter>Classes\Middend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Configuration.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Constants.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameOverScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameplayScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Macros.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\AI\Actions.h">
+      <Filter>Classes\Backend\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\AI\AdvancedAI.h">
+      <Filter>Classes\Backend\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\AI\ScriptedSprite.h">
+      <Filter>Classes\Backend\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Statistics\FStatistics.h">
+      <Filter>Classes\Frontend\Statistics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

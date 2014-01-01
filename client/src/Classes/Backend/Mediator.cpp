@@ -107,7 +107,7 @@ void Mediator::kickBomb(unsigned int spriteId, Coordinates coords, TDirection di
     }
 }
 
-void Mediator::setConnectionType(Common::TConnectionType type)
+void Mediator::setConnectionType(TConnectionType type)
 {
     if(type == Common::NONE_CON)
     {

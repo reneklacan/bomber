@@ -38,6 +38,7 @@ bool LevelSelectLayer::init()
     _levelNameMap["00.tmx"] = "0. Test Level";
     _levelNameMap["01.tmx"] = "1. Test Level";
     _levelNameMap["02.tmx"] = "2. Test Level";
+    _levelNameMap["03.tmx"] = "3. Test Level";
 
     Size visibleSize = Director::sharedDirector()->getVisibleSize();
     Menu* menu = Menu::create();

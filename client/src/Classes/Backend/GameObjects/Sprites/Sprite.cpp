@@ -3,6 +3,7 @@
 
 #include "Sprite.h"
 #include "AISprite.h"
+#include "TestSprite.h"
 #include "../../../Common/Cache/ObjectCache.h"
 
 using namespace Bomber::Backend;

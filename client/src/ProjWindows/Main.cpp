@@ -53,7 +53,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     AppDelegate app;
 
     EGLView* eglView = EGLView::sharedOpenGLView();
-    eglView->setFrameSize(12*101, 12*81);
+    eglView->setFrameSize(1350, 750);
 
     return Application::sharedApplication()->run();
 }
