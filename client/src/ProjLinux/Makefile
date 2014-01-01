@@ -38,6 +38,8 @@ SOURCES = Main.cpp \
         ../Classes/Backend/Statistics/GameAchievements.cpp \
         ../Classes/Backend/AI/AI.cpp \
         ../Classes/Backend/AI/FollowAI.cpp \
+        ../Classes/Backend/AI/AdvancedAI.cpp \
+        ../Classes/Backend/AI/Actions.cpp \
         ../Classes/Frontend/LevelLayer.cpp \
         ../Classes/Frontend/ButtonLayer.cpp \
         ../Classes/Frontend/Collisions.cpp \
@@ -52,6 +54,7 @@ SOURCES = Main.cpp \
         ../Classes/Frontend/Sprites/Human.cpp \
         ../Classes/Frontend/Sprites/SpriteCreator.cpp \
         ../Classes/Frontend/Cache/GUICache.cpp \
+        ../Classes/Frontend/Statistics/Statistics.cpp \
         ../Classes/Menu/MainMenuLayer.cpp \
         ../Classes/Menu/SettingsLayer.cpp \
         ../Classes/Menu/CreditsLayer.cpp \
@@ -66,7 +69,7 @@ CXXFLAGS += -g -lglut -Wunused-variable
 RAKNET_LIBS = $(RAKNET_ROOT)/lib/libraknet.so
 COCOS_LIBS = $(LIB_DIR)/libcocos2d.so $(LIB_DIR)/libcocosdenshion.so
 INCLUDES += -I$(COCOS_ROOT)/CocosDenshion/include
-SHAREDLIBS += $(RAKNET_LIBS)
+#SHAREDLIBS += $(RAKNET_LIBS)
 
 $(TARGET): $(OBJECTS) $(STATICLIBS) $(COCOS_LIBS) $(RAKNET_LIBS) $(CORE_MAKEFILE_LIST)
 	@mkdir -p $(@D)

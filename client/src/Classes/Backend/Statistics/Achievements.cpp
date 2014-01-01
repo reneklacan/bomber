@@ -7,10 +7,10 @@
 using namespace Bomber::Backend;
 
 AchievementCondition::AchievementCondition(
-        TAchievConditionType type,
-        const char *kind,
-        unsigned int amount,
-        unsigned int timeLimit
+    TAchievConditionType type,
+    const char *kind,
+    unsigned int amount,
+    unsigned int timeLimit
 )
 :_type(type)
 ,_kind(kind)
@@ -26,31 +26,22 @@ bool AchievementCondition::evaluate(Statistics *statistics)
     {
         case BOMBS:
             if (_kind == nullptr && statistics->getBombSpawns() >= _amount)
-            {
                 return true;
-            }
             break;
 
         case KILLS:
             if (statistics->getKills(_kind) >= _amount)
-            {
                 return true;
-            }
-
             return false;
 
         case EFFECTS:
             if (_kind == nullptr && statistics->getTotalEffects() >= _amount)
-            {
                 return true;
-            }
             return false;
 
         case KILL_STREAKS:
             if (_kind == nullptr && statistics->getKillStreaks() >= _amount)
-            {
                 return true;
-            }
             return false;
 
         case SKILLS:
@@ -58,23 +49,17 @@ bool AchievementCondition::evaluate(Statistics *statistics)
 
         case OBSTACLES:
             if (_kind == nullptr && statistics->getTotalObstacles() >= _amount)
-            {
                 return true;
-            }
             return false;
 
         case TELEPORTS:
             if (statistics->getTeleportUses() >= _amount)
-            {
                 return true;
-            }
             return false;
 
         case LEVERS:
             if (statistics->getLeverUses() >= _amount)
-            {
                 return true;
-            }
             return false;
 
         default:
@@ -86,13 +71,13 @@ bool AchievementCondition::evaluate(Statistics *statistics)
 }
 
 Achievement::Achievement(
-        const char *act,
-        const char *level,
-        const char *title,
-        const char *description,
-        bool evalOnEnd,
-        AchievementCondition *condition,
-        ...
+    const char *act,
+    const char *level,
+    const char *title,
+    const char *description,
+    bool evalOnEnd,
+    AchievementCondition *condition,
+    ...
 )
 {
     _unlocked = false;

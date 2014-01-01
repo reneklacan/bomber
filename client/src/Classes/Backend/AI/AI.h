@@ -28,6 +28,7 @@ namespace Bomber
                 std::deque<Common::Coordinates> findDirectPath(Common::Coordinates from, Common::Coordinates to, bool ghostMode);
                 std::deque<Common::Coordinates> findPath(Common::Coordinates from, Common::Coordinates to);
                 std::deque<Common::Coordinates> findPath(Common::Coordinates from, Common::Coordinates to, bool ghostMode);
+                std::deque<Common::Coordinates> findPath(Common::Coordinates from, Common::Coordinates to, bool ghostMode, bool smart);
                 std::deque<Common::Coordinates> findPathToNearestPlayer(Common::Coordinates from, float range);
                 std::deque<Common::Coordinates> findPathToNearestPlayer(Common::Coordinates from, float range, bool smart);
                 std::deque<Common::Coordinates> findPathToNearestPlayer(Common::Coordinates from, float range, bool smart, bool ghostMode);

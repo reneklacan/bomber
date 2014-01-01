@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "Position.h"
+
 namespace Bomber
 {
     namespace Common
@@ -23,6 +25,7 @@ namespace Bomber
                 std::vector<Coordinates> getCoordsAround();
                 std::vector<Coordinates> getCoordsAround(unsigned int range);
                 Coordinates getNext(int direction);
+                Position toPosition();
         };
     }
 }

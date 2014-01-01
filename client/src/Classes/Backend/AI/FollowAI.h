@@ -16,7 +16,6 @@ namespace Bomber
 
         class FollowAI : public Sprite
         {
-
             public:
                 FollowAI();
                 virtual void init();

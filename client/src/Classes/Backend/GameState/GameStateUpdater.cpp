@@ -165,24 +165,25 @@ void GameStateUpdater::update()
         if (type == CONDITION_MOBS_ALIVE)
         {
             if (StatisticsUpdater::getInstance()->getLevelStatistics()->getMobsAlive() != value)
-            {
-                goalComplete = false;
-                break;
-            }
+                goto goal_failed;
         }
         else if (type == CONDITION_LEVEL_KEYS)
         {
+            int spritesChecked = 0;
+
             for (auto sprite : _state->getSpriteLayer()->getObjects())
             {
                 if (sprite->isAI())
                     continue;
 
+                spritesChecked++;
+
                 if (sprite->getAttributes()->getLevelKeys() != value)
-                {
-                    goalComplete = false;
-                    break;
-                }
+                    goto goal_failed;
             }
+
+            if (spritesChecked == 0)
+                goto goal_failed;
         }
         else
         {
@@ -191,12 +192,18 @@ void GameStateUpdater::update()
         }
     }
 
+goal_complete:
+
     if (goalComplete)
     {
         // allow player proceed to the next level
         this->logLevelFinish();
         _state->setGoalReached(true);
     }
+
+goal_failed:
+
+    return;
 }
 
 void GameStateUpdater::pushBlock(Coordinates from, Coordinates to)

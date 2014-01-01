@@ -1,4 +1,5 @@
 
+#include "../../Constants.h"
 #include "Coordinates.h"
 #include "Direction.h"
 
@@ -60,4 +61,9 @@ Coordinates Coordinates::getNext(int direction)
         return Coordinates(this->x + 1, this->y);
 
     return *this;
+}
+
+Position Coordinates::toPosition()
+{
+    return Position(this->x*TILE_WIDTH, this->y*TILE_HEIGHT);
 }
