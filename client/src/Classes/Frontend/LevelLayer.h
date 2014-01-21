@@ -15,6 +15,7 @@
 #include "../Backend/GameObjects/Sprites/Sprite.h"
 #include "GUIUpdater.h"
 #include "Statistics/FStatistics.h"
+#include "Layers/FLayers.h"
 
 namespace Bomber
 {
@@ -63,6 +64,7 @@ namespace Bomber
             Common::GameState *_gameState;
             //Backend::Sprite *_controlledSprite;
             Statistics *_statistics;
+            Layers *_layers;
 
         private:
             void initControlledSprite();

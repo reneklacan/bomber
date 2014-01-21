@@ -39,6 +39,7 @@ bool LevelLayer::init()
     _gui = new GUIUpdater();
     _map = Map::create();
     _statistics = new Statistics();
+    _layers = new Layers();
 
     // Init Mediator according to connection type
     Backend::Mediator::getInstance()->setConnectionType( MenuSelections::getInstance()->getConnection() );
@@ -260,58 +261,14 @@ void LevelLayer::showFinishMenu()
     _gamePaused = true;
     _statistics->endLevelTimer();
 
-    Size visibleSize = Director::sharedDirector()->getVisibleSize();
-
-    // Create new layer
-    LayerColor *lc = new LayerColor();
-    int lcWidth = (int)visibleSize.width*0.75;
-    int lcHeight = (int)visibleSize.height*0.60;
-    lc->initWithColor( ccc4(10, 10, 10, 180), lcWidth, lcHeight);
-    lc->setPosition(
-        visibleSize.width/2 - lcWidth/2,
-        visibleSize.height/2 - lcHeight/8
-    );
-
-    std::string levelTime = "Time: ";
-    levelTime += std::to_string( _statistics->getLevelTimer() );
-    levelTime += " seconds";
-    LabelTTF* stats = LabelTTF::create(
-        levelTime.c_str(),
-        "Helvetica",
-        24,
-        CCSizeMake(lcWidth, 24),
-        kTextAlignmentCenter,
-        kVerticalTextAlignmentTop
-    );
-    stats->setPosition(ccp(lcWidth/2, lcHeight/2+50));
-    lc->addChild(stats, 1);
-
-    // Create menu
-    Menu* menu = Menu::create();
-
-    // Back to Main menu label
+    // Prepare callbacks
+    std::vector<ccMenuCallback> callbacks;
     ccMenuCallback callback = std::bind(&LevelLayer::backToLevelSelect, this);
-
-    MenuItemFont *backToMenu = new MenuItemFont();
-    backToMenu->initWithString(
-        "Back to Levels",
-        callback
-    );
-    backToMenu->setPosition(ccp(0, 0));
-    menu->addChild(backToMenu);
-
-    menu->setPosition(
-        ccp(
-            lcWidth/2,
-            lcHeight/2
-        )
-    );
-
-    // Add menu to the new layer
-    lc->addChild(menu, 1);
+    callbacks.push_back(callback);
 
     // Show new layer
-    this->addChild(lc, 10);
+    Layer *layer = _layers->getFinishLevelLayer(_statistics, callbacks);
+    this->addChild(layer, 10);
 }
 
 //

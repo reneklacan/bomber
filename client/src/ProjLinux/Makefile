@@ -55,6 +55,7 @@ SOURCES = Main.cpp \
         ../Classes/Frontend/Sprites/SpriteCreator.cpp \
         ../Classes/Frontend/Cache/GUICache.cpp \
         ../Classes/Frontend/Statistics/FStatistics.cpp \
+        ../Classes/Frontend/Layers/FLayers.cpp \
         ../Classes/Menu/MainMenuLayer.cpp \
         ../Classes/Menu/SettingsLayer.cpp \
         ../Classes/Menu/CreditsLayer.cpp \
