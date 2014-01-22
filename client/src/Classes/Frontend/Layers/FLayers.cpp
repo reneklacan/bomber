@@ -174,3 +174,33 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
 
     return lc;
 }
+
+void Layers::createControlButtonLayer(std::vector<SEL_MenuHandler> callbacks, Layer* layer)
+{
+    // Quit Button
+    ControlButton *cbQuit = new ControlButton(
+        0,
+        "buttons/button_black_power_64.png",
+        layer,
+        callbacks[0]
+    );
+    ButtonLayer::getInstance()->addToControls(cbQuit);
+
+    // Pause/Resume Button
+    ControlButton *cbPause = new ControlButton(
+        0,
+        "buttons/button_black_pause_64.png",
+        layer,
+        callbacks[1]
+    );
+    ButtonLayer::getInstance()->addToControls(cbPause);
+
+    // Reset Button
+    ControlButton *cbReset = new ControlButton(
+        0,
+        "buttons/button_black_repeat_64.png",
+        layer,
+        callbacks[2]
+    );
+    ButtonLayer::getInstance()->addToControls(cbReset);
+}

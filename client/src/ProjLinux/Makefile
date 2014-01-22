@@ -41,7 +41,7 @@ SOURCES = Main.cpp \
         ../Classes/Backend/AI/AdvancedAI.cpp \
         ../Classes/Backend/AI/Actions.cpp \
         ../Classes/Frontend/LevelLayer.cpp \
-        ../Classes/Frontend/ButtonLayer.cpp \
+        ../Classes/Frontend/Layers/ButtonLayer.cpp \
         ../Classes/Frontend/Collisions.cpp \
         ../Classes/Frontend/Buttons/GameButton.cpp \
         ../Classes/Frontend/Buttons/ControlButton.cpp \

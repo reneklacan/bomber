@@ -4,7 +4,7 @@
 #include "../Backend/Mediator.h"
 #include "../Backend/GameObjects/Sprites/Bomber.h"
 #include "Buttons/GameButton.h"
-#include "ButtonLayer.h"
+#include "Layers/ButtonLayer.h"
 #include "Buttons/ControlButton.h"
 #include "Primitives/MenuHelper.h"
 #include "../Menu/LevelSelectLayer.h"
@@ -75,38 +75,11 @@ bool LevelLayer::init()
 
     // Button Layer
     ButtonLayer::getInstance()->setMainLayer(this);
-    /**
-    */
-
-    // Quit Button
-    ControlButton *cbQuit = new ControlButton(
-        0,
-        "buttons/button_black_power_64.png",
-        this,
-        menu_selector(LevelLayer::menuCloseCallback)
-    );
-    ButtonLayer::getInstance()->addToControls(cbQuit);
-
-    // Pause/Resume Button
-    ControlButton *cbPause = new ControlButton(
-        0,
-        "buttons/button_black_pause_64.png",
-        this,
-        menu_selector(LevelLayer::menuPauseCallback)
-    );
-    ButtonLayer::getInstance()->addToControls(cbPause);
-
-    // Reset Button
-    ControlButton *cbReset = new ControlButton(
-        0,
-        "buttons/button_black_repeat_64.png",
-        this,
-        menu_selector(LevelLayer::menuResetCallback)
-    );
-    ButtonLayer::getInstance()->addToControls(cbReset);
-
-    /**
-    */
+    std::vector<SEL_MenuHandler> callbacks;
+    callbacks.push_back(menu_selector(LevelLayer::menuCloseCallback));
+    callbacks.push_back(menu_selector(LevelLayer::menuPauseCallback));
+    callbacks.push_back(menu_selector(LevelLayer::menuResetCallback));
+    _layers->createControlButtonLayer(callbacks, this);
 
     // Control Layer
     this->initControlLayer();
@@ -247,6 +220,13 @@ void LevelLayer::menuRetryCallback()
 {
     _gamePaused = false;
     this->removeChildByTag(LEVEL_FINISH_TAG);
+
+    std::vector<SEL_MenuHandler> callbacks;
+    callbacks.push_back(menu_selector(LevelLayer::menuCloseCallback));
+    callbacks.push_back(menu_selector(LevelLayer::menuPauseCallback));
+    callbacks.push_back(menu_selector(LevelLayer::menuResetCallback));
+    _layers->createControlButtonLayer(callbacks, this);
+    
     this->resetLevel();
 }
 
@@ -259,6 +239,7 @@ void LevelLayer::resetLevel()
 
     // Backend init
     this->initControlledSprite();
+
     this->initStatistics();
 }
 
