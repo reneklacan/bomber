@@ -18,6 +18,10 @@ namespace Bomber
             void resumeLevelTimer();
             int getLevelTimer();
 
+            void countFinalScore();
+            int getFinalScore();
+            unsigned int getStars();
+
             SYNTHESIZE_STATS(unsigned int, _teleportations, Teleportation);
             SYNTHESIZE_STATS(unsigned int, _bombSpawns, BombSpawn);
             SYNTHESIZE_STATS(unsigned int, _achievementUnlocks, AchievementUnlock);
@@ -30,6 +34,7 @@ namespace Bomber
             time_t _end;
             int _timer;
             time_t _pause;
+            int _score;
 
         };
 	}
