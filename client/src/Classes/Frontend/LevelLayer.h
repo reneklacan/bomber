@@ -74,6 +74,7 @@ namespace Bomber
             void backToMenu();
             void backToLevelSelect();
             void initStatistics();
+            void menuRetryCallback();
         };
     }
 }

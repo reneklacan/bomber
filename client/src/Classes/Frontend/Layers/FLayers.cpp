@@ -33,9 +33,7 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     // Create menu
     Menu* menu = Menu::create();
 
-    // Back to Main menu label
-    //ccMenuCallback callback = std::bind(&LevelLayer::backToLevelSelect, levelLayer);
-
+    // Back
     MenuItemFont *backToMenu = new MenuItemFont();
     backToMenu->initWithString(
         "Back to Levels",
@@ -43,6 +41,15 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     );
     backToMenu->setPosition(ccp(0, 0));
     menu->addChild(backToMenu);
+
+    // Retry
+    MenuItemFont *retryLevel = new MenuItemFont();
+    retryLevel->initWithString(
+        "Retry",
+        callbacks[1]
+    );
+    retryLevel->setPosition(ccp(0, -30));
+    menu->addChild(retryLevel);
 
     menu->setPosition(
         ccp(

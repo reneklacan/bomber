@@ -243,9 +243,17 @@ void LevelLayer::menuResetCallback(Object* pSender)
 }
 
 //
+void LevelLayer::menuRetryCallback()
+{
+    _gamePaused = false;
+    this->removeChildByTag(LEVEL_FINISH_TAG);
+    this->resetLevel();
+}
+
+//
 void LevelLayer::resetLevel()
 {
-    // "reset" menu item clicked
+    // "reset"
     _gui->resetGUI(_players);
     Backend::Mediator::getInstance()->resetState();
 
@@ -263,12 +271,14 @@ void LevelLayer::showFinishMenu()
 
     // Prepare callbacks
     std::vector<ccMenuCallback> callbacks;
-    ccMenuCallback callback = std::bind(&LevelLayer::backToLevelSelect, this);
-    callbacks.push_back(callback);
+    ccMenuCallback callback1 = std::bind(&LevelLayer::backToLevelSelect, this);
+    ccMenuCallback callback2 = std::bind(&LevelLayer::menuRetryCallback, this);
+    callbacks.push_back(callback1);
+    callbacks.push_back(callback2);
 
     // Show new layer
     Layer *layer = _layers->getFinishLevelLayer(_statistics, callbacks);
-    this->addChild(layer, 10);
+    this->addChild(layer, 10, LEVEL_FINISH_TAG);
 }
 
 //
