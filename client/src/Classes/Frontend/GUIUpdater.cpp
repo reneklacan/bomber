@@ -5,7 +5,7 @@ using namespace Bomber::Frontend;
 using namespace Bomber::Common;
 
 //
-void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer* layer)
+void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer* layer, Statistics* stats)
 {
     // Init
     _map = map;
@@ -19,6 +19,7 @@ void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer
     _cache = GUICache::getInstance();
     _mediator = Backend::Mediator::getInstance();
     _collisionDetector = new Collisions();
+    _statistics = stats;
 
     // Optimization
     _O_mapPixelHeight = _map->getHeight()*TILE_HEIGHT;
@@ -240,6 +241,7 @@ void GUIUpdater::updateSpriteTeleport(GSCSpriteTeleport *spriteTeleport)
             if(player->getID() == 19991)    // TODO: ID Management
             {
                 _map->addToPosition(ccpSub(playerPosition, teleportPosition));
+                _statistics->noteTeleportation();
             }
             return;
         }
@@ -281,6 +283,9 @@ void GUIUpdater::updateBombSpawn(GSCBombSpawn *bombSpawn)
     }
     ca->setPlayersID(pIDs);
     _collisionDetector->setCFA(id, ca);
+
+    // stats
+    _statistics->noteBombSpawn();
 
     return;
 }
@@ -338,6 +343,10 @@ void GUIUpdater::updateAchievementUnlocked(GSCAchievementUnlocked *achievementUn
         ""
     );
     ButtonLayer::getInstance()->addToAchievements(ab);
+
+    // stats
+    _statistics->noteAchievementUnlock();
+
     return;
 }
 
@@ -394,17 +403,26 @@ void GUIUpdater::updateSpriteDestroy( GSCSpriteDestroy *spriteDestroy )
         _batchNode->removeChild(_mobs[id], true);
     }
     _mobs.erase(id);
+
+    // stats
+    _statistics->noteKilledMonster();
 }
 
 //
 void GUIUpdater::updateLeverSwitchOn( GSCLeverSwitchOn *leverSwitchOn )
 {
+    // stats
+    _statistics->noteUsedLever();
+
     return; // TODO
 }
 
 //
 void GUIUpdater::updateLeverSwitchOff( GSCLeverSwitchOff *leverSwitchOff )
 {
+    // stats
+    _statistics->noteUsedLever();
+
     return; // TODO
 }
 
@@ -433,6 +451,9 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
     {
         return;
     }
+
+    // stats
+    _statistics->noteTakenBuff();
 
     // Get buff image
     unsigned int imageID = 0;
@@ -468,6 +489,7 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
         );
         ButtonLayer::getInstance()->addToBuffs(eb);
     }
+
     return;
 }
 

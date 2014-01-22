@@ -52,6 +52,8 @@ namespace Bomber
             virtual void menuPauseCallback(cocos2d::Object* pSender);
             virtual void menuResetCallback(cocos2d::Object* pSender);
 
+            Statistics *getStatistics() { return _statistics; }
+
         protected:
             ControlLayer *_controlLayer;
             Map *_map;

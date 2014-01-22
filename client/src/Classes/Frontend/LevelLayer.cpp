@@ -63,7 +63,7 @@ bool LevelLayer::init()
     this->addChild(_controlLayer, 2);
 
     // Frontend init
-    _gui->init(_map, _players, this);
+    _gui->init(_map, _players, this, _statistics);
 
     // Game State init
     _gameState = new Common::GameState(_map->getWidth(), _map->getHeight());
@@ -279,6 +279,17 @@ void LevelLayer::showFinishMenu()
     // Show new layer
     Layer *layer = _layers->getFinishLevelLayer(_statistics, callbacks);
     this->addChild(layer, 10, LEVEL_FINISH_TAG);
+
+    // DEBUG
+    std::cout << "===== Statistics =====\n";
+    std::cout << "Time: " << _statistics->getLevelTimer() << "\n";
+    std::cout << "Teleportations: " << _statistics->getTeleportations() << "\n";
+    std::cout << "Bomb spawns: " << _statistics->getBombSpawns() << "\n";
+    std::cout << "Achievement unlocks: " << _statistics->getAchievementUnlocks() << "\n";
+    std::cout << "Buffs taken: " << _statistics->getTakenBuffs() << "\n";
+    std::cout << "Levers used: " << _statistics->getUsedLevers() << "\n";
+    std::cout << "Killed mosters: " << _statistics->getKilledMonsters() << "\n";
+    std::cout << "======================\n";
 }
 
 //

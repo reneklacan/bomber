@@ -8,6 +8,12 @@ void Statistics::startLevelTimer()
 	_end = 0;
 	_pause = 0;
 	_start = time(0);
+	_teleportations = 0;
+	_bombSpawns = 0;
+	_achievementUnlocks = 0;	// reset at retry ?
+	_takenBuffs = 0;
+	_usedLever = 0;
+	_killedMonster = 0;
 }
 
 void Statistics::endLevelTimer()
