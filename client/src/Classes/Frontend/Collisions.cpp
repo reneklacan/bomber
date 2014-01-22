@@ -99,10 +99,10 @@ std::vector<bool> Collisions::eval(GameSprite *sprite)
     for(auto freeArea : _collisionFreeAreas)
     {
         auto fa = freeArea.second;
-        if( (currentPoint.x - fa->getX()) > 55 ||    // Push left
-            (currentPoint.y - fa->getY()) > 55 ||    // Push up
-            (fa->getX() - currentPoint.x) > 60 ||    // Push right
-            (fa->getY() - currentPoint.y) > 50 )     // Push down
+        if( (currentPoint.x - fa->getX()) > 25 ||    // Push left
+            (currentPoint.y - fa->getY()) > 20 ||    // Push up
+            (fa->getX() - currentPoint.x) > 25 ||    // Push right
+            (fa->getY() - currentPoint.y) > 20 )     // Push down
         {
             fa->removePlayer( sprite->getID() );
             if( fa->isEmpty() )
