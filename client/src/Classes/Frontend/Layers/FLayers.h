@@ -6,6 +6,7 @@
 #include "../Statistics/FStatistics.h"
 #include "ButtonLayer.h"
 #include "../Buttons/ControlButton.h"
+#include "../Primitives/Shapes.h"
 
 #include <vector>
 
