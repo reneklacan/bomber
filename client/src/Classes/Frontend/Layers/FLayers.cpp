@@ -19,7 +19,8 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     // Proportions
     int pHOffset = (int)(lcHeight * 0.05);
     int pWOffset = (int)(lcWidth * 0.05);
-    unsigned int pFontSize = 24;
+    unsigned int pFontSize = 22;
+    std::string pFontName = "fonts/gamecuben.ttf";
     unsigned int borderSize = 5.0;
     unsigned int borderPadding = 3*borderSize;
 
@@ -35,7 +36,7 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     stars += " out of 5";
     LabelTTF* stats = LabelTTF::create(
         stars.c_str(),
-        "Helvetica",
+        pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
         kTextAlignmentCenter,
@@ -44,12 +45,12 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     stats->setPosition(ccp(lcWidth/2, lcHeight/2+290));
     lc->addChild(stats, 1);
 
-    std::string levelTime = "Time: ";
+    std::string levelTime = "time: ";
     levelTime += std::to_string( statistics->getLevelTimer() );
     levelTime += " seconds";
     stats = LabelTTF::create(
         levelTime.c_str(),
-        "Helvetica",
+        pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
         kTextAlignmentCenter,
@@ -58,11 +59,11 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     stats->setPosition(ccp(lcWidth/2, lcHeight/2+260));
     lc->addChild(stats, 1);
 
-    std::string killedMonsters = "Monsters Killed: ";
+    std::string killedMonsters = "monsters killed: ";
     killedMonsters += std::to_string( statistics->getKilledMonsters() );
     stats = LabelTTF::create(
         killedMonsters.c_str(),
-        "Helvetica",
+        pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
         kTextAlignmentCenter,
@@ -71,11 +72,11 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     stats->setPosition(ccp(lcWidth/2, lcHeight/2+230));
     lc->addChild(stats, 1);
 
-    std::string bombSpawns = "Bombs spawned: ";
+    std::string bombSpawns = "bombs spawned: ";
     bombSpawns += std::to_string( statistics->getBombSpawns() );
     stats = LabelTTF::create(
         bombSpawns.c_str(),
-        "Helvetica",
+        pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
         kTextAlignmentCenter,
@@ -84,11 +85,11 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     stats->setPosition(ccp(lcWidth/2, lcHeight/2+200));
     lc->addChild(stats, 1);
 
-    std::string achievementUnlocks = "Achievements Earned: ";
+    std::string achievementUnlocks = "achievements earned: ";
     achievementUnlocks += std::to_string( statistics->getAchievementUnlocks() );
     stats = LabelTTF::create(
         achievementUnlocks.c_str(),
-        "Helvetica",
+        pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
         kTextAlignmentCenter,
@@ -97,11 +98,11 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     stats->setPosition(ccp(lcWidth/2, lcHeight/2+170));
     lc->addChild(stats, 1);
 
-    std::string takenBuffs = "Enchantments Taken: ";
+    std::string takenBuffs = "enchantments taken: ";
     takenBuffs += std::to_string( statistics->getTakenBuffs() );
     stats = LabelTTF::create(
         takenBuffs.c_str(),
-        "Helvetica",
+        pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
         kTextAlignmentCenter,
@@ -110,11 +111,11 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     stats->setPosition(ccp(lcWidth/2, lcHeight/2+140));
     lc->addChild(stats, 1);
 
-    std::string usedLevers = "Levers Used: ";
+    std::string usedLevers = "levers used: ";
     usedLevers += std::to_string( statistics->getUsedLevers() );
     stats = LabelTTF::create(
         usedLevers.c_str(),
-        "Helvetica",
+        pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
         kTextAlignmentCenter,
@@ -123,11 +124,11 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     stats->setPosition(ccp(lcWidth/2, lcHeight/2+110));
     lc->addChild(stats, 1);
 
-    std::string teleportations = "Teleports Used: ";
+    std::string teleportations = "teleports used: ";
     teleportations += std::to_string( statistics->getTeleportations() );
     stats = LabelTTF::create(
         teleportations.c_str(),
-        "Helvetica",
+        pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
         kTextAlignmentCenter,
@@ -140,7 +141,7 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     finalScore += std::to_string( statistics->getFinalScore() );
     stats = LabelTTF::create(
         finalScore.c_str(),
-        "Helvetica",
+        pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
         kTextAlignmentCenter,
@@ -155,7 +156,7 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     // Continue
     MenuItemFont *backToMenu = new MenuItemFont();
     backToMenu->initWithString(
-        "Next Level",
+        "NEXT LEVEL",
         callbacks[0]
     );
     backToMenu->setPosition(
@@ -164,12 +165,14 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
             -lcHeight/2+2*pHOffset
         )
     );
+    backToMenu->setFontNameObj("fonts/gamecuben.ttf");
+    backToMenu->setFontSizeObj(pFontSize);
     menu->addChild(backToMenu, 10);
 
     // Retry
     MenuItemFont *retryLevel = new MenuItemFont();
     retryLevel->initWithString(
-        "Retry Level",
+        "RETRY LEVEL",
         callbacks[1]
     );
     retryLevel->setPosition(
@@ -178,6 +181,8 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
             -lcHeight/2+2*pHOffset
         )
     );
+    retryLevel->setFontNameObj("fonts/gamecuben.ttf");
+    retryLevel->setFontSizeObj(pFontSize);
     menu->addChild(retryLevel, 10);
 
     // Borders
@@ -192,7 +197,7 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     dr->DrawNode::drawPolygon(
         ccPoints,
         4,
-        ccc4f(0.0, 0.0, 0.0, 0.0),
+        ccc4f(0.0, 0.0, 0.0, 0.5),
         borderSize,
         ccc4f(0.2, 0.4, 0.6, 0.5)
     );
@@ -207,7 +212,7 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     dr->DrawNode::drawPolygon(
         ccPoints,
         4,
-        ccc4f(0.0, 0.0, 0.0, 0.0),
+        ccc4f(0.0, 0.0, 0.0, 0.5),
         borderSize,
         ccc4f(0.2, 0.4, 0.6, 0.5)
     );
