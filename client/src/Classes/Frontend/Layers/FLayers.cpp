@@ -10,7 +10,7 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     LayerColor *lc = new LayerColor();
     int lcWidth = (int)visibleSize.width*0.75;
     int lcHeight = (int)visibleSize.height;
-    lc->initWithColor( ccc4(10, 10, 10, 180), lcWidth, lcHeight);
+    lc->initWithColor( ccc4(10, 10, 10, 220), lcWidth, lcHeight);
     lc->setPosition(
         visibleSize.width/2 - lcWidth/2,
         visibleSize.height/4.5  // dunno why it works
@@ -19,14 +19,36 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     // Proportions
     int pHOffset = (int)(lcHeight * 0.05);
     int pWOffset = (int)(lcWidth * 0.05);
-    unsigned int pFontSize = 22;
-    std::string pFontName = "fonts/gamecuben.ttf";
-    unsigned int borderSize = 5.0;
-    unsigned int borderPadding = 3*borderSize;
+    unsigned int pFontSize = 26;
+    std::string pFontName = "fonts/culturalstupidity.ttf";
+    unsigned int borderSize = 3.5;
+    unsigned int borderPadding = 5*borderSize;
+    int leftColumnX = lcWidth/2+pWOffset;
+    int rihtColumnX = lcWidth+pWOffset;
+    std::string starIcon = "other/star.png";
+
+    // Stars
+    unsigned int gainedStars = statistics->getStars();
+    Sprite *starImage = NULL;
+    for(unsigned int i = 0; i < 5; i++)
+    {
+        starImage = Sprite::create(starIcon.c_str());
+        starImage->setAnchorPoint(ccp(0,0));
+        starImage->setScale(0.2f);
+        Rect starRect = starImage->boundingBox();
+        int starOffset = (starRect.getMaxX() - starRect.getMinX()) * 1.2;
+        int starRadius = (starRect.getMaxX() - starRect.getMinX()) * 0.6;
+        starImage->setPosition(ccp(lcWidth/2 + (i-3)*starOffset + starRadius, lcHeight/2+5.5*pHOffset));
+        if(i > gainedStars-1)
+        {
+            starImage->setOpacity(50);
+        }
+        lc->addChild(starImage, 1);
+    }
+
 
     // Labels and Buttons
     std::string stars = "";
-    unsigned int gainedStars = statistics->getStars();
     stars += std::to_string( gainedStars );
     stars += " star";
     if(gainedStars > 1)
@@ -42,7 +64,7 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
         kTextAlignmentCenter,
         kVerticalTextAlignmentTop
     );
-    stats->setPosition(ccp(lcWidth/2, lcHeight/2+290));
+    stats->setPosition(ccp(lcWidth/2, lcHeight/2+4.5*pHOffset));
     lc->addChild(stats, 1);
 
     std::string levelTime = "time: ";
@@ -53,10 +75,10 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
         pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
-        kTextAlignmentCenter,
+        kTextAlignmentLeft,
         kVerticalTextAlignmentTop
     );
-    stats->setPosition(ccp(lcWidth/2, lcHeight/2+260));
+    stats->setPosition(ccp(leftColumnX, lcHeight/2+2*pHOffset));
     lc->addChild(stats, 1);
 
     std::string killedMonsters = "monsters killed: ";
@@ -66,10 +88,10 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
         pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
-        kTextAlignmentCenter,
+        kTextAlignmentLeft,
         kVerticalTextAlignmentTop
     );
-    stats->setPosition(ccp(lcWidth/2, lcHeight/2+230));
+    stats->setPosition(ccp(leftColumnX, lcHeight/2+0.5*pHOffset));
     lc->addChild(stats, 1);
 
     std::string bombSpawns = "bombs spawned: ";
@@ -79,36 +101,36 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
         pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
-        kTextAlignmentCenter,
+        kTextAlignmentLeft,
         kVerticalTextAlignmentTop
     );
-    stats->setPosition(ccp(lcWidth/2, lcHeight/2+200));
+    stats->setPosition(ccp(leftColumnX, lcHeight/2-1*pHOffset));
     lc->addChild(stats, 1);
 
-    std::string achievementUnlocks = "achievements earned: ";
+    std::string achievementUnlocks = "achievements: ";
     achievementUnlocks += std::to_string( statistics->getAchievementUnlocks() );
     stats = LabelTTF::create(
         achievementUnlocks.c_str(),
         pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
-        kTextAlignmentCenter,
+        kTextAlignmentLeft,
         kVerticalTextAlignmentTop
     );
-    stats->setPosition(ccp(lcWidth/2, lcHeight/2+170));
+    stats->setPosition(ccp(leftColumnX, lcHeight/2-2.5*pHOffset));
     lc->addChild(stats, 1);
 
-    std::string takenBuffs = "enchantments taken: ";
+    std::string takenBuffs = "enchantments: ";
     takenBuffs += std::to_string( statistics->getTakenBuffs() );
     stats = LabelTTF::create(
         takenBuffs.c_str(),
         pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
-        kTextAlignmentCenter,
+        kTextAlignmentLeft,
         kVerticalTextAlignmentTop
     );
-    stats->setPosition(ccp(lcWidth/2, lcHeight/2+140));
+    stats->setPosition(ccp(leftColumnX, lcHeight/2-4*pHOffset));
     lc->addChild(stats, 1);
 
     std::string usedLevers = "levers used: ";
@@ -118,10 +140,10 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
         pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
-        kTextAlignmentCenter,
+        kTextAlignmentLeft,
         kVerticalTextAlignmentTop
     );
-    stats->setPosition(ccp(lcWidth/2, lcHeight/2+110));
+    stats->setPosition(ccp(rihtColumnX, lcHeight/2+2*pHOffset));
     lc->addChild(stats, 1);
 
     std::string teleportations = "teleports used: ";
@@ -131,10 +153,10 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
         pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
-        kTextAlignmentCenter,
+        kTextAlignmentLeft,
         kVerticalTextAlignmentTop
     );
-    stats->setPosition(ccp(lcWidth/2, lcHeight/2+80));
+    stats->setPosition(ccp(rihtColumnX, lcHeight/2+0.5*pHOffset));
     lc->addChild(stats, 1);
 
     std::string finalScore = "FINAL SCORE: ";
@@ -144,10 +166,10 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
         pFontName.c_str(),
         pFontSize,
         CCSizeMake(lcWidth, pFontSize),
-        kTextAlignmentCenter,
+        kTextAlignmentLeft,
         kVerticalTextAlignmentTop
     );
-    stats->setPosition(ccp(lcWidth/2, lcHeight/2+50));
+    stats->setPosition(ccp(rihtColumnX, lcHeight/2-4*pHOffset));
     lc->addChild(stats, 1);
 
     // Create menu
@@ -165,7 +187,7 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
             -lcHeight/2+2*pHOffset
         )
     );
-    backToMenu->setFontNameObj("fonts/gamecuben.ttf");
+    backToMenu->setFontNameObj(pFontName.c_str());
     backToMenu->setFontSizeObj(pFontSize);
     menu->addChild(backToMenu, 10);
 
@@ -181,7 +203,7 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
             -lcHeight/2+2*pHOffset
         )
     );
-    retryLevel->setFontNameObj("fonts/gamecuben.ttf");
+    retryLevel->setFontNameObj(pFontName.c_str());
     retryLevel->setFontSizeObj(pFontSize);
     menu->addChild(retryLevel, 10);
 
@@ -199,7 +221,7 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
         4,
         ccc4f(0.0, 0.0, 0.0, 0.5),
         borderSize,
-        ccc4f(0.2, 0.4, 0.6, 0.5)
+        ccc4f(0.8, 0.6, 0.4, 0.4)
     );
     menu->addChild(dr);
 
@@ -214,7 +236,7 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
         4,
         ccc4f(0.0, 0.0, 0.0, 0.5),
         borderSize,
-        ccc4f(0.2, 0.4, 0.6, 0.5)
+        ccc4f(0.8, 0.6, 0.4, 0.4)
     );
     menu->addChild(dr);
 
