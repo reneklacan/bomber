@@ -20,7 +20,16 @@ void GoToDirection::update(float dt)
         return;
     }
 
-    _destination = _sprite->getCoords().getNext(_direction);
+    if (_steps != 0)
+    {
+        _destination = _sprite->getCoords();
+        while (_steps > 0)
+        {
+            _steps--;
+            _destination = _destination.getNext(_direction);
+        }
+    }
+
     _sprite->continueMoveTo(_destination);
 }
 

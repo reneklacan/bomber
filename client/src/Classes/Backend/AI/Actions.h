@@ -31,31 +31,36 @@ namespace Bomber
             protected:
                 Common::Coordinates _destination;
                 int _direction;
+                int _steps;
         };
 
         // temporary for prototyping -> I plan to move them into separete files
         class GoUp : public GoToDirection
         {
             public:
-                GoUp() { _direction = Common::UP; };
+                GoUp() { _direction = Common::UP; _steps = 1; };
+                GoUp(int steps) { _direction = Common::UP; _steps = steps; };
         };
 
         class GoDown : public GoToDirection
         {
             public:
-                GoDown() { _direction = Common::DOWN; };
+                GoDown() { _direction = Common::DOWN; _steps = 1; };
+                GoDown(int steps) { _direction = Common::DOWN; _steps = steps; };
         };
 
         class GoLeft : public GoToDirection
         {
             public:
-                GoLeft() { _direction = Common::LEFT; };
+                GoLeft() { _direction = Common::LEFT; _steps = 1; };
+                GoLeft(int steps) { _direction = Common::LEFT; _steps = steps; };
         };
 
         class GoRight : public GoToDirection
         {
             public:
-                GoRight() { _direction = Common::RIGHT; };
+                GoRight() { _direction = Common::RIGHT; _steps = 1; };
+                GoRight(int steps) { _direction = Common::RIGHT; _steps = steps; };
         };
 
         class Again : public Action

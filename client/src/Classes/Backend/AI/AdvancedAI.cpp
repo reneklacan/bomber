@@ -36,7 +36,6 @@ void AdvancedAI::update(float dt)
 void AdvancedAI::nextAction()
 {
     _currentActionIndex++;
-    printf("AdvancedAI::nextAction -> %d\n", _currentActionIndex);
 }
 
 void AdvancedAI::setActions(Actions *actions)
@@ -49,8 +48,6 @@ void AdvancedAI::setActions(Actions *actions)
 
 void AdvancedAI::goRandom()
 {
-    printf("go random\n");
-
     Coordinates goalCoords = AI::getInstance()->getRandomCoordsAround(
         this->getCoords(),
         _attributes->getGhostMode()
@@ -68,8 +65,6 @@ bool AdvancedAI::tryToChasePlayer()
         _smart,
         _attributes->getGhostMode()
     );
-
-    printf("tryToChasePlayer start\n");
 
     if (path.size() == 0)
         return false;
