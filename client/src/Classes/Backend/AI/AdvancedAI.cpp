@@ -12,6 +12,7 @@ using namespace Bomber::Common;
 
 AdvancedAI::AdvancedAI()
 :_currentActionIndex(0)
+,_moving(false)
 {
 
 }
@@ -35,6 +36,7 @@ void AdvancedAI::update(float dt)
 void AdvancedAI::nextAction()
 {
     _currentActionIndex++;
+    printf("AdvancedAI::nextAction -> %d\n", _currentActionIndex);
 }
 
 void AdvancedAI::setActions(Actions *actions)
@@ -47,6 +49,8 @@ void AdvancedAI::setActions(Actions *actions)
 
 void AdvancedAI::goRandom()
 {
+    printf("go random\n");
+
     Coordinates goalCoords = AI::getInstance()->getRandomCoordsAround(
         this->getCoords(),
         _attributes->getGhostMode()
@@ -64,19 +68,18 @@ bool AdvancedAI::tryToChasePlayer()
         _smart,
         _attributes->getGhostMode()
     );
-    
+
+    printf("tryToChasePlayer start\n");
+
     if (path.size() == 0)
         return false;
 
-    goalCoords = AI::getInstance()->getRandomCoordsAround(
-        this->getCoords(),
-        _attributes->getGhostMode()
-    );
-
-    if (this->getCoords() == goalCoords)
+    if (this->getCoords() == path[0])
         return false;
 
-    _goal = goalCoords.toPosition();
+    printf("tryToChasePlayer ok\n");
+
+    _goal = path[0].toPosition();
     this->continueMove();
     return true;
 }
@@ -104,11 +107,14 @@ bool AdvancedAI::continueMoveTo(Coordinates coords)
         return false;
 
     _goal = path[0].toPosition();
+    this->continueMove();
     return true;
 }
 
 bool AdvancedAI::continueMove()
 {
+    _moving = true;
+
     Position delta;
     Position nextPos = _position;
     std::deque<Coordinates> path;

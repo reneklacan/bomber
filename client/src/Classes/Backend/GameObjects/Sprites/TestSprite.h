@@ -9,26 +9,28 @@ namespace Bomber
     {
         class TestSprite : public AdvancedAI
         {
-            TestSprite() : AdvancedAI()
-            {
-                this->init();
-            }
+            public:
+                TestSprite() : AdvancedAI()
+                {
+                    this->init();
+                }
 
-            virtual void init()
-            {
-                this->setActions(this->behaviour());
-            }
+                virtual void init()
+                {
+                    _aggroDistance = 100;
+                    _smart = true;
 
-            virtual Actions *behaviour()
-            {
-                return new Actions(
-                    new WalkTo(7, 14),
-                    new Wait(15),
-                    new WalkWithoutAttentionTo(3, 3),
-                    new HuntNearestPlayer(),
-                    new Again()
-                );
-            }
+                    this->setActions(
+                        new Actions(
+                            new Wait(3),
+                            new WalkWithoutAttentionTo(7, 7),
+                            new Wait(3),
+                            //new WalkTo(3, 3),
+                            new HuntNearestPlayer(),
+                            new Again()
+                        )
+                    );
+                }
         };
     }
 }

@@ -11,7 +11,7 @@ using namespace Bomber::Common;
 
 Sprite *Sprite::getInstanceByGid(unsigned int gid)
 {
-    AISprite *sprite = (AISprite *) ObjectCache::getInstance()->getObject(COT_AI_SPRITE);
+    Sprite *sprite = (AISprite *) ObjectCache::getInstance()->getObject(COT_AI_SPRITE);
     sprite->setGid(gid);
         
     switch(gid)
@@ -32,10 +32,14 @@ Sprite *Sprite::getInstanceByGid(unsigned int gid)
         //case 6:
         case 453:
             sprite->setName("Princess");
-            sprite->setSmart(false);
+            //sprite->setSmart(false);
             break;
         case 48:
             sprite->setName("Fluffy");
+            break;
+        case 523:
+            sprite = new TestSprite();
+            sprite->setName("Geisha");
             break;
         default:
             printf("Sprite::getInstanceByGid - unknown sprite gid %u\n", gid);

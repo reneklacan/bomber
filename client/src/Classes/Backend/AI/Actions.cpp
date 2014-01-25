@@ -35,6 +35,8 @@ Actions::Actions(Action *firstAction, ...)
     va_list list;
     va_start(list, firstAction);
 
+    _actions.push_back(firstAction);
+
     while (true)
     {
         Action *action = va_arg(list, Action *);
@@ -44,7 +46,7 @@ Actions::Actions(Action *firstAction, ...)
         if (action->isLast())
             break;
     }
-    
+
     va_end(list);
 }
 

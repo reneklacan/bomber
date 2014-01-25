@@ -317,7 +317,7 @@ std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float rang
     float smallestDistance = range;
     float distance;
 
-    Sprite *nearestSprite;
+    Sprite *nearestSprite = nullptr;
 
     for (auto sprite : _state->getSpriteLayer()->getObjects())
     {
@@ -342,7 +342,7 @@ std::deque<Coordinates> AI::findPathToNearestPlayer(Coordinates from, float rang
         }
     }
 
-    if (smallestDistance < 0.0)
+    if (nearestSprite == nullptr || smallestDistance < 0.0)
         return std::deque<Coordinates>();
 
     if (!smart)

@@ -11,7 +11,7 @@ namespace Bomber
         class Action
         {
             public:
-                Action() {};
+                Action() { _complete = false; };
 
                 virtual void update(float dt) {};
                 bool isComplete() { return _complete; };
