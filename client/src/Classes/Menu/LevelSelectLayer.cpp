@@ -76,8 +76,9 @@ bool LevelSelectLayer::init()
     {
         if (_levelNameMap.count(filename) == 0)
         {
-            std::cerr << "Not defined level name for filename " << filename << std::endl;
-            continue;
+            std::cerr << "Not defined name for " << filename << std::endl;
+            //continue;
+            _levelNameMap[filename] = "Not defined name for " + filename;
         }
 
         ccMenuCallback callback = std::bind(&LevelSelectLayer::playersSelect, this, this, filename);
