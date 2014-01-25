@@ -6,6 +6,24 @@
 using namespace Bomber::Backend;
 using namespace Bomber::Common;
 
+void GoToDirection::update(float dt)
+{
+    if (_sprite->isMoving())
+    {
+        _sprite->continueMove();
+        return;
+    }
+
+    if (_sprite->getCoords() == _destination)
+    {
+        _complete = true;
+        return;
+    }
+
+    _destination = _sprite->getCoords().getNext(_direction);
+    _sprite->continueMoveTo(_destination);
+}
+
 Wait::Wait()
 :_period(-1.0f)
 ,_expired(0.0f)

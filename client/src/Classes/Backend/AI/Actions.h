@@ -23,7 +23,41 @@ namespace Bomber
                 bool _complete;
         };
 
+        class GoToDirection : public Action
+        {
+            public:
+                virtual void update(float dt);
+
+            protected:
+                Common::Coordinates _destination;
+                int _direction;
+        };
+
         // temporary for prototyping -> I plan to move them into separete files
+        class GoUp : public GoToDirection
+        {
+            public:
+                GoUp() { _direction = Common::UP; };
+        };
+
+        class GoDown : public GoToDirection
+        {
+            public:
+                GoDown() { _direction = Common::DOWN; };
+        };
+
+        class GoLeft : public GoToDirection
+        {
+            public:
+                GoLeft() { _direction = Common::LEFT; };
+        };
+
+        class GoRight : public GoToDirection
+        {
+            public:
+                GoRight() { _direction = Common::RIGHT; };
+        };
+
         class Again : public Action
         {
             public:
