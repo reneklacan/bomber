@@ -15,13 +15,13 @@ using namespace cocos2d;
 namespace Bomber
 {
 
-	namespace Frontend
-	{
-		class Layers
+    namespace Frontend
+    {
+        class Layers
         {
         public:
-        	Layer *getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCallback> callbacks);
-        	void createControlButtonLayer(std::vector<SEL_MenuHandler> callbacks, Layer* layer);
+            Layer *getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCallback> callbacks);
+            void createControlButtonLayer(std::vector<SEL_MenuHandler> callbacks, Layer* layer);
         };
     }
 }
