@@ -18,16 +18,17 @@ namespace Bomber
             void resumeLevelTimer();
             int getLevelTimer();
 
-            void countFinalScore();
             int getFinalScore();
             unsigned int getStars();
 
-            SYNTHESIZE_STATS(unsigned int, _teleportations, Teleportation);
-            SYNTHESIZE_STATS(unsigned int, _bombSpawns, BombSpawn);
+            SYNTHESIZE(unsigned int, _bombSpawns, BombSpawns);
+            SYNTHESIZE(unsigned int, _killedMonsters, KilledMonsters);
+            SYNTHESIZE(unsigned int, _takenBuffs, TakenBuffs);
+            SYNTHESIZE(unsigned int, _destroyedObstacles, DestroyedObstacles);
+            SYNTHESIZE(unsigned int, _teleportations, Teleportations);
+            SYNTHESIZE(unsigned int, _usedLevers, UsedLevers);
             SYNTHESIZE_STATS(unsigned int, _achievementUnlocks, AchievementUnlock);
-            SYNTHESIZE_STATS(unsigned int, _takenBuffs, TakenBuff);
-            SYNTHESIZE_STATS(unsigned int, _usedLever, UsedLever);
-            SYNTHESIZE_STATS(unsigned int, _killedMonster, KilledMonster);
+            SYNTHESIZE_STATS(unsigned int, _ranUnit, RanUnit);
 
         private:
             time_t _start;
@@ -35,6 +36,9 @@ namespace Bomber
             int _timer;
             time_t _pause;
             int _score;
+
+            void countRanDistance();
+            void countFinalScore();
 
         };
 	}

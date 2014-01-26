@@ -133,6 +133,19 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
     stats->setPosition(ccp(leftColumnX, lcHeight/2-4*pHOffset));
     lc->addChild(stats, 1);
 
+    std::string destroyedObstacles = "destroyed blocks: ";
+    destroyedObstacles += std::to_string( statistics->getDestroyedObstacles() );
+    stats = LabelTTF::create(
+        destroyedObstacles.c_str(),
+        pFontName.c_str(),
+        pFontSize,
+        CCSizeMake(lcWidth, pFontSize),
+        kTextAlignmentLeft,
+        kVerticalTextAlignmentTop
+    );
+    stats->setPosition(ccp(rihtColumnX, lcHeight/2+2*pHOffset));
+    lc->addChild(stats, 1);
+
     std::string usedLevers = "levers used: ";
     usedLevers += std::to_string( statistics->getUsedLevers() );
     stats = LabelTTF::create(
@@ -143,7 +156,7 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
         kTextAlignmentLeft,
         kVerticalTextAlignmentTop
     );
-    stats->setPosition(ccp(rihtColumnX, lcHeight/2+2*pHOffset));
+    stats->setPosition(ccp(rihtColumnX, lcHeight/2+0.5*pHOffset));
     lc->addChild(stats, 1);
 
     std::string teleportations = "teleports used: ";
@@ -156,7 +169,21 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
         kTextAlignmentLeft,
         kVerticalTextAlignmentTop
     );
-    stats->setPosition(ccp(rihtColumnX, lcHeight/2+0.5*pHOffset));
+    stats->setPosition(ccp(rihtColumnX, lcHeight/2-1*pHOffset));
+    lc->addChild(stats, 1);
+
+    std::string ranDistance = "distance: ";
+    ranDistance += std::to_string( statistics->getRanUnits() );
+    ranDistance += " m";
+    stats = LabelTTF::create(
+        ranDistance.c_str(),
+        pFontName.c_str(),
+        pFontSize,
+        CCSizeMake(lcWidth, pFontSize),
+        kTextAlignmentLeft,
+        kVerticalTextAlignmentTop
+    );
+    stats->setPosition(ccp(rihtColumnX, lcHeight/2-2.5*pHOffset));
     lc->addChild(stats, 1);
 
     std::string finalScore = "FINAL SCORE: ";

@@ -241,7 +241,6 @@ void GUIUpdater::updateSpriteTeleport(GSCSpriteTeleport *spriteTeleport)
             if(player->getID() == 19991)    // TODO: ID Management
             {
                 _map->addToPosition(ccpSub(playerPosition, teleportPosition));
-                _statistics->noteTeleportation();
             }
             return;
         }
@@ -283,9 +282,6 @@ void GUIUpdater::updateBombSpawn(GSCBombSpawn *bombSpawn)
     }
     ca->setPlayersID(pIDs);
     _collisionDetector->setCFA(id, ca);
-
-    // stats
-    _statistics->noteBombSpawn();
 
     return;
 }
@@ -403,26 +399,17 @@ void GUIUpdater::updateSpriteDestroy( GSCSpriteDestroy *spriteDestroy )
         _batchNode->removeChild(_mobs[id], true);
     }
     _mobs.erase(id);
-
-    // stats
-    _statistics->noteKilledMonster();
 }
 
 //
 void GUIUpdater::updateLeverSwitchOn( GSCLeverSwitchOn *leverSwitchOn )
 {
-    // stats
-    _statistics->noteUsedLever();
-
     return; // TODO
 }
 
 //
 void GUIUpdater::updateLeverSwitchOff( GSCLeverSwitchOff *leverSwitchOff )
 {
-    // stats
-    _statistics->noteUsedLever();
-
     return; // TODO
 }
 
@@ -451,9 +438,6 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
     {
         return;
     }
-
-    // stats
-    _statistics->noteTakenBuff();
 
     // Get buff image
     unsigned int imageID = 0;
@@ -571,7 +555,13 @@ void GUIUpdater::updateLevelFinish( GSCLevelFinish *levelFinish )
     // Instance variable
     _resetNow = false;
     _finishLevel = false; // hmm ?
-
+    // Statistics
+    _statistics->setBombSpawns(levelFinish->getBombSpawns());
+    _statistics->setKilledMonsters(levelFinish->getTotalKills());
+    _statistics->setTakenBuffs(levelFinish->getTotalEffects());
+    _statistics->setDestroyedObstacles(levelFinish->getTotalObstacles());
+    _statistics->setTeleportations(levelFinish->getTeleportUses());
+    _statistics->setUsedLevers(levelFinish->getLeverUses());
     // Flag
     _finishLevel = true;
     return;

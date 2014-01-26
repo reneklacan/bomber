@@ -9,12 +9,15 @@ void Statistics::startLevelTimer()
     _end = 0;
     _pause = 0;
     _start = time(0);
-    _teleportations = 0;
+
     _bombSpawns = 0;
-    _achievementUnlocks = 0;    // reset at retry ?
+    _killedMonsters = 0;
     _takenBuffs = 0;
-    _usedLever = 0;
-    _killedMonster = 0;
+    _destroyedObstacles = 0;
+    _teleportations = 0;
+    _usedLevers = 0;
+    _achievementUnlocks = 0;    // reset at retry ?
+    _ranUnit = 0;
     _score = 0;
 }
 
@@ -24,6 +27,7 @@ void Statistics::endLevelTimer()
     _timer += ( (int)_end - (int)_start );
 
     countFinalScore();
+    countRanDistance();
     return;
 }
 
@@ -42,6 +46,11 @@ int Statistics::getLevelTimer()
     return _timer;
 }
 
+void Statistics::countRanDistance()
+{
+    _ranUnit = _ranUnit/2;
+}
+
 // Only for test purpose
 // TODO create algorithm
 void Statistics::countFinalScore()
@@ -49,8 +58,8 @@ void Statistics::countFinalScore()
     _score = (int)( (1000 - (int)_timer * 10) +
              (_achievementUnlocks * 100) +
              (_takenBuffs * 5) +
-             (_usedLever * 5) +
-             (_killedMonster * 20) -
+             (_usedLevers * 5) +
+             (_killedMonsters * 20) -
              (_bombSpawns * 5)
            );
 }

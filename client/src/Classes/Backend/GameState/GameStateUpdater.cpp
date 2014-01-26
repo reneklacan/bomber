@@ -463,6 +463,15 @@ void GameStateUpdater::logLevelFinish()
 {   
     printf("logLevelFinish\n");
     GSCLevelFinish *change = new GSCLevelFinish();
+    StatisticsUpdater* su = StatisticsUpdater::getInstance();
+    change->update(
+        su->getLevelStatistics()->getBombSpawns(),
+        su->getLevelStatistics()->getTotalKills(),
+        su->getLevelStatistics()->getTotalEffects(),
+        su->getLevelStatistics()->getTotalObstacles(),
+        su->getLevelStatistics()->getTeleportUses(),
+        su->getLevelStatistics()->getLeverUses()
+    );
     _state->addChange(change);
 }
 

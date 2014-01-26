@@ -151,6 +151,7 @@ void LevelLayer::updateGame(float dt)
         {
             // Player
             player->setPosition(nextPos);
+            _statistics->noteRanUnit();
             // Map
             if(player->getID() == 19991) // WARNING
             {
