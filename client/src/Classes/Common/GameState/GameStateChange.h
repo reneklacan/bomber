@@ -256,6 +256,24 @@ namespace Bomber
         {
             public:
                 GSCLevelFinish() { _type = LEVEL_FINISH; };
+                virtual void update(unsigned int bombSpawns, unsigned int totalKills, 
+                                    unsigned int totalEffects, unsigned int totalObstacles, 
+                                    unsigned int teleportUses, unsigned int leverUses)
+                {
+                    _bombSpawns = bombSpawns;
+                    _totalKills = totalKills;
+                    _totalEffects = totalEffects;
+                    _totalObstacles = totalObstacles;
+                    _teleportUses = teleportUses;
+                    _leverUses = leverUses;
+                }
+            private:
+                SYNTHESIZE(unsigned int, _bombSpawns, BombSpawns);
+                SYNTHESIZE(unsigned int, _totalKills, TotalKills);
+                SYNTHESIZE(unsigned int, _totalEffects, TotalEffects);
+                SYNTHESIZE(unsigned int, _totalObstacles, TotalObstacles);
+                SYNTHESIZE(unsigned int, _teleportUses, TeleportUses);
+                SYNTHESIZE(unsigned int, _leverUses, LeverUses);
         };
 
         class GSCLevelReset : public GameStateChange

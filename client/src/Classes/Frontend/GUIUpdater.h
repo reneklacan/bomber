@@ -21,12 +21,14 @@
 
 #include "Buttons/AchievementButton.h"
 #include "Buttons/EffectButton.h"
-#include "ButtonLayer.h"
+#include "Layers/ButtonLayer.h"
 
 #include "Cache/GUICache.h"
 
 #include "Primitives/AnimationHelper.h"
 #include "Primitives/CollisionArea.h"
+
+#include "Statistics/FStatistics.h"
 
 namespace Bomber
 {
@@ -37,7 +39,7 @@ namespace Bomber
         public:
             GUIUpdater(): _lastChangeID(0), _batchNode(NULL) {};
 
-            void init(Map* map, std::map<unsigned int, Human *> &players, Layer* layer);
+            void init(Map* map, std::map<unsigned int, Human *> &players, Layer* layer, Statistics* stats);
             void update();
             std::vector<bool> evalCollisions(GameSprite *sprite);
             void resetGUI(std::map<unsigned int, Human *> &players);
@@ -92,6 +94,7 @@ namespace Bomber
             GUICache *_cache;
             Backend::Mediator *_mediator;
             Collisions *_collisionDetector;
+            Statistics *_statistics;
 
             // Opt
             unsigned int _O_mapPixelHeight;

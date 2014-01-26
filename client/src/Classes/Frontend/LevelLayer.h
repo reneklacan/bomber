@@ -15,6 +15,7 @@
 #include "../Backend/GameObjects/Sprites/Sprite.h"
 #include "GUIUpdater.h"
 #include "Statistics/FStatistics.h"
+#include "Layers/FLayers.h"
 
 namespace Bomber
 {
@@ -51,6 +52,8 @@ namespace Bomber
             virtual void menuPauseCallback(cocos2d::Object* pSender);
             virtual void menuResetCallback(cocos2d::Object* pSender);
 
+            Statistics *getStatistics() { return _statistics; }
+
         protected:
             ControlLayer *_controlLayer;
             Map *_map;
@@ -63,6 +66,7 @@ namespace Bomber
             Common::GameState *_gameState;
             //Backend::Sprite *_controlledSprite;
             Statistics *_statistics;
+            Layers *_layers;
 
         private:
             void initControlledSprite();
@@ -72,6 +76,7 @@ namespace Bomber
             void backToMenu();
             void backToLevelSelect();
             void initStatistics();
+            void menuRetryCallback();
         };
     }
 }

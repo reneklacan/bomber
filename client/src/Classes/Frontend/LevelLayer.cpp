@@ -4,7 +4,7 @@
 #include "../Backend/Mediator.h"
 #include "../Backend/GameObjects/Sprites/Bomber.h"
 #include "Buttons/GameButton.h"
-#include "ButtonLayer.h"
+#include "Layers/ButtonLayer.h"
 #include "Buttons/ControlButton.h"
 #include "Primitives/MenuHelper.h"
 #include "../Menu/LevelSelectLayer.h"
@@ -39,6 +39,7 @@ bool LevelLayer::init()
     _gui = new GUIUpdater();
     _map = Map::create();
     _statistics = new Statistics();
+    _layers = new Layers();
 
     // Init Mediator according to connection type
     Backend::Mediator::getInstance()->setConnectionType( MenuSelections::getInstance()->getConnection() );
@@ -62,7 +63,7 @@ bool LevelLayer::init()
     this->addChild(_controlLayer, 2);
 
     // Frontend init
-    _gui->init(_map, _players, this);
+    _gui->init(_map, _players, this, _statistics);
 
     // Game State init
     _gameState = new Common::GameState(_map->getWidth(), _map->getHeight());
@@ -74,38 +75,11 @@ bool LevelLayer::init()
 
     // Button Layer
     ButtonLayer::getInstance()->setMainLayer(this);
-    /**
-    */
-
-    // Quit Button
-    ControlButton *cbQuit = new ControlButton(
-        0,
-        "buttons/button_black_power_64.png",
-        this,
-        menu_selector(LevelLayer::menuCloseCallback)
-    );
-    ButtonLayer::getInstance()->addToControls(cbQuit);
-
-    // Pause/Resume Button
-    ControlButton *cbPause = new ControlButton(
-        0,
-        "buttons/button_black_pause_64.png",
-        this,
-        menu_selector(LevelLayer::menuPauseCallback)
-    );
-    ButtonLayer::getInstance()->addToControls(cbPause);
-
-    // Reset Button
-    ControlButton *cbReset = new ControlButton(
-        0,
-        "buttons/button_black_repeat_64.png",
-        this,
-        menu_selector(LevelLayer::menuResetCallback)
-    );
-    ButtonLayer::getInstance()->addToControls(cbReset);
-
-    /**
-    */
+    std::vector<SEL_MenuHandler> callbacks;
+    callbacks.push_back(menu_selector(LevelLayer::menuCloseCallback));
+    callbacks.push_back(menu_selector(LevelLayer::menuPauseCallback));
+    callbacks.push_back(menu_selector(LevelLayer::menuResetCallback));
+    _layers->createControlButtonLayer(callbacks, this);
 
     // Control Layer
     this->initControlLayer();
@@ -177,6 +151,7 @@ void LevelLayer::updateGame(float dt)
         {
             // Player
             player->setPosition(nextPos);
+            _statistics->noteRanUnit();
             // Map
             if(player->getID() == 19991) // WARNING
             {
@@ -242,14 +217,30 @@ void LevelLayer::menuResetCallback(Object* pSender)
 }
 
 //
+void LevelLayer::menuRetryCallback()
+{
+    _gamePaused = false;
+    this->removeChildByTag(LEVEL_FINISH_TAG);
+
+    std::vector<SEL_MenuHandler> callbacks;
+    callbacks.push_back(menu_selector(LevelLayer::menuCloseCallback));
+    callbacks.push_back(menu_selector(LevelLayer::menuPauseCallback));
+    callbacks.push_back(menu_selector(LevelLayer::menuResetCallback));
+    _layers->createControlButtonLayer(callbacks, this);
+    
+    this->resetLevel();
+}
+
+//
 void LevelLayer::resetLevel()
 {
-    // "reset" menu item clicked
+    // "reset"
     _gui->resetGUI(_players);
     Backend::Mediator::getInstance()->resetState();
 
     // Backend init
     this->initControlledSprite();
+
     this->initStatistics();
 }
 
@@ -260,58 +251,27 @@ void LevelLayer::showFinishMenu()
     _gamePaused = true;
     _statistics->endLevelTimer();
 
-    Size visibleSize = Director::sharedDirector()->getVisibleSize();
-
-    // Create new layer
-    LayerColor *lc = new LayerColor();
-    int lcWidth = (int)visibleSize.width*0.75;
-    int lcHeight = (int)visibleSize.height*0.60;
-    lc->initWithColor( ccc4(10, 10, 10, 180), lcWidth, lcHeight);
-    lc->setPosition(
-        visibleSize.width/2 - lcWidth/2,
-        visibleSize.height/2 - lcHeight/8
-    );
-
-    std::string levelTime = "Time: ";
-    levelTime += std::to_string( _statistics->getLevelTimer() );
-    levelTime += " seconds";
-    LabelTTF* stats = LabelTTF::create(
-        levelTime.c_str(),
-        "Helvetica",
-        24,
-        CCSizeMake(lcWidth, 24),
-        kTextAlignmentCenter,
-        kVerticalTextAlignmentTop
-    );
-    stats->setPosition(ccp(lcWidth/2, lcHeight/2+50));
-    lc->addChild(stats, 1);
-
-    // Create menu
-    Menu* menu = Menu::create();
-
-    // Back to Main menu label
-    ccMenuCallback callback = std::bind(&LevelLayer::backToLevelSelect, this);
-
-    MenuItemFont *backToMenu = new MenuItemFont();
-    backToMenu->initWithString(
-        "Back to Levels",
-        callback
-    );
-    backToMenu->setPosition(ccp(0, 0));
-    menu->addChild(backToMenu);
-
-    menu->setPosition(
-        ccp(
-            lcWidth/2,
-            lcHeight/2
-        )
-    );
-
-    // Add menu to the new layer
-    lc->addChild(menu, 1);
+    // Prepare callbacks
+    std::vector<ccMenuCallback> callbacks;
+    ccMenuCallback callback1 = std::bind(&LevelLayer::backToLevelSelect, this);
+    ccMenuCallback callback2 = std::bind(&LevelLayer::menuRetryCallback, this);
+    callbacks.push_back(callback1);
+    callbacks.push_back(callback2);
 
     // Show new layer
-    this->addChild(lc, 10);
+    Layer *layer = _layers->getFinishLevelLayer(_statistics, callbacks);
+    this->addChild(layer, 10, LEVEL_FINISH_TAG);
+
+    // DEBUG
+    std::cout << "===== Statistics =====\n";
+    std::cout << "Time: " << _statistics->getLevelTimer() << "\n";
+    std::cout << "Teleportations: " << _statistics->getTeleportations() << "\n";
+    std::cout << "Bomb spawns: " << _statistics->getBombSpawns() << "\n";
+    std::cout << "Achievement unlocks: " << _statistics->getAchievementUnlocks() << "\n";
+    std::cout << "Buffs taken: " << _statistics->getTakenBuffs() << "\n";
+    std::cout << "Levers used: " << _statistics->getUsedLevers() << "\n";
+    std::cout << "Killed mosters: " << _statistics->getKilledMonsters() << "\n";
+    std::cout << "======================\n";
 }
 
 //

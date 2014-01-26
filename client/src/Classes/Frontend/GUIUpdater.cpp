@@ -5,7 +5,7 @@ using namespace Bomber::Frontend;
 using namespace Bomber::Common;
 
 //
-void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer* layer)
+void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer* layer, Statistics* stats)
 {
     // Init
     _map = map;
@@ -19,6 +19,7 @@ void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer
     _cache = GUICache::getInstance();
     _mediator = Backend::Mediator::getInstance();
     _collisionDetector = new Collisions();
+    _statistics = stats;
 
     // Optimization
     _O_mapPixelHeight = _map->getHeight()*TILE_HEIGHT;
@@ -338,6 +339,10 @@ void GUIUpdater::updateAchievementUnlocked(GSCAchievementUnlocked *achievementUn
         ""
     );
     ButtonLayer::getInstance()->addToAchievements(ab);
+
+    // stats
+    _statistics->noteAchievementUnlock();
+
     return;
 }
 
@@ -468,6 +473,7 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
         );
         ButtonLayer::getInstance()->addToBuffs(eb);
     }
+
     return;
 }
 
@@ -549,7 +555,13 @@ void GUIUpdater::updateLevelFinish( GSCLevelFinish *levelFinish )
     // Instance variable
     _resetNow = false;
     _finishLevel = false; // hmm ?
-
+    // Statistics
+    _statistics->setBombSpawns(levelFinish->getBombSpawns());
+    _statistics->setKilledMonsters(levelFinish->getTotalKills());
+    _statistics->setTakenBuffs(levelFinish->getTotalEffects());
+    _statistics->setDestroyedObstacles(levelFinish->getTotalObstacles());
+    _statistics->setTeleportations(levelFinish->getTeleportUses());
+    _statistics->setUsedLevers(levelFinish->getLeverUses());
     // Flag
     _finishLevel = true;
     return;

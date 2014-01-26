@@ -10,4 +10,9 @@ protected: varType varName;
 public: inline varType get##funName(void) const { return varName; }\
 protected: varType varName;
 
+#define SYNTHESIZE_STATS(varType, varName, funName)\
+public: inline varType get##funName##s(void) const { return varName; }\
+public: inline void note##funName(void){ varName += 1; }\
+protected: varType varName;
+
 #endif
