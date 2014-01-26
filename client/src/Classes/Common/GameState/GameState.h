@@ -39,17 +39,16 @@ namespace Bomber
                 void deleteChangesToId(unsigned int id);
                 void addChange(GameStateChange *change);
                 void gatherChanges();
-                void setSpawnPoint(unsigned int id);
+                void setSpawnPoint(unsigned int playerNumber, unsigned int id); // Eg. Player 1 with ID 19991
 
             private:
                 std::deque<GameStateChange *> _changes;
                 unsigned int _lastChangeId; // id of latest change
                 unsigned int _lastChangeIdOffset; // offset needed when old changes are deleted
+                std::vector<TSpawnPoint> _spawnPoints;
 
                 SYNTHESIZE(bool, _goalReached, GoalReached);
                 SYNTHESIZE(TGoalConditions, _goalConditions, GoalConditions);
-
-                SYNTHESIZE(TSpawnPoint, _spawnPoint, SpawnPoint);
 
                 SYNTHESIZE_READONLY(unsigned int, _width, Width);
                 SYNTHESIZE_READONLY(unsigned int, _height, Height);

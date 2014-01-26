@@ -15,9 +15,6 @@ GameState::GameState(unsigned int width, unsigned int height)
 
     _goalReached = false;
 
-    _spawnPoint.first = SPRITE_DEFAULT_SPAWN_X;
-    _spawnPoint.second = SPRITE_DEFAULT_SPAWN_Y;
-
     _width = width;
     _height = height;
 
@@ -291,8 +288,10 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         //width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
         //height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();
 
-        _spawnPoint.first = x;
-        _spawnPoint.second = y;
+        TSpawnPoint spawnPoint;
+        spawnPoint.first = x;
+        spawnPoint.second = y;
+        _spawnPoints.push_back(spawnPoint);
     }
 }
 
@@ -350,8 +349,21 @@ void GameState::addChange(GameStateChange *change)
     _changes.push_back(change);
 }
 
-void GameState::setSpawnPoint(unsigned int id)
+void GameState::setSpawnPoint(unsigned int playerNumber, unsigned int id)
 {
-    _spriteLayer->getObject(id)->setPosition(_spawnPoint.first, _spawnPoint.second);
+    if(_spawnPoints.size() >= playerNumber)
+    {
+        _spriteLayer->getObject(id)->setPosition(
+            _spawnPoints[playerNumber-1].first, 
+            _spawnPoints[playerNumber-1].second
+        );
+    }
+    else
+    {
+        _spriteLayer->getObject(id)->setPosition(
+            SPRITE_DEFAULT_SPAWN_X,
+            SPRITE_DEFAULT_SPAWN_Y
+        );
+    }
 }
 
