@@ -5,3 +5,5 @@
 
 // Layer TAGS
 #define LEVEL_FINISH_TAG 101
+
+#define TEXT_FONT "fonts/culturalstupidity.ttf"
