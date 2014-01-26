@@ -111,6 +111,7 @@ bool LevelSelectLayer::init()
     );
 
     this->setTouchEnabled(true);
+    this->setKeyboardEnabled(true);
 
     return true;
 }
