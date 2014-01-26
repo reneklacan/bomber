@@ -24,6 +24,7 @@ namespace Bomber
         };
 
         typedef std::map<TGoalConditionsTypes, int> TGoalConditions;
+        typedef std::pair<int, int> TSpawnPoint;
 
         class GameState
         {
@@ -38,6 +39,7 @@ namespace Bomber
                 void deleteChangesToId(unsigned int id);
                 void addChange(GameStateChange *change);
                 void gatherChanges();
+                void setSpawnPoint(unsigned int id);
 
             private:
                 std::deque<GameStateChange *> _changes;
@@ -46,6 +48,8 @@ namespace Bomber
 
                 SYNTHESIZE(bool, _goalReached, GoalReached);
                 SYNTHESIZE(TGoalConditions, _goalConditions, GoalConditions);
+
+                SYNTHESIZE(TSpawnPoint, _spawnPoint, SpawnPoint);
 
                 SYNTHESIZE_READONLY(unsigned int, _width, Width);
                 SYNTHESIZE_READONLY(unsigned int, _height, Height);

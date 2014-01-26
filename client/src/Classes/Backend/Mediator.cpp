@@ -54,12 +54,15 @@ Sprite *Mediator::getPlayer1Sprite()
     // - dont create new sprite each call of this method
     // - this method should be maybe called with id as argument?
 
+    unsigned int id = 19991;
+
     Sprite *controlledSprite = new BomberSprite(); 
-    controlledSprite->setId(19991);
+    controlledSprite->setId(id);
     controlledSprite->setSize(10, 10);
-    controlledSprite->setPosition(70, 70);
+    //controlledSprite->setPosition(70, 70);
     
     Logic::getInstance()->getState()->getSpriteLayer()->addObject(controlledSprite);
+    Logic::getInstance()->getState()->setSpawnPoint(id);
     StatisticsUpdater::getInstance()->setRelevantSpriteId(controlledSprite->getId());
 
     return controlledSprite;
