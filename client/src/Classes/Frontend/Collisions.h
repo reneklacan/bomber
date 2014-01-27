@@ -23,7 +23,7 @@ namespace Bomber
             void setObstacles(std::map<unsigned int, Sprite *> *obstacles);
             void setBombs(std::map<unsigned int, Sprite *> *bombs);
             void setMapDimensions(unsigned int width, unsigned int height);
-            std::vector<bool> eval(GameSprite *sprite);
+            std::vector<bool> eval(Human *sprite);
             void skipEval(bool skip);
             void setCFA(unsigned int id, CollisionArea *area);
             void reset();
@@ -31,9 +31,9 @@ namespace Bomber
             void unsetObstacleImmuneToPush(unsigned int id);
 
         private:
-            bool evalObstacles(GameSprite *sprite, Point nextPoint, Common::TDirection direction);
-            bool evalBombs(GameSprite *sprite, Point nextPoint, Common::TDirection direction);
-            bool evalPartial(GameSprite *sprite, Point nextPoint, Common::TDirection direction);
+            bool evalObstacles(Human *sprite, Point nextPoint, Common::TDirection direction);
+            bool evalBombs(Human *sprite, Point nextPoint, Common::TDirection direction);
+            bool evalPartial(Human *sprite, Point nextPoint, Common::TDirection direction);
             Sprite *getBombAtPosition(int x, int y, unsigned int playerID);
 
             bool _skipEval;

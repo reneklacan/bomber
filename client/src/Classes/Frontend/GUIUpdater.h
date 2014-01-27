@@ -28,6 +28,7 @@
 
 #include "Primitives/AnimationHelper.h"
 #include "Primitives/CollisionArea.h"
+#include "Primitives/Shapes.h"
 
 #include "Statistics/FStatistics.h"
 
@@ -40,9 +41,9 @@ namespace Bomber
         public:
             GUIUpdater(): _lastChangeID(0), _batchNode(NULL) {};
 
-            void init(Map* map, std::map<unsigned int, Human *> &players, Layer* layer, Statistics* stats);
+            void init(Map* map, SpriteBatchNode* node, std::map<unsigned int, Human *> &players, Layer* layer, Statistics* stats);
             void update();
-            std::vector<bool> evalCollisions(GameSprite *sprite);
+            std::vector<bool> evalCollisions(Human *sprite);
             void resetGUI(std::map<unsigned int, Human *> &players);
             bool isResetSet() {return _resetNow; }
             bool isFinishSet() {return _finishLevel; }
@@ -75,7 +76,6 @@ namespace Bomber
 
             void initLayers();
             void initPlayers();
-            Rect pickImageFromTexture(unsigned int id);
             Sprite *getBombAtPosition(int x, int y);
 
             unsigned int _lastChangeID;

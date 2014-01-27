@@ -44,18 +44,17 @@ bool LevelLayer::init()
     // Init Mediator according to connection type
     Backend::Mediator::getInstance()->setConnectionType( MenuSelections::getInstance()->getConnection() );
     
+    // Batch Node Init
+    _spriteBatchNode = SpriteBatchNode::create("tiles/new_tileset.png");
+
     // Player init
     unsigned int playerID = 19990;
     for(int i = 0; i < MenuSelections::getInstance()->getNumPlayers(); i++)
     {
         playerID++;
-        _players[playerID] = Human::create(_map, 0);
+        _players[playerID] = new Human(_spriteBatchNode->getTexture(), CCRectMake(0,0,0,0));
         _players[playerID]->setID(playerID);
     }
-    /*_player1 = Human::create(_map, 0);
-    _player1->setID(19991);
-    _player2 = Human::create(_map, 0);
-    _player2->setID(19992);*/
 
     _controlLayer = ControlLayer::create();
 
@@ -63,7 +62,7 @@ bool LevelLayer::init()
     this->addChild(_controlLayer, 2);
 
     // Frontend init
-    _gui->init(_map, _players, this, _statistics);
+    _gui->init(_map, _spriteBatchNode, _players, this, _statistics);
 
     // Game State init
     _gameState = new Common::GameState(_map->getWidth(), _map->getHeight());
@@ -83,16 +82,6 @@ bool LevelLayer::init()
 
     // Control Layer
     this->initControlLayer();
-    
-    // Backend init
-    Backend::Mediator::getInstance()->moveSprite(
-        _players[19991]->getID(),
-        Common::Position(
-            _players[19991]->getPosition().x,
-            _players[19991]->getPosition().y
-        )
-    );
-
     this->initStatistics();
 
     // use updateGame instead of update, otherwise it will conflit with SelectorProtocol::update
@@ -150,7 +139,7 @@ void LevelLayer::updateGame(float dt)
         if (move && (currentPos.x != nextPos.x || currentPos.y != nextPos.y))
         {
             // Player
-            player->setPosition(nextPos);
+            player->updatePosition(nextPos);
             _statistics->noteRanUnit();
             // Map
             if(player->getID() == 19991) // WARNING
@@ -261,17 +250,6 @@ void LevelLayer::showFinishMenu()
     // Show new layer
     Layer *layer = _layers->getFinishLevelLayer(_statistics, callbacks);
     this->addChild(layer, 10, LEVEL_FINISH_TAG);
-
-    // DEBUG
-    std::cout << "===== Statistics =====\n";
-    std::cout << "Time: " << _statistics->getLevelTimer() << "\n";
-    std::cout << "Teleportations: " << _statistics->getTeleportations() << "\n";
-    std::cout << "Bomb spawns: " << _statistics->getBombSpawns() << "\n";
-    std::cout << "Achievement unlocks: " << _statistics->getAchievementUnlocks() << "\n";
-    std::cout << "Buffs taken: " << _statistics->getTakenBuffs() << "\n";
-    std::cout << "Levers used: " << _statistics->getUsedLevers() << "\n";
-    std::cout << "Killed mosters: " << _statistics->getKilledMonsters() << "\n";
-    std::cout << "======================\n";
 }
 
 //
@@ -306,7 +284,8 @@ void LevelLayer::initControlledSprite()
 
     // spawnpoint is calculated on backend
     auto player1Sprite = Backend::Mediator::getInstance()->getPlayer1Sprite();
-    _players[19991]->setPosition(
+    _players[19991]->updateDefaultImage( Shapes::pickImageFromTexture(HUMAN_IMAGE_ID) );
+    _players[19991]->spawnPosition(
         ccp(
             player1Sprite->getPosition().x,
             player1Sprite->getPosition().y
@@ -330,7 +309,7 @@ void LevelLayer::initControlledSprite()
     if(_players.size() == 2)
     {
         auto player2Sprite = Backend::Mediator::getInstance()->getPlayer2Sprite();
-        _players[19992]->setPosition(
+        _players[19992]->updatePosition(
             ccp(
                 player2Sprite->getPosition().x,
                 player2Sprite->getPosition().y

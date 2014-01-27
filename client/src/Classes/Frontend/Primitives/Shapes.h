@@ -2,6 +2,7 @@
 #define __BOMBER_FRONTEND_SHAPES
 
 #include "cocos2d.h"
+#include "../../Constants.h"
 
 using namespace cocos2d;
 
@@ -27,6 +28,21 @@ namespace Bomber
                                   point.y+rangeY+padding );
                 return ccPoints;
             }
+
+            static Rect pickImageFromTexture(unsigned int id)
+            {
+                id--;
+                int ix = id % TEXTURE_IMAGES_PER_LINE;
+                int iy = id / TEXTURE_IMAGES_PER_LINE;
+
+                return CCRectMake(
+                    TEXTURE_SPACING + (TEXTURE_TILE_WIDTH + TEXTURE_SPACING) * ix,
+                    TEXTURE_SPACING + (TEXTURE_TILE_HEIGHT + TEXTURE_SPACING) * iy,
+                    TEXTURE_TILE_WIDTH,
+                    TEXTURE_TILE_HEIGHT
+                );
+            }
+
         };
     }
 }
