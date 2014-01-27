@@ -60,7 +60,7 @@ void Collisions::unsetObstacleImmuneToPush(unsigned int id)
 }
 
 //
-std::vector<bool> Collisions::eval(GameSprite *sprite)
+std::vector<bool> Collisions::eval(Human *sprite)
 {
     Point currentPoint = sprite->getPosition();;
     Point nextPoint = sprite->getNextPosition();
@@ -128,7 +128,7 @@ std::vector<bool> Collisions::eval(GameSprite *sprite)
 }
 
 //
-bool Collisions::evalPartial(GameSprite *sprite, Point nextPoint, Common::TDirection direction)
+bool Collisions::evalPartial(Human *sprite, Point nextPoint, Common::TDirection direction)
 {
     // Init
     bool result = false;
@@ -191,7 +191,7 @@ void Collisions::setMapDimensions(unsigned int width, unsigned int height)
 }
 
 //
-bool Collisions::evalObstacles(GameSprite *sprite, Point nextPoint, Common::TDirection direction)
+bool Collisions::evalObstacles(Human *sprite, Point nextPoint, Common::TDirection direction)
 {
     // TODO: put these 4 code blocks into one cycle with common code to reduce repeating
     //       calculate 4 offsets as points and put them into the vector or so
@@ -274,7 +274,7 @@ bool Collisions::evalObstacles(GameSprite *sprite, Point nextPoint, Common::TDir
 
 //
 //
-bool Collisions::evalBombs(GameSprite *sprite, Point nextPoint, Common::TDirection direction)
+bool Collisions::evalBombs(Human *sprite, Point nextPoint, Common::TDirection direction)
 {
     bool result = false;
     int offsetX = 0;

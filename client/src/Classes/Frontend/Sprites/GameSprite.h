@@ -1,6 +1,8 @@
 #ifndef __BOMBER_GAME_SPRITE
 #define __BOMBER_GAME_SPRITE
 
+// AKTUALNE SA NEVYUZIVA
+
 #include "cocos2d.h"
 
 using namespace cocos2d;

@@ -5,8 +5,8 @@
 
 #include <vector>
 
-#include "Buttons/GameButton.h"
-#include "Buttons/EffectButton.h"
+#include "../Buttons/GameButton.h"
+#include "../Buttons/EffectButton.h"
 
 namespace Bomber
 {

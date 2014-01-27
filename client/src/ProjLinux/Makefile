@@ -41,7 +41,7 @@ SOURCES = Main.cpp \
         ../Classes/Backend/AI/AdvancedAI.cpp \
         ../Classes/Backend/AI/Actions.cpp \
         ../Classes/Frontend/LevelLayer.cpp \
-        ../Classes/Frontend/ButtonLayer.cpp \
+        ../Classes/Frontend/Layers/ButtonLayer.cpp \
         ../Classes/Frontend/Collisions.cpp \
         ../Classes/Frontend/Buttons/GameButton.cpp \
         ../Classes/Frontend/Buttons/ControlButton.cpp \
@@ -53,8 +53,10 @@ SOURCES = Main.cpp \
         ../Classes/Frontend/Sprites/GameSprite.cpp \
         ../Classes/Frontend/Sprites/Human.cpp \
         ../Classes/Frontend/Sprites/SpriteCreator.cpp \
+        ../Classes/Frontend/Sprites/ActionSprite.cpp \
         ../Classes/Frontend/Cache/GUICache.cpp \
         ../Classes/Frontend/Statistics/FStatistics.cpp \
+        ../Classes/Frontend/Layers/FLayers.cpp \
         ../Classes/Menu/MainMenuLayer.cpp \
         ../Classes/Menu/SettingsLayer.cpp \
         ../Classes/Menu/CreditsLayer.cpp \

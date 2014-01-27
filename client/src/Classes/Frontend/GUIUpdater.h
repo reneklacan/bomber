@@ -9,6 +9,7 @@
 #include "Map/Explosion.h"
 
 #include "Sprites/Human.h"
+#include "Sprites/ActionSprite.h"
 
 #include "../Backend/Mediator.h"
 #include "../Backend/GameObjects/Sprites/Bomber.h"
@@ -21,12 +22,15 @@
 
 #include "Buttons/AchievementButton.h"
 #include "Buttons/EffectButton.h"
-#include "ButtonLayer.h"
+#include "Layers/ButtonLayer.h"
 
 #include "Cache/GUICache.h"
 
 #include "Primitives/AnimationHelper.h"
 #include "Primitives/CollisionArea.h"
+#include "Primitives/Shapes.h"
+
+#include "Statistics/FStatistics.h"
 
 namespace Bomber
 {
@@ -37,9 +41,9 @@ namespace Bomber
         public:
             GUIUpdater(): _lastChangeID(0), _batchNode(NULL) {};
 
-            void init(Map* map, std::map<unsigned int, Human *> &players, Layer* layer);
+            void init(Map* map, SpriteBatchNode* node, std::map<unsigned int, Human *> &players, Layer* layer, Statistics* stats);
             void update();
-            std::vector<bool> evalCollisions(GameSprite *sprite);
+            std::vector<bool> evalCollisions(Human *sprite);
             void resetGUI(std::map<unsigned int, Human *> &players);
             bool isResetSet() {return _resetNow; }
             bool isFinishSet() {return _finishLevel; }
@@ -72,7 +76,6 @@ namespace Bomber
 
             void initLayers();
             void initPlayers();
-            Rect pickImageFromTexture(unsigned int id);
             Sprite *getBombAtPosition(int x, int y);
 
             unsigned int _lastChangeID;
@@ -80,7 +83,7 @@ namespace Bomber
             std::vector<Human *> _players;
             Layer * _layer;
 
-            std::map<unsigned int, Sprite *> _mobs;
+            std::map<unsigned int, ActionSprite *> _mobs;
             std::map<unsigned int, Sprite *> _obstacles;
             std::map<unsigned int, Sprite *> _effects;
             std::map<unsigned int, Sprite *> _bombs;
@@ -92,6 +95,7 @@ namespace Bomber
             GUICache *_cache;
             Backend::Mediator *_mediator;
             Collisions *_collisionDetector;
+            Statistics *_statistics;
 
             // Opt
             unsigned int _O_mapPixelHeight;
