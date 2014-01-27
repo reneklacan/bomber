@@ -115,12 +115,12 @@ namespace Bomber
                 GSCGidOnCoordinates() { _type = NONE; };
                 virtual void update(unsigned int gid, Common::Coordinates coords)
                 {
-                    _git = gid;
+                    _gid = gid;
                     _coordinates = coords;
                 }
 
             private:
-                SYNTHESIZE(unsigned int, _git, Gid);
+                SYNTHESIZE(unsigned int, _gid, Gid);
         };
 
         class GSCSpriteSpawn : public GSCGidOnCoordinates
@@ -144,14 +144,14 @@ namespace Bomber
             private:
                 SYNTHESIZE(unsigned int, _id, Id);
         };
-        
+
         class GSCObstacleSpawn : public GSCGidOnCoordinates
         {
             public:
                 GSCObstacleSpawn() { _type = OBSTACLE_SPAWN; };
                 virtual void update(unsigned int gid, Common::Coordinates coords, unsigned int spawnerId)
                 {
-                    _git = gid;
+                    _gid = gid;
                     _coordinates = coords;
                     _spawnerId = spawnerId;
                 }
@@ -159,7 +159,7 @@ namespace Bomber
             private:
                 SYNTHESIZE(unsigned int, _spawnerId, SpawnerId);
         };
-        
+
         class GSCEffectSpawn : public GSCGidOnCoordinates
         {
             public:
@@ -204,9 +204,14 @@ namespace Bomber
         {
             public:
                 GSCSpriteAttrUpdate() { _type = SPRITE_ATTR_UPDATE; };
-                virtual void update(int type) { _effectType = type; };
+                virtual void update(unsigned int gid, int type)
+                {
+                    _gid = gid;
+                    _effectType = type;
+                }
 
             private:
+                SYNTHESIZE(unsigned int, _gid, Gid);
                 SYNTHESIZE(int, _effectType, EffectType);
         };
 
@@ -256,6 +261,24 @@ namespace Bomber
         {
             public:
                 GSCLevelFinish() { _type = LEVEL_FINISH; };
+                virtual void update(unsigned int bombSpawns, unsigned int totalKills, 
+                                    unsigned int totalEffects, unsigned int totalObstacles, 
+                                    unsigned int teleportUses, unsigned int leverUses)
+                {
+                    _bombSpawns = bombSpawns;
+                    _totalKills = totalKills;
+                    _totalEffects = totalEffects;
+                    _totalObstacles = totalObstacles;
+                    _teleportUses = teleportUses;
+                    _leverUses = leverUses;
+                }
+            private:
+                SYNTHESIZE(unsigned int, _bombSpawns, BombSpawns);
+                SYNTHESIZE(unsigned int, _totalKills, TotalKills);
+                SYNTHESIZE(unsigned int, _totalEffects, TotalEffects);
+                SYNTHESIZE(unsigned int, _totalObstacles, TotalObstacles);
+                SYNTHESIZE(unsigned int, _teleportUses, TeleportUses);
+                SYNTHESIZE(unsigned int, _leverUses, LeverUses);
         };
 
         class GSCLevelReset : public GameStateChange

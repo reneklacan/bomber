@@ -11,7 +11,7 @@ namespace Bomber
         class Action
         {
             public:
-                Action() {};
+                Action() { _complete = false; };
 
                 virtual void update(float dt) {};
                 bool isComplete() { return _complete; };
@@ -23,11 +23,57 @@ namespace Bomber
                 bool _complete;
         };
 
+        class GoToDirection : public Action
+        {
+            public:
+                virtual void update(float dt);
+
+            protected:
+                Common::Coordinates _destination;
+                int _direction;
+                int _steps;
+        };
+
         // temporary for prototyping -> I plan to move them into separete files
+        class GoUp : public GoToDirection
+        {
+            public:
+                GoUp() { _direction = Common::UP; _steps = 1; };
+                GoUp(int steps) { _direction = Common::UP; _steps = steps; };
+        };
+
+        class GoDown : public GoToDirection
+        {
+            public:
+                GoDown() { _direction = Common::DOWN; _steps = 1; };
+                GoDown(int steps) { _direction = Common::DOWN; _steps = steps; };
+        };
+
+        class GoLeft : public GoToDirection
+        {
+            public:
+                GoLeft() { _direction = Common::LEFT; _steps = 1; };
+                GoLeft(int steps) { _direction = Common::LEFT; _steps = steps; };
+        };
+
+        class GoRight : public GoToDirection
+        {
+            public:
+                GoRight() { _direction = Common::RIGHT; _steps = 1; };
+                GoRight(int steps) { _direction = Common::RIGHT; _steps = steps; };
+        };
+
         class Again : public Action
         {
             public:
                 Again() {};
+                virtual bool isLast() { return true; };
+        };
+
+        class Stop: public Action
+        {
+            public:
+                Stop() {};
                 virtual bool isLast() { return true; };
         };
 

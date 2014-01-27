@@ -157,7 +157,7 @@ bool GUICache::cacheObstacle(Sprite * sprite)
 }
 
 //
-bool GUICache::cacheSprite(Sprite *sprite)
+bool GUICache::cacheSprite(ActionSprite *sprite)
 {
     if( _mobCache.size() < _sprites2Spawn + MAX_CACHED_ITEMS )
     {
@@ -217,9 +217,9 @@ Sprite *GUICache::getObstacle(Texture2D *texture, Rect rect)
 }
 
 //
-Sprite *GUICache::getSprite(Texture2D *texture, Rect rect)
+ActionSprite *GUICache::getSprite(Texture2D *texture, Rect rect)
 {
-    Sprite *mob;
+    ActionSprite *mob;
     if( !_mobCache.empty() )
     {
         mob = _mobCache.back();

@@ -7,49 +7,62 @@ AchievementButton::AchievementButton(std::string title, std::string description,
 {
     Node *achieveButton = new Node();
 
-    Sprite *bcg = new Sprite();
-    bcg->initWithFile("tiles/achievement.png");
-    //bcg->setContentSize( Size(300, 200) );
-    //bcg->setColor( ccc3(255, 255, 255) );
+    Sprite *icon = new Sprite();
+    icon->initWithFile("tiles/images/test_08.png");
+    icon->setScale(0.35f);
+    Rect bBox = icon->boundingBox();
+    int bBoxWidth = bBox.getMaxX() - bBox.getMinX();
+
+    LayerColor *lc = new LayerColor();
+    lc->initWithColor( ccc4(10, 10, 10, 220), _width+bBoxWidth, _height*4);
 
     LabelTTF* achieveTitle = LabelTTF::create(
         title.c_str(),
-        "Helvetica",
-        32,
-        CCSizeMake(_width, _height), 
+        TEXT_FONT,
+        _height,
+        CCSizeMake(_width-bBoxWidth, _height), 
         kTextAlignmentCenter
     );
     LabelTTF* achieveDescription = LabelTTF::create(
         description.c_str(),
-        "Helvetica",
-        24,
-        CCSizeMake(_width, _height), 
+        TEXT_FONT,
+        _height * 0.6,
+        CCSizeMake(_width+bBoxWidth/2, _height), 
         kTextAlignmentCenter
     );
 
     Size visibleSize = Director::sharedDirector()->getVisibleSize();
-    bcg->setPosition(
+    lc->setPosition(
         ccp(
-            visibleSize.width/2,
-            visibleSize.height - _height*2.5
+            visibleSize.width/2 - _width/2,
+            visibleSize.height
         )
     );
+
+    icon->setPosition(
+        ccp(
+            bBoxWidth,
+            3*_height
+        )
+    );
+
     achieveTitle->setPosition( 
         ccp(
-            visibleSize.width/2,
-            visibleSize.height - _height*2
+            _width/2 + bBoxWidth,
+            3*_height
         )
     );
     achieveDescription->setPosition( 
         ccp(
-            visibleSize.width/2,
-            visibleSize.height - _height*3
+            _width/2 + bBoxWidth/2,
+            _height
         )
     );
 
-    achieveButton->addChild(bcg, 1);
-    achieveButton->addChild(achieveTitle, 1);
-    achieveButton->addChild(achieveDescription, 1);
+    achieveButton->addChild(lc, 1);
+    lc->addChild(icon, 1);
+    lc->addChild(achieveTitle, 1);
+    lc->addChild(achieveDescription, 1);
 
     _button = achieveButton;
 }

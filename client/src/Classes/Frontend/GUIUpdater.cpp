@@ -5,7 +5,9 @@ using namespace Bomber::Frontend;
 using namespace Bomber::Common;
 
 //
-void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer* layer)
+void GUIUpdater::init( Map* map, SpriteBatchNode* node, 
+                       std::map<unsigned int, Human *> &players, 
+                       Layer* layer, Statistics* stats)
 {
     // Init
     _map = map;
@@ -19,6 +21,7 @@ void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer
     _cache = GUICache::getInstance();
     _mediator = Backend::Mediator::getInstance();
     _collisionDetector = new Collisions();
+    _statistics = stats;
 
     // Optimization
     _O_mapPixelHeight = _map->getHeight()*TILE_HEIGHT;
@@ -35,7 +38,7 @@ void GUIUpdater::init( Map* map, std::map<unsigned int, Human *> &players, Layer
     _map->getTiledMap()->layerNamed("portals")->setVisible(false);
 
     // Init Batch Node
-    _batchNode = SpriteBatchNode::create("tiles/new_tileset.png");
+    _batchNode = node;
     _batchNode->setTag(0);
 
     // Add BatchNode
@@ -189,9 +192,11 @@ void GUIUpdater::update()
 //
 void GUIUpdater::updateSpriteMove(GSCSpriteMove *spriteMove)
 {
+    unsigned int spriteID = spriteMove->getGameObjectId();
+
     for(auto player : _players)
     {
-        if (spriteMove->getGameObjectId() == player->getID())
+        if (spriteID == player->getID())
         {
             // Only set Z coordinate
             _batchNode->reorderChild(
@@ -203,16 +208,15 @@ void GUIUpdater::updateSpriteMove(GSCSpriteMove *spriteMove)
     }
 
     // Sprite is already initialized
-    if (_mobs.find(spriteMove->getGameObjectId()) != _mobs.end())
+    if (_mobs.find(spriteID) != _mobs.end())
     {
-        _mobs[spriteMove->getGameObjectId()]->setPosition(
-                    ccp (
-                        spriteMove->getPosition().x,
-                        spriteMove->getPosition().y
-                    )
-                );
+        Point newPosition = ccp (
+            spriteMove->getPosition().x,
+            spriteMove->getPosition().y
+        );
+        _mobs[spriteID]->updatePosition( newPosition );
         _batchNode->reorderChild(
-            _mobs[spriteMove->getGameObjectId()],
+            _mobs[spriteID],
             _O_mapPixelHeight - spriteMove->getPosition().y - _O_tileHeightDiv4 // DO NOT CHANGE
         );
     }
@@ -236,7 +240,7 @@ void GUIUpdater::updateSpriteTeleport(GSCSpriteTeleport *spriteTeleport)
         {
             Point playerPosition = player->getPosition();
             Point teleportPosition = ccp( spriteTeleport->getPosition().x, spriteTeleport->getPosition().y);
-            player->setPosition(teleportPosition);
+            player->updatePosition(teleportPosition);
             if(player->getID() == 19991)    // TODO: ID Management
             {
                 _map->addToPosition(ccpSub(playerPosition, teleportPosition));
@@ -246,7 +250,7 @@ void GUIUpdater::updateSpriteTeleport(GSCSpriteTeleport *spriteTeleport)
     }
 
     // Else Mob
-    _mobs[spriteTeleport->getGameObjectId()]->setPosition(
+    _mobs[spriteTeleport->getGameObjectId()]->updatePosition(
         ccp (
             spriteTeleport->getPosition().x,
             spriteTeleport->getPosition().y
@@ -265,7 +269,7 @@ void GUIUpdater::updateBombSpawn(GSCBombSpawn *bombSpawn)
 
     _bombs[ id ] = _cache->getBomb(
         _batchNode->getTexture(),
-        this->pickImageFromTexture(BOMB_IMAGE_ID)
+        Shapes::pickImageFromTexture(BOMB_IMAGE_ID)
     );
 
     _bombs[ id ]->setPosition(bombSpawnPosition);
@@ -338,6 +342,10 @@ void GUIUpdater::updateAchievementUnlocked(GSCAchievementUnlocked *achievementUn
         ""
     );
     ButtonLayer::getInstance()->addToAchievements(ab);
+
+    // stats
+    _statistics->noteAchievementUnlock();
+
     return;
 }
 
@@ -352,7 +360,7 @@ void GUIUpdater::updateObstacleSpawn(GSCObstacleSpawn *obstacleSpawn)
     // Init with texture of Batch Node
     _obstacles[ position ] = _cache->getObstacle(
         _batchNode->getTexture(),
-        this->pickImageFromTexture( obstacleSpawn->getGid() )
+        Shapes::pickImageFromTexture( obstacleSpawn->getGid() )
     );
 
     // Add to Batch Node
@@ -418,7 +426,7 @@ void GUIUpdater::updateSpriteDamage( GSCSpriteDamage *spriteDamage )
 void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
 {
     // Show only players buff
-    GameSprite *sprite = NULL;
+    Human *sprite = NULL;
 
     for(auto player : _players)
     {
@@ -435,19 +443,21 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
     }
 
     // Get buff image
-    unsigned int imageID = 0;
+    unsigned int imageID = spriteAttrUpdate->getGid();
     switch(spriteAttrUpdate->getEffectType())
     {
         case Backend::EFFECT_BOMB_CAPACITY_INC:
-            imageID = BOMB_CAPACITY_INC_ETI;
-            break;
         case Backend::EFFECT_BOMB_POWER_INC:
-            imageID = BOMB_POWER_INC_ETI;
+        case Backend::EFFECT_FIRE_IMMUNITY:
+        case Backend::EFFECT_WATER_IMMUNITY:
+        case Backend::EFFECT_CLEAR_IMMUNITIES:
             break;
         case Backend::EFFECT_SPEED_INC:
-            imageID = SPEED_INC_ETI;
             sprite->setSpeed(sprite->getSpeed() + SPRITE_SPEED_INCREASE);
             break;
+        case Backend::EFFECT_FIRE_TRAP:
+        case Backend::EFFECT_WATER_TRAP:
+            return;
         default:
             std::cerr << "Unknown effect type: " << 
                 spriteAttrUpdate->getEffectType() << std::endl;
@@ -455,7 +465,13 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
     }
 
     // Create or update buff button
-    if( ButtonLayer::getInstance()->isInBuffs(imageID) )
+    if (spriteAttrUpdate->getEffectType() == Backend::EFFECT_CLEAR_IMMUNITIES)
+    {
+        // TODO: find out fix to this ugly workaround
+        ButtonLayer::getInstance()->removeBuff(638);
+        ButtonLayer::getInstance()->removeBuff(639);
+    }
+    else if (ButtonLayer::getInstance()->isInBuffs(imageID))
     {
         ButtonLayer::getInstance()->incrementBuff(imageID);
     }
@@ -463,11 +479,12 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
     {
         EffectButton *eb = new EffectButton(
             imageID,
-            this->pickImageFromTexture( imageID ),
+            Shapes::pickImageFromTexture( imageID ),
             _batchNode->getTexture()
         );
         ButtonLayer::getInstance()->addToBuffs(eb);
     }
+
     return;
 }
 
@@ -493,15 +510,16 @@ void GUIUpdater::updateSpriteSpawn( GSCSpriteSpawn *spriteSpawn )
     unsigned int iy = spriteSpawn->getCoordinates().y;
     unsigned int transformed_iy = _map->getHeight() - iy - 1;
     unsigned int id = spriteSpawn->getGameObjectId();
-
+    Rect imageRect = Shapes::pickImageFromTexture( spriteSpawn->getGid() );
     // Init with texture of Batch Node
     _mobs[ id ] = _cache->getSprite(
         _batchNode->getTexture(),
-        this->pickImageFromTexture( spriteSpawn->getGid() ) 
+        imageRect
     );
 
     // Position and Batch node Z order
-    _mobs[ id ]->setPosition( ccp(ix*TILE_WIDTH, iy*TILE_HEIGHT ) );
+    _mobs[ id ]->spawnPosition( ccp(ix*TILE_WIDTH, iy*TILE_HEIGHT ) );
+    _mobs[ id ]->updateDefaultImage(imageRect);
     _batchNode->reorderChild(_mobs[ id ], transformed_iy*TILE_HEIGHT);
 
     return;
@@ -518,7 +536,7 @@ void GUIUpdater::updateEffectSpawn( GSCEffectSpawn *effectSpawn )
     // Init with texture of Batch Node
     _effects[ position ] = _cache->getEffect(
         _batchNode->getTexture(),
-        this->pickImageFromTexture( effectSpawn->getGid() ) 
+        Shapes::pickImageFromTexture( effectSpawn->getGid() ) 
     );
 
     // Position and Batch node Z order
@@ -549,7 +567,13 @@ void GUIUpdater::updateLevelFinish( GSCLevelFinish *levelFinish )
     // Instance variable
     _resetNow = false;
     _finishLevel = false; // hmm ?
-
+    // Statistics
+    _statistics->setBombSpawns(levelFinish->getBombSpawns());
+    _statistics->setKilledMonsters(levelFinish->getTotalKills());
+    _statistics->setTakenBuffs(levelFinish->getTotalEffects());
+    _statistics->setDestroyedObstacles(levelFinish->getTotalObstacles());
+    _statistics->setTeleportations(levelFinish->getTeleportUses());
+    _statistics->setUsedLevers(levelFinish->getLeverUses());
     // Flag
     _finishLevel = true;
     return;
@@ -632,20 +656,6 @@ void GUIUpdater::finishUpdateBlockPush(ObstacleMove *move)
  * ==========
  */
 
-Rect GUIUpdater::pickImageFromTexture(unsigned int id)
-{
-    id--;
-    int ix = id % TEXTURE_IMAGES_PER_LINE;
-    int iy = id / TEXTURE_IMAGES_PER_LINE;
-
-    return CCRectMake(
-        TEXTURE_SPACING + (TEXTURE_TILE_WIDTH + TEXTURE_SPACING) * ix,
-        TEXTURE_SPACING + (TEXTURE_TILE_HEIGHT + TEXTURE_SPACING) * iy,
-        TEXTURE_TILE_WIDTH,
-        TEXTURE_TILE_HEIGHT
-    );
-}
-
 bool GUIUpdater::obstacleExists(unsigned int id)
 {
     if( _obstacles[ id ] != NULL )
@@ -674,7 +684,7 @@ bool GUIUpdater::isPlayerAlive(unsigned int id)
  */
  
 //
-std::vector<bool> GUIUpdater::evalCollisions(GameSprite *sprite)
+std::vector<bool> GUIUpdater::evalCollisions(Human *sprite)
 {
     // Eval collisions
     return _collisionDetector->eval(sprite);
@@ -692,13 +702,19 @@ void GUIUpdater::initPlayers()
     for(auto player : _players)
     {
         // All initialization
-        player->initWithTexture(_batchNode->getTexture(), CCRectMake(0, 1344, 32, 48));
+        player->updateDefaultImage( Shapes::pickImageFromTexture(HUMAN_IMAGE_ID) );
+        player->resetRotations();
+        player->setSpeed(200);
         player->retain();
         player->setAnchorPoint(ccp(0.45f, 0.2f));
         player->setVertexZ(0);
 
         // Add player to Batch Node
         _batchNode->addChild(player, 0);
+        _batchNode->reorderChild(
+            player, 
+            _O_mapPixelHeight - player->getPosition().y
+        );
     }
 }
 
@@ -733,8 +749,9 @@ void GUIUpdater::initLayers()
         unsigned int id = it.first;
         Sprite *sp = it.second;
 
-        _mobs[ id ] = Sprite::createWithTexture( sp->getTexture(), sp->getTextureRect() );
-        _mobs[ id ]->setPosition( sp->getPosition() );
+        //_mobs[ id ] = Sprite::createWithTexture( sp->getTexture(), sp->getTextureRect() );
+        _mobs[ id ] = new ActionSprite( sp->getTexture(), sp->getTextureRect() );
+        _mobs[ id ]->spawnPosition( sp->getPosition() );
         _mobs[ id ]->setAnchorPoint( ccp(0, 0) );
         _mobs[ id ]->setVertexZ(0); // DO NOT CHANGE
 

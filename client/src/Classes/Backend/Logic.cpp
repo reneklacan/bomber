@@ -92,13 +92,9 @@ void Logic::updateBombs(float dt)
         */
 
         if (bomb->isDetonated())
-        {
             bombsToDetonate.push_back(bomb);
-        }
         else if (bomb->isDirty())
-        {
             _gameStateUpdater->logBombMove(bomb);
-        }
     }
 
     while (bombsToDetonate.size() > 0)
@@ -168,9 +164,7 @@ void Logic::updateBombs(float dt)
                 }
 
                 if (this->makeBombImpact(bomb, coords, penetrations[j], &spritesKilled))
-                {
                     armLengths[j]++;
-                }
             }
         }
 
@@ -184,14 +178,10 @@ void Logic::updateBombs(float dt)
     }
 
     for (auto bomb : bombsToDestroy)
-    {
         _gameStateUpdater->destroyBomb(bomb);
-    }
 
     if (spritesKilled > 0)
-    {
         StatisticsUpdater::getInstance()->updateKillStreaks(spritesKilled);
-    }
 }
 
 void Logic::updateMovements(float dt)
@@ -203,15 +193,11 @@ void Logic::updateMovements(float dt)
         movement->update(dt);
 
         if (!movement->getObject()->isActive() || movement->isFinished())
-        {
             movementsToDestroy.insert(movement);
-        }
     }
 
     for (auto movement : movementsToDestroy)
-    {
         _movements.erase(movement);
-    }
 }
 
 void Logic::updateSprites(float dt)
@@ -243,7 +229,7 @@ void Logic::updateSprites(float dt)
         // check for mobs around
         if (!sprite->isAI())
             nonAISprite = sprite; // TODO: fix this shit and find out prettier solution
-        
+
         // take effects
 
         auto effects = effectLayer->getObjectsAtCoords(sprite->getCoords());
@@ -257,6 +243,9 @@ void Logic::updateSprites(float dt)
                 continue;
 
             _gameStateUpdater->updateSpriteAttributes(sprite, effect);
+
+            if (!sprite->isAI() && sprite->getAttributes()->isDead())
+                this->scheduleLevelReset(2.0f);
 
             if (effect->getCharges() == 0)
                 effectsToDestroy.push_back(effect);
@@ -291,9 +280,7 @@ void Logic::updateSprites(float dt)
             sprite->setMadeCoordsAction(true);
 
             if (switchObject->isOneTime())
-            {
                 switchObject->setActive(false);
-            }
 
             for (auto switchTarget : switchTargetLayer->getObjects(switchObject->getId()))
             {
@@ -306,9 +293,7 @@ void Logic::updateSprites(float dt)
                 else
                 {
                     for (auto obstacle : obstacles)
-                    {
                         _gameStateUpdater->destroyObstacle(obstacle, 0);
-                    }
                 }
             }
             break;
@@ -328,9 +313,7 @@ void Logic::updateSprites(float dt)
     }
 
     for (auto effect : effectsToDestroy)
-    {
         _gameStateUpdater->destroyEffect(effect);
-    }
 }
 
 void Logic::scheduleLevelReset(float delay)
@@ -355,9 +338,7 @@ bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int
             continue;
 
         if (switchObject->isOneTime())
-        {
             switchObject->setActive(false);
-        }
 
         auto targets = _state->getSwitchTargetLayer()->getObjects(switchObject->getId());
 
@@ -371,9 +352,7 @@ bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int
                 _gameStateUpdater->switchLeverOn(switchObject, bomb->getOwnerId());
 
                 for (auto obstacle : obstacles)
-                {
                     _gameStateUpdater->destroyObstacle(obstacle, bomb->getId());
-                }
             }
             else
             {
@@ -399,16 +378,11 @@ bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int
         _gameStateUpdater->damageSprite(sprite, bomb->getOwnerId(), bomb->getDamage());
 
         if (sprite->getAttributes()->isDead())
-        {
             *spritesKilled = *spritesKilled + 1;
-        }
-
 
         //if (sprite == _controlledSprite && sprite->getAttributes()->isDead())
         if (!sprite->isAI() && sprite->getAttributes()->isDead())
-        {
             this->scheduleLevelReset(2.0f);
-        }
     }
 
     if (penetration == NULL)
@@ -428,7 +402,7 @@ bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int
             *penetration = 0;
             return false;
         }
-        
+
         _gameStateUpdater->damageObstacle(obstacle, bomb->getOwnerId());
 
         if (obstacle->getToughness() == 0)
@@ -443,7 +417,7 @@ bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int
                 effect->setActive(true);
                 _gameStateUpdater->logEffectSpawn(effect);
             }
-                        
+
             auto spritesToSpawn = _state->getSpriteLayer()->getObjectsAtCoords(obstacle->getCoords());
 
             for (Sprite *sprite : spritesToSpawn)
@@ -460,9 +434,7 @@ bool Logic::makeBombImpact(Bomb *bomb, Coordinates coords, int *penetration, int
     }
 
     if (somethingDamaged)
-    {
         (*penetration)--;
-    }
 
     return somethingDamaged;
 }
@@ -494,9 +466,7 @@ bool Logic::spawnBomb(unsigned int spriteId)
 bool Logic::spawnBomb(Sprite *owner)
 {
     if (owner->getAttributes()->getBombCapacity() <= 0)
-    {
         return false;
-    }
 
     if (_state->getObstacleLayer()->getObjectsAtCoords(owner->getCoords()).size() != 0)
     {

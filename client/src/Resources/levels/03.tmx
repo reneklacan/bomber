@@ -1295,7 +1295,7 @@
   </data>
  </layer>
  <objectgroup name="spawnpoints" width="20" height="9">
-  <object x="43" y="139" width="12" height="13"/>
+  <object x="123" y="139" width="12" height="13"/>
  </objectgroup>
  <objectgroup name="portals" width="20" height="9"/>
  <objectgroup name="portal_exits" width="20" height="9"/>

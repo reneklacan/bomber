@@ -49,8 +49,8 @@ class ControlLayer: public Layer, ActionDispatcher
 
         std::vector<GameController *> _enabledControllers;
         
-        GameSprite * _controlledPlayer1;
-        GameSprite * _controlledPlayer2;
+        ActionSprite * _controlledPlayer1;
+        ActionSprite * _controlledPlayer2;
 
 };
 

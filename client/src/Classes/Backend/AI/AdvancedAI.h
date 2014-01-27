@@ -29,7 +29,6 @@ namespace Bomber
 
                 inline virtual bool isAI() { return true; };
                 inline bool isMoving() { return _moving; };
-                virtual Actions *behaviour() = 0;
 
             protected:
                 std::vector<Action *> _actions;

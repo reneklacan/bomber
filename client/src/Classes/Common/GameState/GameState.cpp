@@ -1,7 +1,6 @@
 
 #include "GameState.h"
 #include "../../Backend/GameObjects/Sprites/Bomber.h"
-#include "../../Backend/GameObjects/Sprites/AISprite.h"
 #include "../../Constants.h"
 #include "../Cache/ObjectCache.h"
 
@@ -39,7 +38,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     ObjectCache::getInstance()->reset();
 
     _tiledMap = tiledMap;
-    
+
     cocos2d::Object *ccObject;
 
     // level properties
@@ -74,7 +73,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
 
             if (gid == 0)
                 continue;
-            
+
             Obstacle *obstacle = Obstacle::getInstanceByGid(gid);
             obstacle->setId(iy*_width + ix);
             obstacle->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
@@ -85,7 +84,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     }
 
     // sprites
-    
+
     cocos2d::TMXLayer *spriteLayer = tiledMap->layerNamed("sprites");
 
     for (unsigned int iy = 0; iy < _height; iy++)
@@ -96,7 +95,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
 
             if (gid == 0)
                 continue;
-            
+
             Sprite *sprite = Sprite::getInstanceByGid(gid);
             sprite->setId(iy*_width + ix);
             sprite->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
@@ -116,7 +115,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
 
             if (gid == 0)
                 continue;
-            
+
             Sprite *sprite = Sprite::getInstanceByGid(gid);
             sprite->setId(iy*_width + ix);
             sprite->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
@@ -128,7 +127,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     }
 
     // effects
-    
+
     cocos2d::TMXLayer *effectLayer = tiledMap->layerNamed("effects");
 
     for (unsigned int iy = 0; iy < _height; iy++)
@@ -147,8 +146,28 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
 
             _effectLayer->addObject(effect);
         }
-    }    
-    
+    }
+
+    effectLayer = tiledMap->layerNamed("floor_effects");
+
+    for (unsigned int iy = 0; iy < _height; iy++)
+    {
+        for (unsigned int ix = 0; ix < _width; ix++)
+        {
+            gid = effectLayer->tileGIDAt(ccp(ix, _height - 1 - iy));
+
+            if (gid == 0)
+                continue;
+
+            Effect *effect = Effect::getInstanceByGid(gid);
+            effect->setId(iy*_width + ix);
+            effect->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
+            effect->setSize(TILE_WIDTH, TILE_HEIGHT);
+
+            _effectLayer->addObject(effect);
+        }
+    }
+
     cocos2d::TMXLayer *effectToSpawnLayer = tiledMap->layerNamed("effects2spawn");
 
     for (unsigned int iy = 0; iy < _height; iy++)
@@ -193,7 +212,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         int bottom =  ((cocos2d::String*) dict->objectForKey("bottom"))->intValue();
         int left =  ((cocos2d::String*) dict->objectForKey("left"))->intValue();
         int right =  ((cocos2d::String*) dict->objectForKey("right"))->intValue();
-        
+
         Portal *portal = (Portal *) ObjectCache::getInstance()->getObject(COT_PORTAL);
         portal->setId(id);
         portal->setPosition(x - (x % TILE_WIDTH), y - (y % TILE_HEIGHT));
@@ -209,13 +228,13 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     CCARRAY_FOREACH(portalExits, ccObject)
     {
         dict = (cocos2d::Dictionary*) ccObject;
-        
+
         id = ((cocos2d::String*) dict->objectForKey("name"))->intValue();
         x = ((cocos2d::String*) dict->objectForKey("x"))->intValue();
         y = ((cocos2d::String*) dict->objectForKey("y"))->intValue();
         width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
         height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();   
-        
+
         PortalExit *portalExit = (PortalExit *) ObjectCache::getInstance()->getObject(COT_PORTAL_EXIT);
         portalExit->setId(id);
         portalExit->setPosition(x - (x % TILE_WIDTH), y - (y % TILE_HEIGHT));
@@ -238,7 +257,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         y = ((cocos2d::String*) dict->objectForKey("y"))->intValue();
         width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
         height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();
-        
+
         bool oneTime = ((cocos2d::String*) dict->objectForKey("one_time"))->boolValue();
         bool bombSensitive = ((cocos2d::String*) dict->objectForKey("bomb_sensitive"))->boolValue();
         bool passingSensitive = ((cocos2d::String*) dict->objectForKey("passing_sensitive"))->boolValue();
@@ -274,6 +293,24 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         switchTarget->setSize(width, height);
 
         _switchTargetLayer->addObject(switchTarget);
+    }
+
+    objectGroup = tiledMap->objectGroupNamed("spawnpoints");
+    cocos2d::Array *spawnPoints = objectGroup->getObjects();
+
+    CCARRAY_FOREACH(spawnPoints, ccObject)
+    {
+        dict = (cocos2d::Dictionary*) ccObject;
+
+        x = ((cocos2d::String*) dict->objectForKey("x"))->intValue();
+        y = ((cocos2d::String*) dict->objectForKey("y"))->intValue();
+        //width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
+        //height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();
+
+        TSpawnPoint spawnPoint;
+        spawnPoint.first = x;
+        spawnPoint.second = y;
+        _spawnPoints.push_back(spawnPoint);
     }
 }
 
@@ -329,5 +366,23 @@ void GameState::addChange(GameStateChange *change)
 {
     _lastChangeId += 1;
     _changes.push_back(change);
+}
+
+void GameState::setSpawnPoint(unsigned int playerNumber, unsigned int id)
+{
+    if(_spawnPoints.size() >= playerNumber)
+    {
+        _spriteLayer->getObject(id)->setPosition(
+            _spawnPoints[playerNumber-1].first, 
+            _spawnPoints[playerNumber-1].second
+        );
+    }
+    else
+    {
+        _spriteLayer->getObject(id)->setPosition(
+            SPRITE_DEFAULT_SPAWN_X,
+            SPRITE_DEFAULT_SPAWN_Y
+        );
+    }
 }
 
