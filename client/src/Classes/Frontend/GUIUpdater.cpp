@@ -443,19 +443,21 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
     }
 
     // Get buff image
-    unsigned int imageID = 0;
+    unsigned int imageID = spriteAttrUpdate->getGid();
     switch(spriteAttrUpdate->getEffectType())
     {
         case Backend::EFFECT_BOMB_CAPACITY_INC:
-            imageID = BOMB_CAPACITY_INC_ETI;
-            break;
         case Backend::EFFECT_BOMB_POWER_INC:
-            imageID = BOMB_POWER_INC_ETI;
+        case Backend::EFFECT_FIRE_IMMUNITY:
+        case Backend::EFFECT_WATER_IMMUNITY:
+        case Backend::EFFECT_CLEAR_IMMUNITIES:
             break;
         case Backend::EFFECT_SPEED_INC:
-            imageID = SPEED_INC_ETI;
             sprite->setSpeed(sprite->getSpeed() + SPRITE_SPEED_INCREASE);
             break;
+        case Backend::EFFECT_FIRE_TRAP:
+        case Backend::EFFECT_WATER_TRAP:
+            return;
         default:
             std::cerr << "Unknown effect type: " << 
                 spriteAttrUpdate->getEffectType() << std::endl;
@@ -463,7 +465,13 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
     }
 
     // Create or update buff button
-    if( ButtonLayer::getInstance()->isInBuffs(imageID) )
+    if (spriteAttrUpdate->getEffectType() == Backend::EFFECT_CLEAR_IMMUNITIES)
+    {
+        // TODO: find out fix to this ugly workaround
+        ButtonLayer::getInstance()->removeBuff(638);
+        ButtonLayer::getInstance()->removeBuff(639);
+    }
+    else if (ButtonLayer::getInstance()->isInBuffs(imageID))
     {
         ButtonLayer::getInstance()->incrementBuff(imageID);
     }

@@ -148,6 +148,26 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         }
     }
 
+    effectLayer = tiledMap->layerNamed("floor_effects");
+
+    for (unsigned int iy = 0; iy < _height; iy++)
+    {
+        for (unsigned int ix = 0; ix < _width; ix++)
+        {
+            gid = effectLayer->tileGIDAt(ccp(ix, _height - 1 - iy));
+
+            if (gid == 0)
+                continue;
+
+            Effect *effect = Effect::getInstanceByGid(gid);
+            effect->setId(iy*_width + ix);
+            effect->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
+            effect->setSize(TILE_WIDTH, TILE_HEIGHT);
+
+            _effectLayer->addObject(effect);
+        }
+    }
+
     cocos2d::TMXLayer *effectToSpawnLayer = tiledMap->layerNamed("effects2spawn");
 
     for (unsigned int iy = 0; iy < _height; iy++)

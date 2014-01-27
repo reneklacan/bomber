@@ -22,6 +22,11 @@ namespace Bomber
             EFFECT_SPEED_INC,
             EFFECT_SPEED_DEC,
             EFFECT_LEVEL_KEY,
+            EFFECT_FIRE_IMMUNITY,
+            EFFECT_WATER_IMMUNITY,
+            EFFECT_CLEAR_IMMUNITIES,
+            EFFECT_FIRE_TRAP,
+            EFFECT_WATER_TRAP,
         };
 
         class Effect : public GameObject
@@ -211,6 +216,111 @@ namespace Bomber
 
                     sprite->getAttributes()->increaseLevelKeys();
                     _charges -= 1;
+                }
+        };
+
+        class EffectFireImmunity : public Effect
+        {
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_FIRE_IMMUNITY; };
+
+                EffectFireImmunity() : Effect()
+                {
+                    _name = "fire immunity";
+                    _type = EFFECT_FIRE_IMMUNITY;
+                    _charges = 1;
+                };
+                virtual void applyToSprite(Sprite *sprite)
+                {
+                    if (sprite->isAI() || sprite->getAttributes()->getFireImmunity())
+                        return;
+
+                    sprite->getAttributes()->setFireImmunity(true);
+                    _charges -= 1;
+                }
+        };
+
+        class EffectWaterImmunity : public Effect
+        {
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_WATER_IMMUNITY; };
+
+                EffectWaterImmunity() : Effect()
+                {
+                    _name = "water immunity";
+                    _type = EFFECT_WATER_IMMUNITY;
+                    _charges = 1;
+                };
+                virtual void applyToSprite(Sprite *sprite)
+                {
+                    if (sprite->isAI() || sprite->getAttributes()->getWaterImmunity())
+                        return;
+
+                    sprite->getAttributes()->setWaterImmunity(true);
+                    _charges -= 1;
+                }
+        };
+
+        class EffectClearImmunities : public Effect
+        {
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_CLEAR_IMMUNITIES; };
+
+                EffectClearImmunities() : Effect()
+                {
+                    _name = "clear immunities";
+                    _type = EFFECT_CLEAR_IMMUNITIES;
+                    _charges = 999;
+                };
+                virtual void applyToSprite(Sprite *sprite)
+                {
+                    if (sprite->isAI())
+                        return;
+
+                    sprite->getAttributes()->setWaterImmunity(false);
+                    sprite->getAttributes()->setFireImmunity(false);
+                }
+        };
+
+        class EffectFireTrap : public Effect
+        {
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_FIRE_TRAP; };
+
+                EffectFireTrap() : Effect()
+                {
+                    _name = "fire trap";
+                    _type = EFFECT_FIRE_TRAP;
+                    _charges = 999;
+                };
+                virtual void applyToSprite(Sprite *sprite)
+                {
+                    if (sprite->isAI())
+                        return;
+
+                    if (!sprite->getAttributes()->getFireImmunity())
+                        sprite->getAttributes()->decreaseHealth(9999);
+                }
+        };
+
+        class EffectWaterTrap : public Effect
+        {
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_WATER_TRAP; };
+
+                EffectWaterTrap() : Effect()
+                {
+                    _name = "water trap";
+                    _type = EFFECT_WATER_TRAP;
+                    _charges = 999;
+                };
+                virtual void applyToSprite(Sprite *sprite)
+                {
+                    if (sprite->isAI())
+                        return;
+
+                    if (!sprite->getAttributes()->getWaterImmunity())
+                        sprite->getAttributes()->decreaseHealth(9999);
                 }
         };
     }

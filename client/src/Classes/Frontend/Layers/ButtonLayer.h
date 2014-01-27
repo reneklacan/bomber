@@ -25,6 +25,7 @@ namespace Bomber
             void saveTime(float dt);
             bool isInBuffs(unsigned int id);
             void incrementBuff(unsigned int id);
+            void removeBuff(unsigned int id);
 
             void reset();
             void resetAll();

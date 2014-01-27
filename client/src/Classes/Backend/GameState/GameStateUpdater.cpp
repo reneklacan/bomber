@@ -117,7 +117,11 @@ void GameStateUpdater::updateSpriteAttributes(Sprite *sprite, Effect *effect)
 {
     effect->applyToSprite(sprite);
     StatisticsUpdater::getInstance()->effectTaken(sprite->getId(), effect);
-    this->logSpriteAttributesUpdate(sprite, effect);
+
+    if (sprite->getAttributes()->isDead())
+        this->destroySprite(sprite);
+    else
+        this->logSpriteAttributesUpdate(sprite, effect);
 }
 
 void GameStateUpdater::update()
@@ -406,7 +410,8 @@ void GameStateUpdater::logSpriteAttributesUpdate(Sprite *sprite, Effect *effect)
     printf("logSpriteAttributesUpdate\n");
     GSCSpriteAttrUpdate *change = new GSCSpriteAttrUpdate();
     change->update(
-            effect->getType()
+        effect->getGid(),
+        effect->getType()
     );
     change->setGameObjectId(sprite->getId());
     _state->addChange(change);
