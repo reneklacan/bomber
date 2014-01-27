@@ -9,6 +9,7 @@
 #include "Map/Explosion.h"
 
 #include "Sprites/Human.h"
+#include "Sprites/ActionSprite.h"
 
 #include "../Backend/Mediator.h"
 #include "../Backend/GameObjects/Sprites/Bomber.h"
@@ -82,7 +83,7 @@ namespace Bomber
             std::vector<Human *> _players;
             Layer * _layer;
 
-            std::map<unsigned int, Sprite *> _mobs;
+            std::map<unsigned int, ActionSprite *> _mobs;
             std::map<unsigned int, Sprite *> _obstacles;
             std::map<unsigned int, Sprite *> _effects;
             std::map<unsigned int, Sprite *> _bombs;

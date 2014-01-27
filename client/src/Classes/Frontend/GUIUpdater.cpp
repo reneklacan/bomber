@@ -190,9 +190,11 @@ void GUIUpdater::update()
 //
 void GUIUpdater::updateSpriteMove(GSCSpriteMove *spriteMove)
 {
+    unsigned int spriteID = spriteMove->getGameObjectId();
+
     for(auto player : _players)
     {
-        if (spriteMove->getGameObjectId() == player->getID())
+        if (spriteID == player->getID())
         {
             // Only set Z coordinate
             _batchNode->reorderChild(
@@ -204,16 +206,22 @@ void GUIUpdater::updateSpriteMove(GSCSpriteMove *spriteMove)
     }
 
     // Sprite is already initialized
-    if (_mobs.find(spriteMove->getGameObjectId()) != _mobs.end())
+    if (_mobs.find(spriteID) != _mobs.end())
     {
-        _mobs[spriteMove->getGameObjectId()]->setPosition(
-                    ccp (
-                        spriteMove->getPosition().x,
-                        spriteMove->getPosition().y
-                    )
-                );
+        Point newPosition = ccp (
+            spriteMove->getPosition().x,
+            spriteMove->getPosition().y
+        );
+        /*changeSpriteRotation(
+            spriteID,
+            _mobs[spriteID],
+            _mobs[spriteID]->getPosition(),
+            newPosition
+        );*/
+        //_mobs[spriteID]->setPosition( newPosition );
+        _mobs[spriteID]->updatePosition( newPosition );
         _batchNode->reorderChild(
-            _mobs[spriteMove->getGameObjectId()],
+            _mobs[spriteID],
             _O_mapPixelHeight - spriteMove->getPosition().y - _O_tileHeightDiv4 // DO NOT CHANGE
         );
     }
@@ -745,8 +753,9 @@ void GUIUpdater::initLayers()
         unsigned int id = it.first;
         Sprite *sp = it.second;
 
-        _mobs[ id ] = Sprite::createWithTexture( sp->getTexture(), sp->getTextureRect() );
-        _mobs[ id ]->setPosition( sp->getPosition() );
+        //_mobs[ id ] = Sprite::createWithTexture( sp->getTexture(), sp->getTextureRect() );
+        _mobs[ id ] = new ActionSprite( sp->getTexture(), sp->getTextureRect() );
+        _mobs[ id ]->spawnPosition( sp->getPosition() );
         _mobs[ id ]->setAnchorPoint( ccp(0, 0) );
         _mobs[ id ]->setVertexZ(0); // DO NOT CHANGE
 
