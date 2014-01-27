@@ -26,6 +26,7 @@ SOURCES = Main.cpp \
         ../Classes/Backend/GameState/GameStateUpdater.cpp \
         ../Classes/Backend/GameObjects/GameObject.cpp \
         ../Classes/Backend/GameObjects/Sprites/Sprite.cpp \
+        ../Classes/Backend/GameObjects/Sprites/AdvancedSprite.cpp \
         ../Classes/Backend/GameObjects/BBomb.cpp \
         ../Classes/Backend/GameObjects/Obstacle.cpp \
         ../Classes/Backend/GameObjects/Effect.cpp \

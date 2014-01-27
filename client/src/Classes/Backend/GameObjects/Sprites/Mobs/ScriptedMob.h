@@ -1,16 +1,21 @@
 #ifndef __BOMBER_BACKEND_TEST_SPRITE
 #define __BOMBER_BACKEND_TEST_SPRITE
 
-#include "../../AI/AdvancedAI.h"
+#include "../AdvancedSprite.h"
 
 namespace Bomber
 {
     namespace Backend
     {
-        class TestSprite : public AdvancedAI
+        class ScriptedMob : public AdvancedSprite
         {
             public:
-                TestSprite() : AdvancedAI()
+                inline virtual Common::TCachableObjectType getObjectType()
+                {
+                    return Common::COT_SCRIPTED_MOB;
+                }
+
+                ScriptedMob() : AdvancedSprite()
                 {
                     this->init();
                 }

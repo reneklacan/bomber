@@ -9,7 +9,8 @@
 #include "../../Backend/GameObjects/PortalExit.h"
 #include "../../Backend/GameObjects/Obstacle.h"
 #include "../../Backend/GameObjects/Switch.h"
-#include "../../Backend/GameObjects/Sprites/AISprite.h"
+#include "../../Backend/GameObjects/Sprites/Mobs/SmartMob.h"
+#include "../../Backend/GameObjects/Sprites/Mobs/ScriptedMob.h"
 
 using namespace Bomber::Common;
 using namespace Bomber::Backend;
@@ -32,8 +33,6 @@ ObjectCache::ObjectCache()
 
 CachableObject* ObjectCache::getObject(TCachableObjectType type)
 {
-    //printf("BackendCache::getObject - type %d\n", type);
-
     CachableObject* object = nullptr;
 
     if (_enabled && _freeInstances[type].size() > 0)
@@ -43,13 +42,9 @@ CachableObject* ObjectCache::getObject(TCachableObjectType type)
 
         _freeInstances[type].pop_front();
         _occupiedInstances[type].insert(object);
-        
-        //printf("occupied cache size for type %d is %u\n", type, _occupiedInstances[type].size());
-        //printf("hit\n");
 
         return object;
     }
-    //printf("miss\n");
 
     switch (type)
     {
@@ -71,8 +66,11 @@ CachableObject* ObjectCache::getObject(TCachableObjectType type)
 
         // sprites
 
-        case COT_AI_SPRITE:
-            object = new AISprite();
+        case COT_SMART_MOB:
+            object = new SmartMob();
+            break;
+        case COT_SCRIPTED_MOB:
+            object = new ScriptedMob();
             break;
 
         // blocks
