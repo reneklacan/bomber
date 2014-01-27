@@ -68,6 +68,9 @@ Actions::Actions(Action *firstAction, ...)
     {
         Action *action = va_arg(list, Action *);
 
+        if (action == nullptr)
+            break;
+
         _actions.push_back(action);
 
         if (action->isLast())

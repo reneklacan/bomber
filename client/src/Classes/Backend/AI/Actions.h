@@ -70,6 +70,13 @@ namespace Bomber
                 virtual bool isLast() { return true; };
         };
 
+        class Stop: public Action
+        {
+            public:
+                Stop() {};
+                virtual bool isLast() { return true; };
+        };
+
         class Wait : public Action
         {
             public:

@@ -15,7 +15,8 @@ namespace Bomber
             COT_SWITCH,
 
             // sprites
-            COT_AI_SPRITE,
+            COT_SMART_MOB,
+            COT_SCRIPTED_MOB,
 
             // obstacles
             COT_MAZE_BLOCK,

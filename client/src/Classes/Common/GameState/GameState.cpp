@@ -1,7 +1,6 @@
 
 #include "GameState.h"
 #include "../../Backend/GameObjects/Sprites/Bomber.h"
-#include "../../Backend/GameObjects/Sprites/AISprite.h"
 #include "../../Constants.h"
 #include "../Cache/ObjectCache.h"
 
@@ -39,7 +38,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     ObjectCache::getInstance()->reset();
 
     _tiledMap = tiledMap;
-    
+
     cocos2d::Object *ccObject;
 
     // level properties
@@ -74,7 +73,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
 
             if (gid == 0)
                 continue;
-            
+
             Obstacle *obstacle = Obstacle::getInstanceByGid(gid);
             obstacle->setId(iy*_width + ix);
             obstacle->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
@@ -85,7 +84,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     }
 
     // sprites
-    
+
     cocos2d::TMXLayer *spriteLayer = tiledMap->layerNamed("sprites");
 
     for (unsigned int iy = 0; iy < _height; iy++)
@@ -96,7 +95,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
 
             if (gid == 0)
                 continue;
-            
+
             Sprite *sprite = Sprite::getInstanceByGid(gid);
             sprite->setId(iy*_width + ix);
             sprite->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
@@ -116,7 +115,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
 
             if (gid == 0)
                 continue;
-            
+
             Sprite *sprite = Sprite::getInstanceByGid(gid);
             sprite->setId(iy*_width + ix);
             sprite->setPosition(ix*TILE_WIDTH, iy*TILE_HEIGHT);
@@ -128,7 +127,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     }
 
     // effects
-    
+
     cocos2d::TMXLayer *effectLayer = tiledMap->layerNamed("effects");
 
     for (unsigned int iy = 0; iy < _height; iy++)
@@ -147,8 +146,8 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
 
             _effectLayer->addObject(effect);
         }
-    }    
-    
+    }
+
     cocos2d::TMXLayer *effectToSpawnLayer = tiledMap->layerNamed("effects2spawn");
 
     for (unsigned int iy = 0; iy < _height; iy++)
@@ -193,7 +192,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         int bottom =  ((cocos2d::String*) dict->objectForKey("bottom"))->intValue();
         int left =  ((cocos2d::String*) dict->objectForKey("left"))->intValue();
         int right =  ((cocos2d::String*) dict->objectForKey("right"))->intValue();
-        
+
         Portal *portal = (Portal *) ObjectCache::getInstance()->getObject(COT_PORTAL);
         portal->setId(id);
         portal->setPosition(x - (x % TILE_WIDTH), y - (y % TILE_HEIGHT));
@@ -209,13 +208,13 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     CCARRAY_FOREACH(portalExits, ccObject)
     {
         dict = (cocos2d::Dictionary*) ccObject;
-        
+
         id = ((cocos2d::String*) dict->objectForKey("name"))->intValue();
         x = ((cocos2d::String*) dict->objectForKey("x"))->intValue();
         y = ((cocos2d::String*) dict->objectForKey("y"))->intValue();
         width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
         height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();   
-        
+
         PortalExit *portalExit = (PortalExit *) ObjectCache::getInstance()->getObject(COT_PORTAL_EXIT);
         portalExit->setId(id);
         portalExit->setPosition(x - (x % TILE_WIDTH), y - (y % TILE_HEIGHT));
@@ -238,7 +237,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         y = ((cocos2d::String*) dict->objectForKey("y"))->intValue();
         width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
         height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();
-        
+
         bool oneTime = ((cocos2d::String*) dict->objectForKey("one_time"))->boolValue();
         bool bombSensitive = ((cocos2d::String*) dict->objectForKey("bomb_sensitive"))->boolValue();
         bool passingSensitive = ((cocos2d::String*) dict->objectForKey("passing_sensitive"))->boolValue();

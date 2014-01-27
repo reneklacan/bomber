@@ -1,9 +1,9 @@
 
 #include <stdio.h>
 
-#include "Sprite.h"
-#include "AISprite.h"
-#include "TestSprite.h"
+#include "AdvancedSprite.h"
+#include "Mobs/SmartMob.h"
+#include "Mobs/ScriptedMob.h"
 #include "../../../Common/Cache/ObjectCache.h"
 
 using namespace Bomber::Backend;
@@ -11,9 +11,9 @@ using namespace Bomber::Common;
 
 Sprite *Sprite::getInstanceByGid(unsigned int gid)
 {
-    Sprite *sprite = (AISprite *) ObjectCache::getInstance()->getObject(COT_AI_SPRITE);
+    AdvancedSprite *sprite = (AdvancedSprite *) ObjectCache::getInstance()->getObject(COT_SMART_MOB);
     sprite->setGid(gid);
-        
+
     switch(gid)
     {
         //case 2:
@@ -32,13 +32,13 @@ Sprite *Sprite::getInstanceByGid(unsigned int gid)
         //case 6:
         case 453:
             sprite->setName("Princess");
-            //sprite->setSmart(false);
             break;
         case 48:
             sprite->setName("Fluffy");
             break;
         case 523:
-            sprite = new TestSprite();
+            //sprite = new ScriptedSprite();
+            sprite = (AdvancedSprite *) ObjectCache::getInstance()->getObject(COT_SCRIPTED_MOB);
             sprite->setName("Geisha");
             break;
         default:
