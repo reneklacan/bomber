@@ -13,6 +13,7 @@ class ActionSprite : public Sprite
     public:
         ActionSprite(Texture2D *texture, Rect defaultImage);
         void updatePosition(Point newPosition);
+        void updateDefaultImage(Rect newImage);
         void spawnPosition(Point spawnPosition);
         void changeRotation(Point pNew);
 

@@ -507,15 +507,16 @@ void GUIUpdater::updateSpriteSpawn( GSCSpriteSpawn *spriteSpawn )
     unsigned int iy = spriteSpawn->getCoordinates().y;
     unsigned int transformed_iy = _map->getHeight() - iy - 1;
     unsigned int id = spriteSpawn->getGameObjectId();
-
+    Rect imageRect = this->pickImageFromTexture( spriteSpawn->getGid() );
     // Init with texture of Batch Node
     _mobs[ id ] = _cache->getSprite(
         _batchNode->getTexture(),
-        this->pickImageFromTexture( spriteSpawn->getGid() ) 
+        imageRect
     );
 
     // Position and Batch node Z order
-    _mobs[ id ]->setPosition( ccp(ix*TILE_WIDTH, iy*TILE_HEIGHT ) );
+    _mobs[ id ]->spawnPosition( ccp(ix*TILE_WIDTH, iy*TILE_HEIGHT ) );
+    _mobs[ id ]->updateDefaultImage(imageRect);
     _batchNode->reorderChild(_mobs[ id ], transformed_iy*TILE_HEIGHT);
 
     return;

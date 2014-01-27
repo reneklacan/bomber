@@ -23,6 +23,11 @@ void ActionSprite::updatePosition(Point newPosition)
     _counter = (_counter + 1) % STEP_CHANGE_RATE;
 }
 
+void ActionSprite::updateDefaultImage(Rect newImage)
+{
+   _defaultImage = newImage;
+}
+
 void ActionSprite::changeRotation(Point pNew)
 {
     if(_counter == 0) {
