@@ -72,8 +72,6 @@ bool AdvancedAI::tryToChasePlayer()
     if (this->getCoords() == path[0])
         return false;
 
-    printf("tryToChasePlayer ok\n");
-
     _goal = path[0].toPosition();
     this->continueMove();
     return true;

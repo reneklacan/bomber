@@ -115,12 +115,12 @@ namespace Bomber
                 GSCGidOnCoordinates() { _type = NONE; };
                 virtual void update(unsigned int gid, Common::Coordinates coords)
                 {
-                    _git = gid;
+                    _gid = gid;
                     _coordinates = coords;
                 }
 
             private:
-                SYNTHESIZE(unsigned int, _git, Gid);
+                SYNTHESIZE(unsigned int, _gid, Gid);
         };
 
         class GSCSpriteSpawn : public GSCGidOnCoordinates
@@ -144,14 +144,14 @@ namespace Bomber
             private:
                 SYNTHESIZE(unsigned int, _id, Id);
         };
-        
+
         class GSCObstacleSpawn : public GSCGidOnCoordinates
         {
             public:
                 GSCObstacleSpawn() { _type = OBSTACLE_SPAWN; };
                 virtual void update(unsigned int gid, Common::Coordinates coords, unsigned int spawnerId)
                 {
-                    _git = gid;
+                    _gid = gid;
                     _coordinates = coords;
                     _spawnerId = spawnerId;
                 }
@@ -159,7 +159,7 @@ namespace Bomber
             private:
                 SYNTHESIZE(unsigned int, _spawnerId, SpawnerId);
         };
-        
+
         class GSCEffectSpawn : public GSCGidOnCoordinates
         {
             public:
@@ -204,9 +204,14 @@ namespace Bomber
         {
             public:
                 GSCSpriteAttrUpdate() { _type = SPRITE_ATTR_UPDATE; };
-                virtual void update(int type) { _effectType = type; };
+                virtual void update(unsigned int gid, int type)
+                {
+                    _gid = gid;
+                    _effectType = type;
+                }
 
             private:
+                SYNTHESIZE(unsigned int, _gid, Gid);
                 SYNTHESIZE(int, _effectType, EffectType);
         };
 

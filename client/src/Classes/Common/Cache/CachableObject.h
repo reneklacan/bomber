@@ -34,6 +34,11 @@ namespace Bomber
             COT_SPEED_INC,
             COT_SPEED_DEC,
             COT_LEVEL_KEY,
+            COT_FIRE_IMMUNITY,
+            COT_WATER_IMMUNITY,
+            COT_CLEAR_IMMUNITIES,
+            COT_FIRE_TRAP,
+            COT_WATER_TRAP,
         };
 
         class CachableObject

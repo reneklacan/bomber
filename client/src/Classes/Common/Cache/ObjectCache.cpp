@@ -117,6 +117,21 @@ CachableObject* ObjectCache::getObject(TCachableObjectType type)
         case COT_LEVEL_KEY:
             object = new EffectLevelKey();
             break;
+        case COT_FIRE_IMMUNITY:
+            object = new EffectFireImmunity();
+            break;
+        case COT_WATER_IMMUNITY:
+            object = new EffectWaterImmunity();
+            break;
+        case COT_CLEAR_IMMUNITIES:
+            object = new EffectClearImmunities();
+            break;
+        case COT_FIRE_TRAP:
+            object = new EffectFireTrap();
+            break;
+        case COT_WATER_TRAP:
+            object = new EffectWaterTrap();
+            break;
     }
 
     if (object == nullptr)

@@ -169,6 +169,20 @@ void ButtonLayer::incrementBuff(unsigned int id)
 }
 
 //
+void ButtonLayer::removeBuff(unsigned int id)
+{
+    if (!this->isInBuffs(id))
+        return;
+
+    for (auto *it: _buffs)
+    {
+        EffectButton *eb = (EffectButton *)it;
+        if(eb->getID() == id)
+            _mainLayer->removeChild(eb->getGameButton());
+    }
+}
+
+//
 void ButtonLayer::reset()
 {
     // Reset buffs
