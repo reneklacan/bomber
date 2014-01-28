@@ -31,6 +31,9 @@ void AdvancedAI::update(float dt)
 {
     _step = _attributes->getSpeed() * dt;
 
+    if (_actions.size() == 0)
+        return;
+
     Action *action = _actions[_currentActionIndex];
     action->update(dt);
     if (action->isComplete())

@@ -16,14 +16,14 @@ AppDelegate::~AppDelegate()
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
     Director *pDirector = Director::sharedDirector();
-    
+
     pDirector->setOpenGLView(EGLView::sharedOpenGLView());
-    
+
     Size screenSize = EGLView::sharedOpenGLView()->getFrameSize();
     //Size designSize = CCSizeMake(1600, 900);
     Size designSize = CCSizeMake(12*101, 12*81);
     std::vector<std::string> searchPaths;
-    
+
     if (screenSize.height > 320)
     {
         searchPaths.push_back("hd");
@@ -38,9 +38,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
         searchPaths.push_back("sd");
         pDirector->setContentScaleFactor(640.0f/designSize.height);
     }
-    
+
     FileUtils::sharedFileUtils()->setSearchPaths(searchPaths);
-    
+
     EGLView::sharedOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, kResolutionNoBorder);
 
     // turn on display FPS

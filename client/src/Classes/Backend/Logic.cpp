@@ -213,7 +213,9 @@ void Logic::updateSprites(float dt)
 
     Sprite *nonAISprite = nullptr;
 
-    for (auto sprite : spriteLayer->getObjects())
+    auto sprites = spriteLayer->getObjects();
+
+    for (auto sprite : sprites)
     {
         if (!sprite->isActive())
             continue;
