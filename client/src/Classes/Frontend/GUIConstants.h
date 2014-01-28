@@ -6,5 +6,7 @@
 
 // Layer TAGS
 #define LEVEL_FINISH_TAG 101
+#define RADIAL_GRADIENT_TAG 102
+#define DARKNESS_TAG 101
 
 #define TEXT_FONT "fonts/culturalstupidity.ttf"
