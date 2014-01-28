@@ -11,6 +11,7 @@ namespace Bomber
         {
             public:
                 AdvancedSprite();
+                virtual void init();
         };
     }
 }

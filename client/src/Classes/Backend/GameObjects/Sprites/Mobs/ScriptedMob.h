@@ -24,7 +24,6 @@ namespace Bomber
                 {
                     AdvancedSprite::init();
 
-                    printf("ScriptedMob::init\n");
                     _aggroDistance = 100;
                     _smart = true;
 
@@ -32,7 +31,7 @@ namespace Bomber
                         new Actions(
                             new Wait(3),
                             new GoUp(3),
-                            new Wait(1),
+                            new Wait(10),
                             new GoDown(2),
                             new Wait(1),
                             new WalkWithoutAttentionTo(7, 7),

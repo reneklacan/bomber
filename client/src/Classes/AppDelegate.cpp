@@ -44,7 +44,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     EGLView::sharedOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, kResolutionNoBorder);
 
     // turn on display FPS
-    pDirector->setDisplayStats(true);
+    //pDirector->setDisplayStats(true);
 
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
