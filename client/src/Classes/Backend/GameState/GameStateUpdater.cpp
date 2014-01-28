@@ -256,6 +256,9 @@ void GameStateUpdater::destroySprite(Sprite *sprite)
     _state->getSpriteLayer()->removeObject(sprite);
 
     ObjectCache::getInstance()->returnObject(sprite);
+
+    //TEST
+    this->logDialogBubble();
 }
 
 void GameStateUpdater::destroyBomb(Bomb *bomb)
@@ -461,6 +464,17 @@ void GameStateUpdater::logAchievementUnlocked(Achievement *achievement)
         achievement->getDescription()
     );
     change->setGameObjectId(0);
+    _state->addChange(change);
+}
+
+void GameStateUpdater::logDialogBubble()
+{
+    printf("logDialogBubble\n");
+    GSCDialogBubble *change = new GSCDialogBubble();
+    //change->setGameObjectId(sprite->getId());
+    change->setTitle("Jesse Pinkman");
+    change->setDescription("Yeah Science, Bitch!");
+    change->setImage("test_50.png");
     _state->addChange(change);
 }
 

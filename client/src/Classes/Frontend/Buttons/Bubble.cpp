@@ -11,7 +11,8 @@ Bubble::Bubble(std::string title, std::string description, std::string image)
 
     // Icon
     Sprite *icon = new Sprite();
-    icon->initWithFile("tiles/images/test_50.png"); // Replace with image
+    std::string imagePath = "tiles/images/" + image;
+    icon->initWithFile(imagePath.c_str());
     icon->setAnchorPoint(ccp(0,0));
     Rect bBox = icon->boundingBox();
 
