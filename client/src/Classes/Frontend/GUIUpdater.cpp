@@ -450,9 +450,11 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
     unsigned int imageID = spriteAttrUpdate->getGid();
     switch(spriteAttrUpdate->getEffectType())
     {
+        case Backend::EFFECT_FIRE_IMMUNITY:
+            printf("fire immunity\n");
+            break;
         case Backend::EFFECT_BOMB_CAPACITY_INC:
         case Backend::EFFECT_BOMB_POWER_INC:
-        case Backend::EFFECT_FIRE_IMMUNITY:
         case Backend::EFFECT_WATER_IMMUNITY:
         case Backend::EFFECT_CLEAR_IMMUNITIES:
             break;
