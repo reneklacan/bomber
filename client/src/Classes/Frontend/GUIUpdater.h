@@ -22,6 +22,7 @@
 
 #include "Buttons/AchievementButton.h"
 #include "Buttons/EffectButton.h"
+#include "Buttons/Bubble.h"
 #include "Layers/ButtonLayer.h"
 
 #include "Cache/GUICache.h"

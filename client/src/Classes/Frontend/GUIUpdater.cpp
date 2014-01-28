@@ -400,6 +400,10 @@ void GUIUpdater::updateSpriteDestroy( GSCSpriteDestroy *spriteDestroy )
     if ( !_cache->cacheSprite(_mobs[id]) )
     {
         _batchNode->removeChild(_mobs[id], true);
+
+        //TEST
+        Bubble *bb = new Bubble("The Evil Bitcher", "How dare you, you little shit ?", "");
+        ButtonLayer::getInstance()->addToBubbles(bb);
     }
     _mobs.erase(id);
 }

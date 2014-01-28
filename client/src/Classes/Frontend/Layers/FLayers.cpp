@@ -277,7 +277,6 @@ Layer *Layers::getFinishLevelLayer(Statistics *statistics, std::vector<ccMenuCal
 
     // Add menu to the new layer
     lc->addChild(menu, 1);
-    //lc->addChild(dr);
 
     return lc;
 }

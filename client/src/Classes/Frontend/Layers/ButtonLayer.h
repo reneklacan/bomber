@@ -21,6 +21,7 @@ namespace Bomber
             void addToBuffs(GameButton *buff);
             void addToAchievements(GameButton *achievement);
             void addToControls(GameButton *control);
+            void addToBubbles(GameButton *bubble);
             void setMainLayer(Layer* main);
             void saveTime(float dt);
             bool isInBuffs(unsigned int id);
@@ -35,14 +36,19 @@ namespace Bomber
 
             void addAchievement();
             void removeAchievement();
+            void addBubble();
+            void removeBubble();
 
             Layer *_mainLayer;
             std::vector<GameButton *> _skills;
             std::vector<GameButton *> _buffs;
             std::vector<GameButton *> _achievements;
             std::vector<GameButton *> _controls;
+            std::vector<GameButton *> _bubbles;
             float _time;
             bool _saveTime;
+            float _timeBubble;
+            bool _saveTimeBubble;
         };
     }
 }

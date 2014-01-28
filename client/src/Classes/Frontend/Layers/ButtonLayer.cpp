@@ -27,10 +27,18 @@ void ButtonLayer::saveTime(float dt)
     {
         _time += dt;
     }
+    if(_saveTimeBubble)
+    {
+        _timeBubble += dt;
+    }
 
     if(_time >= 5)
     {
         this->removeAchievement();
+    }
+    if(_timeBubble >= 8)
+    {
+        this->removeBubble();
     }
 }
 
@@ -117,6 +125,13 @@ void ButtonLayer::addToControls(GameButton *control)
 }
 
 //
+void ButtonLayer::addToBubbles(GameButton *bubble)
+{
+    _bubbles.push_back(bubble);
+    this->addBubble();
+}
+
+//
 void ButtonLayer::addAchievement()
 {
     if(!_saveTime)
@@ -138,6 +153,31 @@ void ButtonLayer::removeAchievement()
     if(_achievements.size() > 0)
     {
         this->addAchievement();
+    }
+}
+
+//
+void ButtonLayer::addBubble()
+{
+    if(!_saveTimeBubble)
+    {
+        _mainLayer->addChild(_bubbles[0]->getGameButton(), 1);
+        _saveTimeBubble = true;
+        _timeBubble = 0;
+    }
+}
+
+//
+void ButtonLayer::removeBubble()
+{
+    GameButton* bb = _bubbles[0];
+    _bubbles.erase(_bubbles.begin());
+    _mainLayer->removeChild(bb->getGameButton(), true);
+    _saveTimeBubble = false;
+    _timeBubble = 0;
+    if(_bubbles.size() > 0)
+    {
+        this->addBubble();
     }
 }
 
