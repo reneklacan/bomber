@@ -296,9 +296,13 @@ namespace Bomber
                     if (sprite->isAI())
                         return false;
 
+                    if (!sprite->getAttributes()->getFireImmunity() && !sprite->getAttributes()->getWaterImmunity())
+                        return false;
+
                     sprite->getAttributes()->setWaterImmunity(false);
                     sprite->getAttributes()->setFireImmunity(false);
-                    return false;
+
+                    return true;
                 }
         };
 

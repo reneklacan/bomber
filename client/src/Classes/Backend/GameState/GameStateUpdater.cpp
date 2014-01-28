@@ -121,7 +121,7 @@ void GameStateUpdater::updateSpriteAttributes(Sprite *sprite, Effect *effect)
 
     if (sprite->getAttributes()->isDead())
         this->destroySprite(sprite);
-    else
+    else if (result)
         this->logSpriteAttributesUpdate(sprite, effect);
 }
 
