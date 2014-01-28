@@ -181,6 +181,10 @@ void GUIUpdater::update()
                 this->updateBlockPush( (GSCBlockPush *)GSChange );
             }
             break;
+            case DIALOG_BUBBLE:
+            {
+                this->updateDialogBubble( (GSCDialogBubble *)GSChange );
+            }
             // Nothing    
             default: {}
         }
@@ -400,10 +404,6 @@ void GUIUpdater::updateSpriteDestroy( GSCSpriteDestroy *spriteDestroy )
     if ( !_cache->cacheSprite(_mobs[id]) )
     {
         _batchNode->removeChild(_mobs[id], true);
-
-        //TEST
-        Bubble *bb = new Bubble("The Evil Bitcher", "How dare you, you little shit ?", "");
-        ButtonLayer::getInstance()->addToBubbles(bb);
     }
     _mobs.erase(id);
 }
@@ -652,6 +652,17 @@ void GUIUpdater::finishUpdateBlockPush(ObstacleMove *move)
     );
 
     delete move;
+}
+
+//
+void GUIUpdater::updateDialogBubble( GSCDialogBubble *dialog )
+{
+    Bubble *bb = new Bubble(
+        dialog->getTitle(), 
+        dialog->getDescription(), 
+        dialog->getImage()
+    );
+    ButtonLayer::getInstance()->addToBubbles(bb);
 }
 
 /*
