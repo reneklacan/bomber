@@ -2,7 +2,6 @@
 #define __BOMBER_MAP
 
 #include "cocos2d.h"
-#include "../Sprites/GameSprite.h"
 #include <map>
 
 using namespace cocos2d;

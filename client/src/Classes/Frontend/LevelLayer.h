@@ -5,9 +5,7 @@
 
 //#include "SimpleAudioEngine.h"
 #include "Map/Map.h"
-#include "Map/Bomb.h"
 #include "Map/Explosion.h"
-#include "Sprites/GameSprite.h"
 #include "Sprites/Human.h"
 #include "../Input/ControlLayer.h"
 #include "../Input/ActionDelegates.h"

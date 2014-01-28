@@ -21,11 +21,13 @@ class ActionSprite : public Sprite
         void resetRotations();
 
     protected:
-        CC_SYNTHESIZE(int, _speed, Speed);
         CC_SYNTHESIZE(Point, _nextPosition, NextPosition);
         CC_SYNTHESIZE(Point, _nextPositionDelta, NextPositionDelta);
         CC_SYNTHESIZE(unsigned int, _id, ID);
         CC_SYNTHESIZE(bool, _isAlive, IsAlive);
+
+        int getSpeed() { return _speed; }
+        void setSpeed(int speed);
 
     private:
         Point _position;
@@ -34,6 +36,8 @@ class ActionSprite : public Sprite
         unsigned int _counter;
         int _stepImage;
         bool _upHill;            // ascending change of steps
+        int _speed;
+        int _threshold;
 };
 
 #endif
