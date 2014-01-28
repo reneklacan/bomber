@@ -8,3 +8,10 @@ AdvancedSprite::AdvancedSprite()
 {
 
 }
+
+void AdvancedSprite::init()
+{
+    AdvancedAI::init();
+
+    _attributes->init();
+}

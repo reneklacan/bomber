@@ -9,6 +9,7 @@
 #include "../Primitives/Shapes.h"
 
 #include <vector>
+#include <string>
 
 using namespace cocos2d;
 

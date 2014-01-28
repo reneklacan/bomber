@@ -43,6 +43,8 @@ namespace Bomber
             LEVER_SWITCH_ON,
             LEVER_SWITCH_OFF,
 
+            DIALOG_BUBBLE,
+
             LEVEL_FINISH,
             LEVEL_RESET,
         };
@@ -285,6 +287,23 @@ namespace Bomber
         {
             public:
                 GSCLevelReset() { _type = LEVEL_RESET; };
+        };
+
+        class GSCDialogBubble : public GameStateChange
+        {
+            public:
+                GSCDialogBubble() { _type = DIALOG_BUBBLE; };
+                virtual void update(const char *title, const char *description, const char* image)
+                {
+                    _title = title;
+                    _description = description;
+                    _image = image;
+                }
+
+            private:
+                SYNTHESIZE(const char *, _title, Title);
+                SYNTHESIZE(const char *, _description, Description);
+                SYNTHESIZE(const char *, _image, Image);
         };
     }
 }
