@@ -411,6 +411,21 @@ void GUIUpdater::updateSpriteDestroy( GSCSpriteDestroy *spriteDestroy )
 //
 void GUIUpdater::updateLeverSwitchOn( GSCLeverSwitchOn *leverSwitchOn )
 {
+    /*int width = Director::sharedDirector()->getVisibleSize().width;
+    int height = Director::sharedDirector()->getVisibleSize().height;
+
+    DrawNode *stencil = DrawNode::create();
+    stencil->drawDot(ccp(width/2, height/2+190), 100, ccc4f(0, 0, 0, 255));
+
+    ClippingNode *cn = ClippingNode::create(stencil);
+    cn->setInverted(true);
+
+    LayerColor* lc = new LayerColor();
+    lc->initWithColor( ccc4(0, 0, 0, 255), width+10, height+10);
+    lc->setPosition(ccp(0, 145));
+
+    cn->addChild(lc);
+    _layer->addChild(cn, 50);*/
     return; // TODO
 }
 
