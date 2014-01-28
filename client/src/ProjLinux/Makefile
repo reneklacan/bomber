@@ -50,7 +50,6 @@ SOURCES = Main.cpp \
         ../Classes/Frontend/GUIUpdater.cpp \
         ../Classes/Frontend/Map/Map.cpp \
         ../Classes/Frontend/Map/Explosion.cpp \
-        ../Classes/Frontend/Sprites/GameSprite.cpp \
         ../Classes/Frontend/Sprites/Human.cpp \
         ../Classes/Frontend/Sprites/SpriteCreator.cpp \
         ../Classes/Frontend/Sprites/ActionSprite.cpp \
