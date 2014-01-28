@@ -18,6 +18,7 @@ namespace Bomber
                 AdvancedAI();
                 AdvancedAI(Actions *actions);
 
+                virtual void init();
                 virtual void update(float dt);
                 void nextAction();
 

@@ -17,16 +17,19 @@ namespace Bomber
 
                 SmartMob() : AdvancedSprite()
                 {
-                    //_attributes->setBombCapacity(2);
-                    //_attributes->setGhostMode(true);
                     this->init();
                 }
 
                 virtual void init()
                 {
+                    AdvancedSprite::init();
+
+                    //_attributes->setBombCapacity(2);
+                    //_attributes->setGhostMode(true);
+
                     _smart = true;
                     _aggroDistance = -1;
-                    _attributes->setSpeed(50);
+                    _attributes->setSpeed(40);
 
                     this->setActions(
                         new Actions(

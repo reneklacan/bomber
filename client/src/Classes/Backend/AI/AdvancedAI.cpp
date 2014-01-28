@@ -11,10 +11,14 @@ using namespace Bomber::Backend;
 using namespace Bomber::Common;
 
 AdvancedAI::AdvancedAI()
-:_currentActionIndex(0)
-,_moving(false)
 {
+    this->init();
+}
 
+void AdvancedAI::init()
+{
+    _currentActionIndex = 0;
+    _moving = false;
 }
 
 AdvancedAI::AdvancedAI(Actions *actions)

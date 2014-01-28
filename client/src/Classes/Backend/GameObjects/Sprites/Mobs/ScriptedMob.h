@@ -22,6 +22,9 @@ namespace Bomber
 
                 virtual void init()
                 {
+                    AdvancedSprite::init();
+
+                    printf("ScriptedMob::init\n");
                     _aggroDistance = 100;
                     _smart = true;
 
