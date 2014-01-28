@@ -44,7 +44,7 @@ namespace Bomber
                 {
                     _charges = 1;
                 }
-                virtual void applyToSprite(Sprite *sprite) = 0;
+                virtual bool applyToSprite(Sprite *sprite) = 0;
                 virtual void log()
                 {
                     printf("effect log: %s\n", _name);
@@ -65,10 +65,11 @@ namespace Bomber
                     _name = "effect flame inc";
                     _type = EFFECT_BOMB_POWER_INC;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->increaseBombPower();
                     _charges -= 1;
+                    return true;
                 }
         };
 
@@ -83,10 +84,11 @@ namespace Bomber
                     _type = EFFECT_BOMB_CAPACITY_INC;
                     _charges = 1;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->increaseBombCapacity();
                     _charges -= 1;
+                    return true;
                 }
         };
 
@@ -101,10 +103,11 @@ namespace Bomber
                     _type = EFFECT_PORTABILITY_ON;
                     _charges = 1;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->setPortability(true);
                     _charges -= 1;
+                    return true;
                 }
         };
 
@@ -119,10 +122,11 @@ namespace Bomber
                     _type = EFFECT_PORTABILITY_OFF;
                     _charges = 1;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->setPortability(false);
                     _charges -= 1;
+                    return true;
                 }
         };
 
@@ -137,10 +141,11 @@ namespace Bomber
                     _type = EFFECT_HEALTH_INC;
                     _charges = 1;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->increaseHealth();
                     _charges -= 1;
+                    return true;
                 }
         };
 
@@ -155,10 +160,11 @@ namespace Bomber
                     _type = EFFECT_HEALTH_DEC;
                     _charges = 1;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->decreaseHealth();
                     _charges -= 1;
+                    return true;
                 }
         };
 
@@ -173,10 +179,11 @@ namespace Bomber
                     _type = EFFECT_SPEED_INC;
                     _charges = 1;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->increaseSpeed();
                     _charges -= 1;
+                    return true;
                 }
         };
 
@@ -191,10 +198,11 @@ namespace Bomber
                     _type = EFFECT_SPEED_DEC;
                     _charges = 1;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
                     sprite->getAttributes()->decreaseSpeed();
                     _charges -= 1;
+                    return true;
                 }
         };
 
@@ -209,13 +217,14 @@ namespace Bomber
                     _type = EFFECT_LEVEL_KEY;
                     _charges = 1;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
                     if (sprite->isAI())
-                        return;
+                        return false;
 
                     sprite->getAttributes()->increaseLevelKeys();
                     _charges -= 1;
+                    return true;
                 }
         };
 
@@ -230,13 +239,18 @@ namespace Bomber
                     _type = EFFECT_FIRE_IMMUNITY;
                     _charges = 1;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
-                    if (sprite->isAI() || sprite->getAttributes()->getFireImmunity())
-                        return;
+                    if (sprite->isAI())
+                        return false;
+
+                    _charges -= 1;
+
+                    if (sprite->getAttributes()->getFireImmunity())
+                        return false;
 
                     sprite->getAttributes()->setFireImmunity(true);
-                    _charges -= 1;
+                    return true;
                 }
         };
 
@@ -251,13 +265,18 @@ namespace Bomber
                     _type = EFFECT_WATER_IMMUNITY;
                     _charges = 1;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
-                    if (sprite->isAI() || sprite->getAttributes()->getWaterImmunity())
-                        return;
+                    if (sprite->isAI())
+                        return false;
+
+                    _charges -= 1;
+
+                    if (sprite->getAttributes()->getWaterImmunity())
+                        return false;
 
                     sprite->getAttributes()->setWaterImmunity(true);
-                    _charges -= 1;
+                    return true;
                 }
         };
 
@@ -272,13 +291,14 @@ namespace Bomber
                     _type = EFFECT_CLEAR_IMMUNITIES;
                     _charges = 999;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
                     if (sprite->isAI())
-                        return;
+                        return false;
 
                     sprite->getAttributes()->setWaterImmunity(false);
                     sprite->getAttributes()->setFireImmunity(false);
+                    return false;
                 }
         };
 
@@ -293,13 +313,15 @@ namespace Bomber
                     _type = EFFECT_FIRE_TRAP;
                     _charges = 999;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
                     if (sprite->isAI())
-                        return;
+                        return false;
 
                     if (!sprite->getAttributes()->getFireImmunity())
                         sprite->getAttributes()->decreaseHealth(9999);
+
+                    return false;
                 }
         };
 
@@ -314,13 +336,15 @@ namespace Bomber
                     _type = EFFECT_WATER_TRAP;
                     _charges = 999;
                 };
-                virtual void applyToSprite(Sprite *sprite)
+                virtual bool applyToSprite(Sprite *sprite)
                 {
                     if (sprite->isAI())
-                        return;
+                        return false;
 
                     if (!sprite->getAttributes()->getWaterImmunity())
                         sprite->getAttributes()->decreaseHealth(9999);
+
+                    return false;
                 }
         };
     }

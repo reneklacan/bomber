@@ -115,8 +115,9 @@ void GameStateUpdater::spawnEffect(unsigned int effectGid, Coordinates coords)
 
 void GameStateUpdater::updateSpriteAttributes(Sprite *sprite, Effect *effect)
 {
-    effect->applyToSprite(sprite);
-    StatisticsUpdater::getInstance()->effectTaken(sprite->getId(), effect);
+    bool result = effect->applyToSprite(sprite);
+    if (result)
+        StatisticsUpdater::getInstance()->effectTaken(sprite->getId(), effect);
 
     if (sprite->getAttributes()->isDead())
         this->destroySprite(sprite);
