@@ -8,6 +8,7 @@ _speed(50), _isAlive(true)
     this->initWithTexture(texture, defaultImage);
     _position = ccp(0,0);
     _speed = 100;
+    _threshold = STEP_CHANGE_RATE;
 }
 
 void ActionSprite::spawnPosition(Point spawnPosition)
@@ -32,22 +33,28 @@ void ActionSprite::updatePosition(Point newPosition)
     _position = newPosition;
     this->setPosition(_position);
 
+    _counter = (_counter + 1) % _threshold;
+}
+
+void ActionSprite::setSpeed(int speed)
+{
+    _speed = speed;
+    _counter = 0;
+
     // Threshold algorithm with saturation
-    int threshold = STEP_CHANGE_RATE;
+    _threshold = STEP_CHANGE_RATE;
     if(_speed > 100)
     {
-        threshold = (int)(STEP_CHANGE_RATE - _speed/50);
+        _threshold = (int)(STEP_CHANGE_RATE - _speed/50);
     }
     else if(_speed < 100)
     {
-        threshold = (int)(STEP_CHANGE_RATE + (100-_speed)/8);
+        _threshold = (int)(STEP_CHANGE_RATE + (100-_speed)/8);
     }
     // 20 --- 100 --- 500 : speed
-    // 22 <--  12 -->  3 : threshold
-    if(threshold < MAX_CHANGE_RATE) { threshold = MAX_CHANGE_RATE; }
-    else if(threshold > MIN_CHANGE_RATE) { threshold = MIN_CHANGE_RATE; }
-
-    _counter = (_counter + 1) % threshold;
+    // 22 <--  12 -->  3 : _threshold
+    if(_threshold < MAX_CHANGE_RATE) { _threshold = MAX_CHANGE_RATE; }
+    else if(_threshold > MIN_CHANGE_RATE) { _threshold = MIN_CHANGE_RATE; }
 }
 
 void ActionSprite::updateDefaultImage(Rect newImage)
