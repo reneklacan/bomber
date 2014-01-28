@@ -14,12 +14,6 @@ Bubble::Bubble(std::string title, std::string description, std::string image)
     icon->initWithFile("tiles/images/test_50.png"); // Replace with image
     icon->setAnchorPoint(ccp(0,0));
     Rect bBox = icon->boundingBox();
-    icon->setPosition( ccp(
-            0,
-            visibleSize.height/5 + visibleSize.height/4.3     
-        )
-    );
-    bubble->addChild(icon, 10);
 
     // Text
     LabelTTF* titleText = LabelTTF::create(
@@ -48,26 +42,33 @@ Bubble::Bubble(std::string title, std::string description, std::string image)
     );
     dr->DrawNode::drawPolygon(
         ccPoints,
-        7,
-        ccc4f(0.0, 0.0, 0.0, 0.8),
+        4,
+        ccc4f(0.0, 0.0, 0.0, 0.9),
         borderSize,
         ccc4f(0.8, 0.6, 0.4, 0.7)
     );
     bubble->addChild(dr); 
 
     // Positions
+    icon->setPosition( ccp(
+            ccPoints[0].x + fontSize,
+            ccPoints[0].y + fontSize/4    
+        )
+    );
     titleText->setPosition( 
         ccp(
-            ccPoints[6].x + 8*fontSize,
-            ccPoints[6].y - 1*fontSize
+            ccPoints[3].x + bBoxWidth + 8*fontSize,
+            ccPoints[3].y - 1*fontSize
         )
     );
     descriptionText->setPosition( 
         ccp(
-            ccPoints[6].x + 10*fontSize,
-            ccPoints[6].y - 3*fontSize
+            ccPoints[3].x + bBoxWidth + 10*fontSize,
+            ccPoints[3].y - 3*fontSize
         )
     );
+
+    bubble->addChild(icon, 10);
     bubble->addChild(titleText);
     bubble->addChild(descriptionText); 
       

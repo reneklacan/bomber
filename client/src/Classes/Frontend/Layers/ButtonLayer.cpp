@@ -32,11 +32,11 @@ void ButtonLayer::saveTime(float dt)
         _timeBubble += dt;
     }
 
-    if(_time >= 5)
+    if(_time >= 5)  // Achievement notification will last 5 seconds
     {
         this->removeAchievement();
     }
-    if(_timeBubble >= 8)
+    if(_timeBubble >= 8)    // Bubble notification will last 8 seconds
     {
         this->removeBubble();
     }
@@ -239,6 +239,14 @@ void ButtonLayer::reset()
         _mainLayer->removeChild(it->getGameButton());
     }
     _achievements.clear();
+    // Reset bubbles
+    _saveTimeBubble = false;
+    _timeBubble = 0;
+    for(auto it : _bubbles)
+    {
+        _mainLayer->removeChild(it->getGameButton());
+    }
+    _bubbles.clear();
 }
 
 //
