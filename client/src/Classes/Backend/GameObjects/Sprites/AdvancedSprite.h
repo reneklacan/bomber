@@ -10,6 +10,11 @@ namespace Bomber
         class AdvancedSprite : public AdvancedAI
         {
             public:
+                inline virtual Common::TCachableObjectType getObjectType()
+                {
+                    return Common::COT_ADVANCED_SPRITE;
+                }
+
                 AdvancedSprite();
                 virtual void init();
         };
