@@ -214,12 +214,18 @@ void ButtonLayer::removeBuff(unsigned int id)
     if (!this->isInBuffs(id))
         return;
 
-    for (auto *it: _buffs)
+    int indexToRemove = -1;
+    for (auto *it : _buffs)
     {
+        indexToRemove++;
         EffectButton *eb = (EffectButton *)it;
-        if(eb->getID() == id)
-            _mainLayer->removeChild(eb->getGameButton());
+        if(eb->getID() != id)
+            continue;
+
+        _mainLayer->removeChild(eb->getGameButton());
+        break;
     }
+    _buffs.erase(_buffs.begin() + indexToRemove);
 }
 
 //

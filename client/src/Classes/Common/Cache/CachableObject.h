@@ -15,6 +15,8 @@ namespace Bomber
             COT_SWITCH,
 
             // sprites
+            COT_ADVANCED_SPRITE,
+            COT_BOMBER_SPRITE,
             COT_SMART_MOB,
             COT_SCRIPTED_MOB,
 

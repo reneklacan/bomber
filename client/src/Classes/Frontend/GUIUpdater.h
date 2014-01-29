@@ -74,6 +74,8 @@ namespace Bomber
             void updateBombMove( Common::GSCBombMove *bombMove );
             void updateBlockPush( Common::GSCBlockPush *blockPush );
             void updateDialogBubble( Common::GSCDialogBubble *GSChange );
+            void updateFogOn( Common::GSCFogOn *GSChange );
+            void updateFogOff( Common::GSCFogOff *GSChange );
             void finishUpdateBlockPush(ObstacleMove* move);
 
             void initLayers();
