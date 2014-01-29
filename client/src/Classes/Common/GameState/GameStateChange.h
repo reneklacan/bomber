@@ -45,6 +45,9 @@ namespace Bomber
 
             DIALOG_BUBBLE,
 
+            FOG_ON,
+            FOG_OFF,
+
             LEVEL_FINISH,
             LEVEL_RESET,
         };
@@ -304,6 +307,18 @@ namespace Bomber
                 SYNTHESIZE(const char *, _title, Title);
                 SYNTHESIZE(const char *, _description, Description);
                 SYNTHESIZE(const char *, _image, Image);
+        };
+
+        class GSCFogOn : public GameStateChange
+        {
+            public:
+                GSCFogOn() { _type = FOG_ON; };
+        };
+
+        class GSCFogOff : public GameStateChange
+        {
+            public:
+                GSCFogOff() { _type = FOG_OFF; };
         };
     }
 }

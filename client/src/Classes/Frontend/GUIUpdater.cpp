@@ -185,6 +185,17 @@ void GUIUpdater::update()
             {
                 this->updateDialogBubble( (GSCDialogBubble *)GSChange );
             }
+            break;
+            case FOG_ON:
+            {
+                this->updateFogOn( (GSCFogOn *)GSChange );
+            }
+            break;
+            case FOG_OFF:
+            {
+                this->updateFogOff( (GSCFogOff *)GSChange );
+            }
+            break;
             // Nothing    
             default: {}
         }
@@ -411,43 +422,12 @@ void GUIUpdater::updateSpriteDestroy( GSCSpriteDestroy *spriteDestroy )
 //
 void GUIUpdater::updateLeverSwitchOn( GSCLeverSwitchOn *leverSwitchOn )
 {
-    int width = Director::sharedDirector()->getVisibleSize().width;
-    int height = Director::sharedDirector()->getVisibleSize().height;
-
-    DrawNode *stencil = DrawNode::create();
-    stencil->drawDot(ccp(width/2, height/2+190), 145, ccc4f(0, 0, 0, 255));
-
-    ClippingNode *cn = ClippingNode::create(stencil);
-    cn->setInverted(true);
-
-    LayerColor* lc = new LayerColor();
-    lc->initWithColor( ccc4(0, 0, 0, 255), width+10, height+10);
-    lc->setPosition(ccp(0, 145));
-
-    Sprite *rg = new Sprite();
-    rg->initWithFile("other/torch3.png");
-    rg->setScale(0.6f);
-    rg->setAnchorPoint(ccp(0, 0));
-    Rect bBox = rg->boundingBox();
-    int side = bBox.getMaxX() - bBox.getMinX();
-    rg->setPosition(ccp(width/2-side/2, height/2+190-side/2));
-
-    cn->addChild(lc);
-    rg->setTag(RADIAL_GRADIENT_TAG);
-    cn->setTag(DARKNESS_TAG);
-
-    _layer->addChild(rg);
-    _layer->addChild(cn, 50);
-
     return; // TODO
 }
 
 //
 void GUIUpdater::updateLeverSwitchOff( GSCLeverSwitchOff *leverSwitchOff )
 {
-    _layer->removeChildByTag(RADIAL_GRADIENT_TAG);
-    _layer->removeChildByTag(DARKNESS_TAG);
-
     return; // TODO
 }
 
@@ -696,6 +676,45 @@ void GUIUpdater::updateDialogBubble( GSCDialogBubble *dialog )
         dialog->getImage()
     );
     ButtonLayer::getInstance()->addToBubbles(bb);
+}
+
+//
+void GUIUpdater::updateFogOn( GSCFogOn *fogOn )
+{
+    int width = Director::sharedDirector()->getVisibleSize().width;
+    int height = Director::sharedDirector()->getVisibleSize().height;
+
+    DrawNode *stencil = DrawNode::create();
+    stencil->drawDot(ccp(width/2, height/2+190), 145, ccc4f(0, 0, 0, 255));
+
+    ClippingNode *cn = ClippingNode::create(stencil);
+    cn->setInverted(true);
+
+    LayerColor* lc = new LayerColor();
+    lc->initWithColor( ccc4(0, 0, 0, 255), width+10, height+10);
+    lc->setPosition(ccp(0, 145));
+
+    Sprite *rg = new Sprite();
+    rg->initWithFile("other/torch3.png");
+    rg->setScale(0.6f);
+    rg->setAnchorPoint(ccp(0, 0));
+    Rect bBox = rg->boundingBox();
+    int side = bBox.getMaxX() - bBox.getMinX();
+    rg->setPosition(ccp(width/2-side/2, height/2+190-side/2));
+
+    cn->addChild(lc);
+    rg->setTag(RADIAL_GRADIENT_TAG);
+    cn->setTag(DARKNESS_TAG);
+
+    _layer->addChild(rg);
+    _layer->addChild(cn, 50);
+}
+
+//
+void GUIUpdater::updateFogOff( GSCFogOff *fogOff )
+{
+    _layer->removeChildByTag(RADIAL_GRADIENT_TAG);
+    _layer->removeChildByTag(DARKNESS_TAG);
 }
 
 /*
