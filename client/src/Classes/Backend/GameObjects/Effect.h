@@ -27,6 +27,7 @@ namespace Bomber
             EFFECT_CLEAR_IMMUNITIES,
             EFFECT_FIRE_TRAP,
             EFFECT_WATER_TRAP,
+            EFFECT_SHIFT_UP,
         };
 
         class Effect : public GameObject
@@ -350,6 +351,20 @@ namespace Bomber
 
                     return false;
                 }
+        };
+
+        class EffectShiftUp : public Effect
+        {
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_SHIFT_UP; };
+
+                EffectShiftUp() : Effect()
+                {
+                    _name = "water trap";
+                    _type = EFFECT_SHIFT_UP;
+                    _charges = 999;
+                };
+                virtual bool applyToSprite(Sprite *sprite);
         };
     }
 }

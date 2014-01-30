@@ -1,6 +1,8 @@
 #ifndef __BOMBER_BACKEND_ACTION
 #define __BOMBER_BACKEND_ACTION
 
+#include <deque>
+
 #include "../../Common/Primitives/Coordinates.h"
 #include "ScriptedSprite.h"
 
@@ -120,10 +122,10 @@ namespace Bomber
         {
             public:
                 Actions(Action *action, ...);
-                std::vector<Action *> all() { return _actions; };
+                std::deque<Action *> all() { return _actions; };
 
             private:
-                std::vector<Action *> _actions;
+                std::deque<Action *> _actions;
         };
     }
 }

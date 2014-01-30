@@ -17,24 +17,25 @@ AdvancedAI::AdvancedAI()
 
 void AdvancedAI::init()
 {
-    _currentActionIndex = 0;
     _moving = false;
+    _actions.clear();
+    for (auto action : _defaultActions)
+        _actions.push_back(action);
 }
 
 AdvancedAI::AdvancedAI(Actions *actions)
-:_currentActionIndex(0)
 {
     this->setActions(actions);
 }
 
 void AdvancedAI::update(float dt)
 {
-    _step = _attributes->getSpeed() * dt;
-
     if (_actions.size() == 0)
         return;
 
-    Action *action = _actions[_currentActionIndex];
+    _step = _attributes->getSpeed() * dt;
+
+    Action *action = _actions.front();
     action->update(dt);
     if (action->isComplete())
         this->nextAction();
@@ -42,12 +43,27 @@ void AdvancedAI::update(float dt)
 
 void AdvancedAI::nextAction()
 {
-    _currentActionIndex++;
+    _inControl = false;
+    _actions.pop_front();
+}
+
+void AdvancedAI::runAction(Action *action)
+{
+    action->setSprite(this);
+    _actions.push_front(action);
+    _inControl = true;
 }
 
 void AdvancedAI::setActions(Actions *actions)
 {
-    _actions = actions->all();
+    _actions.clear();
+    _defaultActions.clear();
+
+    for (auto action : actions->all())
+    {
+        _actions.push_back(action);
+        _defaultActions.push_back(action);
+    }
 
     for (auto action : _actions)
         action->setSprite(this);

@@ -41,6 +41,10 @@ namespace Bomber
             COT_CLEAR_IMMUNITIES,
             COT_FIRE_TRAP,
             COT_WATER_TRAP,
+            COT_SHIFT_UP,
+            COT_SHIFT_DOWN,
+            COT_SHIFT_LEFT,
+            COT_SHIFT_RIGHT,
         };
 
         class CachableObject

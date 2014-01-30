@@ -1,5 +1,6 @@
 
 #include "Effect.h"
+#include "Sprites/AdvancedSprite.h"
 
 #include "../../Common/Cache/ObjectCache.h"
 
@@ -39,6 +40,9 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
         case 603:
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_CLEAR_IMMUNITIES);
             break;
+        case 434:
+            effect = (Effect *) ObjectCache::getInstance()->getObject(COT_SHIFT_UP);
+            break;
 
         default:
             printf("Effect::getInstanceByGid - unknown effect gid %u\n", gid);
@@ -48,4 +52,19 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
     effect->setGid(gid);
 
     return effect;
+}
+
+bool EffectShiftUp::applyToSprite(Sprite *sprite)
+{
+    if (!sprite->isAdvanced())
+        return false;
+
+    auto advancedSprite = (AdvancedSprite *) sprite;
+
+    if (advancedSprite->isInControl())
+        return false;
+
+    advancedSprite->runAction(new GoUp(1));
+
+    return false;
 }

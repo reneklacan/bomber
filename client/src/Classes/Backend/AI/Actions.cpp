@@ -1,5 +1,6 @@
 
 #include <stdarg.h>
+#include <stdio.h>
 
 #include "Actions.h"
 
@@ -26,6 +27,7 @@ void GoToDirection::update(float dt)
         while (_steps > 0)
         {
             _steps--;
+            printf("step\n");
             _destination = _destination.getNext(_direction);
         }
     }
