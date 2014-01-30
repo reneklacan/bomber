@@ -48,6 +48,7 @@ SOURCES = Main.cpp \
         ../Classes/Frontend/Buttons/ControlButton.cpp \
         ../Classes/Frontend/Buttons/AchievementButton.cpp \
         ../Classes/Frontend/Buttons/EffectButton.cpp \
+        ../Classes/Frontend/Buttons/Bubble.cpp \
         ../Classes/Frontend/GUIUpdater.cpp \
         ../Classes/Frontend/Map/Map.cpp \
         ../Classes/Frontend/Map/Explosion.cpp \

@@ -43,6 +43,24 @@ namespace Bomber
                 );
             }
 
+            static Point* getBubbleBox(unsigned int winWidth, unsigned int winHeight, int padding)
+            {
+                int height = winHeight/5;
+                int bottomPadding = winHeight/4.3;  // TODO
+                int sidePadding = 10;               // TODO
+                int width = winWidth - sidePadding;
+                Point *ccPoints = new Point[4];
+                ccPoints[0] = ccp(10,
+                                  bottomPadding );
+                ccPoints[1] = ccp(width,
+                                  bottomPadding );
+                ccPoints[2] = ccp(width,
+                                  bottomPadding + height );
+                ccPoints[3] = ccp(10,
+                                  bottomPadding + height );
+                return ccPoints;
+            }
+
         };
     }
 }

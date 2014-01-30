@@ -22,6 +22,7 @@
 
 #include "Buttons/AchievementButton.h"
 #include "Buttons/EffectButton.h"
+#include "Buttons/Bubble.h"
 #include "Layers/ButtonLayer.h"
 
 #include "Cache/GUICache.h"
@@ -72,6 +73,9 @@ namespace Bomber
             void updateLevelFinish( Common::GSCLevelFinish *levelFinish );
             void updateBombMove( Common::GSCBombMove *bombMove );
             void updateBlockPush( Common::GSCBlockPush *blockPush );
+            void updateDialogBubble( Common::GSCDialogBubble *GSChange );
+            void updateFogOn( Common::GSCFogOn *GSChange );
+            void updateFogOff( Common::GSCFogOff *GSChange );
             void finishUpdateBlockPush(ObstacleMove* move);
 
             void initLayers();

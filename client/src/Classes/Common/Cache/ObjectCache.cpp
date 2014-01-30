@@ -9,6 +9,8 @@
 #include "../../Backend/GameObjects/PortalExit.h"
 #include "../../Backend/GameObjects/Obstacle.h"
 #include "../../Backend/GameObjects/Switch.h"
+#include "../../Backend/GameObjects/Sprites/AdvancedSprite.h"
+#include "../../Backend/GameObjects/Sprites/Bomber.h"
 #include "../../Backend/GameObjects/Sprites/Mobs/SmartMob.h"
 #include "../../Backend/GameObjects/Sprites/Mobs/ScriptedMob.h"
 
@@ -66,6 +68,12 @@ CachableObject* ObjectCache::getObject(TCachableObjectType type)
 
         // sprites
 
+        case COT_ADVANCED_SPRITE:
+            object = new AdvancedSprite();
+            break;
+        case COT_BOMBER_SPRITE:
+            object = new BomberSprite();
+            break;
         case COT_SMART_MOB:
             object = new SmartMob();
             break;
