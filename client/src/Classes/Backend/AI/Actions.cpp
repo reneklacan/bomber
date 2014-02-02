@@ -1,10 +1,39 @@
 
 #include <stdarg.h>
+#include <stdio.h>
 
 #include "Actions.h"
 
 using namespace Bomber::Backend;
 using namespace Bomber::Common;
+
+void GoToDirection::update(float dt)
+{
+    if (_sprite->isMoving())
+    {
+        _sprite->continueMove();
+        return;
+    }
+
+    if (_sprite->getCoords() == _destination)
+    {
+        _complete = true;
+        return;
+    }
+
+    if (_steps != 0)
+    {
+        _destination = _sprite->getCoords();
+        while (_steps > 0)
+        {
+            _steps--;
+            printf("step\n");
+            _destination = _destination.getNext(_direction);
+        }
+    }
+
+    _sprite->continueMoveTo(_destination);
+}
 
 Wait::Wait()
 :_period(-1.0f)
@@ -35,16 +64,21 @@ Actions::Actions(Action *firstAction, ...)
     va_list list;
     va_start(list, firstAction);
 
+    _actions.push_back(firstAction);
+
     while (true)
     {
         Action *action = va_arg(list, Action *);
+
+        if (action == nullptr)
+            break;
 
         _actions.push_back(action);
 
         if (action->isLast())
             break;
     }
-    
+
     va_end(list);
 }
 

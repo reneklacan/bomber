@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "GameButton.h"
+#include "../GUIConstants.h"
 
 #include <string>
 

@@ -15,7 +15,10 @@ namespace Bomber
             COT_SWITCH,
 
             // sprites
-            COT_AI_SPRITE,
+            COT_ADVANCED_SPRITE,
+            COT_BOMBER_SPRITE,
+            COT_SMART_MOB,
+            COT_SCRIPTED_MOB,
 
             // obstacles
             COT_MAZE_BLOCK,
@@ -24,6 +27,7 @@ namespace Bomber
             COT_PUSHABLE_BLOCK,
 
             // effects
+            COT_NO_EFFECT,
             COT_BOMB_POWER_INC,
             COT_BOMB_CAPACITY_INC,
             COT_PORTABILITY_ON,
@@ -33,6 +37,18 @@ namespace Bomber
             COT_SPEED_INC,
             COT_SPEED_DEC,
             COT_LEVEL_KEY,
+            COT_FIRE_IMMUNITY,
+            COT_WATER_IMMUNITY,
+            COT_CLEAR_IMMUNITIES,
+            COT_FIRE_TRAP,
+            COT_WATER_TRAP,
+            COT_SHIFT_UP,
+            COT_SHIFT_DOWN,
+            COT_SHIFT_LEFT,
+            COT_SHIFT_RIGHT,
+            COT_DEATH,
+            COT_FOG_ON,
+            COT_FOG_OFF,
         };
 
         class CachableObject

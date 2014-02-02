@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 
 #include "../../Input/ControlLayer.h"
+#include "ActionSprite.h"
 
 namespace Bomber
 {
@@ -15,7 +16,7 @@ namespace Bomber
             static SpriteCreator *getInstance();
 
             Sprite* createObstacle(Texture2D *texture, Rect rect);
-            Sprite* createSprite(Texture2D *texture, Rect rect);
+            ActionSprite* createSprite(Texture2D *texture, Rect rect);
             Sprite* createEffect(Texture2D *texture, Rect rect);
             Sprite* createBomb(Texture2D *texture, Rect rect);
 

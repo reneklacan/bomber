@@ -22,9 +22,9 @@ Sprite* SpriteCreator::createObstacle(Texture2D *texture, Rect rect)
 }
 
 //
-Sprite* SpriteCreator::createSprite(Texture2D *texture, Rect rect)
+ActionSprite* SpriteCreator::createSprite(Texture2D *texture, Rect rect)
 {
-	Sprite *effect = Sprite::createWithTexture(
+	ActionSprite *effect = new ActionSprite(
         texture,
         rect 
     );

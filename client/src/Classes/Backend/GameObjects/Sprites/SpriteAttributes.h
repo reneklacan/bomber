@@ -29,6 +29,8 @@ namespace Bomber
                     _bombKicking = true;
                     _blockPushing = true;
                     _levelKeys = 0;
+                    _fireImmunity = false;
+                    _waterImmunity = false;
                 }
                 void increaseBombPower() { _bombPower += 1; };
                 void decreaseBombPower() { _bombPower -= 1; };
@@ -58,6 +60,8 @@ namespace Bomber
                 SYNTHESIZE(bool, _bombKicking, BombKicking);
                 SYNTHESIZE(bool, _blockPushing, BlockPushing);
                 SYNTHESIZE(int, _levelKeys, LevelKeys);
+                SYNTHESIZE(bool, _fireImmunity, FireImmunity);
+                SYNTHESIZE(bool, _waterImmunity, WaterImmunity);
         };
     }
 }
