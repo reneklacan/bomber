@@ -487,6 +487,8 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
         // TODO: find out fix to this ugly workaround
         ButtonLayer::getInstance()->removeBuff(638);
         ButtonLayer::getInstance()->removeBuff(639);
+        ButtonLayer::getInstance()->removeBuff(1809);
+        ButtonLayer::getInstance()->removeBuff(1810);
     }
     else if (ButtonLayer::getInstance()->isInBuffs(imageID))
     {
