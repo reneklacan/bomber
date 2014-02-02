@@ -23,12 +23,15 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_BOMB_POWER_INC);
             break;
         case 623:
+        case 264: // cage
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_LEVEL_KEY);
             break;
         case 639:
+        case 1809: // red boots
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_FIRE_IMMUNITY);
             break;
         case 638:
+        case 1810: // red boots
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_WATER_IMMUNITY);
             break;
         case 387:
@@ -38,10 +41,19 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_WATER_TRAP);
             break;
         case 603:
+        case 736: // portal icon :-/
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_CLEAR_IMMUNITIES);
             break;
-        case 434:
+        case 369: // hole in the floor
+            effect = (Effect *) ObjectCache::getInstance()->getObject(COT_DEATH);
+            break;
+        case 434: // shift up
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_SHIFT_UP);
+            break;
+        case 433: // shift down
+        case 435: // shift left
+        case 436: // shift right
+            effect = (Effect *) ObjectCache::getInstance()->getObject(COT_NO_EFFECT); // tmp
             break;
 
         default:
@@ -66,5 +78,11 @@ bool EffectShiftUp::applyToSprite(Sprite *sprite)
 
     advancedSprite->runAction(new GoUp(1));
 
+    return false;
+}
+
+bool EffectDeath::applyToSprite(Sprite *sprite)
+{
+    sprite->getAttributes()->decreaseHealth(9999);
     return false;
 }
