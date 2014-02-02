@@ -27,6 +27,8 @@ namespace Bomber
             EFFECT_CLEAR_IMMUNITIES,
             EFFECT_FIRE_TRAP,
             EFFECT_WATER_TRAP,
+            EFFECT_SHIFT_UP,
+            EFFECT_DEATH,
         };
 
         class Effect : public GameObject
@@ -53,6 +55,22 @@ namespace Bomber
             private:
                 SYNTHESIZE(TEffectType, _type, Type);
                 SYNTHESIZE(int, _charges, Charges);
+        };
+
+        class NoEffect : public Effect
+        {
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_NO_EFFECT; };
+
+                NoEffect() : Effect()
+                {
+                    _name = "no effect";
+                    _type = EFFECT_NONE;
+                }
+                virtual bool applyToSprite(Sprite *sprite)
+                {
+                    return false;
+                }
         };
 
         class EffectBombPowerInc : public Effect
@@ -350,6 +368,34 @@ namespace Bomber
 
                     return false;
                 }
+        };
+
+        class EffectShiftUp : public Effect
+        {
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_SHIFT_UP; };
+
+                EffectShiftUp() : Effect()
+                {
+                    _name = "water trap";
+                    _type = EFFECT_SHIFT_UP;
+                    _charges = 999;
+                };
+                virtual bool applyToSprite(Sprite *sprite);
+        };
+
+        class EffectDeath : public Effect
+        {
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_SHIFT_UP; };
+
+                EffectDeath() : Effect()
+                {
+                    _name = "instant death";
+                    _type = EFFECT_DEATH;
+                    _charges = 999;
+                };
+                virtual bool applyToSprite(Sprite *sprite);
         };
     }
 }

@@ -33,8 +33,8 @@ Obstacle *Obstacle::getInstanceByGid(unsigned int gid)
             obstacle = (Obstacle *) ObjectCache::getInstance()->getObject(COT_PUSHABLE_BLOCK);
             break;
         default:
+            obstacle = (Obstacle *) ObjectCache::getInstance()->getObject(COT_MAZE_BLOCK);
             printf("Obstacle::getInstanceByGid - unknown obstacle gid %u\n", gid);
-            printf("Segfault comiiiiiing...\n");
     }
 
     obstacle->setGid(gid);

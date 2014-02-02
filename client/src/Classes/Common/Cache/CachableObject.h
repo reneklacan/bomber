@@ -27,6 +27,7 @@ namespace Bomber
             COT_PUSHABLE_BLOCK,
 
             // effects
+            COT_NO_EFFECT,
             COT_BOMB_POWER_INC,
             COT_BOMB_CAPACITY_INC,
             COT_PORTABILITY_ON,
@@ -41,6 +42,11 @@ namespace Bomber
             COT_CLEAR_IMMUNITIES,
             COT_FIRE_TRAP,
             COT_WATER_TRAP,
+            COT_SHIFT_UP,
+            COT_SHIFT_DOWN,
+            COT_SHIFT_LEFT,
+            COT_SHIFT_RIGHT,
+            COT_DEATH,
         };
 
         class CachableObject

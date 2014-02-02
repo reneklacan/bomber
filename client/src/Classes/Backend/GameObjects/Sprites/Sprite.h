@@ -19,6 +19,7 @@ namespace Bomber
                 virtual void init();
 
                 inline virtual bool isAI() { return false; };
+                inline virtual bool isAdvanced() { return false; };
 
             private:
                 SYNTHESIZE(SpriteAttributes *, _attributes, Attributes);

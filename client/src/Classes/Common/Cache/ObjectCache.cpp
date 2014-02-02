@@ -140,6 +140,15 @@ CachableObject* ObjectCache::getObject(TCachableObjectType type)
         case COT_WATER_TRAP:
             object = new EffectWaterTrap();
             break;
+        case COT_SHIFT_UP:
+            object = new EffectShiftUp();
+            break;
+        case COT_NO_EFFECT:
+            object = new NoEffect();
+            break;
+        case COT_DEATH:
+            object = new EffectDeath();
+            break;
     }
 
     if (object == nullptr)
