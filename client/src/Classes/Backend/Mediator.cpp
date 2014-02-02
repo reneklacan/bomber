@@ -50,16 +50,18 @@ void Mediator::setControlledSprite(unsigned int id)
 Sprite *Mediator::getPlayer1Sprite()
 {
     // TODO:
-    // - set spawn position by position in tilemap
     // - dont create new sprite each call of this method
     // - this method should be maybe called with id as argument?
 
+    unsigned int id = 19991;
+    unsigned int playerNumber = 1;
+
     Sprite *controlledSprite = new BomberSprite(); 
-    controlledSprite->setId(19991);
+    controlledSprite->setId(id);
     controlledSprite->setSize(10, 10);
-    controlledSprite->setPosition(70, 70);
     
     Logic::getInstance()->getState()->getSpriteLayer()->addObject(controlledSprite);
+    Logic::getInstance()->getState()->setSpawnPoint(playerNumber, id);
     StatisticsUpdater::getInstance()->setRelevantSpriteId(controlledSprite->getId());
 
     return controlledSprite;
@@ -68,16 +70,18 @@ Sprite *Mediator::getPlayer1Sprite()
 Sprite *Mediator::getPlayer2Sprite()
 {
     // TODO:
-    // - set spawn position by position in tilemap
     // - dont create new sprite each call of this method
     // - this method should be maybe called with id as argument?
 
+    unsigned int id = 19992;
+    unsigned int playerNumber = 2;
+
     Sprite *controlledSprite = new BomberSprite(); 
-    controlledSprite->setId(19992);
+    controlledSprite->setId(id);
     controlledSprite->setSize(10, 10);
-    controlledSprite->setPosition(300, 200);
     
     Logic::getInstance()->getState()->getSpriteLayer()->addObject(controlledSprite);
+    Logic::getInstance()->getState()->setSpawnPoint(playerNumber, id);
 
     return controlledSprite;
 }

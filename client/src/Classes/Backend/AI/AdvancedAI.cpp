@@ -11,22 +11,31 @@ using namespace Bomber::Backend;
 using namespace Bomber::Common;
 
 AdvancedAI::AdvancedAI()
-:_currentActionIndex(0)
 {
+    this->init();
+}
 
+void AdvancedAI::init()
+{
+    _moving = false;
+    _actions.clear();
+    for (auto action : _defaultActions)
+        _actions.push_back(action);
 }
 
 AdvancedAI::AdvancedAI(Actions *actions)
-:_currentActionIndex(0)
 {
     this->setActions(actions);
 }
 
 void AdvancedAI::update(float dt)
 {
+    if (_actions.size() == 0)
+        return;
+
     _step = _attributes->getSpeed() * dt;
 
-    Action *action = _actions[_currentActionIndex];
+    Action *action = _actions.front();
     action->update(dt);
     if (action->isComplete())
         this->nextAction();
@@ -34,12 +43,27 @@ void AdvancedAI::update(float dt)
 
 void AdvancedAI::nextAction()
 {
-    _currentActionIndex++;
+    _inControl = false;
+    _actions.pop_front();
+}
+
+void AdvancedAI::runAction(Action *action)
+{
+    action->setSprite(this);
+    _actions.push_front(action);
+    _inControl = true;
 }
 
 void AdvancedAI::setActions(Actions *actions)
 {
-    _actions = actions->all();
+    _actions.clear();
+    _defaultActions.clear();
+
+    for (auto action : actions->all())
+    {
+        _actions.push_back(action);
+        _defaultActions.push_back(action);
+    }
 
     for (auto action : _actions)
         action->setSprite(this);
@@ -64,19 +88,14 @@ bool AdvancedAI::tryToChasePlayer()
         _smart,
         _attributes->getGhostMode()
     );
-    
+
     if (path.size() == 0)
         return false;
 
-    goalCoords = AI::getInstance()->getRandomCoordsAround(
-        this->getCoords(),
-        _attributes->getGhostMode()
-    );
-
-    if (this->getCoords() == goalCoords)
+    if (this->getCoords() == path[0])
         return false;
 
-    _goal = goalCoords.toPosition();
+    _goal = path[0].toPosition();
     this->continueMove();
     return true;
 }
@@ -104,11 +123,14 @@ bool AdvancedAI::continueMoveTo(Coordinates coords)
         return false;
 
     _goal = path[0].toPosition();
+    this->continueMove();
     return true;
 }
 
 bool AdvancedAI::continueMove()
 {
+    _moving = true;
+
     Position delta;
     Position nextPos = _position;
     std::deque<Coordinates> path;

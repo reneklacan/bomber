@@ -115,9 +115,14 @@ void GameStateUpdater::spawnEffect(unsigned int effectGid, Coordinates coords)
 
 void GameStateUpdater::updateSpriteAttributes(Sprite *sprite, Effect *effect)
 {
-    effect->applyToSprite(sprite);
-    StatisticsUpdater::getInstance()->effectTaken(sprite->getId(), effect);
-    this->logSpriteAttributesUpdate(sprite, effect);
+    bool result = effect->applyToSprite(sprite);
+    if (result)
+        StatisticsUpdater::getInstance()->effectTaken(sprite->getId(), effect);
+
+    if (sprite->getAttributes()->isDead())
+        this->destroySprite(sprite);
+    else if (result)
+        this->logSpriteAttributesUpdate(sprite, effect);
 }
 
 void GameStateUpdater::update()
@@ -252,6 +257,9 @@ void GameStateUpdater::destroySprite(Sprite *sprite)
     _state->getSpriteLayer()->removeObject(sprite);
 
     ObjectCache::getInstance()->returnObject(sprite);
+
+    //TEST
+    this->logDialogBubble();
 }
 
 void GameStateUpdater::destroyBomb(Bomb *bomb)
@@ -406,7 +414,8 @@ void GameStateUpdater::logSpriteAttributesUpdate(Sprite *sprite, Effect *effect)
     printf("logSpriteAttributesUpdate\n");
     GSCSpriteAttrUpdate *change = new GSCSpriteAttrUpdate();
     change->update(
-            effect->getType()
+        effect->getGid(),
+        effect->getType()
     );
     change->setGameObjectId(sprite->getId());
     _state->addChange(change);
@@ -459,10 +468,30 @@ void GameStateUpdater::logAchievementUnlocked(Achievement *achievement)
     _state->addChange(change);
 }
 
+void GameStateUpdater::logDialogBubble()
+{
+    printf("logDialogBubble\n");
+    GSCDialogBubble *change = new GSCDialogBubble();
+    //change->setGameObjectId(sprite->getId());
+    change->setTitle("Jesse Pinkman");
+    change->setDescription("Yeah Science, Bitch!");
+    change->setImage("test_50.png");
+    _state->addChange(change);
+}
+
 void GameStateUpdater::logLevelFinish()
 {   
     printf("logLevelFinish\n");
     GSCLevelFinish *change = new GSCLevelFinish();
+    StatisticsUpdater* su = StatisticsUpdater::getInstance();
+    change->update(
+        su->getLevelStatistics()->getBombSpawns(),
+        su->getLevelStatistics()->getTotalKills(),
+        su->getLevelStatistics()->getTotalEffects(),
+        su->getLevelStatistics()->getTotalObstacles(),
+        su->getLevelStatistics()->getTeleportUses(),
+        su->getLevelStatistics()->getLeverUses()
+    );
     _state->addChange(change);
 }
 

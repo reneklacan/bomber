@@ -3,19 +3,11 @@
 
 using namespace Bomber;
 
-Human::Human()
-{
+Human::Human(Texture2D *texture, Rect defaultImage) 
+: ActionSprite(texture, defaultImage)
+{}
 
-}
-
-/*
-Human::~Human()
-{
-
-}
-*/
-
-Human* Human::create(Map *map, int type)
+/*Human* Human::create(Map *map, int type)
 {
     Human* sprite = new Human();
 
@@ -27,7 +19,7 @@ Human* Human::create(Map *map, int type)
 
     CC_SAFE_DELETE(sprite);
     return NULL;
-}
+}*/
 
 void Human::actionOne()
 {

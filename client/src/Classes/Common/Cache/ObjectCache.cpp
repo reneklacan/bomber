@@ -9,7 +9,10 @@
 #include "../../Backend/GameObjects/PortalExit.h"
 #include "../../Backend/GameObjects/Obstacle.h"
 #include "../../Backend/GameObjects/Switch.h"
-#include "../../Backend/GameObjects/Sprites/AISprite.h"
+#include "../../Backend/GameObjects/Sprites/AdvancedSprite.h"
+#include "../../Backend/GameObjects/Sprites/Bomber.h"
+#include "../../Backend/GameObjects/Sprites/Mobs/SmartMob.h"
+#include "../../Backend/GameObjects/Sprites/Mobs/ScriptedMob.h"
 
 using namespace Bomber::Common;
 using namespace Bomber::Backend;
@@ -32,8 +35,6 @@ ObjectCache::ObjectCache()
 
 CachableObject* ObjectCache::getObject(TCachableObjectType type)
 {
-    //printf("BackendCache::getObject - type %d\n", type);
-
     CachableObject* object = nullptr;
 
     if (_enabled && _freeInstances[type].size() > 0)
@@ -43,13 +44,9 @@ CachableObject* ObjectCache::getObject(TCachableObjectType type)
 
         _freeInstances[type].pop_front();
         _occupiedInstances[type].insert(object);
-        
-        //printf("occupied cache size for type %d is %u\n", type, _occupiedInstances[type].size());
-        //printf("hit\n");
 
         return object;
     }
-    //printf("miss\n");
 
     switch (type)
     {
@@ -71,8 +68,17 @@ CachableObject* ObjectCache::getObject(TCachableObjectType type)
 
         // sprites
 
-        case COT_AI_SPRITE:
-            object = new AISprite();
+        case COT_ADVANCED_SPRITE:
+            object = new AdvancedSprite();
+            break;
+        case COT_BOMBER_SPRITE:
+            object = new BomberSprite();
+            break;
+        case COT_SMART_MOB:
+            object = new SmartMob();
+            break;
+        case COT_SCRIPTED_MOB:
+            object = new ScriptedMob();
             break;
 
         // blocks
@@ -118,6 +124,36 @@ CachableObject* ObjectCache::getObject(TCachableObjectType type)
             break;
         case COT_LEVEL_KEY:
             object = new EffectLevelKey();
+            break;
+        case COT_FIRE_IMMUNITY:
+            object = new EffectFireImmunity();
+            break;
+        case COT_WATER_IMMUNITY:
+            object = new EffectWaterImmunity();
+            break;
+        case COT_CLEAR_IMMUNITIES:
+            object = new EffectClearImmunities();
+            break;
+        case COT_FIRE_TRAP:
+            object = new EffectFireTrap();
+            break;
+        case COT_WATER_TRAP:
+            object = new EffectWaterTrap();
+            break;
+        case COT_SHIFT_UP:
+            object = new EffectShiftUp();
+            break;
+        case COT_NO_EFFECT:
+            object = new NoEffect();
+            break;
+        case COT_DEATH:
+            object = new EffectDeath();
+            break;
+        case COT_FOG_ON:
+            object = new EffectFogOn();
+            break;
+        case COT_FOG_OFF:
+            object = new EffectFogOff();
             break;
     }
 

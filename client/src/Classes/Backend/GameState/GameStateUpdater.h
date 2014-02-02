@@ -17,7 +17,7 @@ namespace Bomber
         {
             public:
                 GameStateUpdater();
-                
+
                 void resetState();
                 void resetLevel();
 
@@ -28,20 +28,20 @@ namespace Bomber
 
                 void moveSprite(Sprite *sprite, Common::Position position);
                 void teleportSprite(Sprite *sprite, Common::Position position);
-                
+
                 void spawnSprite(unsigned int spriteGid, Common::Coordinates coords);
                 void spawnBomb(Sprite* owner);
                 void spawnExplosion(Bomb *bomb, int topArmLength, int bottomArmLength, int leftArmLength, int rightArmLength);
                 void spawnObstacle(unsigned int obstacleGid, Common::Coordinates coords, unsigned int spawnerId);
                 void spawnEffect(unsigned int effectGid, Common::Coordinates coords);
-                
+
                 void update();
                 void updateSpriteAttributes(Sprite *sprite, Effect *effect);
-                
+
                 void pushBlock(Common::Coordinates from, Common::Coordinates to);
                 void switchLeverOn(GameObject *lever, unsigned int causerId);
                 void switchLeverOff(GameObject *lever, unsigned int causerId);
-                
+
                 void damageSprite(Sprite *sprite, unsigned int causerId, int damage);
                 void damageObstacle(Obstacle *obstacle, unsigned int causerId);
 
@@ -68,6 +68,7 @@ namespace Bomber
                 void logLeverSwitchOff(GameObject *lever);
                 void logEffectDestroy(Effect *effect);
                 void logAchievementUnlocked(Achievement *achievement);
+                void logDialogBubble();
                 void logLevelFinish();
                 void logLevelReset();
 
