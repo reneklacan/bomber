@@ -47,6 +47,8 @@ namespace Bomber
             COT_SHIFT_LEFT,
             COT_SHIFT_RIGHT,
             COT_DEATH,
+            COT_FOG_ON,
+            COT_FOG_OFF,
         };
 
         class CachableObject

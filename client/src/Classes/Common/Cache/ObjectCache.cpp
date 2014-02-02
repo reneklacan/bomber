@@ -149,6 +149,12 @@ CachableObject* ObjectCache::getObject(TCachableObjectType type)
         case COT_DEATH:
             object = new EffectDeath();
             break;
+        case COT_FOG_ON:
+            object = new EffectFogOn();
+            break;
+        case COT_FOG_OFF:
+            object = new EffectFogOff();
+            break;
     }
 
     if (object == nullptr)

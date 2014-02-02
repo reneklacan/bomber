@@ -461,6 +461,12 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
     unsigned int imageID = spriteAttrUpdate->getGid();
     switch(spriteAttrUpdate->getEffectType())
     {
+        case Backend::EFFECT_FOG_ON:
+            this->updateFogOn(nullptr);
+            return;
+        case Backend::EFFECT_FOG_OFF:
+            this->updateFogOff(nullptr);
+            return;
         case Backend::EFFECT_FIRE_IMMUNITY:
             printf("fire immunity\n");
             break;

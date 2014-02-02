@@ -29,6 +29,8 @@ namespace Bomber
             EFFECT_WATER_TRAP,
             EFFECT_SHIFT_UP,
             EFFECT_DEATH,
+            EFFECT_FOG_ON,
+            EFFECT_FOG_OFF,
         };
 
         class Effect : public GameObject
@@ -396,6 +398,40 @@ namespace Bomber
                     _charges = 999;
                 };
                 virtual bool applyToSprite(Sprite *sprite);
+        };
+
+        class EffectFogOn : public Effect
+        {
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_FOG_ON; };
+
+                EffectFogOn() : Effect()
+                {
+                    _name = "instant death";
+                    _type = EFFECT_FOG_ON;
+                };
+                virtual bool applyToSprite(Sprite *sprite)
+                {
+                    _charges -= 1;
+                    return false;
+                }
+        };
+
+        class EffectFogOff : public Effect
+        {
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_FOG_OFF; };
+
+                EffectFogOff() : Effect()
+                {
+                    _name = "instant death";
+                    _type = EFFECT_FOG_OFF;
+                };
+                virtual bool applyToSprite(Sprite *sprite)
+                {
+                    _charges -= 1;
+                    return false;
+                }
         };
     }
 }
