@@ -47,6 +47,9 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
         case 369: // hole in the floor
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_DEATH);
             break;
+        case 1729: // gray shield
+            effect = (Effect *) ObjectCache::getInstance()->getObject(COT_FOG_ON);
+            break;
         case 434: // shift up
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_SHIFT_UP);
             break;

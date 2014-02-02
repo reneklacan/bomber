@@ -413,7 +413,7 @@ namespace Bomber
                 virtual bool applyToSprite(Sprite *sprite)
                 {
                     _charges -= 1;
-                    return false;
+                    return true;
                 }
         };
 
@@ -430,7 +430,7 @@ namespace Bomber
                 virtual bool applyToSprite(Sprite *sprite)
                 {
                     _charges -= 1;
-                    return false;
+                    return true;
                 }
         };
     }

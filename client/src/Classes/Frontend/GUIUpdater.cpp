@@ -468,7 +468,6 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
             this->updateFogOff(nullptr);
             return;
         case Backend::EFFECT_FIRE_IMMUNITY:
-            printf("fire immunity\n");
             break;
         case Backend::EFFECT_BOMB_CAPACITY_INC:
         case Backend::EFFECT_BOMB_POWER_INC:
