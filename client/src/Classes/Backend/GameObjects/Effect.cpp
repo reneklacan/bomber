@@ -3,6 +3,7 @@
 #include "Sprites/AdvancedSprite.h"
 
 #include "../../Common/Cache/ObjectCache.h"
+#include "../../Common/Utils.h"
 
 using namespace Bomber::Backend;
 using namespace Bomber::Common;
@@ -10,6 +11,8 @@ using namespace Bomber::Common;
 Effect *Effect::getInstanceByGid(unsigned int gid)
 {
     Effect *effect = nullptr;
+
+    gid = convertGidToOld(gid);
 
     switch(gid)
     {

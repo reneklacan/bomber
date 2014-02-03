@@ -16,6 +16,7 @@ SOURCES = Main.cpp \
         ../Classes/Input/Keyboard/Keyboard.cpp \
         ../Classes/Input/ControlLayer.cpp \
         ../Classes/Configuration.cpp \
+        ../Classes/Common/Utils.cpp \
         ../Classes/Common/Primitives/Coordinates.cpp \
         ../Classes/Common/Primitives/Rectangle.cpp \
         ../Classes/Common/GameState/GameState.cpp \
