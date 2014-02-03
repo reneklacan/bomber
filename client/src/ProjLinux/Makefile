@@ -41,6 +41,8 @@ SOURCES = Main.cpp \
         ../Classes/Backend/AI/FollowAI.cpp \
         ../Classes/Backend/AI/AdvancedAI.cpp \
         ../Classes/Backend/AI/Actions.cpp \
+        ../Classes/Backend/Events/EventManager.cpp \
+        ../Classes/Backend/Events/Event.cpp \
         ../Classes/Frontend/LevelLayer.cpp \
         ../Classes/Frontend/Layers/ButtonLayer.cpp \
         ../Classes/Frontend/Collisions.cpp \
