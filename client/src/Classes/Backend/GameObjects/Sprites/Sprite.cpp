@@ -5,6 +5,7 @@
 #include "Mobs/SmartMob.h"
 #include "Mobs/ScriptedMob.h"
 #include "../../../Common/Cache/ObjectCache.h"
+#include "../../../Common/Utils.h"
 
 using namespace Bomber::Backend;
 using namespace Bomber::Common;
@@ -12,6 +13,7 @@ using namespace Bomber::Common;
 Sprite *Sprite::getInstanceByGid(unsigned int gid)
 {
     AdvancedSprite *sprite = (AdvancedSprite *) ObjectCache::getInstance()->getObject(COT_SMART_MOB);
+    gid = convertGidToOld(gid);
     sprite->setGid(gid);
 
     switch(gid)
