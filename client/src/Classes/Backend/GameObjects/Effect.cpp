@@ -12,9 +12,9 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
 {
     Effect *effect = nullptr;
 
-    gid = convertGidToOld(gid);
+    //gid = convertGidToOld(gid);
 
-    switch(gid)
+    switch(convertGidToOld(gid))
     {
         case 13:
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_BOMB_CAPACITY_INC);

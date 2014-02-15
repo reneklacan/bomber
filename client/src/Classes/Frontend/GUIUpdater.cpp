@@ -1,4 +1,5 @@
 #include "GUIUpdater.h"
+#include "../Common/Utils.h"
 
 using namespace Bomber;
 using namespace Bomber::Frontend;
@@ -459,6 +460,7 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
 
     // Get buff image
     unsigned int imageID = spriteAttrUpdate->getGid();
+    printf("image id = %u\n", imageID);
     switch(spriteAttrUpdate->getEffectType())
     {
         case Backend::EFFECT_FOG_ON:
@@ -490,10 +492,10 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
     if (spriteAttrUpdate->getEffectType() == Backend::EFFECT_CLEAR_IMMUNITIES)
     {
         // TODO: find out fix to this ugly workaround
-        ButtonLayer::getInstance()->removeBuff(638);
-        ButtonLayer::getInstance()->removeBuff(639);
-        ButtonLayer::getInstance()->removeBuff(1809);
-        ButtonLayer::getInstance()->removeBuff(1810);
+        ButtonLayer::getInstance()->removeBuff(Common::convertGidToNew(638));
+        ButtonLayer::getInstance()->removeBuff(Common::convertGidToNew(639));
+        ButtonLayer::getInstance()->removeBuff(Common::convertGidToNew(1809));
+        ButtonLayer::getInstance()->removeBuff(Common::convertGidToNew(1810));
     }
     else if (ButtonLayer::getInstance()->isInBuffs(imageID))
     {
@@ -692,7 +694,7 @@ void GUIUpdater::updateFogOn( GSCFogOn *fogOn )
     int height = Director::sharedDirector()->getVisibleSize().height;
 
     DrawNode *stencil = DrawNode::create();
-    stencil->drawDot(ccp(width/2, height/2+190), 145, ccc4f(0, 0, 0, 255));
+    stencil->drawDot(ccp(width/2, height/2+190), 215, ccc4f(0, 0, 0, 255));
 
     ClippingNode *cn = ClippingNode::create(stencil);
     cn->setInverted(true);
@@ -703,7 +705,7 @@ void GUIUpdater::updateFogOn( GSCFogOn *fogOn )
 
     Sprite *rg = new Sprite();
     rg->initWithFile("other/torch3.png");
-    rg->setScale(0.6f);
+    rg->setScale(0.9f);
     rg->setAnchorPoint(ccp(0, 0));
     Rect bBox = rg->boundingBox();
     int side = bBox.getMaxX() - bBox.getMinX();
@@ -714,7 +716,7 @@ void GUIUpdater::updateFogOn( GSCFogOn *fogOn )
     cn->setTag(DARKNESS_TAG);
 
     _layer->addChild(rg);
-    _layer->addChild(cn, 50);
+    _layer->addChild(cn, 1);
 }
 
 //
