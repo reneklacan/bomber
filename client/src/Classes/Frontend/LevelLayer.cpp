@@ -309,7 +309,8 @@ void LevelLayer::initControlledSprite()
             //visibleSize.width/2 - _players[19991]->getPosition().x,
             //visibleSize.height/2 - _players[19991]->getPosition().y
             visibleSize.width/2 - _players[19991]->getPosition().x,
-            visibleSize.height/2 + 100 // why 100 and why +?
+            //visibleSize.height/2 + 100 // why 100 and why +?
+            visibleSize.height*(5.5/7.0) - _players[19991]->getPosition().y // dont know why :(
         )
     );
 

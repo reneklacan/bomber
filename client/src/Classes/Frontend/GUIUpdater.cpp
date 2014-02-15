@@ -460,7 +460,6 @@ void GUIUpdater::updateSpriteAttrUpdate( GSCSpriteAttrUpdate *spriteAttrUpdate )
 
     // Get buff image
     unsigned int imageID = spriteAttrUpdate->getGid();
-    printf("image id = %u\n", imageID);
     switch(spriteAttrUpdate->getEffectType())
     {
         case Backend::EFFECT_FOG_ON:
