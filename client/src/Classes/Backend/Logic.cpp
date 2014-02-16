@@ -261,6 +261,7 @@ void Logic::updateSprites(float dt)
 
             for (Portal *portal : portals)
             {
+                printf("portal target = %d\n", portal->getPortalTarget(sprite->getPreviousCoords()));
                 auto portalExit = portalExitLayer->getObject(portal->getPortalTarget(sprite->getPreviousCoords()));
                 _gameStateUpdater->teleportSprite(sprite, portalExit->getPosition());
                 break;
