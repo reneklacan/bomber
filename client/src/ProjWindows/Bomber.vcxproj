@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,18 +19,20 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '10.0'">v100</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0'">v110</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v110_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '10.0'">v100</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0'">v110</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v110_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -98,7 +100,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(ProjectDir)../../lib/cocos2d-x/cocos2dx;$(ProjectDir)../../lib/cocos2d-x/cocos2dx\include;$(ProjectDir)../../lib/cocos2d-x/cocos2dx\kazmath\include;$(ProjectDir)../../lib/cocos2d-x/cocos2dx\platform\win32;$(ProjectDir)../../lib/cocos2d-x/cocos2dx\platform\third_party\win32\OGLES;..\Classes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -155,6 +157,7 @@
     <ClCompile Include="..\Classes\Common\Primitives\Coordinates.cpp" />
     <ClCompile Include="..\Classes\Common\Primitives\Rectangle.cpp" />
     <ClCompile Include="..\Classes\Common\Storage\XMLStorage.cpp" />
+    <ClCompile Include="..\Classes\Common\Utils.cpp" />
     <ClCompile Include="..\Classes\Configuration.cpp" />
     <ClCompile Include="..\Classes\Frontend\Buttons\AchievementButton.cpp" />
     <ClCompile Include="..\Classes\Frontend\Buttons\Bubble.cpp" />
@@ -185,6 +188,7 @@
     <ClCompile Include="..\Classes\Menu\SettingsLayer.cpp" />
     <ClCompile Include="..\Classes\Middend\NetClient.cpp" />
     <ClCompile Include="..\Classes\Middend\server.cpp" />
+    <ClCompile Include="..\Classes\Params.cpp" />
     <ClCompile Include="..\ProjWindows\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +234,7 @@
     <ClInclude Include="..\Classes\Common\Primitives\Rectangle.h" />
     <ClInclude Include="..\Classes\Common\Primitives\Size.h" />
     <ClInclude Include="..\Classes\Common\Storage\XMLStorage.h" />
+    <ClInclude Include="..\Classes\Common\Utils.h" />
     <ClInclude Include="..\Classes\Configuration.h" />
     <ClInclude Include="..\Classes\Constants.h" />
     <ClInclude Include="..\Classes\Frontend\Buttons\AchievementButton.h" />
@@ -269,6 +274,7 @@
     <ClInclude Include="..\Classes\Menu\SettingsLayer.h" />
     <ClInclude Include="..\Classes\Middend\NetClient.h" />
     <ClInclude Include="..\Classes\Middend\server.h" />
+    <ClInclude Include="..\Classes\Params.h" />
     <ClInclude Include="..\ProjWindows\Main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

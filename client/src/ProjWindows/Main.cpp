@@ -2,6 +2,7 @@
 #include "fcntl.h"
 
 #include "Main.h"
+#include "../Classes/Params.h"
 #include "../Classes/AppDelegate.h"
 #include "CCEGLView.h"
 
@@ -50,7 +51,11 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     openConsole();
 #endif
 
-    AppDelegate app;
+	auto params = Params(__argc, __argv);
+
+	printf("level = %s\n", params.getLevel());
+
+    AppDelegate app(params.getLevel());
 
     EGLView* eglView = EGLView::sharedOpenGLView();
     eglView->setFrameSize(1350, 750);

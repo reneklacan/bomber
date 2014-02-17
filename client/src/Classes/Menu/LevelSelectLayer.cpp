@@ -48,22 +48,39 @@ bool LevelSelectLayer::init()
     struct dirent *ep;
 
     std::vector<std::string> files;
-     
-    dp = opendir("../Resources/levels");
-    if (dp != NULL)
-    {
-        while (ep = readdir(dp))
-        {
-            std::string name(ep->d_name);
 
-            // Must contain .tmx and must not be dir or hidden file
-            if (name[0] != '.' && name.find(".tmx") != std::string::npos)
-                files.push_back(name);
+    std::vector<std::string> dirs;
+    dirs.push_back("../Resources/levels");
+    dirs.push_back("./Resources/levels");
+    dirs.push_back("./levels");
+
+    for (auto path : dirs)
+    {
+        std::cout << "Searching for levels in " << path << std::endl;
+
+        dp = opendir(path.c_str());
+        if (dp != NULL)
+        {
+            while (ep = readdir(dp))
+            {
+                std::string name(ep->d_name);
+
+                // Must contain .tmx and must not be dir or hidden file
+                if (name[0] != '.' && name.find(".tmx") != std::string::npos)
+                    files.push_back(name);
+            }
+            (void) closedir(dp);
+            std::sort(files.begin(), files.end());
         }
-        (void) closedir(dp);
-        std::sort(files.begin(), files.end());
+
+        if (files.size() > 0)
+        {
+            std::cout << "Directory OK!" << std::endl;
+            break;
+        }
     }
-    else
+
+    if (files.size() == 0)
     {
         std::cerr << "Couldn't open the directory containing maps!" << std::endl;
     }

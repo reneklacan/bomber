@@ -237,7 +237,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
 
         PortalExit *portalExit = (PortalExit *) ObjectCache::getInstance()->getObject(COT_PORTAL_EXIT);
         portalExit->setId(id);
-        portalExit->setPosition(x - (x % TILE_WIDTH), y - (y % TILE_HEIGHT));
+        portalExit->setPosition(x - (x % TILE_WIDTH), y - (y % TILE_HEIGHT) + TILE_HEIGHT/2);
         portalExit->setSize(TILE_WIDTH, TILE_HEIGHT);
 
         _portalExitLayer->addObject(portalExit);

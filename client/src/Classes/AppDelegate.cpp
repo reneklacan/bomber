@@ -1,12 +1,17 @@
 #include "AppDelegate.h"
 #include "GameplayScene.h"
 #include "Menu/MainMenuLayer.h"
+#include "Menu/LevelSelectLayer.h"
 
 USING_NS_CC;
 
 
 AppDelegate::AppDelegate() {
+    _levelToLaunch = nullptr;
+}
 
+AppDelegate::AppDelegate(char *level) {
+    _levelToLaunch = level;
 }
 
 AppDelegate::~AppDelegate() 
@@ -51,10 +56,22 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     //Scene *pScene = GameplayScene::scene();
-    Scene *pScene = MainMenuLayer::scene();
+    Scene *scene;
+
+    if (_levelToLaunch == nullptr)
+    {
+        scene = MainMenuLayer::scene();
+    }
+    else
+    {
+        auto ms = Bomber::Frontend::MenuSelections::getInstance();
+        ms->setLevelFilename(_levelToLaunch);
+        ms->setLevelName("test");
+        scene = GameplayScene::scene();
+    }
 
     // run
-    pDirector->runWithScene(pScene);
+    pDirector->runWithScene(scene);
 
     return true;
 }

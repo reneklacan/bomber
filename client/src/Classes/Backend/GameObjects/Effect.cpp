@@ -3,6 +3,7 @@
 #include "Sprites/AdvancedSprite.h"
 
 #include "../../Common/Cache/ObjectCache.h"
+#include "../../Common/Utils.h"
 
 using namespace Bomber::Backend;
 using namespace Bomber::Common;
@@ -11,7 +12,9 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
 {
     Effect *effect = nullptr;
 
-    switch(gid)
+    //gid = convertGidToOld(gid);
+
+    switch(convertGidToOld(gid))
     {
         case 13:
             effect = (Effect *) ObjectCache::getInstance()->getObject(COT_BOMB_CAPACITY_INC);

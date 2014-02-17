@@ -9,6 +9,7 @@
 #include "Primitives/MenuHelper.h"
 #include "../Menu/LevelSelectLayer.h"
 #include "../Menu/MainMenuLayer.h"
+#include "../Common/Utils.h"
 
 using namespace Bomber;
 using namespace Bomber::Frontend;
@@ -52,7 +53,10 @@ bool LevelLayer::init()
     for(int i = 0; i < MenuSelections::getInstance()->getNumPlayers(); i++)
     {
         playerID++;
-        _players[playerID] = new Human(_spriteBatchNode->getTexture(), CCRectMake(0,0,0,0));
+        _players[playerID] = new Human(
+            _spriteBatchNode->getTexture(),
+            CCRectMake(32,1344,32,48)
+        );
         _players[playerID]->setID(playerID);
     }
 
@@ -284,7 +288,11 @@ void LevelLayer::initControlledSprite()
 
     // spawnpoint is calculated on backend
     auto player1Sprite = Backend::Mediator::getInstance()->getPlayer1Sprite();
-    _players[19991]->updateDefaultImage( Shapes::pickImageFromTexture(HUMAN_IMAGE_ID) );
+    _players[19991]->updateDefaultImage(
+        Shapes::pickImageFromTexture(
+            Common::convertGidToNew(HUMAN_IMAGE_ID)
+        )
+    );
     _players[19991]->spawnPosition(
         ccp(
             player1Sprite->getPosition().x,
@@ -301,7 +309,8 @@ void LevelLayer::initControlledSprite()
             //visibleSize.width/2 - _players[19991]->getPosition().x,
             //visibleSize.height/2 - _players[19991]->getPosition().y
             visibleSize.width/2 - _players[19991]->getPosition().x,
-            visibleSize.height/2 + 100 // why 100 and why +?
+            //visibleSize.height/2 + 100 // why 100 and why +?
+            visibleSize.height*(5.5/7.0) - _players[19991]->getPosition().y // dont know why :(
         )
     );
 
