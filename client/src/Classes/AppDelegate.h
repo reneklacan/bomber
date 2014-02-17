@@ -12,6 +12,7 @@ class  AppDelegate : private cocos2d::Application
 {
 public:
     AppDelegate();
+    AppDelegate(char *level);
     virtual ~AppDelegate();
 
     /**
@@ -32,6 +33,9 @@ public:
     @param  the pointer of the application
     */
     virtual void applicationWillEnterForeground();
+
+protected:
+    char *_levelToLaunch;
 };
 
 #endif // _APP_DELEGATE_H_

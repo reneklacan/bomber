@@ -4,6 +4,7 @@
 #include "Obstacle.h"
 
 #include "../../Common/Cache/ObjectCache.h"
+#include "../../Common/Utils.h"
 
 using namespace Bomber::Backend;
 using namespace Bomber::Common;
@@ -11,6 +12,8 @@ using namespace Bomber::Common;
 Obstacle *Obstacle::getInstanceByGid(unsigned int gid)
 {
     Obstacle *obstacle = nullptr;
+
+    gid = convertGidToOld(gid);
 
     switch(gid)
     {
