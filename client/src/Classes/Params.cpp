@@ -46,9 +46,9 @@ Params::Params(int argc, char **argv)
 {
     _level = nullptr;
 
-    for (int i = 1; i < argc - 1; i++)
+    for (int i = 0; i < argc - 1; i++)
     {
-        if (strcmp(argv[i], "--level") == 0 || strcmp(argv[i], "-l"))
+        if (strcmp(argv[i], "--level") == 0 || strcmp(argv[i], "-l") == 0)
         {
             _level = argv[i + 1];
             strcpy(_level, split(_level, "/").back().c_str());

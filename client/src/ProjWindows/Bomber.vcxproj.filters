@@ -82,6 +82,12 @@
     <Filter Include="Classes\Frontend\Statistics">
       <UniqueIdentifier>{169fe1e3-7bfb-453e-b551-36c2d9709a2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Backend\GameObjects\Sprites\Mobs">
+      <UniqueIdentifier>{dac131da-bee3-459a-a68a-9234fb343fac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Frontend\Layers">
+      <UniqueIdentifier>{15946a3e-d173-486c-8c11-928b314860f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\ProjWindows\Main.cpp">
@@ -171,26 +177,11 @@
     <ClCompile Include="..\Classes\Frontend\Cache\GUICache.cpp">
       <Filter>Classes\Frontend\Cache</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Frontend\Map\Bomb.cpp">
-      <Filter>Classes\Frontend\Map</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Frontend\Map\Explosion.cpp">
       <Filter>Classes\Frontend\Map</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Frontend\Map\Map.cpp">
       <Filter>Classes\Frontend\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Frontend\Sprites\GameSprite.cpp">
-      <Filter>Classes\Frontend\Sprites</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Frontend\Sprites\Human.cpp">
-      <Filter>Classes\Frontend\Sprites</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Frontend\Sprites\SpriteCreator.cpp">
-      <Filter>Classes\Frontend\Sprites</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Frontend\ButtonLayer.cpp">
-      <Filter>Classes\Frontend</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Frontend\Collisions.cpp">
       <Filter>Classes\Frontend</Filter>
@@ -252,6 +243,33 @@
     <ClCompile Include="..\Classes\Frontend\Statistics\FStatistics.cpp">
       <Filter>Classes\Frontend\Statistics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Backend\GameObjects\Sprites\AdvancedSprite.cpp">
+      <Filter>Classes\Backend\GameObjects\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Layers\ButtonLayer.cpp">
+      <Filter>Classes\Frontend\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Layers\FLayers.cpp">
+      <Filter>Classes\Frontend\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Buttons\Bubble.cpp">
+      <Filter>Classes\Frontend\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Sprites\ActionSprite.cpp">
+      <Filter>Classes\Frontend\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Sprites\Human.cpp">
+      <Filter>Classes\Frontend\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Frontend\Sprites\SpriteCreator.cpp">
+      <Filter>Classes\Frontend\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Common\Utils.cpp">
+      <Filter>Classes\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Params.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ProjWindows\Main.h">
@@ -265,9 +283,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Backend\AI\FollowAI.h">
       <Filter>Classes\Backend\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Backend\GameObjects\Sprites\AISprite.h">
-      <Filter>Classes\Backend\GameObjects\Sprites</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Backend\GameObjects\Sprites\Bomber.h">
       <Filter>Classes\Backend\GameObjects\Sprites</Filter>
@@ -380,9 +395,6 @@
     <ClInclude Include="..\Classes\Frontend\Cache\GUICache.h">
       <Filter>Classes\Frontend\Cache</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Frontend\Map\Bomb.h">
-      <Filter>Classes\Frontend\Map</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Frontend\Map\Explosion.h">
       <Filter>Classes\Frontend\Map</Filter>
     </ClInclude>
@@ -397,18 +409,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Frontend\Primitives\MenuHelper.h">
       <Filter>Classes\Frontend\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Frontend\Sprites\GameSprite.h">
-      <Filter>Classes\Frontend\Sprites</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Frontend\Sprites\Human.h">
-      <Filter>Classes\Frontend\Sprites</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Frontend\Sprites\SpriteCreator.h">
-      <Filter>Classes\Frontend\Sprites</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Frontend\ButtonLayer.h">
-      <Filter>Classes\Frontend</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Frontend\Collisions.h">
       <Filter>Classes\Frontend</Filter>
@@ -490,6 +490,39 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Frontend\Statistics\FStatistics.h">
       <Filter>Classes\Frontend\Statistics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\GameObjects\Sprites\AdvancedSprite.h">
+      <Filter>Classes\Backend\GameObjects\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\GameObjects\Sprites\Mobs\ScriptedMob.h">
+      <Filter>Classes\Backend\GameObjects\Sprites\Mobs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Backend\GameObjects\Sprites\Mobs\SmartMob.h">
+      <Filter>Classes\Backend\GameObjects\Sprites\Mobs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Layers\ButtonLayer.h">
+      <Filter>Classes\Frontend\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Layers\FLayers.h">
+      <Filter>Classes\Frontend\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Buttons\Bubble.h">
+      <Filter>Classes\Frontend\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Sprites\ActionSprite.h">
+      <Filter>Classes\Frontend\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Sprites\Human.h">
+      <Filter>Classes\Frontend\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Frontend\Sprites\SpriteCreator.h">
+      <Filter>Classes\Frontend\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Common\Utils.h">
+      <Filter>Classes\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Params.h">
+      <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
