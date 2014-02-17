@@ -9,6 +9,7 @@ INCLUDES = -I.. \
 		   -I$(RAKNET_ROOT)/sources
 
 SOURCES = Main.cpp \
+        ../Classes/Params.cpp \
         ../Classes/AppDelegate.cpp \
         ../Classes/GameplayScene.cpp \
         ../Classes/GameOverScene.cpp \
