@@ -28,7 +28,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '10.0'">v100</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0'">v110</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v110_xp</PlatformToolset>
@@ -157,6 +157,7 @@
     <ClCompile Include="..\Classes\Common\Primitives\Coordinates.cpp" />
     <ClCompile Include="..\Classes\Common\Primitives\Rectangle.cpp" />
     <ClCompile Include="..\Classes\Common\Storage\XMLStorage.cpp" />
+    <ClCompile Include="..\Classes\Common\Utils.cpp" />
     <ClCompile Include="..\Classes\Configuration.cpp" />
     <ClCompile Include="..\Classes\Frontend\Buttons\AchievementButton.cpp" />
     <ClCompile Include="..\Classes\Frontend\Buttons\Bubble.cpp" />
@@ -187,6 +188,7 @@
     <ClCompile Include="..\Classes\Menu\SettingsLayer.cpp" />
     <ClCompile Include="..\Classes\Middend\NetClient.cpp" />
     <ClCompile Include="..\Classes\Middend\server.cpp" />
+    <ClCompile Include="..\Classes\Params.cpp" />
     <ClCompile Include="..\ProjWindows\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +234,7 @@
     <ClInclude Include="..\Classes\Common\Primitives\Rectangle.h" />
     <ClInclude Include="..\Classes\Common\Primitives\Size.h" />
     <ClInclude Include="..\Classes\Common\Storage\XMLStorage.h" />
+    <ClInclude Include="..\Classes\Common\Utils.h" />
     <ClInclude Include="..\Classes\Configuration.h" />
     <ClInclude Include="..\Classes\Constants.h" />
     <ClInclude Include="..\Classes\Frontend\Buttons\AchievementButton.h" />
@@ -271,6 +274,7 @@
     <ClInclude Include="..\Classes\Menu\SettingsLayer.h" />
     <ClInclude Include="..\Classes\Middend\NetClient.h" />
     <ClInclude Include="..\Classes\Middend\server.h" />
+    <ClInclude Include="..\Classes\Params.h" />
     <ClInclude Include="..\ProjWindows\Main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
