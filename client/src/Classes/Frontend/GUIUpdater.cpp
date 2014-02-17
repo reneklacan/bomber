@@ -285,7 +285,7 @@ void GUIUpdater::updateBombSpawn(GSCBombSpawn *bombSpawn)
 
     _bombs[ id ] = _cache->getBomb(
         _batchNode->getTexture(),
-        Shapes::pickImageFromTexture(BOMB_IMAGE_ID)
+        Shapes::pickImageFromTexture(convertGidToNew(BOMB_IMAGE_ID))
     );
 
     _bombs[ id ]->setPosition(bombSpawnPosition);
