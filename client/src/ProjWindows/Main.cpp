@@ -50,9 +50,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 #if BOMBER_MAIN_DEBUG > 0
     openConsole();
 #endif
-	printf("hovno\n");
+
 	auto params = Params(__argc, __argv);
-	printf("hovno\n");
 
 	printf("level = %s\n", params.getLevel());
 
