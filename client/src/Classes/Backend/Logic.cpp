@@ -8,6 +8,7 @@
 #include "AI/AI.h"
 #include "Statistics/StatisticsUpdater.h"
 #include "../Constants.h"
+#include "../Common/Utils.h"
 
 using namespace Bomber;
 using namespace Bomber::Backend;
@@ -291,7 +292,7 @@ void Logic::updateSprites(float dt)
 
                 if (obstacles.size() == 0)
                 {
-                    _gameStateUpdater->spawnObstacle(273, switchTarget->getCoords(), sprite->getId());
+                    _gameStateUpdater->spawnObstacle(convertGidToNew(273), switchTarget->getCoords(), sprite->getId());
                 }
                 else
                 {
