@@ -25,3 +25,17 @@ EventManager *EventManager::getInstance()
     static EventManager instance;
     return &instance;
 }
+
+void EventManager::subscribe(tEventType event, EventArg* arguments,
+                           tSubscriptionType subscription, 
+                           std::function<void(void)> callback)
+{}
+
+void EventManager::subscribe(std::vector<tEventType>& event, EventArg* arguments,
+               tSubscriptionType subscription, 
+               std::function<void(void)> callback)
+{}
+
+void EventManager::notify(tEventType event, EventArg* arguments,
+            tSubscriptionType subscription)
+{}
