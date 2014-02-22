@@ -21,6 +21,7 @@ SOURCES = Main.cpp \
         ../Classes/Common/GameState/GameState.cpp \
         ../Classes/Common/Cache/ObjectCache.cpp \
         ../Classes/Common/Storage/XMLStorage.cpp \
+        ../Classes/Common/Events/EventManager.cpp \
         ../Classes/Backend/Mediator.cpp \
         ../Classes/Backend/Logic.cpp \
         ../Classes/Backend/GameState/GameStateUpdater.cpp \
@@ -41,8 +42,6 @@ SOURCES = Main.cpp \
         ../Classes/Backend/AI/FollowAI.cpp \
         ../Classes/Backend/AI/AdvancedAI.cpp \
         ../Classes/Backend/AI/Actions.cpp \
-        ../Classes/Backend/Events/EventManager.cpp \
-        ../Classes/Backend/Events/Event.cpp \
         ../Classes/Frontend/LevelLayer.cpp \
         ../Classes/Frontend/Layers/ButtonLayer.cpp \
         ../Classes/Frontend/Collisions.cpp \
