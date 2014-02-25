@@ -26,6 +26,7 @@ GameState::GameState(unsigned int width, unsigned int height)
     _specialLayer = new GameStateLayer<GameObject>("Special Layer", _width, _height);
     _switchLayer = new GameStateLayer<Switch>("Trap Layer", _width, _height);
     _switchTargetLayer = new GameStateLayer<GameObject>("Trap Target Layer", _width, _height);
+    _textLayer = new GameStateLayer<Text>("Text Layer", _width, _height);
 }
 
 GameState::~GameState()
@@ -285,7 +286,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         x = ((cocos2d::String*) dict->objectForKey("x"))->intValue();
         y = ((cocos2d::String*) dict->objectForKey("y"))->intValue();
         width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
-        height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();         
+        height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();
 
         GameObject *switchTarget = (GameObject *) ObjectCache::getInstance()->getObject(COT_GAME_OBJECT);
         switchTarget->setId(id);
@@ -312,6 +313,29 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         spawnPoint.second = y;
         _spawnPoints.push_back(spawnPoint);
     }
+
+    objectGroup = tiledMap->objectGroupNamed("texts");
+    cocos2d::Array *texts = objectGroup->getObjects();
+    id = 1;
+
+    CCARRAY_FOREACH(texts, ccObject)
+    {
+        dict = (cocos2d::Dictionary*) ccObject;
+
+        x = ((cocos2d::String*) dict->objectForKey("x"))->intValue();
+        y = ((cocos2d::String*) dict->objectForKey("y"))->intValue();
+        width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
+        height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();
+
+        Text *text = (Text *) ObjectCache::getInstance()->getObject(COT_TEXT);
+        text->setId(id++);
+        text->setTitle((char *) ((cocos2d::String*) dict->objectForKey("title"))->getCString());
+        text->setText((char *) ((cocos2d::String*) dict->objectForKey("text"))->getCString());
+        text->setPosition(x, y);
+        text->setSize(width, height);
+
+        _textLayer->addObject(text);
+    }
 }
 
 void GameState::reset()
@@ -330,6 +354,7 @@ void GameState::reset()
     _specialLayer->reset();
     _switchLayer->reset();
     _switchTargetLayer->reset();
+    _textLayer->reset();
 
     _goalConditions.clear();
 

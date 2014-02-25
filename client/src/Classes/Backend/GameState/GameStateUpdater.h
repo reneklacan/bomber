@@ -68,6 +68,7 @@ namespace Bomber
                 void logLeverSwitchOff(GameObject *lever);
                 void logEffectDestroy(Effect *effect);
                 void logAchievementUnlocked(Achievement *achievement);
+                void logDialogBubble(char *title, char *text);
                 void logDialogBubble();
                 void logLevelFinish();
                 void logLevelReset();

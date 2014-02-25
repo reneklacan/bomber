@@ -209,6 +209,7 @@ void Logic::updateSprites(float dt)
     auto switchLayer = _state->getSwitchLayer();
     auto switchTargetLayer = _state->getSwitchTargetLayer();
     auto effectLayer = _state->getEffectLayer();
+    auto textLayer = _state->getTextLayer();
 
     std::vector<Effect *> effectsToDestroy;
 
@@ -314,6 +315,21 @@ void Logic::updateSprites(float dt)
             _gameStateUpdater->damageSprite(nonAISprite, enemy->getId(), 9999);
             this->scheduleLevelReset(2.0f);
         }
+
+        std::vector<Text *> textsToRemove;
+
+        for (auto text : textLayer->getObjectsAtCoords(nonAISprite->getCoords()))
+        {
+            _gameStateUpdater->logDialogBubble(
+                text->getTitle(),
+                text->getText()
+            );
+
+            textsToRemove.push_back(text);
+        }
+
+        for (auto text : textsToRemove)
+            textLayer->removeObject(text);
     }
 
     for (auto effect : effectsToDestroy)
