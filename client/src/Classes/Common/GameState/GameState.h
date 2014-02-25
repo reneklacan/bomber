@@ -12,6 +12,7 @@
 #include "../../Backend/GameObjects/PortalExit.h"
 #include "../../Backend/GameObjects/Effect.h"
 #include "../../Backend/GameObjects/Switch.h"
+#include "../../Backend/GameObjects/Text.h"
 
 namespace Bomber
 {
@@ -64,6 +65,7 @@ namespace Bomber
                 SYNTHESIZE_READONLY(GameStateLayer<Backend::GameObject> *, _specialLayer, SpecialLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<Backend::Switch> *, _switchLayer, SwitchLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<Backend::GameObject> *, _switchTargetLayer, SwitchTargetLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Backend::Text> *, _textLayer, TextLayer);
         };
     }
 }

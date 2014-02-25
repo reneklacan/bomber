@@ -524,5 +524,8 @@
     <ClInclude Include="..\Classes\Params.h">
       <Filter>Classes</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Backend\GameObjects\Text.h">
+      <Filter>Classes\Backend\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

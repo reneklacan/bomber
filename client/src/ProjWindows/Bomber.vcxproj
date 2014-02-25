@@ -212,6 +212,7 @@
     <ClInclude Include="..\Classes\Backend\GameObjects\Sprites\Sprite.h" />
     <ClInclude Include="..\Classes\Backend\GameObjects\Sprites\SpriteAttributes.h" />
     <ClInclude Include="..\Classes\Backend\GameObjects\Switch.h" />
+    <ClInclude Include="..\Classes\Backend\GameObjects\Text.h" />
     <ClInclude Include="..\Classes\Backend\GameState\GameStateUpdater.h" />
     <ClInclude Include="..\Classes\Backend\Interactions\Movement.h" />
     <ClInclude Include="..\Classes\Backend\Logic.h" />

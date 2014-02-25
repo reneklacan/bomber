@@ -7,6 +7,8 @@ unsigned int Bomber::Common::convertGidToNew(unsigned int gid)
     if (gid == 0)
         return 0;
 
+    unsigned int inputGid = gid;
+
     gid -= 1;
 
     unsigned int y = gid/16;
@@ -20,6 +22,8 @@ unsigned int Bomber::Common::convertGidToNew(unsigned int gid)
 
     unsigned int result = y*64 + x + 1;
 
+    printf("old = %u -> new = %u\n", inputGid, result);
+
     return result;
 }
 
@@ -27,6 +31,8 @@ unsigned int Bomber::Common::convertGidToOld(unsigned int gid)
 {
     if (gid == 0)
         return 0;
+
+    unsigned int inputGid = gid;
 
     gid -= 1;
 
@@ -40,6 +46,8 @@ unsigned int Bomber::Common::convertGidToOld(unsigned int gid)
     }
 
     unsigned int result = y*16 + x + 1;
+
+    printf("new = %u -> old = %u\n", inputGid, result);
 
     return result;
 }

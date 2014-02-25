@@ -13,6 +13,7 @@ namespace Bomber
             COT_PORTAL,
             COT_PORTAL_EXIT,
             COT_SWITCH,
+            COT_TEXT,
 
             // sprites
             COT_ADVANCED_SPRITE,
