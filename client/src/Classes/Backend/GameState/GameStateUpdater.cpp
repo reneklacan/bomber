@@ -468,15 +468,23 @@ void GameStateUpdater::logAchievementUnlocked(Achievement *achievement)
     _state->addChange(change);
 }
 
-void GameStateUpdater::logDialogBubble()
+void GameStateUpdater::logDialogBubble(char *title, char *text)
 {
     printf("logDialogBubble\n");
     GSCDialogBubble *change = new GSCDialogBubble();
     //change->setGameObjectId(sprite->getId());
-    change->setTitle("Jesse Pinkman");
-    change->setDescription("Yeah Science, Bitch!");
+    change->setTitle(title);
+    change->setDescription(text);
     change->setImage("test_50.png");
     _state->addChange(change);
+}
+
+void GameStateUpdater::logDialogBubble()
+{
+    this->logDialogBubble(
+        (char *) "Jesse Pinkman",
+        (char *) "Yeah Science, Bitch!"
+    );
 }
 
 void GameStateUpdater::logLevelFinish()
