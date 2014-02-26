@@ -1531,4 +1531,5 @@
   <object name="4" x="260" y="227" width="8" height="8"/>
   <object name="4" x="260" y="35" width="8" height="8"/>
  </objectgroup>
+ <objectgroup name="texts" width="20" height="9"/>
 </map>

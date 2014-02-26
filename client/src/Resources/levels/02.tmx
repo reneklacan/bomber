@@ -7528,4 +7528,5 @@
   </object>
  </objectgroup>
  <objectgroup name="switch_targets" width="37" height="25"/>
+ <objectgroup name="texts" width="37" height="25"/>
 </map>

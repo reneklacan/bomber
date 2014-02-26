@@ -2019,4 +2019,5 @@
  <objectgroup name="portal_exits" width="19" height="13"/>
  <objectgroup name="switches" width="19" height="13"/>
  <objectgroup name="switch_targets" width="19" height="13"/>
+ <objectgroup name="texts" width="19" height="13"/>
 </map>

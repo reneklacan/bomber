@@ -3243,4 +3243,5 @@
  <objectgroup name="portal_exits" width="20" height="20"/>
  <objectgroup name="switches" width="20" height="20"/>
  <objectgroup name="switch_targets" width="20" height="20"/>
+ <objectgroup name="texts" width="20" height="20"/>
 </map>
