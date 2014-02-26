@@ -262,6 +262,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         bool oneTime = ((cocos2d::String*) dict->objectForKey("one_time"))->boolValue();
         bool bombSensitive = ((cocos2d::String*) dict->objectForKey("bomb_sensitive"))->boolValue();
         bool passingSensitive = ((cocos2d::String*) dict->objectForKey("passing_sensitive"))->boolValue();
+        bool standingSensitive = ((cocos2d::String*) dict->objectForKey("standing_sensitive"))->boolValue();
 
         Switch *switchObject = (Switch *) ObjectCache::getInstance()->getObject(COT_SWITCH);
         switchObject->setId(id);
@@ -271,6 +272,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         switchObject->setOneTime(oneTime);
         switchObject->setBombSensitive(bombSensitive);
         switchObject->setPassingSensitive(passingSensitive);
+        switchObject->setStandingSensitive(standingSensitive);
 
         _switchLayer->addObject(switchObject);
     }
