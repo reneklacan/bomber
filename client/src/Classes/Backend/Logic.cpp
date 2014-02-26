@@ -38,6 +38,7 @@ void Logic::update(float dt)
     this->updateMovements(dt);
     this->updateBombs(dt);
     this->updateSprites(dt);
+    this->updateSwitches(dt);
 
     _gameStateUpdater->updateSpriteGrid();
     _state->getBombLayer()->updateGrid();
@@ -334,6 +335,37 @@ void Logic::updateSprites(float dt)
 
     for (auto effect : effectsToDestroy)
         _gameStateUpdater->destroyEffect(effect);
+}
+
+void Logic::updateSwitches(float dt)
+{
+    auto switchLayer = _state->getSwitchLayer();
+    auto switchTargetLayer = _state->getSwitchTargetLayer();
+
+    for (Switch *switchObject : switchLayer->getObjects())
+    {
+        if (!switchObject->isStandingSensitive())
+            continue;
+
+        auto sprites = _state->getSpriteLayer()->getObjectsAtCoords(switchObject->getCoords());
+        auto obstacles = _state->getObstacleLayer()->getObjectsAtCoords(switchObject->getCoords());
+
+        if ((sprites.size() > 0 || obstacles.size() > 0) && switchObject->isOff())
+        {
+            switchObject->setOn();
+
+            for (auto switchTarget : switchTargetLayer->getObjects(switchObject->getId()))
+                _gameStateUpdater->spawnObstacle(convertGidToNew(273), switchTarget->getCoords(), 0);
+        }
+        else if ((sprites.size() == 0 && obstacles.size() == 0) && switchObject->isOn())
+        {
+            switchObject->setOff();
+
+            for (auto switchTarget : switchTargetLayer->getObjects(switchObject->getId()))
+                for (auto obstacle : _state->getObstacleLayer()->getObjectsAtCoords(switchTarget->getCoords()))
+                    _gameStateUpdater->destroyObstacle(obstacle, 0);
+        }
+    }
 }
 
 void Logic::scheduleLevelReset(float delay)

@@ -19,6 +19,7 @@ namespace Bomber
                 void updateBombs(float dt);
                 void updateMovements(float dt);
                 void updateSprites(float dt);
+                void updateSwitches(float dt);
 
                 void setState(Common::GameState *state) { _state = state; };
                 inline Common::GameState *getState() { return _state; };
