@@ -348,22 +348,26 @@ void Logic::updateSwitches(float dt)
             continue;
 
         auto sprites = _state->getSpriteLayer()->getObjectsAtCoords(switchObject->getCoords());
-        auto obstacles = _state->getObstacleLayer()->getObjectsAtCoords(switchObject->getCoords());
+        std::vector<Obstacle *> obstacles;
+
+        for (auto obstacle : _state->getObstacleLayer()->getObjectsAtCoords(switchObject->getCoords()))
+            if (obstacle->isPushable())
+                obstacles.push_back(obstacle);
 
         if ((sprites.size() > 0 || obstacles.size() > 0) && switchObject->isOff())
         {
             switchObject->setOn();
 
             for (auto switchTarget : switchTargetLayer->getObjects(switchObject->getId()))
-                _gameStateUpdater->spawnObstacle(convertGidToNew(273), switchTarget->getCoords(), 0);
+                for (auto obstacle : _state->getObstacleLayer()->getObjectsAtCoords(switchTarget->getCoords()))
+                    _gameStateUpdater->destroyObstacle(obstacle, 0);
         }
         else if ((sprites.size() == 0 && obstacles.size() == 0) && switchObject->isOn())
         {
             switchObject->setOff();
 
             for (auto switchTarget : switchTargetLayer->getObjects(switchObject->getId()))
-                for (auto obstacle : _state->getObstacleLayer()->getObjectsAtCoords(switchTarget->getCoords()))
-                    _gameStateUpdater->destroyObstacle(obstacle, 0);
+                _gameStateUpdater->spawnObstacle(convertGidToNew(273), switchTarget->getCoords(), 0);
         }
     }
 }
