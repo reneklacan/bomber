@@ -17,6 +17,7 @@ namespace Bomber
                 ,_oneTime(false)
                 ,_bombSensitive(false)
                 ,_passingSensitive(false)
+                ,_isOn(false)
                 {
                 }
 
