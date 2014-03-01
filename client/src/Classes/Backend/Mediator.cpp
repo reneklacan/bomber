@@ -96,10 +96,12 @@ void Mediator::spawnBomb(unsigned int spriteId)
     Logic::getInstance()->spawnBomb(spriteId);
 }
 
+// TODO: rename this method to something general like touchObstacle
 void Mediator::pushObstacle(unsigned int spriteId, Coordinates coords, TDirection direction)
 {
     //std::cout << "PUSH: [" << coords.x << ", " << coords.y << "] direction = " << direction << "\n";
     Logic::getInstance()->pushBlock(spriteId, coords, direction);
+    Logic::getInstance()->unlockDoor(spriteId, coords);
 }
 
 void Mediator::kickBomb(unsigned int spriteId, Coordinates coords, TDirection direction)
