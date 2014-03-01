@@ -64,7 +64,8 @@ Effect *Effect::getInstanceByGid(unsigned int gid)
 
         default:
             printf("Effect::getInstanceByGid - unknown effect gid %u\n", gid);
-            printf("Segfault comiiiiiing...\n");
+            //printf("Segfault comiiiiiing...\n");
+            effect = (Effect *) ObjectCache::getInstance()->getObject(COT_TAKEABLE_NO_EFFECT);
     }
 
     effect->setGid(gid);

@@ -75,6 +75,24 @@ namespace Bomber
                 }
         };
 
+        class TakeableNoEffect: public Effect
+        {
+            public:
+                inline virtual Common::TCachableObjectType getObjectType() { return Common::COT_TAKEABLE_NO_EFFECT; };
+
+                TakeableNoEffect() : Effect()
+                {
+                    _name = "no effect";
+                    _type = EFFECT_NONE;
+                    _charges = 1;
+                }
+                virtual bool applyToSprite(Sprite *sprite)
+                {
+                    _charges -= 1;
+                    return false;
+                }
+        };
+
         class EffectBombPowerInc : public Effect
         {
             public:

@@ -66,6 +66,8 @@ namespace Bomber
                 SYNTHESIZE_READONLY(GameStateLayer<Backend::Switch> *, _switchLayer, SwitchLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<Backend::GameObject> *, _switchTargetLayer, SwitchTargetLayer);
                 SYNTHESIZE_READONLY(GameStateLayer<Backend::Text> *, _textLayer, TextLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Backend::GameObject> *, _doorLayer, DoorLayer);
+                SYNTHESIZE_READONLY(GameStateLayer<Backend::GameObject> *, _doorKeyLayer, DoorKeyLayer);
         };
     }
 }

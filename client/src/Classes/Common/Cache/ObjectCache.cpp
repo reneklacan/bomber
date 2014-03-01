@@ -102,6 +102,12 @@ CachableObject* ObjectCache::getObject(TCachableObjectType type)
 
         // effects
 
+        case COT_NO_EFFECT:
+            object = new NoEffect();
+            break;
+        case COT_TAKEABLE_NO_EFFECT:
+            object = new TakeableNoEffect();
+            break;
         case COT_BOMB_POWER_INC:
             object = new EffectBombPowerInc();
             break;
@@ -146,9 +152,6 @@ CachableObject* ObjectCache::getObject(TCachableObjectType type)
             break;
         case COT_SHIFT_UP:
             object = new EffectShiftUp();
-            break;
-        case COT_NO_EFFECT:
-            object = new NoEffect();
             break;
         case COT_DEATH:
             object = new EffectDeath();

@@ -49,6 +49,8 @@ namespace Bomber
                 void destroySprite(Sprite *sprite);
                 void destroyBomb(Bomb *bomb);
                 void destroyEffect(Effect *effect);
+                void destroyDoor(GameObject *door);
+                void destroyDoorKey(GameObject *doorKey);
 
                 void logSpriteMove(Sprite *sprite);
                 void logSpriteTeleport(Sprite *sprite, Common::Position &to);

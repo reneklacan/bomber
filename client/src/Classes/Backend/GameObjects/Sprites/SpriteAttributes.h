@@ -1,6 +1,8 @@
 #ifndef __BOMBER_BACKEND_SPRITE_ATTR
 #define __BOMBER_BACKEND_SPRITE_ATTR
 
+#include <map>
+
 #include "../../../Macros.h"
 
 namespace Bomber
@@ -31,6 +33,7 @@ namespace Bomber
                     _levelKeys = 0;
                     _fireImmunity = false;
                     _waterImmunity = false;
+                    _doorKeys.clear();
                 }
                 void increaseBombPower() { _bombPower += 1; };
                 void decreaseBombPower() { _bombPower -= 1; };
@@ -45,6 +48,8 @@ namespace Bomber
                 void increaseLevelKeys() { _levelKeys += 1; };
                 bool isAlive() { return _health > 0; };
                 bool isDead() { return _health <= 0; };
+                void setKey(unsigned int id, GameObject *key) { _doorKeys[id] = key; };
+                bool hasKey(unsigned int id) { return _doorKeys[id] != nullptr; };
 
             private:
                 SYNTHESIZE(int, _bombPower, BombPower);
@@ -62,6 +67,7 @@ namespace Bomber
                 SYNTHESIZE(int, _levelKeys, LevelKeys);
                 SYNTHESIZE(bool, _fireImmunity, FireImmunity);
                 SYNTHESIZE(bool, _waterImmunity, WaterImmunity);
+                std::map<unsigned int, GameObject *> _doorKeys;
         };
     }
 }
