@@ -25,6 +25,7 @@ namespace Bomber
                 ObjectType *getObject(unsigned int id);
                 void removeObject(ObjectType *object);
                 void removeObject(unsigned int id);
+                std::vector<ObjectType *> getObjectsNextToCoords(Common::Coordinates coords);
                 std::vector<ObjectType *> getObjectsAroundCoords(Common::Coordinates coords, int range);
                 std::vector<ObjectType *> getObjectsAroundCoords(Common::Coordinates coords);
                 std::vector<ObjectType *> getObjectsAtCoords(Common::Coordinates coords);
@@ -169,6 +170,28 @@ namespace Bomber
             printf("xxxxxxxxx remove object with id %d\n", id);
 
         }
+
+        template <class ObjectType>
+        std::vector<ObjectType *> GameStateLayer<ObjectType>::getObjectsNextToCoords(Common::Coordinates coords)
+        {
+            std::vector<ObjectType *> objects;
+            std::vector<Common::Coordinates> coordsToCheck;
+
+            coordsToCheck.push_back(Common::Coordinates(coords.x, coords.y));
+            coordsToCheck.push_back(Common::Coordinates(coords.x + 1, coords.y));
+            coordsToCheck.push_back(Common::Coordinates(coords.x - 1, coords.y));
+            coordsToCheck.push_back(Common::Coordinates(coords.x, coords.y + 1));
+            coordsToCheck.push_back(Common::Coordinates(coords.x, coords.y - 1));
+
+            for (auto each : coordsToCheck)
+            {
+                for (ObjectType *object : this->getObjectsAtCoords(each))
+                    objects.push_back(object);
+            }
+
+            return objects;
+        }
+
 
         template <class ObjectType>
         std::vector<ObjectType *> GameStateLayer<ObjectType>::getObjectsAroundCoords(Common::Coordinates coords, int range)

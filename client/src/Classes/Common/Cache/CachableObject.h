@@ -29,6 +29,7 @@ namespace Bomber
 
             // effects
             COT_NO_EFFECT,
+            COT_TAKEABLE_NO_EFFECT,
             COT_BOMB_POWER_INC,
             COT_BOMB_CAPACITY_INC,
             COT_PORTABILITY_ON,

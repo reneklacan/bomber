@@ -205,14 +205,19 @@ void Logic::updateMovements(float dt)
 void Logic::updateSprites(float dt)
 {
     auto spriteLayer = _state->getSpriteLayer();
+    auto obstacleLayer = _state->getObstacleLayer();
     auto portalLayer = _state->getPortalLayer();
     auto portalExitLayer = _state->getPortalExitLayer();
     auto switchLayer = _state->getSwitchLayer();
     auto switchTargetLayer = _state->getSwitchTargetLayer();
     auto effectLayer = _state->getEffectLayer();
     auto textLayer = _state->getTextLayer();
+    auto doorLayer = _state->getDoorLayer();
+    auto doorKeyLayer = _state->getDoorKeyLayer();
 
     std::vector<Effect *> effectsToDestroy;
+    std::vector<GameObject *> doorKeysToDestroy;
+    std::vector<GameObject *> doorsToDestroy;
 
     Sprite *nonAISprite = nullptr;
 
@@ -254,6 +259,30 @@ void Logic::updateSprites(float dt)
 
             if (effect->getCharges() == 0)
                 effectsToDestroy.push_back(effect);
+        }
+
+        auto doorKeys = doorKeyLayer->getObjectsAtCoords(sprite->getCoords());
+
+        for (GameObject *doorKey : doorKeys)
+        {
+            if (sprite->isAI())
+                continue;
+
+            sprite->getAttributes()->setKey(doorKey->getId(), doorKey);
+            doorKeysToDestroy.push_back(doorKey);
+        }
+
+        auto doors = doorLayer->getObjectsNextToCoords(sprite->getCoords());
+
+        for (GameObject *door : doors)
+        {
+            if (!sprite->getAttributes()->hasKey(door->getId()))
+                continue;
+
+            for (auto obstacle : obstacleLayer->getObjectsAtCoords(door->getCoords()))
+                _gameStateUpdater->destroyObstacle(obstacle, 0);
+
+            doorsToDestroy.push_back(door);
         }
 
         // port sprite if it is possible
@@ -335,6 +364,10 @@ void Logic::updateSprites(float dt)
 
     for (auto effect : effectsToDestroy)
         _gameStateUpdater->destroyEffect(effect);
+    for (auto doorKey : doorKeysToDestroy)
+        _gameStateUpdater->destroyDoorKey(doorKey);
+    for (auto door : doorsToDestroy)
+        _gameStateUpdater->destroyDoor(door);
 }
 
 void Logic::updateSwitches(float dt)

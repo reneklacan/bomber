@@ -285,6 +285,18 @@ void GameStateUpdater::destroyObstacle(Obstacle *obstacle, unsigned int destroye
     ObjectCache::getInstance()->returnObject(obstacle);
 }
 
+void GameStateUpdater::destroyDoor(GameObject *door)
+{
+    _state->getDoorLayer()->removeObject(door);
+    ObjectCache::getInstance()->returnObject(door);
+}
+
+void GameStateUpdater::destroyDoorKey(GameObject *doorKey)
+{
+    _state->getDoorKeyLayer()->removeObject(doorKey);
+    ObjectCache::getInstance()->returnObject(doorKey);
+}
+
 void GameStateUpdater::logSpriteMove(Sprite *sprite)
 {
     //printf("logSpriteMove\n"); // spam
