@@ -27,6 +27,8 @@ GameState::GameState(unsigned int width, unsigned int height)
     _switchLayer = new GameStateLayer<Switch>("Trap Layer", _width, _height);
     _switchTargetLayer = new GameStateLayer<GameObject>("Trap Target Layer", _width, _height);
     _textLayer = new GameStateLayer<Text>("Text Layer", _width, _height);
+    _doorLayer = new GameStateLayer<GameObject>("Door Layer", _width, _height);
+    _doorKeyLayer = new GameStateLayer<GameObject>("Door Key Layer", _width, _height);
 }
 
 GameState::~GameState()
@@ -194,10 +196,19 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     cocos2d::Dictionary *dict;
     cocos2d::TMXObjectGroup *objectGroup;
 
+    cocos2d::Array *portals = nullptr;
+    cocos2d::Array *portalExits = nullptr;
+    cocos2d::Array *switches = nullptr;
+    cocos2d::Array *switchTargets = nullptr;
+    cocos2d::Array *spawnPoints = nullptr;
+    cocos2d::Array *texts = nullptr;
+    cocos2d::Array *doors = nullptr;
+    cocos2d::Array *doorKeys = nullptr;
+
     // portals
 
     objectGroup = tiledMap->objectGroupNamed("portals");
-    cocos2d::Array *portals = objectGroup->getObjects();
+    portals = objectGroup->getObjects();
 
     CCARRAY_FOREACH(portals, ccObject)
     {
@@ -224,7 +235,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     }
 
     objectGroup = tiledMap->objectGroupNamed("portal_exits");
-    cocos2d::Array *portalExits = objectGroup->getObjects();
+    portalExits = objectGroup->getObjects();
 
     CCARRAY_FOREACH(portalExits, ccObject)
     {
@@ -247,7 +258,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     // switches
 
     objectGroup = tiledMap->objectGroupNamed("switches");
-    cocos2d::Array *switches = objectGroup->getObjects();
+    switches = objectGroup->getObjects();
 
     CCARRAY_FOREACH(switches, ccObject)
     {
@@ -278,7 +289,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     }
 
     objectGroup = tiledMap->objectGroupNamed("switch_targets");
-    cocos2d::Array *switchTargets = objectGroup->getObjects();
+    switchTargets = objectGroup->getObjects();
 
     CCARRAY_FOREACH(switchTargets, ccObject)
     {
@@ -299,7 +310,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     }
 
     objectGroup = tiledMap->objectGroupNamed("spawnpoints");
-    cocos2d::Array *spawnPoints = objectGroup->getObjects();
+    spawnPoints = objectGroup->getObjects();
 
     CCARRAY_FOREACH(spawnPoints, ccObject)
     {
@@ -317,7 +328,7 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
     }
 
     objectGroup = tiledMap->objectGroupNamed("texts");
-    cocos2d::Array *texts = objectGroup->getObjects();
+    texts = objectGroup->getObjects();
     id = 1;
 
     CCARRAY_FOREACH(texts, ccObject)
@@ -338,6 +349,63 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
 
         _textLayer->addObject(text);
     }
+
+gs_doors:
+
+    objectGroup = tiledMap->objectGroupNamed("doors");
+    if (objectGroup == nullptr)
+        goto gs_door_keys;
+
+    doors = objectGroup->getObjects();
+    id = 1;
+
+    CCARRAY_FOREACH(doors, ccObject)
+    {
+        dict = (cocos2d::Dictionary*) ccObject;
+
+        id = ((cocos2d::String*) dict->objectForKey("name"))->intValue();
+        x = ((cocos2d::String*) dict->objectForKey("x"))->intValue();
+        y = ((cocos2d::String*) dict->objectForKey("y"))->intValue();
+        width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
+        height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();
+
+        GameObject *door = (GameObject *) ObjectCache::getInstance()->getObject(COT_GAME_OBJECT);
+        door->setId(id);
+        door->setPosition(x, y);
+        door->setSize(width, height);
+
+        _doorLayer->addObject(door);
+    }
+
+gs_door_keys:
+
+    objectGroup = tiledMap->objectGroupNamed("door_keys");
+    if (objectGroup == nullptr)
+        goto gs_end;
+
+    doorKeys = objectGroup->getObjects();
+    id = 1;
+
+    CCARRAY_FOREACH(doorKeys, ccObject)
+    {
+        dict = (cocos2d::Dictionary*) ccObject;
+
+        id = ((cocos2d::String*) dict->objectForKey("name"))->intValue();
+        x = ((cocos2d::String*) dict->objectForKey("x"))->intValue();
+        y = ((cocos2d::String*) dict->objectForKey("y"))->intValue();
+        width = ((cocos2d::String*) dict->objectForKey("width"))->intValue();
+        height = ((cocos2d::String*) dict->objectForKey("height"))->intValue();
+
+        GameObject *doorKey = (GameObject *) ObjectCache::getInstance()->getObject(COT_GAME_OBJECT);
+        doorKey->setId(id);
+        doorKey->setPosition(x, y);
+        doorKey->setSize(width, height);
+
+        _doorKeyLayer->addObject(doorKey);
+    }
+
+gs_end:
+    ;
 }
 
 void GameState::reset()
@@ -357,6 +425,8 @@ void GameState::reset()
     _switchLayer->reset();
     _switchTargetLayer->reset();
     _textLayer->reset();
+    _doorLayer->reset();
+    _doorKeyLayer->reset();
 
     _goalConditions.clear();
 
