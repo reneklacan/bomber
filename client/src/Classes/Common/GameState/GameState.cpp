@@ -344,6 +344,8 @@ void GameState::init(cocos2d::TMXTiledMap *tiledMap)
         text->setId(id++);
         text->setTitle((char *) ((cocos2d::String*) dict->objectForKey("title"))->getCString());
         text->setText((char *) ((cocos2d::String*) dict->objectForKey("text"))->getCString());
+        text->setLastDisplayAt(0);
+        text->setTimeout(7);
         text->setPosition(x, y);
         text->setSize(width, height);
 

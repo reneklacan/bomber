@@ -645,3 +645,21 @@ void Logic::unlockDoor(unsigned int spriteId, Coordinates coords)
     for (auto door : doorsToDestroy)
         _gameStateUpdater->destroyDoor(door);
 }
+
+void Logic::displayText(unsigned int spriteId, Coordinates coords)
+{
+    time_t currentTime = time(NULL);
+
+    for (auto text : _state->getTextLayer()->getObjectsAtCoords(coords))
+    {
+        if (difftime(currentTime, text->getLastDisplayAt()) < text->getTimeout())
+            continue;
+
+        text->setLastDisplayAt(currentTime);
+
+        _gameStateUpdater->logDialogBubble(
+            text->getTitle(),
+            text->getText()
+        );
+    }
+}

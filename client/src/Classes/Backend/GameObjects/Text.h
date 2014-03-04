@@ -15,6 +15,8 @@ namespace Bomber
             private:
                 SYNTHESIZE(char *, _title, Title);
                 SYNTHESIZE(char *, _text, Text);
+                SYNTHESIZE(time_t, _lastDisplayAt, LastDisplayAt);
+                SYNTHESIZE(float, _timeout, Timeout);
         };
     }
 }

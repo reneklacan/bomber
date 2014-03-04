@@ -37,7 +37,8 @@ namespace Bomber
                 void kickBomb(unsigned int spriteId, Common::Coordinates coords, int direction);
                 void pushBlock(unsigned int spriteId, Common::Coordinates coords, int direction);
                 void unlockDoor(unsigned int spriteId, Common::Coordinates coords);
-                
+                void displayText(unsigned int spriteId, Common::Coordinates coords);
+
                 void setControlledSprite(unsigned int id);
                 void setGameStateUpdater(GameStateUpdater *updater);
 
