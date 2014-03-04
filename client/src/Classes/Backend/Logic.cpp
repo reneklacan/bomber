@@ -205,19 +205,16 @@ void Logic::updateMovements(float dt)
 void Logic::updateSprites(float dt)
 {
     auto spriteLayer = _state->getSpriteLayer();
-    auto obstacleLayer = _state->getObstacleLayer();
     auto portalLayer = _state->getPortalLayer();
     auto portalExitLayer = _state->getPortalExitLayer();
     auto switchLayer = _state->getSwitchLayer();
     auto switchTargetLayer = _state->getSwitchTargetLayer();
     auto effectLayer = _state->getEffectLayer();
     auto textLayer = _state->getTextLayer();
-    auto doorLayer = _state->getDoorLayer();
     auto doorKeyLayer = _state->getDoorKeyLayer();
 
     std::vector<Effect *> effectsToDestroy;
     std::vector<GameObject *> doorKeysToDestroy;
-    std::vector<GameObject *> doorsToDestroy;
 
     Sprite *nonAISprite = nullptr;
 
@@ -270,19 +267,6 @@ void Logic::updateSprites(float dt)
 
             sprite->getAttributes()->setKey(doorKey->getId(), doorKey);
             doorKeysToDestroy.push_back(doorKey);
-        }
-
-        auto doors = doorLayer->getObjectsNextToCoords(sprite->getCoords());
-
-        for (GameObject *door : doors)
-        {
-            if (!sprite->getAttributes()->hasKey(door->getId()))
-                continue;
-
-            for (auto obstacle : obstacleLayer->getObjectsAtCoords(door->getCoords()))
-                _gameStateUpdater->destroyObstacle(obstacle, 0);
-
-            doorsToDestroy.push_back(door);
         }
 
         // port sprite if it is possible
@@ -366,8 +350,6 @@ void Logic::updateSprites(float dt)
         _gameStateUpdater->destroyEffect(effect);
     for (auto doorKey : doorKeysToDestroy)
         _gameStateUpdater->destroyDoorKey(doorKey);
-    for (auto door : doorsToDestroy)
-        _gameStateUpdater->destroyDoor(door);
 }
 
 void Logic::updateSwitches(float dt)
@@ -568,7 +550,7 @@ bool Logic::spawnBomb(Sprite *owner)
         printf("bomb spawn failed, tile occupied by another bomb\n");
         return false;
     }
-    
+
     owner->getAttributes()->decreaseBombCapacity();
 
     _gameStateUpdater->spawnBomb(owner);
@@ -590,7 +572,7 @@ void Logic::kickBomb(unsigned int spriteId, Coordinates coords, int direction)
     while (true)
     {
         nextCoords = nextCoords.getNext(direction);
-        
+
         if (_state->getObstacleLayer()->getObjectsAtCoords(nextCoords).size() > 0)
             break;
 
@@ -624,21 +606,60 @@ void Logic::pushBlock(unsigned int spriteId, Coordinates coords, int direction)
     auto block = blocks[0];
     if (!block->isPushable())
         return;
-    
+
     Coordinates nextCoords = coords.getNext(direction);
 
     if (_state->getObstacleLayer()->getObjectsAtCoords(nextCoords).size() > 0)
         return;
-    
+
     if (_state->getSpriteLayer()->getObjectsAtCoords(nextCoords).size() > 0)
         return;
 
     _state->getObstacleLayer()->removeObject(block);
-    
+
     block->setId(nextCoords.y*_state->getWidth() + nextCoords.x);
     block->setPosition(nextCoords.x*TILE_WIDTH, nextCoords.y*TILE_HEIGHT);
-    
+
     _state->getObstacleLayer()->addObject(block);
 
     _gameStateUpdater->pushBlock(coords, nextCoords);
+}
+
+void Logic::unlockDoor(unsigned int spriteId, Coordinates coords)
+{
+    auto sprite = _state->getSpriteLayer()->getObject(spriteId);
+    auto doors = _state->getDoorLayer()->getObjectsAtCoords(coords);
+    std::vector<GameObject *> doorsToDestroy;
+
+    for (auto door : doors)
+    {
+        if (!sprite->getAttributes()->hasKey(door->getId()))
+            continue;
+
+        for (auto obstacle : _state->getObstacleLayer()->getObjectsAtCoords(door->getCoords()))
+            _gameStateUpdater->destroyObstacle(obstacle, 0);
+
+        doorsToDestroy.push_back(door);
+    }
+
+    for (auto door : doorsToDestroy)
+        _gameStateUpdater->destroyDoor(door);
+}
+
+void Logic::displayText(unsigned int spriteId, Coordinates coords)
+{
+    time_t currentTime = time(NULL);
+
+    for (auto text : _state->getTextLayer()->getObjectsAtCoords(coords))
+    {
+        if (difftime(currentTime, text->getLastDisplayAt()) < text->getTimeout())
+            continue;
+
+        text->setLastDisplayAt(currentTime);
+
+        _gameStateUpdater->logDialogBubble(
+            text->getTitle(),
+            text->getText()
+        );
+    }
 }
